@@ -49,3 +49,9 @@
 *.js
 *.ini
 .sonarlint/default/.sonartmp_7974860991659824788/sonar-plugin-api-deps8674265200017119161jar
+*.iml
+*.lock
+.sonarlint/default/.sonartmp_6586960416863051054/sonar-plugin-api-deps4847718708174101634jar
+RemoteSystemsTempFiles/.project
+RemoteSystemsTempFiles/.project
+VisProject/.classpath
