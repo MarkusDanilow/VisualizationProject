@@ -1,0 +1,19 @@
+INDEX VERSION 1.127+O:\OneDrive\HuC-Master\Visualisierung\Implementierung\.metadata\.plugins\org.eclipse.jdt.core
+155622282.index
+1425029410.index
+4185949491.index
+127087047.index
+1348347416.index
+4205938298.index
+3873767056.index
+39100288.index
+2944420930.index
+3039750036.index
+2561005203.index
+2284910182.index
+1326945713.index
+1472817967.index
+3325735836.index
+701531037.index
+1935920393.index
+3599973063.index
