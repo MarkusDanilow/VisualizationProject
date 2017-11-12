@@ -7,13 +7,13 @@ import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinPullResistance;
 import com.pi4j.io.gpio.RaspiPin;
-import com.tsh.common.StringAndDouble;
+import com.tsh.common.MsgTransformer;
 
 public class Ultrasonic {
 	private static GpioPinDigitalOutput sensorTriggerPin;
 	private static GpioPinDigitalInput sensorEchoPin;
 	private static double tol; // add tolerance to measurement in fact the
-	private static StringAndDouble msg;
+	private static MsgTransformer msg;
 
 	// sensor isn't high-quality
 	private static GpioController gpio = GpioFactory.getInstance();
@@ -25,10 +25,10 @@ public class Ultrasonic {
 		gpio = GpioFactory.getInstance();
 	}
 
-	public StringAndDouble getDistance() throws InterruptedException {
+	public MsgTransformer getDistance() throws InterruptedException {
 		double distance = 0;
 
-		msg = new StringAndDouble(null, 0);
+		msg = new MsgTransformer(null, 0);
 		try {
 			Thread.sleep(500);
 			sensorTriggerPin.high(); // Make trigger pin HIGH

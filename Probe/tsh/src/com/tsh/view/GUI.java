@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.border.BevelBorder;
 
-import com.tsh.common.StringAndDouble;
+import com.tsh.common.MsgTransformer;
 
 
 public class GUI {
@@ -131,11 +131,14 @@ public class GUI {
 		this.paneTop.add(txtPWInput);
 	}
 
-	public void setDebugMsg(StringAndDouble msg) {
+	public void setDebugMsg(MsgTransformer msg) {
 		this.txtPWInput.setText(msg.toString());
 	}
+	public void setDebugMsg(String msg) {
+		this.txtPWInput.setText(msg);
+	}
 
-	public void setValueDisplay(StringAndDouble msg) {
+	public void setValueDisplay(MsgTransformer msg) {
 		this.disLabel.setText(String.valueOf(msg.getValue()));
 	}
 
