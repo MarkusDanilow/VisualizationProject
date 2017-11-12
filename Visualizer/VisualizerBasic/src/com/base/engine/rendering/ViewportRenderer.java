@@ -1,4 +1,4 @@
-package com.base.engine;
+package com.base.engine.rendering;
 
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
@@ -23,10 +23,12 @@ import org.lwjgl.opengl.Display;
 import com.base.common.DataElement;
 import com.base.common.IRenderer;
 import com.base.common.Renderable;
+import com.base.engine.Camera;
+import com.base.engine.Engine;
+import com.base.engine.RenderUtils;
+import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 public class ViewportRenderer implements Renderable {
-
-	public static final String DISPLAY_LIST_REPFIX = "viewport_display_list_";
 
 	@Override
 	public void prepare() {
@@ -42,44 +44,42 @@ public class ViewportRenderer implements Renderable {
 	public void close() {
 	}
 
-	public void render(Engine engine, Camera camera, IRenderer[] renderers) {
+	public void render(Engine engine, Camera[] camera, IRenderer[] renderers, float[] scaleFactors) {
 
-		if (renderers == null)
+		if (renderers == null || renderers.length < 1)
 			return;
+
+		int width = Display.getWidth() / 2;
+		int height = Display.getHeight() / 2;
 
 		for (int i = 0; i < renderers.length; i++) {
 
-			int x = i < 2 ? 0 : Display.getWidth() / 2;
-			int y = i % 2 != 0 ? 0 : Display.getHeight() / 2;
-			int width = Display.getWidth() / 2;
-			int height = Display.getHeight() / 2;
+			int x = i < 2 ? 0 : width;
+			int y = i % 2 != 0 ? 0 : height;
 
 			RenderUtils.switch3D(x, y, width, height);
 
 			glPushMatrix();
-			glRotatef(camera.getPitch(), 1, 0, 0);
-			glRotatef(camera.getYaw(), 0, 1, 0);
-			glTranslatef(camera.getPos().getX(), camera.getPos().getY(), camera.getPos().getZ());
-			glScalef(0.25f, 0.25f, 0.25f);
+
+			// only translate and rotate in 3D view
+			if (renderers[i].is3D()) {
+				glRotatef(camera[i].getPitch(), 1, 0, 0);
+				glRotatef(camera[i].getYaw(), 0, 1, 0);
+			}
+			glTranslatef(camera[i].getPos().getX(), camera[i].getPos().getY(), camera[i].getPos().getZ());
+
+			glScalef(scaleFactors[i], scaleFactors[i], scaleFactors[i]);
 
 			// call the logic for the different rendering styles
 			// Also call / initialize the corresponding display list
 
-			String displayListName = DISPLAY_LIST_REPFIX + String.valueOf(i);
-
 			List<DataElement> data = engine.getRawRenderData();
 			if (data != null && data.size() > 0) {
-				if (!DisplayListHandler.isDisplayListInitialized(displayListName)) {
-					DisplayListHandler.generateDisplayList(displayListName);
-					DisplayListHandler.initializeList(displayListName);
-					renderers[i].render(data);
-					DisplayListHandler.endList();
-				} else {
-					DisplayListHandler.callList(displayListName);
-				}
+				GraphicBufferUitl.handleGraphicsData(data, renderers[i], i);
 			}
 
-			// FontRenderer.renderText(0, 0, "Display: " + i, FontManager.getUFontByName(FontManager.DEFAULT));
+			// FontRenderer.renderText(0, 0, "Display: " + i,
+			// FontManager.getUFontByName(FontManager.DEFAULT));
 
 			glPopMatrix();
 
@@ -111,6 +111,6 @@ public class ViewportRenderer implements Renderable {
 	}
 
 	public void resetDisplayList(int displayListIndex) {
-		DisplayListHandler.resetDisplayList(DISPLAY_LIST_REPFIX + displayListIndex);
+		GraphicBufferUitl.resetDisplayList(displayListIndex);
 	}
 }

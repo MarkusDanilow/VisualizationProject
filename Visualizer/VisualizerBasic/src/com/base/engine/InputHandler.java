@@ -2,6 +2,7 @@ package com.base.engine;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
@@ -10,7 +11,9 @@ final class InputHandler {
 
 	private static EngineEventListener eventListener;
 
-	private static boolean useSystemEvents = true;
+	private static boolean useSystemEvents = false;
+
+	private static int currentX, currentY;
 
 	static void create(EngineEventListener listener, boolean systemEvents) {
 		try {
@@ -67,23 +70,27 @@ final class InputHandler {
 			}
 		}
 		if ((!(Console.isVisible() && Console.isCommandLineFocused())) || (!useSystemEvents)) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-				eventListener.notify(EngineEvent.MOVE_LEFT);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-				eventListener.notify(EngineEvent.MOVE_RIGHT);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-				eventListener.notify(EngineEvent.MOVE_FORWARD);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-				eventListener.notify(EngineEvent.MOVE_BACKWARD);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-				eventListener.notify(EngineEvent.MOVE_DOWN);
-			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-				eventListener.notify(EngineEvent.MOVE_UP);
+			
+			// mouse movement currently for the upper left display which show the 3D view
+			if ((currentX < Display.getWidth() / 2) && (currentY > Display.getHeight() / 2)) {
+				if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+					eventListener.notify(EngineEvent.MOVE_LEFT, 0);
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+					eventListener.notify(EngineEvent.MOVE_RIGHT, 0);
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+					eventListener.notify(EngineEvent.MOVE_FORWARD, 0);
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+					eventListener.notify(EngineEvent.MOVE_BACKWARD, 0);
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+					eventListener.notify(EngineEvent.MOVE_DOWN, 0);
+				}
+				if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+					eventListener.notify(EngineEvent.MOVE_UP, 0);
+				}
 			}
 		}
 	}
@@ -91,22 +98,27 @@ final class InputHandler {
 	static void getMouseInput() {
 
 		while (Mouse.next()) {
-			if (!(Console.isVisible() && Console.isCommandLineFocused())) {
+			if ((!(Console.isVisible() && Console.isCommandLineFocused())) || !useSystemEvents) {
 
 				float dx = Mouse.getEventDX();
 				float dy = Mouse.getEventDY();
 
-				eventListener.notify(EngineEvent.LOOK_X, dx);
-				eventListener.notify(EngineEvent.LOOK_Y, -dy);
+				currentX = Mouse.getX();
+				currentY = Mouse.getY();
 
-				if (Mouse.getEventButtonState()) {
-					switch (Mouse.getEventButton()) {
-
+				if ((currentX < Display.getWidth() / 2) && (currentY > Display.getHeight() / 2)) {
+					if (Mouse.isButtonDown(0)) {
+						eventListener.notify(EngineEvent.LOOK_X, dx, 0);
+						eventListener.notify(EngineEvent.LOOK_Y, -dy, 0);
+					}
+					int wheelDelta = Mouse.getDWheel();
+					if (wheelDelta != 0) {
+						eventListener.notify(EngineEvent.SCALE, wheelDelta / 1000f, 0);
 					}
 				}
 
-				// if (useSystemEvents)
-				Mouse.setGrabbed(true);
+				if (useSystemEvents)
+					Mouse.setGrabbed(true);
 
 			} else {
 				Mouse.setGrabbed(false);

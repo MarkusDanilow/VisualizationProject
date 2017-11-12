@@ -111,41 +111,13 @@ public class VisApplication implements AppInterface {
 	@Override
 	public void loadData(String fileName) throws Exception {
 		final Map<Float, DataElement> data = DataHandler.parseDataFromFile(fileName);
-		DataElement[] bounds = DataHandler.getFirstAndLastElement(data);
+		DataElement[] bounds = DataHandler.getDataBounds(data);
 
 		this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
 				(int) bounds[0].getTime());
 
 		this.buffer.setData(data);
 		engine.setRawRenderData(DataHandler.convertToRenderableList(data));
-	}
-
-	/**
-	 * 
-	 */
-	@SuppressWarnings("unused")
-	private void startAnimation() {
-		new Thread() {
-			public void run() {
-				float time = 1;
-				while (time < 9000) {
-					System.out.println(engine.isRunning());
-					if (engine.isRunning()) {
-						Map<Float, DataElement> tmpData = DataHandler.getPartialData(buffer.getData(),
-								new Range<Float>(0f, time));
-						engine.setRawRenderData(DataHandler.convertToRenderableList(tmpData));
-						engine.resetDisplayLists();
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						time += 20;
-						System.out.println(time);
-					}
-				}
-			};
-		}.start();
 	}
 
 	@Override

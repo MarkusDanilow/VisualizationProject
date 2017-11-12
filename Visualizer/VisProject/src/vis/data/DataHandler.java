@@ -71,7 +71,7 @@ public class DataHandler {
 		return data != null ? new ArrayList<>(data.values()) : new ArrayList<>();
 	}
 
-	public static DataElement[] getFirstAndLastElement(Map<Float, DataElement> data) {
+	public static DataElement[] getDataBounds(Map<Float, DataElement> data) {
 		TreeMap<Float, DataElement> castMap = (TreeMap<Float, DataElement>) data;
 		DataElement first = castMap.firstEntry().getValue();
 		DataElement last = castMap.lastEntry().getValue();

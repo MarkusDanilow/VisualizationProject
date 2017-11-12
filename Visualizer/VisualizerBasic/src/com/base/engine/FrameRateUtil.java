@@ -37,6 +37,7 @@ final class FrameRateUtil {
 			setFps(0);
 			lastFPS += 1000;
 			res = true ;
+			System.out.println("FPS: " + savedFPS);
 		}
 		fps++ ; 
 		return res ; 

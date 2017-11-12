@@ -22,6 +22,7 @@ import org.lwjgl.LWJGLException;
 import com.base.engine.Settings;
 
 import vis.events.LoadDataEvent;
+import vis.events.OpenHelpEvent;
 import vis.events.QuitApplicationEvent;
 import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
@@ -129,14 +130,21 @@ public class MainWindow extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 
 		// file menu
-		JMenu fileMenu = new JMenu("File");
-		JMenuItem loadFile = new JMenuItem("Load...");
+		JMenu fileMenu = new JMenu("Datei");
+		JMenuItem loadFile = new JMenuItem("Öffnen...");
 		loadFile.addActionListener(new LoadDataEvent(this));
 		fileMenu.add(loadFile);
-		JMenuItem closeApp = new JMenuItem("Quit");
+		JMenuItem closeApp = new JMenuItem("Beenden");
 		closeApp.addActionListener(new QuitApplicationEvent(this));
 		fileMenu.add(closeApp);
 		menuBar.add(fileMenu);
+
+		// help menu
+		JMenu helpMenu = new JMenu("Hilfe");
+		JMenuItem help = new JMenuItem("Anleitung...");
+		help.addActionListener(new OpenHelpEvent(this));
+		helpMenu.add(help);
+		menuBar.add(helpMenu);
 
 		this.setJMenuBar(menuBar);
 

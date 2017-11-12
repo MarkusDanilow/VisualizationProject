@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.base.engine.rendering.buffers.DisplayListHandler;
+
 public class WavefrontOBJ {
 
 	final String DISPLAY_LIST_IDENTIFIER ;

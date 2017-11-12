@@ -21,7 +21,7 @@ public class DataBuffer {
 
 	public void setData(Map<Float, DataElement> data) {
 		this.data = data;
-		this.bounds = DataHandler.getFirstAndLastElement(data);
+		this.bounds = DataHandler.getDataBounds(data);
 		this.calculateStep();
 	}
 
