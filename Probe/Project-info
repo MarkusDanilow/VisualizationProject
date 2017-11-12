@@ -1,2 +1,3 @@
 Imported workspace of eclipse 3.8 on RaspberryPi3 B+
 The JAVA-Files must be compiled first!
+The Probe-Code only runs on RaspberryPi3 (BCM2865)
