@@ -2,6 +2,7 @@ package vis.main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -30,7 +31,7 @@ public class VisApplication implements AppInterface {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws LWJGLException, FileNotFoundException, IOException {
+	public static void main(String[] args) throws Exception {
 		new VisApplication();
 	}
 
@@ -94,8 +95,9 @@ public class VisApplication implements AppInterface {
 	 * @throws LWJGLException
 	 * @throws FileNotFoundException
 	 * @throws IOException
+	 * @throws SQLException
 	 */
-	public VisApplication() throws LWJGLException, FileNotFoundException, IOException {
+	public VisApplication() throws LWJGLException, FileNotFoundException, IOException, SQLException {
 
 		this.window = new MainWindow(this, Settings.getApplicationTitle(), Settings.getDisplayWidth(),
 				Settings.getDisplayHeight());
