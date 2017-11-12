@@ -22,6 +22,8 @@ public enum EngineEvent {
 	MOVE_DOWN,
 	
 	LOOK_X,
-	LOOK_Y
+	LOOK_Y,
+	
+	SCALE
 	
 }

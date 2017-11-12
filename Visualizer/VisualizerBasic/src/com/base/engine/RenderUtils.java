@@ -7,7 +7,7 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.Display;
 
-final class RenderUtils {
+public final class RenderUtils {
 
 	private static float NEAR_CLIPPING;
 	private static float FAR_CLIPPING;
@@ -37,13 +37,13 @@ final class RenderUtils {
 		CLEAR_COLOR = clearColor;
 	}
 
-	static void create() {
+	public static void create() {
 		setClearColor(Settings.getClearColor());
 		setNearClipping(Settings.getNearClipping());
 		setFarClipping(Settings.getFarClipping());
 	}
 
-	static void initGL() {
+	public static void initGL() {
 
 		glClearColor(CLEAR_COLOR.getRed(), CLEAR_COLOR.getGreen(), CLEAR_COLOR.getBlue(), CLEAR_COLOR.getAlpha());
 
@@ -74,13 +74,13 @@ final class RenderUtils {
 
 	}
 
-	static void exitGL() {
+	public static void exitGL() {
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_LIGHT1);
 	}
 
-	static void switch2D(float left, float top, float width, float height) {
+	public static void switch2D(float left, float top, float width, float height) {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		gluOrtho2D(left, width, height, top);
@@ -90,7 +90,7 @@ final class RenderUtils {
 		glDisable(GL_CULL_FACE);
 	}
 
-	static void switch3D(int left, int top, int width, int height) {
+	public static void switch3D(int left, int top, int width, int height) {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glViewport(left, top, width, height);

@@ -37,5 +37,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void setRawRenderData(List<DataElement> data);
 
 	void resetViewportDisplayList(int index);
+	
+	void changeScaleFactor(float factor, int viewIndex);
 
 }

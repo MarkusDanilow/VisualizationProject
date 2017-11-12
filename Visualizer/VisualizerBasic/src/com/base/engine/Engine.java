@@ -22,6 +22,8 @@ import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.engine.font.FontManager;
+import com.base.engine.rendering.PointCloudRenderer;
+import com.base.engine.rendering.ViewportRenderer;
 
 import gen.algo.Algy;
 import gen.algo.common.MapMirrorType;
@@ -31,6 +33,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public static boolean FULLSCREEN_ENABLED, VSYNC_ENABLED;
 	public static int DISPLAY_WIDTH, DISPLAY_HEIGHT;
+
+	public static int NUM_VIEWS = 1;
 
 	public static int getDisplayWidth() {
 		return DISPLAY_WIDTH;
@@ -67,9 +71,10 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private boolean running = false;
 
 	private ViewportRenderer viewportRenderer;
-	private IRenderer[] renderers = new IRenderer[4];
+	private IRenderer[] renderers = new IRenderer[NUM_VIEWS];
+	private float[] scaleFactors = new float[NUM_VIEWS];
 	private Console console;
-	private Camera camera;
+	private Camera[] cameras = new Camera[NUM_VIEWS];
 
 	private DataMap2D data2D;
 	private DataMap3D data3D;
@@ -226,13 +231,15 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		RenderUtils.initGL();
 		FontManager.init();
 		InputHandler.create(this, useSystemEvents);
-		this.camera = new Camera(new Vector3f(100, -100, -100));
 
 		/* define renderers and add them to the list of all renderers */
 		this.viewportRenderer = new ViewportRenderer();
 		PointCloudRenderer pointCloudRenderer = new PointCloudRenderer();
+
 		for (int i = 0; i < this.renderers.length; i++) {
 			this.renderers[i] = pointCloudRenderer;
+			this.scaleFactors[i] = 0.25f;
+			this.cameras[i] = new Camera(new Vector3f(100, -100, -100));
 		}
 		/* ------------- */
 
@@ -281,9 +288,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private void render() {
 		try {
 			viewportRenderer.prepare();
-			viewportRenderer.render(this, this.camera, this.renderers);
-			console.render(null);
+			viewportRenderer.render(this, this.cameras, this.renderers, this.scaleFactors);
 			viewportRenderer.close();
+			console.render(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -291,8 +298,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private void getInput() {
 		try {
-			InputHandler.getKeyboardInput();
 			InputHandler.getMouseInput();
+			InputHandler.getKeyboardInput();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -352,29 +359,34 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				console.setCommandLineInput(CommandInterpreter.getNextCompleteCommand(console.getCommandLine()));
 				break;
 			case MOVE_LEFT:
-				camera.move(EDirection.WEST);
+				cameras[Integer.valueOf(String.valueOf(data[0]))].move(EDirection.WEST);
 				break;
 			case MOVE_RIGHT:
-				camera.move(EDirection.EAST);
+				cameras[Integer.valueOf(String.valueOf(data[0]))].move(EDirection.EAST);
 				break;
 			case MOVE_FORWARD:
-				camera.move(EDirection.NORTH);
+				cameras[Integer.valueOf(String.valueOf(data[0]))].move(EDirection.NORTH);
 				break;
 			case MOVE_BACKWARD:
-				camera.move(EDirection.SOUTH);
+				cameras[Integer.valueOf(String.valueOf(data[0]))].move(EDirection.SOUTH);
 				break;
 			case MOVE_UP:
-				camera.move(EDirection.UP);
+				cameras[Integer.valueOf(String.valueOf(data[0]))].move(EDirection.UP);
 				break;
 			case MOVE_DOWN:
-				camera.move(EDirection.DOWN);
+				cameras[Integer.valueOf(String.valueOf(data[0]))].move(EDirection.DOWN);
 				break;
 
 			case LOOK_X:
-				camera.yaw(Float.valueOf(String.valueOf(data[0])));
+				cameras[Integer.valueOf(String.valueOf(data[1]))].yaw(Float.valueOf(String.valueOf(data[0])));
 				break;
 			case LOOK_Y:
-				camera.pitch(Float.valueOf(String.valueOf(data[0])));
+				cameras[Integer.valueOf(String.valueOf(data[1]))].pitch(Float.valueOf(String.valueOf(data[0])));
+				break;
+
+			case SCALE:
+				this.changeScaleFactor(Float.valueOf(String.valueOf(data[0])),
+						Integer.valueOf(String.valueOf(data[1])));
 				break;
 
 			default:
@@ -564,6 +576,15 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@Override
 	public void resetViewportDisplayList(int index) {
 		this.viewportRenderer.resetDisplayList(index);
+	}
+
+	@Override
+	public void changeScaleFactor(float factor, int viewIndex) {
+		if (viewIndex < this.scaleFactors.length) {
+			if (this.scaleFactors[viewIndex] + factor > 0) {
+				this.scaleFactors[viewIndex] += factor;
+			}
+		}
 	}
 
 }
