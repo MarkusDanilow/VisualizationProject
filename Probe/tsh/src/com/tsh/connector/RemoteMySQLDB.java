@@ -32,19 +32,19 @@ public class RemoteMySQLDB {
         try {
         	System.out.println("Establishing ssh...");
             String strSshUser = "liquidsolution.de"; // SSH loging username
-            String strSshPassword = "S5!01Tx1c"; // SSH login password
-            String strSshHost = "ssh.strato.de"; // hostname or ip or
+            String strSshPassword = "-"; // SSH login password
+            String strSshHost = "-"; // hostname or ip or
                                                             // SSH server
             int nSshPort = 22; // remote SSH host port number
-            String strRemoteHost = "rdbms.strato.de"; // hostname or
+            String strRemoteHost = "-"; // hostname or
                                                                     // ip of
                                                                     // your
                                                                     // database
                                                                     // server
             int nLocalPort = 3366; // local port number use to bind SSH tunnel
             int nRemotePort = 3306; // remote port number of your database
-            String strDbUser = "U3162645"; // database loging username
-            String strDbPassword = "H4Cd84V!5"; // database login password
+            String strDbUser = "-"; // database loging username
+            String strDbPassword = "-"; // database login password
 
             RemoteMySQLDB.doSshTunnel(strSshUser, strSshPassword, strSshHost, nSshPort, strRemoteHost, nLocalPort,
                     nRemotePort);
@@ -54,7 +54,7 @@ public class RemoteMySQLDB {
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:" + nRemotePort, strDbUser,
                     strDbPassword);
             con.close();
-            System.out.println("OK");
+            System.out.println("done");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
