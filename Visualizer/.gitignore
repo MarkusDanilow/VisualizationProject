@@ -41,13 +41,11 @@
 .metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
 .metadata/.plugins/org.eclipse.jdt.core/javaLikeNames.txt
 .metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
-*.txt
 *.log
 *.setup
 *.mark
 .metadata/.plugins/org.eclipse.wst.jsdt.core/externalLibsTimeStamps
 *.js
-*.ini
 .sonarlint/default/.sonartmp_7974860991659824788/sonar-plugin-api-deps8674265200017119161jar
 *.iml
 *.lock
