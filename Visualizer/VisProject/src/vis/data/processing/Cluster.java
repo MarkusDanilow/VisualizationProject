@@ -2,6 +2,7 @@ package vis.data.processing;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.base.common.resources.Point;
 
@@ -10,9 +11,13 @@ public class Cluster {
 	private final List<Point> points;
 	private Point centroid;
 
+	public final String id;
+
 	public Cluster(Point firstPoint) {
 		points = new ArrayList<Point>();
 		centroid = firstPoint;
+		this.id = UUID.randomUUID().toString();
+		System.out.println(id);
 	}
 
 	public Point getCentroid() {
