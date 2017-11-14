@@ -3,8 +3,8 @@ package com.base.engine;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import com.base.common.DataElement;
 import com.base.common.GenerateInterfaces;
+import com.base.common.resources.DataElement;
 
 public interface EngineInterfaces extends GenerateInterfaces {
 

@@ -2,8 +2,8 @@ package com.base.engine.rendering.buffers;
 
 import java.util.List;
 
-import com.base.common.DataElement;
 import com.base.common.IRenderer;
+import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 
 public class GraphicBufferUitl {

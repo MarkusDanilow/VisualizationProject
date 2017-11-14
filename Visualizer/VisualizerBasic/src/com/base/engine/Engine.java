@@ -12,10 +12,10 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.base.common.DataElement;
 import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
 import com.base.common.IRenderer;
+import com.base.common.resources.DataElement;
 import com.base.common.resources.DataInspector;
 import com.base.common.resources.DataMap2D;
 import com.base.common.resources.DataMap3D;

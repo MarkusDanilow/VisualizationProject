@@ -3,7 +3,7 @@ package vis.data;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.base.common.DataElement;
+import com.base.common.resources.DataElement;
 
 public class DataBuffer {
 
