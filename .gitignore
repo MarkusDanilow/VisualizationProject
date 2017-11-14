@@ -37,7 +37,6 @@ Probe/.metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
 *.log
 *.setup
 *.mark
-*.ini
 Probe/RemoteSystemsTempFiles/.project
 *.zip
 *.zip
@@ -49,7 +48,7 @@ Visualizer/.sonarlint/default/.sonartmp_1438352029680986955/sonar-plugin-api-dep
 *.lock
 .metadata/.plugins/org.eclipse.epp.logging.aeri.ui/remote-index/segments_2
 .metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
-*.txt
+
 *.dat
 *.js
 Probe/.project
