@@ -14,7 +14,7 @@ public final class Settings {
 
 	static {
 		try {
-			settingsFile = new Ini(new File("res/settings.ini"));
+			settingsFile = new Ini(new File("res22/settings.ini"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
