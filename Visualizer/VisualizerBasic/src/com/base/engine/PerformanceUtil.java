@@ -1,13 +1,12 @@
 package com.base.engine;
 
-import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
-
 final class PerformanceUtil {
 
+	/*
 	private static Runtime runtime = Runtime.getRuntime();
 	private static OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory
 			.getOperatingSystemMXBean();
+			*/
 
 	private static long maxMem = 0;
 	private static long totalFreeMem = 0;
