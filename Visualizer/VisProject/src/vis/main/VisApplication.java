@@ -110,7 +110,7 @@ public class VisApplication implements AppInterface {
 	 */
 	@Override
 	public void loadData(String fileName) throws Exception {
-		final Map<Float, DataElement> data = DataHandler.parseDataFromFile(fileName);
+		final Map<Float, DataElement> data = DataHandler.parseDataFromFile(fileName, 5);
 		DataElement[] bounds = DataHandler.getDataBounds(data);
 
 		this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
