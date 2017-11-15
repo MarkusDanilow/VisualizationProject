@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.base.common.DataElement;
 import com.base.common.IRenderer;
+import com.base.common.resources.DataElement;
 
 public class PointCloudRenderer implements IRenderer {
 

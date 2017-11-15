@@ -3,12 +3,12 @@ package vis.data;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.base.common.DataElement;
+import com.base.common.resources.DataElement;
 
 public class DataBuffer {
 
 	private Map<Float, DataElement> data;
-	private DataElement[] bounds = null;
+	private DataElement [] bounds = null;
 	private float step = 0f;
 
 	public DataBuffer() {

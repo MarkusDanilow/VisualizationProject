@@ -9,14 +9,45 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.base.common.DataElement;
+import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
+
+import vis.data.processing.Cluster;
+import vis.data.processing.KMeans;
 
 public class DataHandler {
 
 	public static final int elementSize = 4;
-	
+
+	private static DataBuffer currentBuffer;
+	private static List<Cluster> currentClusters;
+
+	public static DataBuffer getCurrentBuffer() {
+		return currentBuffer;
+	}
+
+	public static void setCurrentBuffer(DataBuffer currentBuffer) {
+		DataHandler.currentBuffer = currentBuffer;
+	}
+
+	public static List<Cluster> getCurrentClusters() {
+		return currentClusters;
+	}
+
+	public static void setCurrentClusters(List<Cluster> currentClusters) {
+		DataHandler.currentClusters = currentClusters;
+	}
+
 	public static Map<Float, DataElement> parseDataFromFile(String filePath) throws FileNotFoundException, IOException {
+		return parseDataFromFile(filePath, -1);
+	}
+
+	public static Map<Float, DataElement> parseDataFromFile(String filePath, int clusters)
+			throws FileNotFoundException, IOException {
+
+		boolean useClustering = clusters > -1;
+		KMeans kmeans = new KMeans(clusters);
+
 		Map<Float, DataElement> elements = new TreeMap<>();
 		if (filePath != null && filePath.length() > 0) {
 			try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -33,10 +64,16 @@ public class DataHandler {
 						float z = Float.parseFloat(parts[3]);
 						DataElement element = new DataElement(x, y, z, time);
 						elements.put(time, element);
+						kmeans.addPoint(element.getPoint());
 					}
 				}
 			}
 		}
+		if (useClustering) {
+			currentClusters = kmeans.getPointsClusters();
+		}
+		currentBuffer = new DataBuffer();
+		currentBuffer.setData(elements);
 		return elements;
 	}
 
@@ -54,16 +91,27 @@ public class DataHandler {
 	}
 
 	public static Map<Float, DataElement> getPartialData(Map<Float, DataElement> entireDataSet, Range<Float> range) {
+		return getPartialData(entireDataSet, range, -1);
+	}
+
+	public static Map<Float, DataElement> getPartialData(Map<Float, DataElement> entireDataSet, Range<Float> range,
+			int clusters) {
 		Map<Float, DataElement> elements = new TreeMap<>();
+		boolean useClustering = clusters > -1;
+		KMeans kmeans = new KMeans(clusters);
 		if (entireDataSet != null && range != null) {
 			float start = range.getLoVal();
 			float end = range.getHiVal();
 			for (Float timeStamp : entireDataSet.keySet()) {
 				if (timeStamp >= start && timeStamp <= end) {
-					elements.put(timeStamp, entireDataSet.get(timeStamp));
+					DataElement element = entireDataSet.get(timeStamp);
+					elements.put(timeStamp, element);
+					if (useClustering)
+						kmeans.addPoint(element.getPoint());
 				}
 			}
 		}
+		currentClusters = kmeans.getPointsClusters();
 		return elements;
 	}
 

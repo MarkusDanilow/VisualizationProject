@@ -7,7 +7,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 
-import com.base.common.DataElement;
+import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 import com.base.engine.rendering.PointCloudRenderer;
 
@@ -61,7 +61,7 @@ public class VBOHandler {
 	public static void renderBuffer(int viewportIndex) {
 		if (!bufferExists(viewportIndex))
 			return;
-		GL11.glPointSize(2.5f);
+		GL11.glPointSize(5f);
 
 		// bind vertices
 		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);

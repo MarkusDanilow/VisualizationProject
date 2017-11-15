@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.lwjgl.opengl.Display;
 
-import com.base.common.DataElement;
 import com.base.common.IRenderer;
 import com.base.common.Renderable;
+import com.base.common.resources.DataElement;
 import com.base.engine.Camera;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
