@@ -4,6 +4,7 @@ Probe/RemoteSystemsTempFiles/
 Visualizer/.metadata/
 Visualizer/.recommenders/
 Visualizer/.sonarlint/
+Visualizer/RemoteSystemsTempFiles/
 Visualizer/CommonResources/.settings/
 Visualizer/CommonResources/bin/
 Visualizer/GenerationAlgorithms/.settings/
