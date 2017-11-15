@@ -2,10 +2,7 @@ package vis.main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -19,10 +16,7 @@ import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
 import com.base.engine.Settings;
 
-import vis.data.DataBuffer;
 import vis.data.DataHandler;
-import vis.data.sql.DatabaseAdapter;
-import vis.data.sql.IResultSetHandler;
 import vis.frame.LookAndFeel;
 import vis.frame.MainWindow;
 import vis.interfaces.AppInterface;

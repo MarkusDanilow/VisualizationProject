@@ -30,11 +30,6 @@ public class KMeans {
 		this.allPoints.add(p);
 	}
 
-	private Point getPointByLine(String line) {
-		String[] xyz = line.split(",");
-		return new Point(Double.parseDouble(xyz[0]), Double.parseDouble(xyz[1]), Double.parseDouble(xyz[2]));
-	}
-
 	/**
 	 * step 1: get random seeds as initial centroids of the k clusters
 	 */
