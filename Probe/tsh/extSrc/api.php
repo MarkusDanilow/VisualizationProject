@@ -28,7 +28,7 @@ if (isset($_GET["health"]) && $_GET["health"] == "get") {
  */
 class TSH_SQL extends DateTime
 {
-
+    
     public function openDBConnection()
     {
         /**
@@ -52,7 +52,7 @@ class TSH_SQL extends DateTime
             // echo ("<br>Connected successfully"); //Control-Msg
         }
     }
-
+    
     private function closeDBConnection()
     {
         /**
@@ -63,7 +63,7 @@ class TSH_SQL extends DateTime
         $this->mysqli->close();
         // echo ("<br>Disconnected successfully"); //Control-Msg
     }
-
+    
     private function sql($query)
     {
         /**
@@ -100,14 +100,14 @@ class TSH_SQL extends DateTime
         $this->closeDBConnection();
         return true;
     }
-
+    
     public function setUpload()
     {
         $xPos = 0;
         $yPos = 128;
         $zPos = 65535;
         $dis = 20;
-  
+        
         $t = date('Y-m-d H:i:s');
         $deviceID = "Rpi1";
         $appID = "tshV0.1";
@@ -120,7 +120,7 @@ class TSH_SQL extends DateTime
         $this->sql($query);
         return false;
     }
-
+    
     public function readUpload()
     {
         $query = "SELECT * FROM `HUC_VIS`";
