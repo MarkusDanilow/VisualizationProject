@@ -1,7 +1,0 @@
-package com.base.common.resources;
-
-public class Point {
-
-	private float x, y, z;
-	
-}
