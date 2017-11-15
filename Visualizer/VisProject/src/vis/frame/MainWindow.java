@@ -5,6 +5,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
@@ -50,10 +51,17 @@ public class MainWindow extends JFrame {
 
 	private AtomicBoolean timelineRunning = new AtomicBoolean(false);
 
+	public static Dimension getScreenSize() {
+		return Toolkit.getDefaultToolkit().getScreenSize();
+	}
+
 	public MainWindow(AppInterface app, String title, int width, int height) throws LWJGLException {
 		this.app = app;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(width + leftSidebarWidth + rightSidebarWidth, height + footerHeight);
+		// this.setSize(width + leftSidebarWidth + rightSidebarWidth, height +
+		// footerHeight);
+		this.setSize(getScreenSize());
+		this.setResizable(false);
 		this.setTitle(title);
 		this.setLocationRelativeTo(null);
 		this.init();
