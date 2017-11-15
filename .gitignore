@@ -1,0 +1,15 @@
+Probe/.metadata/
+Probe/bin/
+Probe/RemoteSystemsTempFiles/
+Visualizer/.metadata/
+Visualizer/.recommenders/
+Visualizer/.sonarlint/
+Visualizer/CommonResources/.settings/
+Visualizer/CommonResources/bin/
+Visualizer/GenerationAlgorithms/.settings/
+Visualizer/GenerationAlgorithms/bin/
+Visualizer/VisProject/.settings/
+Visualizer/VisProject/bin/
+Visualizer/VisualizerBasic/.settings/
+Visualizer/VisualizerBasic/bin/
+Visualizer/VisualizerBasic/models/
