@@ -1,0 +1,51 @@
+package com.base.common.resources;
+
+public class DataElement {
+
+	private float time;
+	private Point point;
+
+	public DataElement(float x, float y, float z, float time) {
+		super();
+		this.point = new Point(x, y, z);
+		this.time = time;
+	}
+
+	public float getX() {
+		return (float) this.point.x;
+	}
+
+	public void setX(float x) {
+		this.point.x = x;
+	}
+
+	public float getY() {
+		return (float) this.point.y;
+	}
+
+	public void setY(float y) {
+		this.point.y = y;
+	}
+
+	public float getZ() {
+		return this.point.z;
+	}
+
+	public void setZ(float z) {
+		this.z = z;
+	}
+
+	public float getTime() {
+		return time;
+	}
+
+	public void setTime(float time) {
+		this.time = time;
+	}
+
+	@Override
+	public String toString() {
+		return x + ", " + y + ", " + z;
+	}
+
+}
