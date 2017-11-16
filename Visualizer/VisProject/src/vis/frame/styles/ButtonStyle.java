@@ -1,6 +1,5 @@
 package vis.frame.styles;
 
-import java.awt.Color;
 import java.awt.Component;
 
 public class ButtonStyle implements IComponentStyle {

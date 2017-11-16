@@ -9,13 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
 
-import gen.algo.Algy;
-import gen.algo.common.MapMirrorType;
 import vis.data.processing.Cluster;
 import vis.data.processing.KMeans;
 

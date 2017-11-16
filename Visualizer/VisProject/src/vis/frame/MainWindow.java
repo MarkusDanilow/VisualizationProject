@@ -34,7 +34,6 @@ import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
 import vis.events.TimelinePlayEvent;
 import vis.events.TimelinePreviousEvent;
-import vis.frame.styles.CustomStyleCreator;
 import vis.interfaces.AppInterface;
 
 public class MainWindow extends JFrame {
