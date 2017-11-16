@@ -33,6 +33,7 @@ import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
 import vis.events.TimelinePlayEvent;
 import vis.events.TimelinePreviousEvent;
+import vis.frame.styles.CustomStyleCreator;
 import vis.interfaces.AppInterface;
 
 public class MainWindow extends JFrame {
@@ -56,15 +57,30 @@ public class MainWindow extends JFrame {
 	}
 
 	public MainWindow(AppInterface app, String title, int width, int height) throws LWJGLException {
+
+		// set reference to the app
 		this.app = app;
+
+		// shut down entire application if the main window is being closed
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		// this.setSize(width + leftSidebarWidth + rightSidebarWidth, height +
-		// footerHeight);
+
+		// maximize window
 		this.setSize(getScreenSize());
+
+		// disable resizing
 		this.setResizable(false);
+
+		// title and position
 		this.setTitle(title);
 		this.setLocationRelativeTo(null);
+
+		// add all components to the window
 		this.init();
+
+		// apply custom style to the window
+		// CustomStyleCreator.applyCustomStyle(this);
+
+		// display the window
 		this.setVisible(true);
 	}
 
@@ -226,6 +242,7 @@ public class MainWindow extends JFrame {
 		this.back = new JButton("<<");
 		this.forth = new JButton(">>");
 		this.play = new JButton("PLAY");
+
 		timelineButtonPanel.add(this.back);
 		timelineButtonPanel.add(this.play);
 		timelineButtonPanel.add(this.forth);
