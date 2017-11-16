@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -75,11 +76,14 @@ public class MainWindow extends JFrame {
 		/* ------------ create the sidebar to the left ------------ */
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setPreferredSize(new Dimension(leftSidebarWidth, this.getHeight()));
-
+		
 		leftSidebarPanel.setLayout(new GridLayout(0, 1));
-		JLabel arrangment = new JLabel("Arrangement");
-		leftSidebarPanel.add(arrangment);
-
+		JLabel arrangement = new JLabel("Arrangement");
+		leftSidebarPanel.add(arrangement);
+		Font schriftart = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
+		//arrangement.setBounds(100, 100, 200, 100);
+		arrangement.setFont(schriftart);
+		
 		String view[] = { "3D", "2D", "1D", "ScatterPlot", "Spline", "Bar-Chart", "Aimed Target" };
 
 		JPanel comboPanel = new JPanel();
@@ -105,6 +109,8 @@ public class MainWindow extends JFrame {
 
 		JLabel parameter = new JLabel("Parameter-Filter (global)");
 		leftSidebarPanel.add(parameter);
+		Font schriftart2 = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
+		parameter.setFont(schriftart2);
 
 		JPanel parameterFilter = new JPanel();
 		parameterFilter.setLayout(new GridLayout(4, 2, 10, 10));
@@ -112,7 +118,7 @@ public class MainWindow extends JFrame {
 		JCheckBox xBox = new JCheckBox("x-Position");
 		parameterFilter.add(xBox);
 
-		// Initialfarbe wählen
+		// Initialfarbe wï¿½hlen
 		ColorChooserButton xChooser = new ColorChooserButton(Color.red);
 		parameterFilter.add(xChooser);
 
@@ -141,12 +147,16 @@ public class MainWindow extends JFrame {
 
 		JLabel calendarFromLabel = new JLabel("Von:");
 		calendarPanel.add(calendarFromLabel);
+		Font schriftart3 = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
+		calendarFromLabel.setFont(schriftart3);
 
 		JDateChooser dateChooserFrom = new JDateChooser();
 		calendarPanel.add(dateChooserFrom);
 
 		JLabel calendarToLabel = new JLabel("Bis:");
 		calendarPanel.add(calendarToLabel);
+		Font schriftart4 = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
+		calendarToLabel.setFont(schriftart4);
 
 		JDateChooser dateChooserTo = new JDateChooser();
 		calendarPanel.add(dateChooserTo);
@@ -204,7 +214,7 @@ public class MainWindow extends JFrame {
 		// TODO: Pane C durch Variable ersetzen
 		rightSidebarPanel.add(new JLabel("Pane C"));
 
-		JTextArea paneC = new JTextArea("rotate \n - 90° left \n - 90° right");
+		JTextArea paneC = new JTextArea("rotate \n - 90ï¿½ left \n - 90ï¿½ right");
 		paneC.setEditable(false);
 		rightSidebarPanel.add(paneC);
 
@@ -254,7 +264,7 @@ public class MainWindow extends JFrame {
 
 		// file menu
 		JMenu fileMenu = new JMenu("Datei");
-		JMenuItem loadFile = new JMenuItem("Öffnen...");
+		JMenuItem loadFile = new JMenuItem("ï¿½ffnen...");
 		loadFile.addActionListener(new LoadDataEvent(this));
 		fileMenu.add(loadFile);
 		JMenuItem closeApp = new JMenuItem("Beenden");
