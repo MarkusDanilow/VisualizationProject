@@ -97,6 +97,19 @@ public class VisApplication implements AppInterface {
 				Settings.getDisplayHeight());
 		this.engine = new Engine(this.window.getCanvasById(0), false);
 
+		/*
+		 * generate demo data set for test purposes final Map<Float,
+		 * DataElement> data = DataHandler.generateDataSet(100000, new
+		 * Range<Float>(-10000f, 10000f)); DataElement[] bounds =
+		 * DataHandler.getDataBounds(data);
+		 * 
+		 * this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int)
+		 * bounds[1].getTime(), (int) bounds[0].getTime());
+		 * 
+		 * engine.setRawRenderData(DataHandler.convertToRenderableList(data));
+		 * /* end of demo data
+		 */
+
 	}
 
 	/**

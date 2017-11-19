@@ -17,7 +17,6 @@ public class Cluster {
 		points = new ArrayList<Point>();
 		centroid = firstPoint;
 		this.id = UUID.randomUUID().toString();
-		System.out.println(id);
 	}
 
 	public Point getCentroid() {

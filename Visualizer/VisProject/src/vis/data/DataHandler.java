@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import com.base.common.resources.DataElement;
@@ -91,7 +92,7 @@ public class DataHandler {
 	}
 
 	public static Map<Float, DataElement> getPartialData(Map<Float, DataElement> entireDataSet, Range<Float> range) {
-		return getPartialData(entireDataSet, range, -1);
+		return getPartialData(entireDataSet, range, 2);
 	}
 
 	public static Map<Float, DataElement> getPartialData(Map<Float, DataElement> entireDataSet, Range<Float> range,
@@ -128,6 +129,26 @@ public class DataHandler {
 
 	public static DataElement getNext(Map<Float, DataElement> data, float currentTimeStamp) {
 		return null;
+	}
+
+	public static Map<Float, DataElement> generateDataSet(int setSize, Range<Float> range) {
+		Map<Float, DataElement> elements = new TreeMap<>();
+		float min = range.getLoVal();
+		float max = range.getHiVal();
+		KMeans kmeans = new KMeans(10);
+		Random r = new Random();
+		for (int i = 0; i < setSize; i++) {
+			float x = r.nextFloat() * (max - min) + min;
+			float y = r.nextFloat() * (max - min) + min;
+			float z = r.nextFloat() * (max - min) + min;
+			DataElement vertex = new DataElement(x, y, z, i);
+			elements.put((float) i, vertex);
+			kmeans.addPoint(vertex.getPoint());
+		}
+		currentBuffer = new DataBuffer();
+		currentBuffer.setData(elements);
+		currentClusters = kmeans.getPointsClusters();
+		return elements;
 	}
 
 }

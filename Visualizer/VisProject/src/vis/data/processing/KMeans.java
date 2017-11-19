@@ -87,11 +87,4 @@ public class KMeans {
 		return pointClusters;
 	}
 
-	public static void main(String[] args) {
-		KMeans kMeans = new KMeans(6);
-		List<Cluster> pointsClusters = kMeans.getPointsClusters();
-		for (int i = 0; i < kMeans.k; i++)
-			System.out.println("Cluster " + i + ": " + pointsClusters.get(i));
-	}
-
 }
