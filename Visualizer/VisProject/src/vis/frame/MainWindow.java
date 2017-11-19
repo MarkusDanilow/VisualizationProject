@@ -3,15 +3,14 @@ package vis.frame;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -96,94 +95,119 @@ public class MainWindow extends JFrame {
 		/* ------------ create the sidebar to the left ------------ */
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setPreferredSize(new Dimension(leftSidebarWidth, this.getHeight()));
+		
+		leftSidebarPanel.setBackground(new Color(3,16,69));
+		leftSidebarPanel.setLayout(null);
 
-		// leftSidebarPanel.setLayout(new GridLayout(0, 1));
-		leftSidebarPanel.setLayout(new FlowLayout());
-		leftSidebarPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+//		TODO: Generisches String-Array view[] ersetzen
+//		String view[] = { "3D", "2D", "1D", "ScatterPlot", "Spline", "Bar-Chart", "Aimed Target" };
 
-		JLabel arrangement = new JLabel("Arrangement");
-		arrangement.setFont(captionFont);
-		leftSidebarPanel.add(arrangement);
-
-		String view[] = { "3D", "2D", "1D", "ScatterPlot", "Spline", "Bar-Chart", "Aimed Target" };
-
-		JPanel comboPanel = new JPanel();
-		comboPanel.setLayout(new GridLayout(2, 2, 10, 10));
-
-		JComboBox<String> combo1 = new JComboBox<String>(view);
-		combo1.setEditable(false);
-		comboPanel.add(combo1);
-
-		JComboBox<String> combo2 = new JComboBox<String>(view);
-		combo2.setEditable(false);
-		comboPanel.add(combo2);
-
-		JComboBox<String> combo3 = new JComboBox<String>(view);
-		combo3.setEditable(false);
-		comboPanel.add(combo3);
-
-		JComboBox<String> combo4 = new JComboBox<String>(view);
-		combo4.setEditable(false);
-		comboPanel.add(combo4);
-
-		leftSidebarPanel.add(comboPanel);
-
-		JLabel parameter = new JLabel("Parameter-Filter (global)");
-		leftSidebarPanel.add(parameter);
-		parameter.setFont(captionFont);
-
-		JPanel parameterFilter = new JPanel();
-		parameterFilter.setLayout(new GridLayout(4, 2, 10, 10));
-
-		JCheckBox xBox = new JCheckBox("x-Position");
-		parameterFilter.add(xBox);
-
-		// Initialfarbe wählen
+//		Visualisierungstechniken
+		JLabel lblTechnik = new JLabel("Visualisierungstechnik");
+		lblTechnik.setForeground(Color.WHITE);
+		lblTechnik.setFont(new Font("SansSerif", Font.BOLD, 12));
+		lblTechnik.setBounds(35, 11, 130, 14);
+		leftSidebarPanel.add(lblTechnik);
+		
+		JComboBox cmbTechnik1 = new JComboBox();
+		cmbTechnik1.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cmbTechnik1.setModel(new DefaultComboBoxModel(new String[] {"3D", "2D", "1D", "Scatter plot", "Spline", "Bar-Chart", "Aimed Target"}));
+		cmbTechnik1.setBounds(5, 36, 90, 21);
+		cmbTechnik1.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+		leftSidebarPanel.add(cmbTechnik1);
+		
+		JComboBox cmbTechnik2 = new JComboBox();
+		cmbTechnik2.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cmbTechnik2.setModel(new DefaultComboBoxModel(new String[] {"Bar-Chart", "3D", "2D", "1D", "Scatter plot", "Spline", "Aimed Target"}));
+		cmbTechnik2.setBounds(105, 36, 90, 21);
+		cmbTechnik2.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 2));
+		leftSidebarPanel.add(cmbTechnik2);
+		
+		JComboBox cmbTechnik3 = new JComboBox();
+		cmbTechnik3.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cmbTechnik3.setModel(new DefaultComboBoxModel(new String[] {"Spline", "3D", "2D", "1D", "Scatter plot", "Bar-Chart", "Aimed Target"}));
+		cmbTechnik3.setBounds(5, 65, 90, 21);
+		cmbTechnik3.setBorder(BorderFactory.createLineBorder(new Color(128,0,0), 2));
+		leftSidebarPanel.add(cmbTechnik3);
+		
+		JComboBox cmbTechnik4 = new JComboBox();
+		cmbTechnik4.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cmbTechnik4.setModel(new DefaultComboBoxModel(new String[] {"Scatter plot", "Aimed Target", "3D", "2D", "1D", "Spline", "Bar-Chart"}));
+		cmbTechnik4.setBounds(105, 65, 90, 21);
+		cmbTechnik4.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+		leftSidebarPanel.add(cmbTechnik4);
+		
+//		TODO: Als eigene Panels definieren und dynamisch verschieben
+//		Parameterfilter
+		JLabel lblParameterfilter = new JLabel("Parameter-Filter (global)");
+		lblParameterfilter.setForeground(Color.WHITE);
+		lblParameterfilter.setFont(new Font("SansSerif", Font.BOLD, 12));
+		lblParameterfilter.setBounds(31, 127, 138, 14);
+		leftSidebarPanel.add(lblParameterfilter);
+		
+		JCheckBox chckbxXposition = new JCheckBox("x-Position");
+		chckbxXposition.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		chckbxXposition.setBounds(5, 148, 90, 21);
+		leftSidebarPanel.add(chckbxXposition);
+		
 		ColorChooserButton xChooser = new ColorChooserButton(Color.red);
-		parameterFilter.add(xChooser);
-
-		JCheckBox yBox = new JCheckBox("y-Position");
-		parameterFilter.add(yBox);
-
+		xChooser.setBounds(105, 148, 90, 21);
+		leftSidebarPanel.add(xChooser);
+		
+		JCheckBox chckbxYposition = new JCheckBox("y-Position");
+		chckbxYposition.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		chckbxYposition.setBounds(5, 174, 90, 21);
+		leftSidebarPanel.add(chckbxYposition);
+		
 		ColorChooserButton yChooser = new ColorChooserButton(Color.blue);
-		parameterFilter.add(yChooser);
-
-		JCheckBox zBox = new JCheckBox("z-Position");
-		parameterFilter.add(zBox);
-
+		yChooser.setBounds(105, 174, 90, 21);
+		leftSidebarPanel.add(yChooser);
+		
+		JCheckBox chckbxZposition = new JCheckBox("z-Position");
+		chckbxZposition.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		chckbxZposition.setBounds(5, 200, 90, 21);
+		leftSidebarPanel.add(chckbxZposition);
+		
 		ColorChooserButton zChooser = new ColorChooserButton(Color.green);
-		parameterFilter.add(zChooser);
-
-		JCheckBox tBox = new JCheckBox("Target-Object");
-		parameterFilter.add(tBox);
-
+		zChooser.setBounds(105, 200, 90, 21);
+		leftSidebarPanel.add(zChooser);
+		
+		JCheckBox chckbxTargetObjekt = new JCheckBox("Target Objekt");
+		chckbxTargetObjekt.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		chckbxTargetObjekt.setBounds(5, 226, 90, 20);
+		leftSidebarPanel.add(chckbxTargetObjekt);
+		
 		ColorChooserButton tChooser = new ColorChooserButton(Color.yellow);
-		parameterFilter.add(tChooser);
+		tChooser.setBounds(105, 226, 90, 21);
+		leftSidebarPanel.add(tChooser);	
 
-		leftSidebarPanel.add(parameterFilter);
-
-		JLabel dateSettings = new JLabel("Datumsauswahl");
-		leftSidebarPanel.add(dateSettings);
-		dateSettings.setFont(captionFont);
-
-		JPanel calendarPanel = new JPanel();
-		calendarPanel.setLayout(new GridLayout(2, 2, 5, 5));
-
-		JLabel calendarFromLabel = new JLabel("Von:");
-		calendarPanel.add(calendarFromLabel);
-		calendarFromLabel.setFont(captionFont);
-
+//		TODO: Als eigene Panels definieren und dynamisch verschieben
+//		Datumsauswahl
+		JLabel lblDatumsauswahl = new JLabel("Datumsauswahl");
+		lblDatumsauswahl.setForeground(Color.WHITE);
+		lblDatumsauswahl.setFont(new Font("SansSerif", Font.BOLD, 12));
+		lblDatumsauswahl.setBounds(54, 288, 92, 14);
+		leftSidebarPanel.add(lblDatumsauswahl);
+		
+		JLabel lblVon = new JLabel("Von:");
+		lblVon.setForeground(Color.WHITE);
+		lblVon.setFont(new Font("SansSerif", Font.BOLD, 12));
+		lblVon.setBounds(5, 313, 25, 14);
+		leftSidebarPanel.add(lblVon);
+		
+		JLabel lblBis = new JLabel("Bis:");
+		lblBis.setForeground(Color.WHITE);
+		lblBis.setFont(new Font("SansSerif", Font.BOLD, 12));
+		lblBis.setBounds(5, 343, 25, 14);
+		leftSidebarPanel.add(lblBis);
+		
 		JDateChooser dateChooserFrom = new JDateChooser();
-		calendarPanel.add(dateChooserFrom);
-
-		JLabel calendarToLabel = new JLabel("Bis:");
-		calendarPanel.add(calendarToLabel);
-		calendarToLabel.setFont(captionFont);
-
+		dateChooserFrom.setBounds(105, 313, 90, 21);
+		leftSidebarPanel.add(dateChooserFrom);
+		
 		JDateChooser dateChooserTo = new JDateChooser();
-		calendarPanel.add(dateChooserTo);
-
-		leftSidebarPanel.add(calendarPanel);
+		dateChooserTo.setBounds(105, 343, 90, 21);
+		leftSidebarPanel.add(dateChooserTo);
 
 		this.add(leftSidebarPanel, BorderLayout.WEST);
 
@@ -196,10 +220,38 @@ public class MainWindow extends JFrame {
 		for (byte i = 0; i < CANVAS_COUNT; i++) {
 			JPanel cPanel = new JPanel();
 			cPanel.setLayout(new GridLayout(1, 1));
+			
 			cPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+			
+//			TODO: Border umsetzen nach Farbschema
+//			switch (i) {
+//			case 0:
+//				cPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+//				break;
+//
+//			case 1:
+//				cPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE, 2));
+//				break;
+//				
+//			case 2:
+//				cPanel.setBorder(BorderFactory.createLineBorder(new Color(128,0,0), 2));
+//				break;
+//				
+//			case 3:
+//				cPanel.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
+//				break;
+//			
+//			default:
+//				break;
+//			}
+//			
+//			JPanel innerCanvas = new JPanel();
+//			innerCanvas.setBorder(BorderFactory.createLineBorder(new Color(128,0,0), 2));
+			
 			Canvas c = new Canvas();
-
+						
 			canvasPanel.add(cPanel);
+//			innerCanvas.add(cPanel);
 			cPanel.add(c);
 
 			c.setIgnoreRepaint(true);
@@ -287,7 +339,7 @@ public class MainWindow extends JFrame {
 
 		// file menu
 		JMenu fileMenu = new JMenu("Datei");
-		JMenuItem loadFile = new JMenuItem("Öffnen...");
+		JMenuItem loadFile = new JMenuItem("ï¿½ffnen...");
 		loadFile.addActionListener(new LoadDataEvent(this));
 		fileMenu.add(loadFile);
 		JMenuItem loadFromAPI = new JMenuItem("Alles von API laden");
