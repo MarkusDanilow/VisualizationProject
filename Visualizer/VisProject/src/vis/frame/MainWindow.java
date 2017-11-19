@@ -5,6 +5,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -77,12 +79,20 @@ public class MainWindow extends JFrame {
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setPreferredSize(new Dimension(leftSidebarWidth, this.getHeight()));
 		
+	//	JPanel layout1 = new JPanel();
+	//	layout1.setLayout(new GridLayout(0, 1));
+		
+	//	leftSidebarPanel.setLayout(new GridBagLayout());
+	//	GridBagConstraints con = new GridBagConstraints();
+		
 		leftSidebarPanel.setLayout(new GridLayout(0, 1));
 		JLabel arrangement = new JLabel("Arrangement");
 		leftSidebarPanel.add(arrangement);
 		Font schriftart = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
 		//arrangement.setBounds(100, 100, 200, 100);
 		arrangement.setFont(schriftart);
+	//	con.anchor = GridBagConstraints.PAGE_START;
+	//	leftSidebarPanel.add(arrangement, con);
 		
 		String view[] = { "3D", "2D", "1D", "ScatterPlot", "Spline", "Bar-Chart", "Aimed Target" };
 
@@ -106,6 +116,7 @@ public class MainWindow extends JFrame {
 		comboPanel.add(combo4);
 
 		leftSidebarPanel.add(comboPanel);
+	//	leftSidebarPanel.add(comboPanel, con);
 
 		JLabel parameter = new JLabel("Parameter-Filter (global)");
 		leftSidebarPanel.add(parameter);
