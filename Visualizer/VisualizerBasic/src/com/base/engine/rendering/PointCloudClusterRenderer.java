@@ -7,7 +7,7 @@ public class PointCloudClusterRenderer implements IRenderer {
 
 	@Override
 	public void render(Object... objects) {
-		
+
 	}
 
 	@Override
@@ -20,6 +20,21 @@ public class PointCloudClusterRenderer implements IRenderer {
 		if (engine == null)
 			return null;
 		return engine.getPointCloudClusters();
+	}
+
+	@Override
+	public boolean isAffectedByCameraPos() {
+		return true;
+	}
+
+	@Override
+	public boolean isAffectedByCameraAngle() {
+		return true;
+	}
+
+	@Override
+	public int[] createCustomViewport() {
+		return null;
 	}
 
 }

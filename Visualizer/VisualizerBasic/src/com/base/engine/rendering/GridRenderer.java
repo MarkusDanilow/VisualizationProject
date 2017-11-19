@@ -7,11 +7,24 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
-public class GridRenderer {
+import com.base.common.IRenderer;
+import com.base.engine.Engine;
+
+public class GridRenderer implements IRenderer {
 
 	static final int GRID_SIZE = 10;
 
-	public void render(int minX, int minY, int maxX, int maxY) {
+	public void render() {
+
+	}
+
+	@Override
+	public void render(Object... objects) {
+
+		int minX = 0;
+		int minY = 0;
+		int maxX = 65532;
+		int maxY = 65532;
 
 		glLineWidth(5);
 		glBegin(GL_LINES);
@@ -31,7 +44,7 @@ public class GridRenderer {
 		glLineWidth(1);
 
 		glBegin(GL_LINES);
-		glColor4f(1, 1, 1, 0.5f);
+		glColor4f(1, 1, 1, 1f);
 		for (int x = minX; x < maxX; x += GRID_SIZE) {
 			glVertex3f(x, 0, minY);
 			glVertex3f(x, 0, maxY);
@@ -41,5 +54,30 @@ public class GridRenderer {
 			glVertex3f(maxX, 0, y);
 		}
 		glEnd();
+	}
+
+	@Override
+	public boolean is3D() {
+		return true;
+	}
+
+	@Override
+	public Object selectRenderData(Engine engine) {
+		return null;
+	}
+
+	@Override
+	public boolean isAffectedByCameraPos() {
+		return true;
+	}
+
+	@Override
+	public boolean isAffectedByCameraAngle() {
+		return true;
+	}
+
+	@Override
+	public int[] createCustomViewport() {
+		return null;
 	}
 }

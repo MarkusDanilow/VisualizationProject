@@ -21,13 +21,15 @@ public class GraphicBufferUitl {
 
 	public static void handleGraphicsData(Object data, IRenderer renderer, int viewportIndex, int rendererIndex) {
 
-		if (data == null || renderer == null || viewportIndex < 0)
+		if (renderer == null || viewportIndex < 0)
 			return;
 
 		int rendererHash = createRendererhasCode(viewportIndex, rendererIndex);
 
 		// render and buffer the data using display lists
 		if (useDisplayLists[viewportIndex]) {
+			if (data == null)
+				return;
 			String displayListName = DISPLAY_LIST_REPFIX + rendererHash;
 			if (!DisplayListHandler.isDisplayListInitialized(displayListName)) {
 				DisplayListHandler.generateDisplayList(displayListName);

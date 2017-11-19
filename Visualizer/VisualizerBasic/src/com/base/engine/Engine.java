@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.base.common.EngineEvent;
@@ -26,6 +27,8 @@ import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.engine.font.FontManager;
+import com.base.engine.rendering.GridRenderer;
+import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
@@ -39,7 +42,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	public static boolean FULLSCREEN_ENABLED, VSYNC_ENABLED;
 	public static int DISPLAY_WIDTH, DISPLAY_HEIGHT;
 
-	public static int NUM_VIEWS = 1;
+	public static int NUM_VIEWS = 4;
 
 	public static int getDisplayWidth() {
 		return DISPLAY_WIDTH;
@@ -78,6 +81,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private ViewportRenderer viewportRenderer;
 	private PointCloudRenderer pointCloudRenderer;
 	private PointCloudClusterRenderer pointCloudClusterRenderer;
+	private GridRenderer gridRenderer;
+	private MiniMapRenderer minimapRenderer;
 
 	private IRenderer[][] renderers = new IRenderer[NUM_VIEWS][];
 	private float[] scaleFactors = new float[NUM_VIEWS];
@@ -225,7 +230,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			Point center = Util.getCenterOfScreen(new Dimension(DISPLAY_WIDTH, DISPLAY_HEIGHT));
 			Display.setLocation((int) center.getX(), (int) center.getY());
 			Display.setTitle(Settings.getApplicationTitle());
-			Display.create();
+			Display.create(new PixelFormat(32, 0, 24, 0, 16));
 			FrameRateUtil.start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -259,15 +264,22 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		this.viewportRenderer = new ViewportRenderer();
 		this.pointCloudRenderer = new PointCloudRenderer();
 		this.pointCloudClusterRenderer = new PointCloudClusterRenderer();
+		this.gridRenderer = new GridRenderer();
+		this.minimapRenderer = new MiniMapRenderer();
 
 		for (int i = 0; i < this.renderers.length; i++) {
 			if (i == 0) {
-				this.renderers[i] = new IRenderer[2];
-				this.renderers[i][0] = this.pointCloudRenderer;
-				// this.renderers[i][1] = this.pointCloudClusterRenderer;
+				this.renderers[i] = new IRenderer[4];
+				this.renderers[i][0] = this.gridRenderer;
+				this.renderers[i][1] = this.pointCloudRenderer;
+				// this.renderers[i][2] = this.pointCloudClusterRenderer;
+				this.renderers[i][3] = this.minimapRenderer;
 			}
 			this.scaleFactors[i] = 0.25f;
-			this.cameras[i] = new Camera(new Vector3f(100, -100, -100));
+			this.cameras[i] = new Camera(new Vector3f(591, -985, 532));
+			this.cameras[i].setPitch(23);
+			this.cameras[i].setYaw(130);
+			this.cameras[i].setSpeed(25);
 		}
 		/* ------------- */
 
