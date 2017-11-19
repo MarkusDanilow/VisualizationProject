@@ -3,7 +3,9 @@ package vis.frame;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -35,7 +37,6 @@ import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
 import vis.events.TimelinePlayEvent;
 import vis.events.TimelinePreviousEvent;
-import vis.frame.styles.CustomStyleCreator;
 import vis.interfaces.AppInterface;
 
 public class MainWindow extends JFrame {
@@ -80,7 +81,7 @@ public class MainWindow extends JFrame {
 		this.init();
 
 		// apply custom style to the window
-		CustomStyleCreator.applyCustomStyle(this);
+		// CustomStyleCreator.applyCustomStyle(this);
 
 		// display the window
 		this.setVisible(true);
@@ -90,24 +91,19 @@ public class MainWindow extends JFrame {
 
 		this.setLayout(new BorderLayout());
 
+		Font captionFont = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
+
 		/* ------------ create the sidebar to the left ------------ */
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setPreferredSize(new Dimension(leftSidebarWidth, this.getHeight()));
 
-		// JPanel layout1 = new JPanel();
-		// layout1.setLayout(new GridLayout(0, 1));
+		// leftSidebarPanel.setLayout(new GridLayout(0, 1));
+		leftSidebarPanel.setLayout(new FlowLayout());
+		leftSidebarPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
-		// leftSidebarPanel.setLayout(new GridBagLayout());
-		// GridBagConstraints con = new GridBagConstraints();
-
-		leftSidebarPanel.setLayout(new GridLayout(0, 1));
 		JLabel arrangement = new JLabel("Arrangement");
+		arrangement.setFont(captionFont);
 		leftSidebarPanel.add(arrangement);
-		Font schriftart = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
-		// arrangement.setBounds(100, 100, 200, 100);
-		arrangement.setFont(schriftart);
-		// con.anchor = GridBagConstraints.PAGE_START;
-		// leftSidebarPanel.add(arrangement, con);
 
 		String view[] = { "3D", "2D", "1D", "ScatterPlot", "Spline", "Bar-Chart", "Aimed Target" };
 
@@ -131,12 +127,10 @@ public class MainWindow extends JFrame {
 		comboPanel.add(combo4);
 
 		leftSidebarPanel.add(comboPanel);
-		// leftSidebarPanel.add(comboPanel, con);
 
 		JLabel parameter = new JLabel("Parameter-Filter (global)");
 		leftSidebarPanel.add(parameter);
-		Font schriftart2 = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
-		parameter.setFont(schriftart2);
+		parameter.setFont(captionFont);
 
 		JPanel parameterFilter = new JPanel();
 		parameterFilter.setLayout(new GridLayout(4, 2, 10, 10));
@@ -144,7 +138,7 @@ public class MainWindow extends JFrame {
 		JCheckBox xBox = new JCheckBox("x-Position");
 		parameterFilter.add(xBox);
 
-		// Initialfarbe wï¿½hlen
+		// Initialfarbe wählen
 		ColorChooserButton xChooser = new ColorChooserButton(Color.red);
 		parameterFilter.add(xChooser);
 
@@ -160,7 +154,7 @@ public class MainWindow extends JFrame {
 		ColorChooserButton zChooser = new ColorChooserButton(Color.green);
 		parameterFilter.add(zChooser);
 
-		JCheckBox tBox = new JCheckBox("Targer-Object");
+		JCheckBox tBox = new JCheckBox("Target-Object");
 		parameterFilter.add(tBox);
 
 		ColorChooserButton tChooser = new ColorChooserButton(Color.yellow);
@@ -168,21 +162,23 @@ public class MainWindow extends JFrame {
 
 		leftSidebarPanel.add(parameterFilter);
 
+		JLabel dateSettings = new JLabel("Datumsauswahl");
+		leftSidebarPanel.add(dateSettings);
+		dateSettings.setFont(captionFont);
+
 		JPanel calendarPanel = new JPanel();
-		calendarPanel.setLayout(new GridLayout(4, 1, 5, 5));
+		calendarPanel.setLayout(new GridLayout(2, 2, 5, 5));
 
 		JLabel calendarFromLabel = new JLabel("Von:");
 		calendarPanel.add(calendarFromLabel);
-		Font schriftart3 = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
-		calendarFromLabel.setFont(schriftart3);
+		calendarFromLabel.setFont(captionFont);
 
 		JDateChooser dateChooserFrom = new JDateChooser();
 		calendarPanel.add(dateChooserFrom);
 
 		JLabel calendarToLabel = new JLabel("Bis:");
 		calendarPanel.add(calendarToLabel);
-		Font schriftart4 = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
-		calendarToLabel.setFont(schriftart4);
+		calendarToLabel.setFont(captionFont);
 
 		JDateChooser dateChooserTo = new JDateChooser();
 		calendarPanel.add(dateChooserTo);
