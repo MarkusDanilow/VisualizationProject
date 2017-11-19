@@ -97,36 +97,28 @@ public class VisApplication implements AppInterface {
 				Settings.getDisplayHeight());
 		this.engine = new Engine(this.window.getCanvasById(0), false);
 
-		/*
-		 * generate demo data set for test purposes final Map<Float,
-		 * DataElement> data = DataHandler.generateDataSet(100000, new
-		 * Range<Float>(-10000f, 10000f)); DataElement[] bounds =
-		 * DataHandler.getDataBounds(data);
-		 * 
-		 * this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int)
-		 * bounds[1].getTime(), (int) bounds[0].getTime());
-		 * 
-		 * engine.setRawRenderData(DataHandler.convertToRenderableList(data));
-		 * /* end of demo data
-		 */
-
 	}
 
 	/**
 	 * 
 	 */
 	@Override
-	public void loadData(String fileName) throws Exception {
-		final Map<Float, DataElement> data = DataHandler.parseDataFromFile(fileName, DataHandler.NUM_CLUSTERS);
-		DataElement[] bounds = DataHandler.getDataBounds(data);
+	public void loadDataFromFile(String fileName) throws Exception {
+		this.handleLoadedData(DataHandler.loadDataFromFile(fileName));
+	}
 
+	/**
+	 * 
+	 */
+	@Override
+	public void loadDataFromRemotAPI() {
+		this.handleLoadedData(DataHandler.loadDataFromRemoteAPI());
+	}
+
+	private void handleLoadedData(final Map<Float, DataElement> data) {
+		DataElement[] bounds = DataHandler.getDataBounds(data);
 		this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
 				(int) bounds[1].getTime());
-
-		/*
-		 * engine.setPointCloudData(DataHandler.convertToRenderableList(data));
-		 * engine.setPointCloudClusters(DataHandler.getCurrentClusters());
-		 */
 	}
 
 	@Override
@@ -157,7 +149,7 @@ public class VisApplication implements AppInterface {
 	@Override
 	public void displaySubData(Range<Float> range) {
 		Map<Float, DataElement> partialData = DataHandler.getPartialData(DataHandler.getCurrentBuffer().getData(),
-				range, DataHandler.NUM_CLUSTERS);
+				range);
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.resetViewportDisplayList(0);

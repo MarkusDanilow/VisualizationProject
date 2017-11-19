@@ -8,14 +8,16 @@ public interface AppInterface {
 
 	void displayError(Exception exception);
 
-	void loadData(String fileName) throws Exception;
+	void loadDataFromFile(String fileName) throws Exception;
+
+	void loadDataFromRemotAPI();
 
 	void quit();
 
 	void quit(Exception exception);
 
 	float getTimelineStep();
-	
+
 	void displaySubData(Range<Float> range);
 
 }

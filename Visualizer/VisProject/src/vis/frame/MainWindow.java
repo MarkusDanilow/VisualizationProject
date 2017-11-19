@@ -28,12 +28,14 @@ import com.base.engine.Settings;
 import com.toedter.calendar.JDateChooser;
 
 import vis.events.LoadDataEvent;
+import vis.events.LoadFromAPIEvent;
 import vis.events.OpenHelpEvent;
 import vis.events.QuitApplicationEvent;
 import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
 import vis.events.TimelinePlayEvent;
 import vis.events.TimelinePreviousEvent;
+import vis.frame.styles.CustomStyleCreator;
 import vis.interfaces.AppInterface;
 
 public class MainWindow extends JFrame {
@@ -78,7 +80,7 @@ public class MainWindow extends JFrame {
 		this.init();
 
 		// apply custom style to the window
-		// CustomStyleCreator.applyCustomStyle(this);
+		CustomStyleCreator.applyCustomStyle(this);
 
 		// display the window
 		this.setVisible(true);
@@ -292,8 +294,12 @@ public class MainWindow extends JFrame {
 		JMenuItem loadFile = new JMenuItem("Öffnen...");
 		loadFile.addActionListener(new LoadDataEvent(this));
 		fileMenu.add(loadFile);
+		JMenuItem loadFromAPI = new JMenuItem("Alles von API laden");
+		loadFromAPI.addActionListener(new LoadFromAPIEvent(this));
+		fileMenu.add(loadFromAPI);
 		JMenuItem closeApp = new JMenuItem("Beenden");
 		closeApp.addActionListener(new QuitApplicationEvent(this));
+		fileMenu.addSeparator();
 		fileMenu.add(closeApp);
 		menuBar.add(fileMenu);
 

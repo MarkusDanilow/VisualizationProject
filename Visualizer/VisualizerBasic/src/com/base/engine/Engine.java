@@ -264,7 +264,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			if (i == 0) {
 				this.renderers[i] = new IRenderer[2];
 				this.renderers[i][0] = this.pointCloudRenderer;
-				this.renderers[i][1] = this.pointCloudClusterRenderer;
+				// this.renderers[i][1] = this.pointCloudClusterRenderer;
 			}
 			this.scaleFactors[i] = 0.25f;
 			this.cameras[i] = new Camera(new Vector3f(100, -100, -100));

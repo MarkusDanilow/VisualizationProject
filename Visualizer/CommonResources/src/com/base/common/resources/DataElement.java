@@ -3,7 +3,6 @@ package com.base.common.resources;
 public class DataElement {
 
 	private float time;
-
 	private Point point;
 
 	public DataElement(float x, float y, float z, float time) {

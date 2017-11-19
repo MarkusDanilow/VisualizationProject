@@ -19,7 +19,7 @@ public class LoadDataEvent extends AbstractActionEvent {
 		if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 			try {
-				this.window.app.loadData(selectedFile.getAbsolutePath());
+				this.window.app.loadDataFromFile(selectedFile.getAbsolutePath());
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				this.window.app.displayError(e1);
