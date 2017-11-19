@@ -1,10 +1,8 @@
-package vis.data.processing;
+package com.base.common.resources;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import com.base.common.resources.Point;
 
 public class Cluster {
 
@@ -42,6 +40,10 @@ public class Cluster {
 		for (Point point : points)
 			builder.append(point.toString() + ",\n");
 		return builder.deleteCharAt(builder.length() - 2).toString();
+	}
+
+	public int getNumPoints() {
+		return points.size();
 	}
 
 }

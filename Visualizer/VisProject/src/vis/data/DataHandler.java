@@ -10,11 +10,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
+import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
+import com.base.common.resources.KMeans;
 import com.base.common.resources.Range;
-
-import vis.data.processing.Cluster;
-import vis.data.processing.KMeans;
 
 public class DataHandler {
 
@@ -112,7 +111,8 @@ public class DataHandler {
 				}
 			}
 		}
-		currentClusters = kmeans.getPointsClusters();
+		if (useClustering)
+			currentClusters = kmeans.getPointsClusters();
 		return elements;
 	}
 

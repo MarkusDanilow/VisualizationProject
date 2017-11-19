@@ -91,14 +91,14 @@ public class MainWindow extends JFrame {
 		/* ------------ create the sidebar to the left ------------ */
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setPreferredSize(new Dimension(leftSidebarWidth, this.getHeight()));
-		
+
 		leftSidebarPanel.setLayout(new GridLayout(0, 1));
 		JLabel arrangement = new JLabel("Arrangement");
 		leftSidebarPanel.add(arrangement);
 		Font schriftart = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
-		//arrangement.setBounds(100, 100, 200, 100);
+		// arrangement.setBounds(100, 100, 200, 100);
 		arrangement.setFont(schriftart);
-		
+
 		String view[] = { "3D", "2D", "1D", "ScatterPlot", "Spline", "Bar-Chart", "Aimed Target" };
 
 		JPanel comboPanel = new JPanel();
@@ -280,7 +280,7 @@ public class MainWindow extends JFrame {
 
 		// file menu
 		JMenu fileMenu = new JMenu("Datei");
-		JMenuItem loadFile = new JMenuItem("ï¿½ffnen...");
+		JMenuItem loadFile = new JMenuItem("Öffnen...");
 		loadFile.addActionListener(new LoadDataEvent(this));
 		fileMenu.add(loadFile);
 		JMenuItem closeApp = new JMenuItem("Beenden");

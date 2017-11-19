@@ -16,13 +16,11 @@ import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.util.List;
-
 import org.lwjgl.opengl.Display;
 
+import com.base.common.ColorUtil;
 import com.base.common.IRenderer;
 import com.base.common.Renderable;
-import com.base.common.resources.DataElement;
 import com.base.engine.Camera;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
@@ -44,7 +42,7 @@ public class ViewportRenderer implements Renderable {
 	public void close() {
 	}
 
-	public void render(Engine engine, Camera[] camera, IRenderer[] renderers, float[] scaleFactors) {
+	public void render(Engine engine, Camera[] camera, IRenderer[][] renderers, float[] scaleFactors) {
 
 		if (renderers == null || renderers.length < 1)
 			return;
@@ -57,31 +55,35 @@ public class ViewportRenderer implements Renderable {
 			int x = i < 2 ? 0 : width;
 			int y = i % 2 != 0 ? 0 : height;
 
-			RenderUtils.switch3D(x, y, width, height);
+			for (int j = 0; j < renderers[i].length; j++) {
 
-			glPushMatrix();
+				if (renderers[i][j] != null) {
 
-			// only translate and rotate in 3D view
-			if (renderers[i].is3D()) {
-				glRotatef(camera[i].getPitch(), 1, 0, 0);
-				glRotatef(camera[i].getYaw(), 0, 1, 0);
+					RenderUtils.switch3D(x, y, width, height);
+
+					glPushMatrix();
+
+					// only translate and rotate in 3D view
+					if (renderers[i][j].is3D()) {
+						glRotatef(camera[i].getPitch(), 1, 0, 0);
+						glRotatef(camera[i].getYaw(), 0, 1, 0);
+					}
+					glTranslatef(camera[i].getPos().getX(), camera[i].getPos().getY(), camera[i].getPos().getZ());
+
+					glScalef(scaleFactors[i], scaleFactors[i], scaleFactors[i]);
+
+					// call the logic for the different rendering styles
+					// Also call / initialize the corresponding display list
+
+					Object renderData = renderers[i][j].selectRenderData(engine);
+					if (renderData != null)
+						GraphicBufferUitl.handleGraphicsData(renderData, renderers[i][j], i, j);
+
+					glPopMatrix();
+
+				}
+
 			}
-			glTranslatef(camera[i].getPos().getX(), camera[i].getPos().getY(), camera[i].getPos().getZ());
-
-			glScalef(scaleFactors[i], scaleFactors[i], scaleFactors[i]);
-
-			// call the logic for the different rendering styles
-			// Also call / initialize the corresponding display list
-
-			List<DataElement> data = engine.getRawRenderData();
-			if (data != null && data.size() > 0) {
-				GraphicBufferUitl.handleGraphicsData(data, renderers[i], i);
-			}
-
-			// FontRenderer.renderText(0, 0, "Display: " + i,
-			// FontManager.getUFontByName(FontManager.DEFAULT));
-
-			glPopMatrix();
 
 		}
 
@@ -110,7 +112,10 @@ public class ViewportRenderer implements Renderable {
 	public void render() {
 	}
 
-	public void resetDisplayList(int displayListIndex) {
-		GraphicBufferUitl.resetDisplayList(displayListIndex);
+	public void resetDisplayList(Engine engine, int displayListIndex) {
+		for (int i = 0; i < engine.getNumRenderersForViewport(displayListIndex); i++) {
+			int rendererHash = GraphicBufferUitl.createRendererhasCode(displayListIndex, i);
+			GraphicBufferUitl.resetDisplayList(displayListIndex, rendererHash);
+		}
 	}
 }

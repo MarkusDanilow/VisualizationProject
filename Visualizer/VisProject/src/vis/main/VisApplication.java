@@ -86,6 +86,11 @@ public class VisApplication implements AppInterface {
 
 	/**
 	 * 
+	 */
+	public final int clusters = 5;
+
+	/**
+	 * 
 	 * @throws LWJGLException
 	 * @throws FileNotFoundException
 	 * @throws IOException
@@ -117,13 +122,15 @@ public class VisApplication implements AppInterface {
 	 */
 	@Override
 	public void loadData(String fileName) throws Exception {
-		final Map<Float, DataElement> data = DataHandler.parseDataFromFile(fileName, 5);
+		final Map<Float, DataElement> data = DataHandler.parseDataFromFile(fileName, clusters);
 		DataElement[] bounds = DataHandler.getDataBounds(data);
 
 		this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
-				(int) bounds[0].getTime());
+				(int) bounds[1].getTime());
 
-		engine.setRawRenderData(DataHandler.convertToRenderableList(data));
+		engine.setPointCloudData(DataHandler.convertToRenderableList(data));
+		engine.setPointCloudClusters(DataHandler.getCurrentClusters());
+
 	}
 
 	@Override
@@ -154,8 +161,8 @@ public class VisApplication implements AppInterface {
 	@Override
 	public void displaySubData(Range<Float> range) {
 		Map<Float, DataElement> partialData = DataHandler.getPartialData(DataHandler.getCurrentBuffer().getData(),
-				range);
-		this.engine.setRawRenderData(DataHandler.convertToRenderableList(partialData));
+				range, clusters);
+		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		this.engine.resetViewportDisplayList(0);
 	}
 

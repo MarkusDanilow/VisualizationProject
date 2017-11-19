@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.base.common.IRenderer;
 import com.base.common.resources.DataElement;
+import com.base.engine.Engine;
 
 public class PointCloudRenderer implements IRenderer {
 
@@ -27,7 +28,7 @@ public class PointCloudRenderer implements IRenderer {
 		List<DataElement> data = (List<DataElement>) objects[0];
 		int x1 = (int) data.get(0).getX(), x2 = (int) data.get(0).getX(), z1 = (int) data.get(0).getZ(),
 				z2 = (int) data.get(0).getZ();
-		
+
 		float maxTime = getMaxTimeFromData(data);
 
 		glPointSize(5);
@@ -65,5 +66,12 @@ public class PointCloudRenderer implements IRenderer {
 		float timeStep = 1.0f / maxTime;
 		float c = time * timeStep;
 		return new float[] { c, 1.0f - c, 0, 1f };
+	}
+
+	@Override
+	public Object selectRenderData(Engine engine) {
+		if (engine == null)
+			return null;
+		return engine.getPointCloudData();
 	}
 }

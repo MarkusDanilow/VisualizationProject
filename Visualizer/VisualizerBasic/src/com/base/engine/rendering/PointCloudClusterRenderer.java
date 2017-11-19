@@ -1,0 +1,25 @@
+package com.base.engine.rendering;
+
+import com.base.common.IRenderer;
+import com.base.engine.Engine;
+
+public class PointCloudClusterRenderer implements IRenderer {
+
+	@Override
+	public void render(Object... objects) {
+		
+	}
+
+	@Override
+	public boolean is3D() {
+		return true;
+	}
+
+	@Override
+	public Object selectRenderData(Engine engine) {
+		if (engine == null)
+			return null;
+		return engine.getPointCloudClusters();
+	}
+
+}

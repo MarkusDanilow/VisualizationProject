@@ -15,6 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
 import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
 import com.base.common.IRenderer;
+import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.DataInspector;
 import com.base.common.resources.DataMap2D;
@@ -22,6 +23,7 @@ import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.engine.font.FontManager;
+import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
 
@@ -71,7 +73,10 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private boolean running = false;
 
 	private ViewportRenderer viewportRenderer;
-	private IRenderer[] renderers = new IRenderer[NUM_VIEWS];
+	private PointCloudRenderer pointCloudRenderer;
+	private PointCloudClusterRenderer pointCloudClusterRenderer;
+
+	private IRenderer[][] renderers = new IRenderer[NUM_VIEWS][];
 	private float[] scaleFactors = new float[NUM_VIEWS];
 	private Console console;
 	private Camera[] cameras = new Camera[NUM_VIEWS];
@@ -79,12 +84,17 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private DataMap2D data2D;
 	private DataMap3D data3D;
 
-	private List<DataElement> rawData;
+	private List<DataElement> pointCloudData;
+	private List<Cluster> pointCloudClusters;
 
 	private RenderMode renderMode;
 
 	public boolean isRunning() {
 		return running;
+	}
+
+	public int getNumRenderersForViewport(int viewportIndex) {
+		return this.renderers[viewportIndex].length;
 	}
 
 	public void setRunning(boolean running) {
@@ -99,8 +109,16 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		return data3D.getData();
 	}
 
-	public List<DataElement> getRawRenderData() {
-		return this.rawData;
+	public List<DataElement> getPointCloudData() {
+		return this.pointCloudData;
+	}
+
+	public List<Cluster> getPointCloudClusters() {
+		return pointCloudClusters;
+	}
+
+	public void setPointCloudClusters(List<Cluster> clusters) {
+		this.pointCloudClusters = clusters;
 	}
 
 	public void setDataToRender2D(float[][] data) {
@@ -111,9 +129,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		data3D.setData(data);
 	}
 
-	public void setRawRenderData(List<DataElement> data) {
-		this.rawData = data;
-		this.enableRawRenderMode();
+	public void setPointCloudData(List<DataElement> data) {
+		this.pointCloudData = data;
 	}
 
 	public void enable2DRenderMode() {
@@ -234,10 +251,15 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 		/* define renderers and add them to the list of all renderers */
 		this.viewportRenderer = new ViewportRenderer();
-		PointCloudRenderer pointCloudRenderer = new PointCloudRenderer();
+		this.pointCloudRenderer = new PointCloudRenderer();
+		this.pointCloudClusterRenderer = new PointCloudClusterRenderer();
 
 		for (int i = 0; i < this.renderers.length; i++) {
-			this.renderers[i] = pointCloudRenderer;
+			if (i == 0) {
+				this.renderers[i] = new IRenderer[2];
+				// this.renderers[i][0] = this.pointCloudRenderer;
+				this.renderers[i][1] = this.pointCloudClusterRenderer;
+			}
 			this.scaleFactors[i] = 0.25f;
 			this.cameras[i] = new Camera(new Vector3f(100, -100, -100));
 		}
@@ -397,7 +419,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	@Override
 	public void resetDisplayLists() {
-		this.viewportRenderer.resetDisplayList(0);
+		this.viewportRenderer.resetDisplayList(this, 0);
 	}
 
 	@Override
@@ -575,7 +597,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	@Override
 	public void resetViewportDisplayList(int index) {
-		this.viewportRenderer.resetDisplayList(index);
+		this.viewportRenderer.resetDisplayList(this, index);
 	}
 
 	@Override

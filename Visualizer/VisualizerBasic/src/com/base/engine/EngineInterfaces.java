@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 import com.base.common.GenerateInterfaces;
+import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 
 public interface EngineInterfaces extends GenerateInterfaces {
@@ -34,7 +35,8 @@ public interface EngineInterfaces extends GenerateInterfaces {
 
 	void loadHeightmap(BufferedImage heightmap);
 
-	void setRawRenderData(List<DataElement> data);
+	void setPointCloudData(List<DataElement> data);
+	void setPointCloudClusters(List<Cluster> clusters);
 
 	void resetViewportDisplayList(int index);
 	

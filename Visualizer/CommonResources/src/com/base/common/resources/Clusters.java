@@ -1,9 +1,7 @@
-package vis.data.processing;
+package com.base.common.resources;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.base.common.resources.Point;
 
 public class Clusters extends ArrayList<Cluster> {
 

@@ -1,9 +1,7 @@
 package com.base.engine.rendering.buffers;
 
-import java.util.List;
-
+import com.base.common.ColorUtil;
 import com.base.common.IRenderer;
-import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 
 public class GraphicBufferUitl {
@@ -17,14 +15,20 @@ public class GraphicBufferUitl {
 		}
 	}
 
-	public static void handleGraphicsData(List<DataElement> data, IRenderer renderer, int viewportIndex) {
+	public static int createRendererhasCode(int viewportIndex, int rendererIndex) {
+		return ColorUtil.hashCode("" + viewportIndex + "_" + rendererIndex);
+	}
+
+	public static void handleGraphicsData(Object data, IRenderer renderer, int viewportIndex, int rendererIndex) {
 
 		if (data == null || renderer == null || viewportIndex < 0)
 			return;
 
+		int rendererHash = createRendererhasCode(viewportIndex, rendererIndex);
+
 		// render and buffer the data using display lists
 		if (useDisplayLists[viewportIndex]) {
-			String displayListName = DISPLAY_LIST_REPFIX + String.valueOf(viewportIndex);
+			String displayListName = DISPLAY_LIST_REPFIX + rendererHash;
 			if (!DisplayListHandler.isDisplayListInitialized(displayListName)) {
 				DisplayListHandler.generateDisplayList(displayListName);
 				DisplayListHandler.initializeList(displayListName);
@@ -37,19 +41,19 @@ public class GraphicBufferUitl {
 
 		// instead of display lists: use VBOs
 		else {
-			if (!VBOHandler.bufferExists(viewportIndex)) {
-				VBOHandler.createBuffer(data, viewportIndex);
+			if (!VBOHandler.bufferExists(rendererHash)) {
+				VBOHandler.createBuffer(renderer.getClass().getSimpleName(), rendererHash, data);
 			}
-			VBOHandler.renderBuffer(viewportIndex);
+			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash);
 		}
 
 	}
 
-	public static void resetDisplayList(int viewportIndex) {
+	public static void resetDisplayList(int viewportIndex, int rendererHash) {
 		if (useDisplayLists[viewportIndex]) {
-			DisplayListHandler.resetDisplayList(DISPLAY_LIST_REPFIX + viewportIndex);
+			DisplayListHandler.resetDisplayList(DISPLAY_LIST_REPFIX + rendererHash);
 		} else {
-			VBOHandler.revalidate(viewportIndex);
+			VBOHandler.revalidate(rendererHash);
 		}
 	}
 
