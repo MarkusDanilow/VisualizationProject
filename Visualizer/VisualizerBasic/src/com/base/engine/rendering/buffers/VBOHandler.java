@@ -189,14 +189,19 @@ public class VBOHandler {
 
 	private static class VBOPointCloudClusterRenderer implements IVBORenderer {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void create(int viewportIndex, Object data) {
 			List<Cluster> clusters = (List<Cluster>) data;
-			FloatBuffer[] buffers = initBuffers(viewportIndex, clusters.size(), 3, 4);
+			int size = 0;
+			for (Cluster cluster : clusters) {
+				size += cluster.getNumPoints();
+			}
+			FloatBuffer[] buffers = initBuffers(viewportIndex, size, 3, 4);
 			for (int i = 0; i < clusters.size(); i++) {
 				Point centroid = clusters.get(i).getCentroid();
 				buffers[0].put(new float[] { centroid.x, centroid.y, centroid.z });
-				buffers[1].put(ColorUtil.convertToRenderableColor4f(ColorUtil.intToRGB(i * 1000)));
+				buffers[1].put(ColorUtil.convertToRenderableColor4f(ColorUtil.intToRGB((int) Math.pow(100, (i + 1)))));
 			}
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 		}

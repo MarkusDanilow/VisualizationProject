@@ -202,6 +202,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 		if (isParentDefined) {
 			Display.setParent(canvas);
+			Point location = canvas.getLocationOnScreen();
+			System.out.println(location);
+			Display.setLocation(location.x, location.y);
 		}
 
 		setDisplayWidth(Settings.getDisplayWidth());
