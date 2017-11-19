@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -202,8 +205,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 		if (isParentDefined) {
 			Display.setParent(canvas);
-			Point location = canvas.getLocationOnScreen();
-			System.out.println(location);
+			JFrame window = (JFrame) SwingUtilities.getRoot(canvas);
+			Point location = SwingUtilities.convertPoint(canvas, canvas.getX(), canvas.getY(), window);
 			Display.setLocation(location.x, location.y);
 		}
 
@@ -246,7 +249,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	}
 
 	private void prepareComponents(boolean useSystemEvents) {
-		CommandInterpreter.create(this);
+		// CommandInterpreter.create(this);
 		RenderUtils.create();
 		RenderUtils.initGL();
 		FontManager.init();
@@ -260,7 +263,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		for (int i = 0; i < this.renderers.length; i++) {
 			if (i == 0) {
 				this.renderers[i] = new IRenderer[2];
-				// this.renderers[i][0] = this.pointCloudRenderer;
+				this.renderers[i][0] = this.pointCloudRenderer;
 				this.renderers[i][1] = this.pointCloudClusterRenderer;
 			}
 			this.scaleFactors[i] = 0.25f;

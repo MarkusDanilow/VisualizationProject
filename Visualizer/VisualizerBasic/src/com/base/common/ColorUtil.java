@@ -14,7 +14,6 @@ public class ColorUtil {
 
 	public static Color intToRGB(int intColor) {
 		String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
-		System.out.println(hexColor);
 		Color color = new Color(Integer.valueOf(hexColor.substring(1, 3), 16),
 				Integer.valueOf(hexColor.substring(3, 5), 16), Integer.valueOf(hexColor.substring(5, 7), 16));
 		return color;

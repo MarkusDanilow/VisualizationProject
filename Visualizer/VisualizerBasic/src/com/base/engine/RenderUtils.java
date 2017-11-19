@@ -45,7 +45,7 @@ public final class RenderUtils {
 
 	public static void initGL() {
 
-		glClearColor(CLEAR_COLOR.getRed(), CLEAR_COLOR.getGreen(), CLEAR_COLOR.getBlue(), CLEAR_COLOR.getAlpha());
+		glClearColor(CLEAR_COLOR.getRed() / 255f, CLEAR_COLOR.getGreen() / 255f, CLEAR_COLOR.getBlue() / 255f, CLEAR_COLOR.getAlpha());
 
 		glClearDepth(1.0f);
 

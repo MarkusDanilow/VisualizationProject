@@ -17,7 +17,8 @@ import com.base.common.resources.Range;
 
 public class DataHandler {
 
-	public static final int elementSize = 4;
+	public static final int ELEMENT_SIZE = 4;
+	public static final int NUM_CLUSTERS = 5;
 
 	private static DataBuffer currentBuffer;
 	private static List<Cluster> currentClusters;
@@ -54,8 +55,8 @@ public class DataHandler {
 				String line = null;
 				while ((line = br.readLine()) != null) {
 					String[] parts = line.split("\\|");
-					if (parts.length == elementSize && isNumber(removeWhitespaces(parts[0]))) {
-						for (byte i = 0; i < elementSize; i++) {
+					if (parts.length == ELEMENT_SIZE && isNumber(removeWhitespaces(parts[0]))) {
+						for (byte i = 0; i < ELEMENT_SIZE; i++) {
 							parts[i] = removeWhitespaces(parts[i]);
 						}
 						float time = Float.parseFloat(parts[0]);

@@ -12,10 +12,8 @@ public class KMeans {
 	private Clusters pointClusters; // the k Clusters
 
 	/**
-	 * @param pointsFile
-	 *            : the csv file for input points
+	 * 
 	 * @param k
-	 *            : number of clusters
 	 */
 	public KMeans(int k) {
 		if (k < 2)
@@ -80,8 +78,8 @@ public class KMeans {
 		if (pointClusters == null) {
 			getInitialKRandomSeeds();
 			getInitialClusters();
-			updateClustersUntilNoChange();
 		}
+		updateClustersUntilNoChange();
 		return pointClusters;
 	}
 

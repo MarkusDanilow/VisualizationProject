@@ -18,7 +18,6 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import org.lwjgl.opengl.Display;
 
-import com.base.common.ColorUtil;
 import com.base.common.IRenderer;
 import com.base.common.Renderable;
 import com.base.engine.Camera;

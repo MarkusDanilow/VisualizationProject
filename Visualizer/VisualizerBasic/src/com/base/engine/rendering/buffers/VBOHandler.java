@@ -199,10 +199,20 @@ public class VBOHandler {
 			}
 			FloatBuffer[] buffers = initBuffers(viewportIndex, size, 3, 4);
 			for (int i = 0; i < clusters.size(); i++) {
-				Point centroid = clusters.get(i).getCentroid();
-				buffers[0].put(new float[] { centroid.x, centroid.y, centroid.z });
-				buffers[1].put(ColorUtil.convertToRenderableColor4f(ColorUtil.intToRGB((int) Math.pow(100, (i + 1)))));
+				Cluster cluster = clusters.get(i);
+				Point centroid = cluster.getCentroid();
+				int centroidHash = (int) ((centroid.x * 137 + centroid.y * 149 + centroid.z * 163));
+				System.out.println("centroid cluster " + i + ": " + centroidHash);
+				System.out.println(centroid);
+				System.out.println(" --- ");
+				float[] clusterColor = ColorUtil.convertToRenderableColor4f(ColorUtil.intToRGB(centroidHash));
+
+				for (Point point : cluster.getPoints()) {
+					buffers[0].put(new float[] { point.x, point.y, point.z });
+					buffers[1].put(clusterColor);
+				}
 			}
+			System.out.println("-------------------------- ");
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 		}
 
