@@ -22,6 +22,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import org.lwjgl.LWJGLException;
 
@@ -83,6 +84,24 @@ public class MainWindow extends JFrame {
 		this.setVisible(true);
 	}
 
+	/**
+	 * @throws LWJGLException
+	 */
+	/**
+	 * @throws LWJGLException
+	 */
+	/**
+	 * @throws LWJGLException
+	 */
+	/**
+	 * @throws LWJGLException
+	 */
+	/**
+	 * @throws LWJGLException
+	 */
+	/**
+	 * @throws LWJGLException
+	 */
 	private void init() throws LWJGLException {
 
 		this.setLayout(new BorderLayout());
@@ -270,39 +289,160 @@ public class MainWindow extends JFrame {
 		JPanel rightSidebarPanel = new JPanel();
 		rightSidebarPanel.setLayout(new GridLayout(0, 1, 0, 0));
 		rightSidebarPanel.setPreferredSize(new Dimension(rightSidebarWidth, this.getHeight()));
-		rightSidebarPanel.add(new JLabel("Common"));
-
-		JTextArea common = new JTextArea("- live-view \n - freeze");
-		common.setEditable(false);
+		rightSidebarPanel.setBackground(new Color(3, 16, 69));
+		rightSidebarPanel.setLayout(null);
+		
+		JLabel common = new JLabel("Common");
+		common.setForeground(Color.WHITE);
+		common.setFont(new Font("SansSerif", Font.BOLD, 12));
+		common.setBounds(35, 11, 130, 14);
 		rightSidebarPanel.add(common);
+		
+		JCheckBox live = new JCheckBox("live-view");
+		live.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		live.setBounds(5, 36, 90, 21);
+		rightSidebarPanel.add(live);
+		
+		JCheckBox freeze = new JCheckBox("freeze");
+		freeze.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		freeze.setBounds(5, 65, 90, 21);
+		rightSidebarPanel.add(freeze);
+		
+		//TODO: 3D muss durch eine Variable ersetzt werden
+		JLabel paneA = new JLabel("Pane A: 3D");
+		paneA.setForeground(Color.WHITE);
+		paneA.setFont(new Font("SansSerif", Font.BOLD, 12));
+		paneA.setBounds(31, 127, 138, 14);
+		rightSidebarPanel.add(paneA);
+		
+		JCheckBox singledot = new JCheckBox("single dot / vector");
+		singledot.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		singledot.setBounds(5, 152, 90, 21);
+		rightSidebarPanel.add(singledot);
+		
+		JCheckBox plotall = new JCheckBox("plot all");
+		plotall.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		plotall.setBounds(5, 181, 90, 21);
+		rightSidebarPanel.add(plotall);
+		
+		JTextField wert1 = new JTextField();
+		JTextField wert2 = new JTextField();
+		
+		JCheckBox plotbet = new JCheckBox("plot between" + wert1 + "to" + wert2);
+		plotbet.setFont(new Font("SansSerif", Font.PLAIN, 8));
+		plotbet.setBounds(5, 210, 90, 21);
+		rightSidebarPanel.add(plotbet);
+		
+		JLabel rotate = new JLabel("rotate");
+		rotate.setForeground(Color.WHITE);
+		rotate.setFont(new Font("SansSerif", Font.BOLD, 10));
+		rotate.setBounds(31, 239, 138, 14);
+		rightSidebarPanel.add(rotate);
+		
+		JCheckBox gradlinks = new JCheckBox("90° links");
+		gradlinks.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		gradlinks.setBounds(5, 264, 90, 21);
+		rightSidebarPanel.add(gradlinks);
+		
+		JCheckBox gradrechts = new JCheckBox("90° rechts");
+		gradrechts.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		gradrechts.setBounds(90, 264, 90, 21);
+		rightSidebarPanel.add(gradrechts);
+		
+		//TODO: Bar-Char durch Variable ersetzen
+		JLabel paneB = new JLabel("Pane B: Bar-Char");
+		paneB.setForeground(Color.WHITE);
+		paneB.setFont(new Font("SansSerif", Font.BOLD, 12));
+		paneB.setBounds(31, 326, 138, 14);
+		rightSidebarPanel.add(paneB);
+		
+		String[] show = { "show x", "show y", "show z"};
+		
+		JComboBox cmbshow1 = new JComboBox();
+		cmbshow1.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cmbshow1.setModel(new DefaultComboBoxModel(show));
+		cmbshow1.setBounds(5, 355, 90, 21);
+		//cmbshow1.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+		rightSidebarPanel.add(cmbshow1);
+		
+		JTextField posbar = new JTextField();
+		
+		JLabel calcbar = new JLabel("calculate mean for last " + posbar + " positions");
+		calcbar.setForeground(Color.WHITE);
+		calcbar.setFont(new Font("SansSerif", Font.BOLD, 8));
+		calcbar.setBounds(5, 384, 138, 21);
+		rightSidebarPanel.add(calcbar);
+		
+		JLabel paneC = new JLabel("Pane C: Spline");
+		paneC.setForeground(Color.WHITE);
+		paneC.setFont(new Font("SansSerif", Font.BOLD, 12));
+		paneC.setBounds(31, 446, 138, 14);
+		rightSidebarPanel.add(paneC);
+		
+		JComboBox cmbshow2 = new JComboBox();
+		cmbshow2.setFont(new Font("SansSerif", Font.PLAIN, 11));
+		cmbshow2.setModel(new DefaultComboBoxModel(show));
+		cmbshow2.setBounds(5, 471, 90, 21);
+		//cmbshow2.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+		rightSidebarPanel.add(cmbshow2);
+		
+		JTextField posline = new JTextField();
+		
+		JLabel calcline = new JLabel("calculate mean for last " + posline + " positions");
+		calcline.setForeground(Color.WHITE);
+		calcline.setFont(new Font("SansSerif", Font.BOLD, 8));
+		calcline.setBounds(5, 500, 138, 21);
+		rightSidebarPanel.add(calcline);
+		
+		JLabel paneD = new JLabel("Pane D: Scatterplot");
+		paneD.setForeground(Color.WHITE);
+		paneD.setFont(new Font("SansSerif", Font.BOLD, 12));
+		paneD.setBounds(31, 562, 138, 14);
+		rightSidebarPanel.add(paneD);
+		
+		JTextField deviation = new JTextField();
+		deviation.setEditable(false);
+		
+		JLabel calcscat = new JLabel("calculate standard deviation\n" + deviation);
+		calcscat.setForeground(Color.WHITE);
+		calcscat.setFont(new Font("SansSerif", Font.BOLD, 8));
+		calcscat.setBounds(5, 591, 138, 21);
+		rightSidebarPanel.add(calcscat);
+		
+		
+	//	rightSidebarPanel.add(new JLabel("Common"));
+
+	//	JTextArea common = new JTextArea("- live-view \n - freeze");
+	//	common.setEditable(false);
+	//		rightSidebarPanel.add(common);
 
 		// TODO: Pane A durch Variable ersetzen
-		rightSidebarPanel.add(new JLabel("Pane A"));
+	//	rightSidebarPanel.add(new JLabel("Pane A"));
 
-		JTextArea paneA = new JTextArea("- sigle dot / vector \n - plot all");
-		paneA.setEditable(false);
-		rightSidebarPanel.add(paneA);
+	//		JTextArea paneA = new JTextArea("- sigle dot / vector \n - plot all");
+	//	paneA.setEditable(false);
+	//		rightSidebarPanel.add(paneA);
 
 		// TODO: Pane B durch Variable ersetzen
-		rightSidebarPanel.add(new JLabel("Pane B"));
+	//		rightSidebarPanel.add(new JLabel("Pane B"));
 
-		JTextArea paneB = new JTextArea("- plot between *Button*");
-		paneB.setEditable(false);
-		rightSidebarPanel.add(paneB);
+	//	JTextArea paneB = new JTextArea("- plot between *Button*");
+	//	paneB.setEditable(false);
+	//	rightSidebarPanel.add(paneB);
 
 		// TODO: Pane C durch Variable ersetzen
-		rightSidebarPanel.add(new JLabel("Pane C"));
+	//	rightSidebarPanel.add(new JLabel("Pane C"));
 
-		JTextArea paneC = new JTextArea("rotate \n - 90� left \n - 90� right");
-		paneC.setEditable(false);
-		rightSidebarPanel.add(paneC);
+	//	JTextArea paneC = new JTextArea("rotate \n - 90� left \n - 90� right");
+	//	paneC.setEditable(false);
+	//		rightSidebarPanel.add(paneC);
 
 		// TODO: Pane D durch Variable ersetzen
-		rightSidebarPanel.add(new JLabel("Pane D"));
+	//		rightSidebarPanel.add(new JLabel("Pane D"));
 
-		JTextArea paneD = new JTextArea("select all");
-		paneD.setEditable(false);
-		rightSidebarPanel.add(paneD);
+	//		JTextArea paneD = new JTextArea("select all");
+	//	paneD.setEditable(false);
+	//	rightSidebarPanel.add(paneD);
 
 		this.add(rightSidebarPanel, BorderLayout.EAST);
 
