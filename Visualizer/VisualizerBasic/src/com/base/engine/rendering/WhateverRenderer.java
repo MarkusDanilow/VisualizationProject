@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glColor4f;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
@@ -43,7 +42,7 @@ public class WhateverRenderer implements IRenderer {
 		glColor4f(1, 1, 1, 1);
 		glTexCoord2f(0, 0);
 		glVertex2f(-1, -1);
-		glTexCoord2f(1 ,0);
+		glTexCoord2f(1, 0);
 		glVertex2f(1, -1);
 		glTexCoord2f(1, 1);
 		glVertex2f(1, 1);
