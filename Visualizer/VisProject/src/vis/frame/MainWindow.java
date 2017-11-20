@@ -79,9 +79,6 @@ public class MainWindow extends JFrame {
 		// add all components to the window
 		this.init();
 
-		// apply custom style to the window
-		// CustomStyleCreator.applyCustomStyle(this);
-
 		// display the window
 		this.setVisible(true);
 	}

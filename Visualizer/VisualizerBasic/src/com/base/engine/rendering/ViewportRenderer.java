@@ -70,27 +70,35 @@ public class ViewportRenderer implements Renderable {
 							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 							glPushMatrix();
-							RenderUtils.switch2D(-1, -1, 1, 1);
-							glBegin(GL11.GL_QUADS);
-							GL11.glColor4f(0, 0, 0, 1);
-							glVertex2f(-1, -1);
-							glVertex2f(1, -1);
-							glVertex2f(1, 1);
-							glVertex2f(-1, 1);
-							glEnd();
-							glBegin(GL11.GL_LINE_STRIP);
-							GL11.glColor4f(1, 1, 1, 0.5f);
-							glVertex2f(-1, -1);
-							glVertex2f(1, -1);
-							glVertex2f(1, 1);
-							glVertex2f(-1, 1);
-							glEnd();
+							{
+								RenderUtils.switch2D(-1, -1, 1, 1);
+								glBegin(GL11.GL_QUADS);
+								{
+									GL11.glColor3f(0, 0, 0);
+									glVertex2f(-1, -1);
+									glVertex2f(1, -1);
+									glVertex2f(1, 1);
+									glVertex2f(-1, 1);
+								}
+								glEnd();
+								glBegin(GL11.GL_LINE_STRIP);
+								{
+									GL11.glColor4f(1, 1, 1, 0.7f);
+									glVertex2f(-1, -1);
+									glVertex2f(1, -1);
+									glVertex2f(1, 1);
+									glVertex2f(-1, 1);
+								}
+								glEnd();
+							}
 							glPopMatrix();
 							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 						}
 
 						glPushMatrix();
+
+						GL11.glDisable(GL11.GL_DEPTH_TEST);
 
 						try {
 							// only translate and rotate in 3D view
@@ -105,6 +113,7 @@ public class ViewportRenderer implements Renderable {
 							} else {
 								glRotatef(35, 1, 0, 0);
 								glRotatef(130, 0, 1, 0);
+								// glRotatef(camera[i].getYaw(), 0, 1, 0);
 								glTranslatef(3000, -6000, 3000);
 								glScalef(0.05f, 0.05f, 0.05f);
 							}
@@ -112,6 +121,20 @@ public class ViewportRenderer implements Renderable {
 							Object renderData = renderers[i][j].selectRenderData(engine);
 
 							GraphicBufferUitl.handleGraphicsData(renderData, renderers[i][j], i, j);
+
+							if (!isNormalViewport) {
+								GL11.glPointSize(15);
+								glScalef(5, 5, 5);
+								glBegin(GL11.GL_POINTS);
+								{
+									GL11.glColor3f(0, .5f, 1);
+									GL11.glVertex3f(-camera[i].getPos().getX(), -camera[i].getPos().getY(),
+											-camera[i].getPos().getZ());
+								}
+								glEnd();
+							}
+
+							GL11.glEnable(GL11.GL_DEPTH_TEST);
 
 						} catch (Exception e) {
 							e.printStackTrace();

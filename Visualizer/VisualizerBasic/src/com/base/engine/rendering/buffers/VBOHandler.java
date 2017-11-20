@@ -47,7 +47,15 @@ public class VBOHandler {
 	 */
 	private static Map<Integer, Boolean> revalidate = new HashMap<>();
 
+	/**
+	 * 
+	 */
 	private static Map<String, List<IVBORenderer>> internalRenderers = new HashMap<>();
+
+	/**
+	 * 
+	 */
+	private static Map<String, List<Callback>> internalCallbacks = new HashMap<>();
 
 	/**
 	 * 
@@ -75,6 +83,36 @@ public class VBOHandler {
 		internalRenderers.put(PointCloudClusterRenderer.class.getSimpleName(), pointCloudCluster);
 		internalRenderers.put(GridRenderer.class.getSimpleName(), grid);
 		internalRenderers.put(MiniMapRenderer.class.getSimpleName(), minimap);
+
+		Callback largePointSizeCallback = new Callback() {
+			public Object execute(Object... data) {
+				GL11.glPointSize(5f);
+				return 0;
+			}
+		};
+		Callback smallPointSizeCallback = new Callback() {
+			public Object execute(Object... data) {
+				GL11.glPointSize(2f);
+				return 0;
+			}
+		};
+
+		List<Callback> cPointCloud = new ArrayList<>();
+		cPointCloud.add(largePointSizeCallback);
+
+		List<Callback> cPointCloudCluster = new ArrayList<>();
+		cPointCloudCluster.add(largePointSizeCallback);
+
+		List<Callback> cGrid = new ArrayList<>();
+
+		List<Callback> cMinimap = new ArrayList<>();
+		cMinimap.add(null);
+		cMinimap.add(smallPointSizeCallback);
+
+		internalCallbacks.put(PointCloudRenderer.class.getSimpleName(), cPointCloud);
+		internalCallbacks.put(PointCloudClusterRenderer.class.getSimpleName(), cPointCloudCluster);
+		internalCallbacks.put(GridRenderer.class.getSimpleName(), cGrid);
+		internalCallbacks.put(MiniMapRenderer.class.getSimpleName(), cMinimap);
 	}
 
 	/**
@@ -113,8 +151,13 @@ public class VBOHandler {
 	 */
 	public static void renderBuffer(String rendererClassName, int viewportIndex) {
 		if (internalRenderers.containsKey(rendererClassName)) {
+			int i = 0;
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
-				renderer.render(viewportIndex + renderer.hashCode());
+				Callback callback = null;
+				if (internalCallbacks.get(rendererClassName).size() > i)
+					callback = internalCallbacks.get(rendererClassName).get(i);
+				renderer.render(viewportIndex + renderer.hashCode(), callback);
+				i++;
 			}
 		}
 	}
@@ -197,15 +240,8 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex) {
-			Callback settings = new Callback() {
-				@Override
-				public Object execute(Object... data) {
-					GL11.glPointSize(5f);
-					return 0;
-				}
-			};
-			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_POINTS, settings);
+		public void render(int viewportIndex, Callback callback) {
+			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_POINTS, callback);
 		}
 
 	}
@@ -243,7 +279,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex) {
+		public void render(int viewportIndex, Callback callback) {
 			Callback settings = new Callback() {
 				@Override
 				public Object execute(Object... data) {
@@ -299,8 +335,8 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex) {
-			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_LINES, null);
+		public void render(int viewportIndex, Callback callback) {
+			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_LINES, callback);
 		}
 
 	}

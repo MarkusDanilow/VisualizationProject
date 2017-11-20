@@ -36,7 +36,7 @@ public class MiniMapRenderer implements IRenderer {
 
 	@Override
 	public int[] createCustomViewport() {
-		return new int[] { 15, Display.getHeight() / 2, Display.getWidth() / 5, Display.getHeight() / 5 };
+		return new int[] { 0, Display.getHeight() / 2, Display.getWidth() / 5, Display.getHeight() / 5 };
 	}
 
 }
