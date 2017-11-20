@@ -178,7 +178,7 @@ public class DataHandler {
 								x = Float.parseFloat(value);
 							} else if (key.equals("yPos")) {
 								y = Float.parseFloat(value);
-							} else if (key.equals("yPos")) {
+							} else if (key.equals("zPos")) {
 								z = Float.parseFloat(value);
 							}
 

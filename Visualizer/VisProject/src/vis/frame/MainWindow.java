@@ -3,9 +3,7 @@ package vis.frame;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -80,9 +78,6 @@ public class MainWindow extends JFrame {
 
 		// add all components to the window
 		this.init();
-
-		// apply custom style to the window
-		// CustomStyleCreator.applyCustomStyle(this);
 
 		// display the window
 		this.setVisible(true);

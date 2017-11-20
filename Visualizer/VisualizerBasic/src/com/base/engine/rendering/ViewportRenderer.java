@@ -17,6 +17,7 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 import com.base.common.IRenderer;
 import com.base.common.Renderable;
@@ -54,31 +55,94 @@ public class ViewportRenderer implements Renderable {
 			int x = i < 2 ? 0 : width;
 			int y = i % 2 != 0 ? 0 : height;
 
-			for (int j = 0; j < renderers[i].length; j++) {
+			if (renderers[i] != null) {
 
-				if (renderers[i][j] != null) {
+				for (int j = 0; j < renderers[i].length; j++) {
 
-					RenderUtils.switch3D(x, y, width, height);
+					if (renderers[i][j] != null) {
 
-					glPushMatrix();
+						int[] customViewport = renderers[i][j].createCustomViewport();
+						boolean isNormalViewport = customViewport == null;
 
-					// only translate and rotate in 3D view
-					if (renderers[i][j].is3D()) {
-						glRotatef(camera[i].getPitch(), 1, 0, 0);
-						glRotatef(camera[i].getYaw(), 0, 1, 0);
+						if (isNormalViewport) {
+							RenderUtils.switch3D(x, y, width, height);
+						} else {
+							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
+									customViewport[3]);
+							glPushMatrix();
+							{
+								RenderUtils.switch2D(-1, -1, 1, 1);
+								glBegin(GL11.GL_QUADS);
+								{
+									GL11.glColor3f(0, 0, 0);
+									glVertex2f(-1, -1);
+									glVertex2f(1, -1);
+									glVertex2f(1, 1);
+									glVertex2f(-1, 1);
+								}
+								glEnd();
+								glBegin(GL11.GL_LINE_STRIP);
+								{
+									GL11.glColor4f(1, 1, 1, 0.7f);
+									glVertex2f(-1, -1);
+									glVertex2f(1, -1);
+									glVertex2f(1, 1);
+									glVertex2f(-1, 1);
+								}
+								glEnd();
+							}
+							glPopMatrix();
+							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
+									customViewport[3]);
+						}
+
+						glPushMatrix();
+
+						GL11.glDisable(GL11.GL_DEPTH_TEST);
+
+						try {
+							// only translate and rotate in 3D view
+							if (renderers[i][j].is3D() && renderers[i][j].isAffectedByCameraAngle()) {
+								glRotatef(camera[i].getPitch(), 1, 0, 0);
+								glRotatef(camera[i].getYaw(), 0, 1, 0);
+							}
+							if (renderers[i][j].isAffectedByCameraPos()) {
+								glTranslatef(camera[i].getPos().getX(), camera[i].getPos().getY(),
+										camera[i].getPos().getZ());
+								glScalef(scaleFactors[i], scaleFactors[i], scaleFactors[i]);
+							} else {
+								glRotatef(35, 1, 0, 0);
+								glRotatef(130, 0, 1, 0);
+								// glRotatef(camera[i].getYaw(), 0, 1, 0);
+								glTranslatef(3000, -6000, 3000);
+								glScalef(0.05f, 0.05f, 0.05f);
+							}
+
+							Object renderData = renderers[i][j].selectRenderData(engine);
+
+							GraphicBufferUitl.handleGraphicsData(renderData, renderers[i][j], i, j);
+
+							if (!isNormalViewport) {
+								GL11.glPointSize(15);
+								glScalef(5, 5, 5);
+								glBegin(GL11.GL_POINTS);
+								{
+									GL11.glColor3f(0, .5f, 1);
+									GL11.glVertex3f(-camera[i].getPos().getX(), -camera[i].getPos().getY(),
+											-camera[i].getPos().getZ());
+								}
+								glEnd();
+							}
+
+							GL11.glEnable(GL11.GL_DEPTH_TEST);
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							glPopMatrix();
+						}
+
 					}
-					glTranslatef(camera[i].getPos().getX(), camera[i].getPos().getY(), camera[i].getPos().getZ());
-
-					glScalef(scaleFactors[i], scaleFactors[i], scaleFactors[i]);
-
-					// call the logic for the different rendering styles
-					// Also call / initialize the corresponding display list
-
-					Object renderData = renderers[i][j].selectRenderData(engine);
-					if (renderData != null)
-						GraphicBufferUitl.handleGraphicsData(renderData, renderers[i][j], i, j);
-
-					glPopMatrix();
 
 				}
 

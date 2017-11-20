@@ -2,7 +2,6 @@ package com.base.engine;
 
 import org.lwjgl.util.vector.Vector3f;
 
-
 public class Camera {
 
 	public static final float MOUSE_SENSITIVITY = 0.05f;
@@ -15,7 +14,7 @@ public class Camera {
 	public static void setSpeed(float speed) {
 		SPEED = speed;
 	}
-	
+
 	private float yaw = 0, pitch = 0;
 	private Vector3f pos = new Vector3f(0, 0, 0);
 
@@ -31,19 +30,20 @@ public class Camera {
 		return pos;
 	}
 
-	public Camera(){ }
-	
+	public Camera() {
+	}
+
 	public Camera(Vector3f pos) {
 		this.pos = pos;
 	}
 
 	public void yaw(float val) {
-		val *= MOUSE_SENSITIVITY ;
+		val *= MOUSE_SENSITIVITY;
 		this.yaw += val;
 	}
 
 	public void pitch(float val) {
-		val *= MOUSE_SENSITIVITY ;
+		val *= MOUSE_SENSITIVITY;
 		this.pitch += val;
 	}
 
@@ -67,6 +67,14 @@ public class Camera {
 			pos.setY(y);
 		} catch (RuntimeException e) {
 		}
+	}
+
+	public void setYaw(float yaw) {
+		this.yaw = yaw;
+	}
+
+	public void setPitch(float pitch) {
+		this.pitch = pitch;
 	}
 
 	private void forwards(float distance) {
@@ -101,10 +109,8 @@ public class Camera {
 		try {
 			float x = pos.getX();
 			float z = pos.getZ();
-			float deltaX = distance
-					* (float) Math.sin(Math.toRadians(yaw - 90));
-			float deltaZ = distance
-					* (float) Math.cos(Math.toRadians(yaw - 90));
+			float deltaX = distance * (float) Math.sin(Math.toRadians(yaw - 90));
+			float deltaZ = distance * (float) Math.cos(Math.toRadians(yaw - 90));
 			x -= deltaX;
 			z += deltaZ;
 			pos.setX(x);
@@ -117,10 +123,8 @@ public class Camera {
 		try {
 			float x = pos.getX();
 			float z = pos.getZ();
-			float deltaX = distance
-					* (float) Math.sin(Math.toRadians(yaw + 90));
-			float deltaZ = distance
-					* (float) Math.cos(Math.toRadians(yaw + 90));
+			float deltaX = distance * (float) Math.sin(Math.toRadians(yaw + 90));
+			float deltaZ = distance * (float) Math.cos(Math.toRadians(yaw + 90));
 			x -= deltaX;
 			z += deltaZ;
 			pos.setX(x);
@@ -157,8 +161,7 @@ public class Camera {
 	}
 
 	public String toString() {
-		return "Position absolute: ( " + pos.getX() + " | " + pos.getY()
-				+ " | " + pos.getZ() + " )";
+		return "Position absolute: ( " + pos.getX() + " | " + pos.getY() + " | " + pos.getZ() + " )";
 	}
-	
+
 }

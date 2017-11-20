@@ -16,18 +16,13 @@ import com.base.engine.Engine;
 
 public class PointCloudRenderer implements IRenderer {
 
-	private GridRenderer gridRenderer;
-
 	public PointCloudRenderer() {
-		this.gridRenderer = new GridRenderer();
 	}
 
 	@Override
 	public void render(Object... objects) {
 		@SuppressWarnings("unchecked")
 		List<DataElement> data = (List<DataElement>) objects[0];
-		int x1 = (int) data.get(0).getX(), x2 = (int) data.get(0).getX(), z1 = (int) data.get(0).getZ(),
-				z2 = (int) data.get(0).getZ();
 
 		float maxTime = getMaxTimeFromData(data);
 
@@ -40,17 +35,8 @@ public class PointCloudRenderer implements IRenderer {
 			float[] color = calcVertexColor(x, y, z, dataElement.getTime(), maxTime);
 			GL11.glColor4f(color[0], color[1], color[2], color[3]);
 			glVertex3f(x, y, z);
-			if (x < x1)
-				x1 = (int) x;
-			if (x > x2)
-				x2 = (int) x;
-			if (z < z1)
-				z1 = (int) z;
-			if (z > z2)
-				z2 = (int) z;
 		}
 		glEnd();
-		this.gridRenderer.render(x1, z1, x2, z2);
 	}
 
 	@Override
@@ -73,5 +59,20 @@ public class PointCloudRenderer implements IRenderer {
 		if (engine == null)
 			return null;
 		return engine.getPointCloudData();
+	}
+
+	@Override
+	public boolean isAffectedByCameraPos() {
+		return true;
+	}
+
+	@Override
+	public boolean isAffectedByCameraAngle() {
+		return true;
+	}
+
+	@Override
+	public int[] createCustomViewport() {
+		return null;
 	}
 }
