@@ -43,7 +43,7 @@ public class ColorChooserButton extends JButton {
 			return;
 
 		current = newColor;
-		setIcon(createIcon(current, 90, 21));
+		setIcon(createIcon(current, 50, 21));
 		repaint();
 
 		if (notify) {
@@ -70,7 +70,7 @@ public class ColorChooserButton extends JButton {
 		graphics.setColor(main);
 		graphics.fillRect(0, 0, width, height);
 		graphics.setXORMode(Color.WHITE);
-		graphics.drawRect(0, 0, width - 1, height - 1);
+		graphics.drawRect(0, 0, width, height);
 		image.flush();
 		ImageIcon icon = new ImageIcon(image);
 		return icon;
