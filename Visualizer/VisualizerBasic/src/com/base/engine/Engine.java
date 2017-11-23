@@ -236,6 +236,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			Point center = Util.getCenterOfScreen(new Dimension(DISPLAY_WIDTH, DISPLAY_HEIGHT));
 			Display.setLocation((int) center.getX(), (int) center.getY());
 			Display.setTitle(Settings.getApplicationTitle());
+			// Display.create(new PixelFormat(32, 0, 24, 0, 4));
 			Display.create();
 			FrameRateUtil.start();
 		} catch (Exception e) {
