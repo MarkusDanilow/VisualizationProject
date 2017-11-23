@@ -555,47 +555,16 @@ public class MainWindow extends JFrame {
 		 * ------------ create the main panel in the center and all of the
 		 * canvases that will be placed inside of it ------------
 		 */
-//		JPanel canvasPanel = new JPanel(new GridLayout((int) Math.sqrt(CANVAS_COUNT), (int) Math.sqrt(CANVAS_COUNT)));
-		JPanel canvasPanel = new JPanel();
+		JPanel canvasPanel = new JPanel(new GridLayout((int) Math.sqrt(CANVAS_COUNT), (int) Math.sqrt(CANVAS_COUNT)));
 		
 		for (byte i = 0; i < CANVAS_COUNT; i++) {
 			JPanel cPanel = new JPanel();
 			cPanel.setLayout(new GridLayout(1, 1));
-						
 			cPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-
-			// TODO: Border umsetzen nach Farbschema
-			// switch (i) {
-			// case 0:
-			// cPanel.setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
-			// break;
-			//
-			// case 1:
-			// cPanel.setBorder(BorderFactory.createLineBorder(Color.ORANGE,
-			// 2));
-			// break;
-			//
-			// case 2:
-			// cPanel.setBorder(BorderFactory.createLineBorder(new
-			// Color(128,0,0), 2));
-			// break;
-			//
-			// case 3:
-			// cPanel.setBorder(BorderFactory.createLineBorder(Color.CYAN, 2));
-			// break;
-			//
-			// default:
-			// break;
-			// }
-			//
-			// JPanel innerCanvas = new JPanel();
-			// innerCanvas.setBorder(BorderFactory.createLineBorder(new
-			// Color(128,0,0), 2));
 
 			Canvas c = new Canvas();
 
 			canvasPanel.add(cPanel);
-			// innerCanvas.add(cPanel);
 			cPanel.add(c);
 
 			c.setIgnoreRepaint(true);
