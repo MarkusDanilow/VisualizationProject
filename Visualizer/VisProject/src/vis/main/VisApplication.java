@@ -1,5 +1,6 @@
 package vis.main;
 
+import java.awt.Canvas;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -95,8 +96,8 @@ public class VisApplication implements AppInterface {
 
 		this.window = new MainWindow(this, Settings.getApplicationTitle(), Settings.getDisplayWidth(),
 				Settings.getDisplayHeight());
-		this.engine = new Engine(this.window.getCanvasById(0), false);
-
+		Canvas c = this.window.getCanvasById(0);
+		this.engine = new Engine(c, false);
 	}
 
 	/**
