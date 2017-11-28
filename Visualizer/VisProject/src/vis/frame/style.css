@@ -1,0 +1,14 @@
+.root {
+    -fx-background-color: #535353;
+}
+
+.label {
+    -fx-text-fill: #ff6611;
+    -fx-font-weight: bold;
+    -fx-padding: 0.166667em 0.33333em 0.25em 0.33333em;
+}
+
+#title-label {
+    -fx-font: bold 20pt "Verdana";
+    -fx-text-fill: #000000;
+}
