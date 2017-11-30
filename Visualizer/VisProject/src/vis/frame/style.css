@@ -3,12 +3,36 @@
 }
 
 .label {
-    -fx-text-fill: #ff6611;
+    -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
     -fx-padding: 0.166667em 0.33333em 0.25em 0.33333em;
 }
 
-#title-label {
-    -fx-font: bold 20pt "Verdana";
-    -fx-text-fill: #000000;
+.accordion .titled-pane > *.content{
+    -fx-background-color: transparent ;
+    -fx-border-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.check-box {
+	-fx-text-fill: #ffffff;
+	
+}
+
+.radio-button {
+	-fx-text-fill: #ffffff;
+	
+}
+
+.accordion .titled-pane {
+   	-fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold; 
+}
+
+.accordion .titled-pane .title {
+   	-fx-background-color: #605353;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
 }
