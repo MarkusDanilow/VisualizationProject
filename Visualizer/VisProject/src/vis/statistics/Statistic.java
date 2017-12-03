@@ -13,6 +13,13 @@ import com.base.common.resources.Regression;
 public class Statistic {
 
 	private final static int MAX_VALUE_CONTENT = 5;
+	private final static int AMOUNT_PREDICTION_VALUE = 10;
+	private static Regression regResult;
+	private static SimpleRegression calcRegression;
+	private static HashMap<Float, Float> predictData;
+	private static int counter = 0;
+	private static int size = 0;
+	private static Float bufferValue = 0F;
 
 	public Statistic() {
 
@@ -20,8 +27,8 @@ public class Statistic {
 
 	public static void main(String arg[]) {
 
-		TreeMap<Float, DataElement> treemap = new TreeMap<>();
-		DataElement d0 = new DataElement(0, 0.1F, 0.2F, 0.3F);
+		Map<Float, DataElement> treemap = new HashMap<>();
+		DataElement d0 = new DataElement(0.1F, 0.1F, 0.2F, 0.3F);
 		DataElement d1 = new DataElement(1, 1, 1, 1);
 		DataElement d2 = new DataElement(2, 2, 2, 2);
 		DataElement d3 = new DataElement(3, 3, 3, 3);
@@ -33,23 +40,38 @@ public class Statistic {
 		DataElement d9 = new DataElement(9, 9.1F, 9.2F, 9.3F);
 
 		// Add key-value pairs to the TreeMap
-		treemap.put(0F, d0);
+	
 		treemap.put(1F, d1);
+		System.out.println(treemap);
 		treemap.put(2F, d2);
+		System.out.println(treemap);
 		treemap.put(3F, d3);
+		System.out.println(treemap);
 		treemap.put(4F, d4);
+		System.out.println(treemap);
 		treemap.put(5F, d5);
+		System.out.println(treemap);
+		System.out.println(treemap.hashCode());
 		treemap.put(6F, d6);
+		System.out.println(treemap);
 		treemap.put(7F, d7);
+		System.out.println(treemap);
 		treemap.put(8F, d8);
+		System.out.println(treemap);
 		treemap.put(9F, d9);
-
+		System.out.println(treemap);
+		System.out.println(treemap.hashCode());
+		treemap.put(2.1F, d0);
+		System.out.println(treemap);
 		Regression r = getRegAnalysis(treemap, "x");
 		System.out.println(r);
-		r = getRegAnalysis(treemap, "y");
+		/*r = getRegAnalysis(treemap, "y");
 		System.out.println(r);
 		r = getRegAnalysis(treemap, "z");
-		System.out.println(r);
+		System.out.println(r);*/
+		getRegPrediction();
+
+		getPrediction(predictData);
 
 	}
 
@@ -70,15 +92,13 @@ public class Statistic {
 
 	}
 
-	public static Regression getRegAnalysis(TreeMap<Float, DataElement> lastTenResults, String dimension) {
-		int counter = 0;
-		int size;
+	public static Regression getRegAnalysis(Map<Float, DataElement> lastTenResults, String dimension) {
 
-		Regression regResult = new Regression();
-		SimpleRegression calcRegression = new SimpleRegression();
+		regResult = new Regression();
+		calcRegression = new SimpleRegression();
 
 		// Data-Buffering
-		TreeMap<Float, DataElement> tempMap = new TreeMap<>();
+		Map<Float, DataElement> tempMap = new HashMap<>();
 		tempMap = lastTenResults;
 		size = tempMap.size();
 
@@ -114,12 +134,16 @@ public class Statistic {
 					switch (dimension) {
 					case "x":
 						calcRegression.addData((double) me.getKey(), (double) me.getValue().getX());
+						bufferValue = me.getValue().getX();
+						System.out.println(bufferValue);
 						break;
 					case "y":
 						calcRegression.addData((double) me.getKey(), (double) me.getValue().getY());
+						bufferValue = me.getValue().getY();
 						break;
 					case "z":
 						calcRegression.addData((double) me.getKey(), (double) me.getValue().getZ());
+						bufferValue = me.getValue().getZ();
 						break;
 					default:
 						break;
@@ -132,9 +156,34 @@ public class Statistic {
 		regResult.setN((float) calcRegression.getIntercept());
 		regResult.setStdErr((float) calcRegression.getSlopeStdErr());
 		// y = ab ^ t
+		counter = 0;
 		return regResult;
 	}
 
-	
+	public static HashMap<Float, Float> getRegPrediction() {
+		predictData = new HashMap<>();
+
+		while (counter <= AMOUNT_PREDICTION_VALUE-1) {
+			bufferValue = bufferValue * 1.1F;
+			predictData.put((float) size++, (float) calcRegression.predict(bufferValue));
+			counter++;
+		}
+		System.out.println("Amount of predicted Values:" + predictData.size());
+		return predictData;
+	}
+
+	public static void getPrediction(HashMap<Float, Float> data) {
+		
+		System.out.println("DEBUGGING:" );
+		Set<Entry<Float, Float>> set = data.entrySet();
+		Iterator<Entry<Float, Float>> it = set.iterator();
+
+		while (it.hasNext()) {
+			Map.Entry<Float, Float> me = (Map.Entry<Float, Float>) it.next();
+			System.out.print("Key: " + me.getKey());
+			System.out.println("\tValue: " + me.getValue());
+		}
+
+	}
 
 }
