@@ -12,6 +12,7 @@ import org.apache.commons.math3.stat.regression.SimpleRegression;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
 import com.base.common.resources.StatisticObject;
+import com.base.engine.Settings;
 
 import vis.data.DataHandler;
 
@@ -223,6 +224,42 @@ public class Statistic {
 			System.out.println("\tValue: " + Float.parseFloat(df.format(me.getValue()).replace(",", ".")));
 		}
 
+	}
+
+	public static List<DataElement> getRenderableSampledList(Map<Float, DataElement> inputData) {
+		List<DataElement> outputData = new ArrayList<>();
+		int maxItemsInChart = Settings.getMaxItemsInChart();
+		if (inputData.size() < maxItemsInChart) {
+			outputData = DataHandler.convertToRenderableList(inputData);
+		} else {
+			int i = 0;
+			float x = 0, y = 0, z = 0;
+			float time0 = 0, time1 = 0;
+			for (DataElement dataElement : inputData.values()) {
+				x += dataElement.getX();
+				y += dataElement.getY();
+				z += dataElement.getZ();
+				i++;
+				if (i >= maxItemsInChart) {
+					time1 = dataElement.getTime();
+					x /= (float) i;
+					y /= (float) i;
+					z /= (float) i;
+					float time = (time1 - time0) / 2f;
+					outputData.add(new DataElement(x, y, z, time));
+					x = 0;
+					y = 0;
+					z = 0;
+					time = 0;
+					time0 = 0;
+					time1 = 0;
+					i = 0;
+				} else if (i == 1) {
+					time0 = dataElement.getTime();
+				}
+			}
+		}
+		return outputData;
 	}
 
 }

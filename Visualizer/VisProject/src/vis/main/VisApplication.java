@@ -21,6 +21,7 @@ import vis.data.DataHandler;
 import vis.frame.LookAndFeel;
 import vis.frame.MainWindow;
 import vis.interfaces.AppInterface;
+import vis.statistics.Statistic;
 
 public class VisApplication implements AppInterface {
 
@@ -152,8 +153,10 @@ public class VisApplication implements AppInterface {
 		Map<Float, DataElement> partialData = DataHandler.getPartialData(DataHandler.getCurrentBuffer().getData(),
 				range);
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
-		engine.setPointCloudClusters(DataHandler.getCurrentClusters());
+		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
+		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
 		this.engine.resetViewportDisplayList(0);
+		this.engine.resetViewportDisplayList(2);
 	}
 
 }

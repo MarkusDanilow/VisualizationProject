@@ -2,15 +2,18 @@ package com.base.engine.rendering.buffers;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Sys;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL15;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 import com.base.common.ColorUtil;
 import com.base.common.resources.Callback;
@@ -20,6 +23,7 @@ import com.base.common.resources.Point;
 import com.base.engine.RenderUtils;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
+import com.base.engine.rendering.LineChartRenderer;
 import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
@@ -73,6 +77,7 @@ public class VBOHandler {
 		VBOPointCloudClusterRenderer PointCloudClusterRenderer = new VBOPointCloudClusterRenderer();
 		VBOGridRenderer gridRenderer = new VBOGridRenderer();
 		VBOBarChartRenderer barChartRenderer = new VBOBarChartRenderer();
+		VBOLineChartRenderer lineChartRenderer = new VBOLineChartRenderer();
 
 		/*
 		 * Add renderers to rendering techniques
@@ -93,6 +98,9 @@ public class VBOHandler {
 		List<IVBORenderer> barChart = new ArrayList<>();
 		barChart.add(barChartRenderer);
 
+		List<IVBORenderer> lineChart = new ArrayList<>();
+		lineChart.add(lineChartRenderer);
+
 		/*
 		 * associate renderer classes with rendering methods
 		 */
@@ -101,19 +109,28 @@ public class VBOHandler {
 		internalRenderers.put(GridRenderer.class.getSimpleName(), grid);
 		internalRenderers.put(MiniMapRenderer.class.getSimpleName(), minimap);
 		internalRenderers.put(BarChartRenderer.class.getSimpleName(), barChart);
+		internalRenderers.put(LineChartRenderer.class.getSimpleName(), lineChart);
 
 		/*
 		 * Define different callback methods for rendering
 		 */
 		Callback largePointSizeCallback = new Callback() {
 			public Object execute(Object... data) {
-				GL11.glPointSize(5f);
+				glPointSize(5f);
 				return 0;
 			}
 		};
 		Callback smallPointSizeCallback = new Callback() {
 			public Object execute(Object... data) {
-				GL11.glPointSize(2f);
+				glPointSize(2f);
+				return 0;
+			}
+		};
+
+		Callback switch2D = new Callback() {
+			@Override
+			public Object execute(Object... data) {
+				RenderUtils.switch2D(-1, -1, 1, 1);
 				return 0;
 			}
 		};
@@ -134,6 +151,10 @@ public class VBOHandler {
 		cMinimap.add(smallPointSizeCallback);
 
 		List<Callback> cBarChart = new ArrayList<>();
+		cBarChart.add(switch2D);
+
+		List<Callback> cLineChart = new ArrayList<>();
+		cLineChart.add(switch2D);
 
 		/*
 		 * associate renderer classes with callback methods
@@ -143,7 +164,22 @@ public class VBOHandler {
 		internalCallbacks.put(GridRenderer.class.getSimpleName(), cGrid);
 		internalCallbacks.put(MiniMapRenderer.class.getSimpleName(), cMinimap);
 		internalCallbacks.put(BarChartRenderer.class.getSimpleName(), cBarChart);
+		internalCallbacks.put(LineChartRenderer.class.getSimpleName(), cLineChart);
 
+	}
+
+	/**
+	 * 
+	 * @param rendererClassName
+	 * @return
+	 */
+	public static int[] getHashCodesForRenderMethod(String rendererClassName) {
+		List<IVBORenderer> renderers = internalRenderers.get(rendererClassName);
+		int[] output = new int[renderers.size()];
+		for (int i = 0; i < renderers.size(); i++) {
+			output[i] = renderers.get(i).hashCode();
+		}
+		return output;
 	}
 
 	/**
@@ -197,22 +233,22 @@ public class VBOHandler {
 	}
 
 	private static FloatBuffer[] initBuffers(int viewportIndex, int numElements, int vertices, int colors) {
-		vertex_vbos.put(viewportIndex, GL15.glGenBuffers());
-		color_vbos.put(viewportIndex, GL15.glGenBuffers());
+		vertex_vbos.put(viewportIndex, glGenBuffers());
+		color_vbos.put(viewportIndex, glGenBuffers());
 		elements.put(viewportIndex, numElements);
 		revalidate.put(viewportIndex, false);
-		FloatBuffer v = BufferUtils.createFloatBuffer(elements.get(viewportIndex) * 3);
-		FloatBuffer c = BufferUtils.createFloatBuffer(elements.get(viewportIndex) * 4);
+		FloatBuffer v = BufferUtils.createFloatBuffer(elements.get(viewportIndex) * vertices);
+		FloatBuffer c = BufferUtils.createFloatBuffer(elements.get(viewportIndex) * colors);
 		return new FloatBuffer[] { v, c };
 	}
 
 	private static void finalizeBuffers(int viewportIndex, FloatBuffer vBuffer, FloatBuffer cBuffer) {
 		vBuffer.flip();
 		cBuffer.flip();
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertex_vbos.get(viewportIndex));
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_DYNAMIC_DRAW);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, color_vbos.get(viewportIndex));
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, cBuffer, GL15.GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_vbos.get(viewportIndex));
+		glBufferData(GL_ARRAY_BUFFER, vBuffer, GL_DYNAMIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, color_vbos.get(viewportIndex));
+		glBufferData(GL_ARRAY_BUFFER, cBuffer, GL_DYNAMIC_DRAW);
 	}
 
 	private static void masterRenderMethod(int viewportIndex, int vertices, int colors, int renderMode,
@@ -226,21 +262,21 @@ public class VBOHandler {
 		}
 
 		// bind vertices
-		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vertex_vbos.get(viewportIndex));
-		GL11.glVertexPointer(vertices, GL11.GL_FLOAT, 0, 0);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_vbos.get(viewportIndex));
+		glVertexPointer(vertices, GL_FLOAT, 0, 0);
 
 		// bind colors
-		GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, color_vbos.get(viewportIndex));
-		GL11.glColorPointer(colors, GL11.GL_FLOAT, 0, 0);
+		glEnableClientState(GL_COLOR_ARRAY);
+		glBindBuffer(GL_ARRAY_BUFFER, color_vbos.get(viewportIndex));
+		glColorPointer(colors, GL_FLOAT, 0, 0);
 
 		// draw buffers
-		GL11.glDrawArrays(renderMode, 0, elements.get(viewportIndex));
+		glDrawArrays(renderMode, 0, elements.get(viewportIndex));
 
 		// close buffers
-		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
-		GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
 
 	}
 
@@ -275,7 +311,7 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_POINTS, callback);
+			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
 	}
@@ -314,7 +350,7 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_POINTS, callback);
+			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
 	}
@@ -363,9 +399,45 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_LINES, callback);
+			masterRenderMethod(viewportIndex, 3, 4, GL_LINES, callback);
 		}
 
+	}
+
+	/*
+	 * ------------------------------------------------------------------------
+	 * ABSTRACT CHART RENDERING
+	 * ------------------------------------------------------------------------
+	 */
+
+	private static abstract class AVBOChartRenderer implements IVBORenderer {
+		protected final float yMin = -0.8f;
+		protected final float xMin = -0.9f;
+		protected final float yMax = Math.abs(yMin);
+		protected final float xMax = Math.abs(xMin);
+		protected int numItems = 50;
+		protected float xStep = 0.1f;
+
+		protected void renderAxes() {
+			glColor4f(0.5f, 0.5f, 0.5f, 1f);
+			glBegin(GL_LINES);
+			glVertex2f(xMin - 0.025f, yMax);
+			glVertex2f(xMax + 0.05f, yMax);
+			glVertex2f(xMin - 0.025f, yMax + 0.05f);
+			glVertex2f(xMin - 0.025f, yMin - 0.05f);
+
+			for (int i = 0; i < numItems; i++) {
+				float x = this.calcPosX(i) + this.xStep / 2f;
+				glVertex2f(x, yMax + 0.025f);
+				glVertex2f(x, yMax);
+			}
+
+			glEnd();
+		}
+
+		protected float calcPosX(int i) {
+			return (i * xStep) + xMin;
+		}
 	}
 
 	/*
@@ -374,36 +446,82 @@ public class VBOHandler {
 	 * ------------------------------------------------------------------------
 	 */
 
-	private static class VBOBarChartRenderer implements IVBORenderer {
+	private static class VBOBarChartRenderer extends AVBOChartRenderer {
+
+		private final float borderWidth = 0.005f;
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public void create(int viewportIndex, Object data) {
-			// make amount of bars dynamic, depending on the number of elements
-			// in the data variable
-			int bars = 50;
 
-			float yMin = -0.8f;
-			float xMin = -0.9f;
-			float yMax = Math.abs(yMin);
-			float xMax = Math.abs(xMin);
+			if (data == null)
+				return;
 
-			float xStep = (xMax - xMin) / ((float) bars);
+			int verticesPerItem = 4;
 
-			FloatBuffer[] buffers = initBuffers(viewportIndex, bars * 4, 2, 4);
-			for (int i = 0; i < bars; i++) {
-				float x = (i * xStep) + xMin;
-				float[] clusterColor = new float[] { 1f, 0f, 0f, 1f };
-				buffers[0].put(new float[] { x, yMin, x + xStep, yMin, x + xStep, yMax, x, yMax });
-				buffers[1].put(clusterColor);
+			List<DataElement> inputData = (List<DataElement>) data;
+			DataElement biggest = Collections.max(inputData, new Comparator<DataElement>() {
+				@Override
+				public int compare(DataElement arg0, DataElement arg1) {
+					return Float.compare(arg0.getX(), arg1.getX());
+				}
+			});
+
+			float yRatio = biggest.getX() * Math.abs(yMax - yMin);
+
+			this.numItems = inputData.size();
+			xStep = (((xMax - xMin)) / ((float) numItems));
+
+			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 8, 2, 4);
+			for (int i = 0; i < numItems; i++) {
+
+				float x = this.calcPosX(i);
+				float y = (inputData.get(i).getX() / yRatio) + yMin;
+
+				buffers[0].put(new float[] { x, y, x + xStep, y, x + xStep, yMax, x, yMax });
+				for (int j = 0; j < verticesPerItem; j++)
+					buffers[1].put(new float[] { 0.8f, 0.8f, 0.8f, 1f });
+
+				buffers[0].put(new float[] { x + this.borderWidth, y + this.borderWidth, x + xStep - this.borderWidth,
+						y + this.borderWidth, x + xStep - this.borderWidth, yMax - this.borderWidth,
+						x + this.borderWidth, yMax - this.borderWidth });
+				for (int j = 0; j < verticesPerItem; j++)
+					buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
+
 			}
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 		}
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			RenderUtils.switch2D(-1, -1, 1, 1);
-			masterRenderMethod(viewportIndex, 2, 4, GL11.GL_QUADS, callback);
+			glDisable(GL_BLEND);
+			masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
+			this.renderAxes();
+			glEnable(GL_BLEND);
+		}
+
+	}
+
+	/*
+	 * ------------------------------------------------------------------------
+	 * LINE CHART RENDERING
+	 * ------------------------------------------------------------------------
+	 */
+
+	private static class VBOLineChartRenderer extends AVBOChartRenderer {
+
+		@Override
+		public void create(int viewportIndex, Object data) {
+			FloatBuffer[] buffers = initBuffers(viewportIndex, 0, 2, 4);
+			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
+		}
+
+		@Override
+		public void render(int viewportIndex, Callback callback) {
+			glDisable(GL_BLEND);
+			masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
+			this.renderAxes();
+			glEnable(GL_BLEND);
 		}
 
 	}

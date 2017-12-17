@@ -37,6 +37,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 
 	void setPointCloudData(List<DataElement> data);
 	void setPointCloudClusters(List<Cluster> clusters);
+	void setChartData(List<DataElement> data);
 
 	void resetViewportDisplayList(int index);
 	

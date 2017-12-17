@@ -142,7 +142,7 @@ public class DataHandler {
 			// close the print stream
 			ps.close();
 			ps.flush();
-			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=all&limit=100");
+			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=topK&k=1000");
 			BufferedReader in = new BufferedReader(new InputStreamReader(url2.openStream()));
 
 			String inputLine;
@@ -177,9 +177,9 @@ public class DataHandler {
 							} else if (key.equals("xPos")) {
 								x = Float.parseFloat(value);
 							} else if (key.equals("yPos")) {
-								y = Float.parseFloat(value);
-							} else if (key.equals("zPos")) {
 								z = Float.parseFloat(value);
+							} else if (key.equals("zPos")) {
+								y = Float.parseFloat(value);
 							}
 
 						}

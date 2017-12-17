@@ -71,7 +71,7 @@ public class BarChartRenderer implements IRenderer {
 	public Object selectRenderData(Engine engine) {
 		if (engine == null)
 			return null;
-		return engine.getPointCloudData();
+		return engine.getChartData();
 	}
 
 }

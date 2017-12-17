@@ -11,7 +11,7 @@ public class GraphicBufferUitl {
 
 	static {
 		for (int i = 0; i < Engine.NUM_VIEWS; i++) {
-			useDisplayLists[i] = false;
+			useDisplayLists[i] = i == 3;
 		}
 	}
 
@@ -43,17 +43,24 @@ public class GraphicBufferUitl {
 
 		// instead of display lists: use VBOs
 		else {
-				VBOHandler.handleBufferCreation(renderer.getClass().getSimpleName(), rendererHash, data);
+			VBOHandler.handleBufferCreation(renderer.getClass().getSimpleName(), rendererHash, data);
 			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash);
 		}
 
 	}
 
-	public static void resetDisplayList(int viewportIndex, int rendererHash) {
+	public static void resetDisplayList(int viewportIndex, int rendererHash, IRenderer[] renderers) {
+
 		if (useDisplayLists[viewportIndex]) {
 			DisplayListHandler.resetDisplayList(DISPLAY_LIST_REPFIX + rendererHash);
 		} else {
-			VBOHandler.revalidate(rendererHash);
+			for (int i = 0; i < renderers.length; i++) {
+				if(renderers[i] == null)
+					continue;
+				int[] hashCodes = VBOHandler.getHashCodesForRenderMethod(renderers[i].getClass().getSimpleName());
+				for (int j = 0; j < hashCodes.length; j++)
+					VBOHandler.revalidate(rendererHash + hashCodes[j]);
+			}
 		}
 	}
 

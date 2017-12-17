@@ -99,6 +99,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private List<DataElement> pointCloudData;
 	private List<Cluster> pointCloudClusters;
+	private List<DataElement> chartData;
 
 	private RenderMode renderMode;
 
@@ -108,6 +109,10 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public int getNumRenderersForViewport(int viewportIndex) {
 		return this.renderers[viewportIndex].length;
+	}
+
+	public IRenderer[] getRenderersForViewportIndex(int viewportIndex) {
+		return this.renderers[viewportIndex];
 	}
 
 	public void setRunning(boolean running) {
@@ -130,6 +135,10 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		return pointCloudClusters;
 	}
 
+	public List<DataElement> getChartData() {
+		return this.chartData;
+	}
+
 	public void setPointCloudClusters(List<Cluster> clusters) {
 		this.pointCloudClusters = clusters;
 	}
@@ -144,6 +153,10 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public void setPointCloudData(List<DataElement> data) {
 		this.pointCloudData = data;
+	}
+
+	public void setChartData(List<DataElement> data) {
+		this.chartData = data;
 	}
 
 	public void enable2DRenderMode() {
