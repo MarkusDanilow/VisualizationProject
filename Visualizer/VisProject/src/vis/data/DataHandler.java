@@ -142,7 +142,7 @@ public class DataHandler {
 			// close the print stream
 			ps.close();
 			ps.flush();
-			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=all");
+			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=all&limit=100");
 			BufferedReader in = new BufferedReader(new InputStreamReader(url2.openStream()));
 
 			String inputLine;

@@ -3,10 +3,12 @@ package com.base.engine.rendering.buffers;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 
@@ -15,6 +17,8 @@ import com.base.common.resources.Callback;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Point;
+import com.base.engine.RenderUtils;
+import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
 import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
@@ -62,28 +66,45 @@ public class VBOHandler {
 	 */
 	static {
 
-		VBOPointCloudRenderer pcr = new VBOPointCloudRenderer();
-		VBOPointCloudClusterRenderer pccr = new VBOPointCloudClusterRenderer();
-		VBOGridRenderer gr = new VBOGridRenderer();
+		/*
+		 * Define different renderers
+		 */
+		VBOPointCloudRenderer pointCloudRenderer = new VBOPointCloudRenderer();
+		VBOPointCloudClusterRenderer PointCloudClusterRenderer = new VBOPointCloudClusterRenderer();
+		VBOGridRenderer gridRenderer = new VBOGridRenderer();
+		VBOBarChartRenderer barChartRenderer = new VBOBarChartRenderer();
 
+		/*
+		 * Add renderers to rendering techniques
+		 */
 		List<IVBORenderer> pointCloud = new ArrayList<>();
-		pointCloud.add(pcr);
+		pointCloud.add(pointCloudRenderer);
 
 		List<IVBORenderer> pointCloudCluster = new ArrayList<>();
-		pointCloudCluster.add(pccr);
+		pointCloudCluster.add(PointCloudClusterRenderer);
 
 		List<IVBORenderer> grid = new ArrayList<>();
-		grid.add(gr);
+		grid.add(gridRenderer);
 
 		List<IVBORenderer> minimap = new ArrayList<>();
-		minimap.add(gr);
-		minimap.add(pcr);
+		minimap.add(gridRenderer);
+		minimap.add(pointCloudRenderer);
 
+		List<IVBORenderer> barChart = new ArrayList<>();
+		barChart.add(barChartRenderer);
+
+		/*
+		 * associate renderer classes with rendering methods
+		 */
 		internalRenderers.put(PointCloudRenderer.class.getSimpleName(), pointCloud);
 		internalRenderers.put(PointCloudClusterRenderer.class.getSimpleName(), pointCloudCluster);
 		internalRenderers.put(GridRenderer.class.getSimpleName(), grid);
 		internalRenderers.put(MiniMapRenderer.class.getSimpleName(), minimap);
+		internalRenderers.put(BarChartRenderer.class.getSimpleName(), barChart);
 
+		/*
+		 * Define different callback methods for rendering
+		 */
 		Callback largePointSizeCallback = new Callback() {
 			public Object execute(Object... data) {
 				GL11.glPointSize(5f);
@@ -97,6 +118,9 @@ public class VBOHandler {
 			}
 		};
 
+		/*
+		 * Add callback methods to rendering techniques
+		 */
 		List<Callback> cPointCloud = new ArrayList<>();
 		cPointCloud.add(largePointSizeCallback);
 
@@ -109,10 +133,17 @@ public class VBOHandler {
 		cMinimap.add(null);
 		cMinimap.add(smallPointSizeCallback);
 
+		List<Callback> cBarChart = new ArrayList<>();
+
+		/*
+		 * associate renderer classes with callback methods
+		 */
 		internalCallbacks.put(PointCloudRenderer.class.getSimpleName(), cPointCloud);
 		internalCallbacks.put(PointCloudClusterRenderer.class.getSimpleName(), cPointCloudCluster);
 		internalCallbacks.put(GridRenderer.class.getSimpleName(), cGrid);
 		internalCallbacks.put(MiniMapRenderer.class.getSimpleName(), cMinimap);
+		internalCallbacks.put(BarChartRenderer.class.getSimpleName(), cBarChart);
+
 	}
 
 	/**
@@ -137,10 +168,13 @@ public class VBOHandler {
 	 * @param data
 	 * @param viewportIndex
 	 */
-	public static void createBuffer(String rendererClassName, int viewportIndex, Object data) {
+	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data) {
 		if (internalRenderers.containsKey(rendererClassName)) {
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
-				renderer.create(viewportIndex + renderer.hashCode(), data);
+				int bufferHashCode = viewportIndex + renderer.hashCode();
+				if (!VBOHandler.bufferExists(bufferHashCode)) {
+					renderer.create(bufferHashCode, data);
+				}
 			}
 		}
 	}
@@ -280,14 +314,7 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			Callback settings = new Callback() {
-				@Override
-				public Object execute(Object... data) {
-					GL11.glPointSize(5f);
-					return 0;
-				}
-			};
-			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_POINTS, settings);
+			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_POINTS, callback);
 		}
 
 	}
@@ -337,6 +364,46 @@ public class VBOHandler {
 		@Override
 		public void render(int viewportIndex, Callback callback) {
 			masterRenderMethod(viewportIndex, 3, 4, GL11.GL_LINES, callback);
+		}
+
+	}
+
+	/*
+	 * ------------------------------------------------------------------------
+	 * BAR CHART RENDERING
+	 * ------------------------------------------------------------------------
+	 */
+
+	private static class VBOBarChartRenderer implements IVBORenderer {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void create(int viewportIndex, Object data) {
+			// make amount of bars dynamic, depending on the number of elements
+			// in the data variable
+			int bars = 50;
+
+			float yMin = -0.8f;
+			float xMin = -0.9f;
+			float yMax = Math.abs(yMin);
+			float xMax = Math.abs(xMin);
+
+			float xStep = (xMax - xMin) / ((float) bars);
+
+			FloatBuffer[] buffers = initBuffers(viewportIndex, bars * 4, 2, 4);
+			for (int i = 0; i < bars; i++) {
+				float x = (i * xStep) + xMin;
+				float[] clusterColor = new float[] { 1f, 0f, 0f, 1f };
+				buffers[0].put(new float[] { x, yMin, x + xStep, yMin, x + xStep, yMax, x, yMax });
+				buffers[1].put(clusterColor);
+			}
+			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
+		}
+
+		@Override
+		public void render(int viewportIndex, Callback callback) {
+			RenderUtils.switch2D(-1, -1, 1, 1);
+			masterRenderMethod(viewportIndex, 2, 4, GL11.GL_QUADS, callback);
 		}
 
 	}

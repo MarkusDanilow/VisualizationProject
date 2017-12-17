@@ -34,7 +34,7 @@ public class BarChartRenderer implements IRenderer {
 		glColor4f(1, 1, 1, 1);
 		glTexCoord2f(0, 0);
 		glVertex2f(-1, -1);
-		glTexCoord2f(1 ,0);
+		glTexCoord2f(1, 0);
 		glVertex2f(1, -1);
 		glTexCoord2f(1, 1);
 		glVertex2f(1, 1);
@@ -69,7 +69,9 @@ public class BarChartRenderer implements IRenderer {
 
 	@Override
 	public Object selectRenderData(Engine engine) {
-		return 0;
+		if (engine == null)
+			return null;
+		return engine.getPointCloudData();
 	}
 
 }

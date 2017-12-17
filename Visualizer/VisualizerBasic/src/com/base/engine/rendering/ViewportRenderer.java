@@ -177,7 +177,7 @@ public class ViewportRenderer implements Renderable {
 
 	public void resetDisplayList(Engine engine, int displayListIndex) {
 		for (int i = 0; i < engine.getNumRenderersForViewport(displayListIndex); i++) {
-			int rendererHash = GraphicBufferUitl.createRendererhasCode(displayListIndex, i);
+			int rendererHash = GraphicBufferUitl.createRendererHashCode(displayListIndex, i);
 			GraphicBufferUitl.resetDisplayList(displayListIndex, rendererHash);
 		}
 	}

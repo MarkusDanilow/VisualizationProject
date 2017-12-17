@@ -72,17 +72,16 @@ public class Statistic {
 		treemap.put(9F, d9);
 		System.out.println(treemap);
 
-//		setMean(treemap, "x");
-//		System.out.println(getMean());
+		// setMean(treemap, "x");
+		// System.out.println(getMean());
 
-		
-		setRegAnalysis(treemap, "x"); 
+		setRegAnalysis(treemap, "x");
 		System.out.println(getRegAnalysis());
-		setRegAnalysis(treemap, "y"); 
+		setRegAnalysis(treemap, "y");
 		System.out.println(getRegAnalysis());
 		setRegAnalysis(treemap, "z");
 		System.out.println(getRegAnalysis());
-		
+
 		getPrediction(getRegPrediction());
 	}
 
@@ -94,12 +93,12 @@ public class Statistic {
 		dataHandler = new DataHandler();
 		meanResult = new StatisticObject();
 		calcMean = new DescriptiveStatistics();
-		
+
 		// Data-Buffering
 		Map<Float, DataElement> tempMap = new TreeMap<>();
 		tempMap = elements;
 		size = tempMap.size();
-//		System.out.println("Map Size before: " + tempMap.size());
+		// System.out.println("Map Size before: " + tempMap.size());
 
 		if (size > MAX_VALUE_CONTENT) {
 			tempMap = dataHandler.getPartialData(tempMap,
@@ -107,7 +106,7 @@ public class Statistic {
 		}
 
 		// getSize of incoming values
-//		System.out.println("Map Size after: " + tempMap.size());
+		// System.out.println("Map Size after: " + tempMap.size());
 		Set<Entry<Float, DataElement>> set = tempMap.entrySet();
 		Iterator<Entry<Float, DataElement>> it = set.iterator();
 
@@ -133,7 +132,7 @@ public class Statistic {
 
 		meanResult.setA((float) calcMean.getMean());
 		meanResult.setB((float) calcMean.getStandardDeviation());
-		//ggf. über GUI änderbar
+		// ggf. über GUI änderbar
 		meanResult.setC((float) calcMean.getPercentile(50));
 	}
 
@@ -167,7 +166,7 @@ public class Statistic {
 		}
 
 		// getSize of incoming values
-//		System.out.println("Map Size: " + tempMap.size());
+		// System.out.println("Map Size: " + tempMap.size());
 		Set<Entry<Float, DataElement>> set = tempMap.entrySet();
 		Iterator<Entry<Float, DataElement>> it = set.iterator();
 
@@ -205,7 +204,8 @@ public class Statistic {
 			predictData.put((float) size++, (float) calcRegression.predict(tmpRegression));
 			counter++;
 		}
-//		System.out.println("Amount of predicted Values:" + predictData.size());
+		// System.out.println("Amount of predicted Values:" +
+		// predictData.size());
 		return predictData;
 	}
 
@@ -218,8 +218,8 @@ public class Statistic {
 		while (it.hasNext()) {
 			Map.Entry<Float, Float> me = (Map.Entry<Float, Float>) it.next();
 			System.out.print("Key: " + me.getKey());
-			
-			DecimalFormat df = new DecimalFormat("#.0");			
+
+			DecimalFormat df = new DecimalFormat("#.0");
 			System.out.println("\tValue: " + Float.parseFloat(df.format(me.getValue()).replace(",", ".")));
 		}
 

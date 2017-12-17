@@ -11,11 +11,11 @@ public class GraphicBufferUitl {
 
 	static {
 		for (int i = 0; i < Engine.NUM_VIEWS; i++) {
-			useDisplayLists[i] = i > 0;
+			useDisplayLists[i] = false;
 		}
 	}
 
-	public static int createRendererhasCode(int viewportIndex, int rendererIndex) {
+	public static int createRendererHashCode(int viewportIndex, int rendererIndex) {
 		return ColorUtil.hashCode("" + viewportIndex + "_" + rendererIndex);
 	}
 
@@ -24,7 +24,7 @@ public class GraphicBufferUitl {
 		if (renderer == null || viewportIndex < 0)
 			return;
 
-		int rendererHash = createRendererhasCode(viewportIndex, rendererIndex);
+		int rendererHash = createRendererHashCode(viewportIndex, rendererIndex);
 
 		// render and buffer the data using display lists
 		if (useDisplayLists[viewportIndex]) {
@@ -43,9 +43,7 @@ public class GraphicBufferUitl {
 
 		// instead of display lists: use VBOs
 		else {
-			if (!VBOHandler.bufferExists(rendererHash)) {
-				VBOHandler.createBuffer(renderer.getClass().getSimpleName(), rendererHash, data);
-			}
+				VBOHandler.handleBufferCreation(renderer.getClass().getSimpleName(), rendererHash, data);
 			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash);
 		}
 

@@ -76,4 +76,8 @@ public final class Settings {
 		return Integer.parseInt(getRendererSection().get("animationStep"));
 	}
 
+	public static int getMaxBarChartBars() {
+		return Integer.parseInt(getRendererSection().get("maxBarChartBars"));
+	}
+
 }
