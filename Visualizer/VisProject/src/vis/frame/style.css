@@ -36,3 +36,31 @@
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
 }
+
+
+.combo-box {
+	-fx-max-width: 120;
+	-fx-max-height: 18;
+	-fx-font-size: 11;
+	
+}
+
+.color-picker {
+	-fx-color-label-visible: false;
+	-fx-max-width: 22;
+}
+
+.date-picker {
+	-fx-max-width: 100;
+	
+}
+
+.date-picker .label {
+	-fx-text-fill: #000000;
+	
+}
+
+#headline {
+	-fx-font-size: 13;
+	
+}
