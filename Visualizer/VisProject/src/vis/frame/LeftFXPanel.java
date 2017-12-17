@@ -105,21 +105,21 @@ public class LeftFXPanel {
         CheckBox cbYPosition = new CheckBox("y-Position");
         gridParameter.add(cbYPosition, 0, 2);
         
-        ColorPicker yChooser = new ColorPicker(Color.RED);
+        ColorPicker yChooser = new ColorPicker(Color.BLUE);
         yChooser.setMaxWidth(100);
         gridParameter.add(yChooser, 1, 2);
         
         CheckBox cbZPosition = new CheckBox("z-Position");
         gridParameter.add(cbZPosition, 0, 3);
         
-        ColorPicker zChooser = new ColorPicker(Color.RED);
+        ColorPicker zChooser = new ColorPicker(Color.GREEN);
         zChooser.setMaxWidth(100);
         gridParameter.add(zChooser, 1, 3);
         
         CheckBox cbTargetObject = new CheckBox("Target object");
         gridParameter.add(cbTargetObject, 0, 4);
         
-        ColorPicker toChooser = new ColorPicker(Color.RED);
+        ColorPicker toChooser = new ColorPicker(Color.YELLOW);
         toChooser.setMaxWidth(100);
         gridParameter.add(toChooser, 1, 4);
         
