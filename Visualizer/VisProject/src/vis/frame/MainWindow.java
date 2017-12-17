@@ -97,21 +97,6 @@ public class MainWindow extends JFrame {
 	/**
 	 * @throws LWJGLException
 	 */
-	/**
-	 * @throws LWJGLException
-	 */
-	/**
-	 * @throws LWJGLException
-	 */
-	/**
-	 * @throws LWJGLException
-	 */
-	/**
-	 * @throws LWJGLException
-	 */
-	/**
-	 * @throws LWJGLException
-	 */
 	private void init() throws LWJGLException {
 
 		getContentPane().setLayout(new BorderLayout());
@@ -606,9 +591,14 @@ public class MainWindow extends JFrame {
 
 		timelinePanel.add(timelineButtonPanel, BorderLayout.WEST);
 
+		
 		this.timeline = new JSlider(JSlider.HORIZONTAL);
 		this.timeline.addChangeListener(new TimelineChangeEvent(this));
 		timelinePanel.add(this.timeline, BorderLayout.CENTER);
+		this.timeline.setBackground(new Color(83,83,83));
+		this.back.setBackground(new Color(83,83,83));
+		this.forth.setBackground(new Color(83,83,83));
+		this.play.setBackground(new Color(83,83,83));
 
 		this.toggleTimeline(false, 0, 0, 0);
 
