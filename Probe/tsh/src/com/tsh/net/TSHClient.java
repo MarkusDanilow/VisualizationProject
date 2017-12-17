@@ -17,7 +17,7 @@ public class TSHClient {
 
 
 		try {
-			hostname = "localhost";
+			hostname = "192.168.178.60";
 			port = 2222;
 			c = new Socket(hostname, port);
 			BufferedReader incomingMsg = new BufferedReader(new InputStreamReader(c.getInputStream()));
