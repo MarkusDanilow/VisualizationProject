@@ -22,13 +22,13 @@ public class TSHClient {
 			c = new Socket(hostname, port);
 			BufferedReader incomingMsg = new BufferedReader(new InputStreamReader(c.getInputStream()));
 			PrintWriter outgoingMsg = new PrintWriter(c.getOutputStream(), true);
-			BufferedReader vonTastatur = new BufferedReader(new InputStreamReader(System.in));
+			BufferedReader keyInput = new BufferedReader(new InputStreamReader(System.in));
 
 			// Startung Protocol
 			System.out.println(hostname + " : " + port);
 			String text = incomingMsg.readLine();
 			System.out.println(text);
-			text = vonTastatur.readLine();
+			text = keyInput.readLine();
 			outgoingMsg.println(text);
 			text = incomingMsg.readLine();
 			System.out.println(text);

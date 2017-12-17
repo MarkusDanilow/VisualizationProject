@@ -27,7 +27,7 @@ public class TSHClock {
 		System.out.println("Starting Protocol");
 
 		try {
-			outgoingMsg.println("Enter DATE and TIME");
+			outgoingMsg.println("Enter CMD: {DATE, TIME}");
 			String expectDate = incomingMsg.readLine();
 			Date currentDate = new Date();
 			if (expectDate.equalsIgnoreCase("date")) {
@@ -35,7 +35,7 @@ public class TSHClock {
 			} else if (expectDate.equalsIgnoreCase("time")) {
 				outgoingMsg.println(time.format(currentDate));
 			} else {
-				outgoingMsg.println(expectDate + " wrong input!");
+				outgoingMsg.println(expectDate + " wrong command!");
 			}
 
 		} catch (IOException e) {

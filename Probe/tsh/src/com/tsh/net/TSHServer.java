@@ -6,16 +6,16 @@ import java.net.*;
 public class TSHServer {
 
 	public InetAddress getHost(String hostname) {
-		System.out.println("Host-Check gestartet...");
+		System.out.println("Host-Check started...");
 		InetAddress ip = null;
 		try {
 			ip = InetAddress.getByName(hostname);
 			System.out.println("Hostname:\t " + ip.getHostName());
 			System.out.println("Host-IP:\t " + ip.getHostAddress());
 		} catch (UnknownHostException uhx) {
-			System.err.println("Fehler:\tHost nicht erreichbar");
+			System.err.println("Error:\tUnknown host");
 		} finally {
-			System.out.println("Host-Check angeschlossen...");
+			System.out.println("Host-Check finished...");
 		}
 		return ip;
 	}
@@ -40,7 +40,9 @@ public class TSHServer {
 		// TODO Auto-generated method stub
 		TSHServer tsh = new TSHServer();
 		tsh.getHost("www.liquidsolution.de");
+
 		setServer(2222);
+
 	}
 
 }
