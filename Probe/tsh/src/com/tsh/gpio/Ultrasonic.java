@@ -1,6 +1,5 @@
 package com.tsh.gpio;
 
-
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
@@ -30,7 +29,7 @@ public class Ultrasonic {
 
 		msg = new MsgTransformer(null, 0);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(200);
 			sensorTriggerPin.high(); // Make trigger pin HIGH
 			Thread.sleep((long) 0.01);// Delay for 10 microseconds
 			sensorTriggerPin.low(); // Make trigger pin LOW
@@ -48,12 +47,12 @@ public class Ultrasonic {
 			long endTime = System.nanoTime();
 			msg.setValue((endTime - startTime) / 1e3 / 2 / 29.1);
 
-			Thread.sleep(500);
+			Thread.sleep(200);
 
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		if (distance < 100) {
+		if (distance < 100D) {
 			msg.setText("DEBUG: Distance: ");
 			return msg;
 		} else {
