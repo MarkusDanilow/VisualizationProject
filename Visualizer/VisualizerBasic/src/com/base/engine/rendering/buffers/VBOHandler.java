@@ -438,6 +438,49 @@ public class VBOHandler {
 		protected float calcPosX(int i) {
 			return (i * xStep) + xMin;
 		}
+
+		protected float calcXStep() {
+			xStep = (((xMax - xMin)) / ((float) numItems));
+			return xStep;
+		}
+
+		protected DataElement getBiggestX(List<DataElement> inputData) {
+			return Collections.max(inputData, new Comparator<DataElement>() {
+				@Override
+				public int compare(DataElement arg0, DataElement arg1) {
+					return Float.compare(arg0.getX(), arg1.getX());
+				}
+			});
+		}
+
+		protected DataElement getBiggestY(List<DataElement> inputData) {
+			return Collections.max(inputData, new Comparator<DataElement>() {
+				@Override
+				public int compare(DataElement arg0, DataElement arg1) {
+					return Float.compare(arg0.getY(), arg1.getY());
+				}
+			});
+		}
+
+		protected DataElement getBiggestZ(List<DataElement> inputData) {
+			return Collections.max(inputData, new Comparator<DataElement>() {
+				@Override
+				public int compare(DataElement arg0, DataElement arg1) {
+					return Float.compare(arg0.getZ(), arg1.getZ());
+				}
+			});
+		}
+
+		protected float calcValue_yAxes(float value, float biggest) {
+			float valueRatio = value / biggest;
+			return valueRatio * (yMin - yMax) + yMax;
+		}
+
+		protected float calcValue_xAxes(float value, float biggest) {
+			float valueRatio = value / biggest;
+			return valueRatio * (xMax - xMin) + xMin;
+		}
+
 	}
 
 	/*
@@ -460,31 +503,24 @@ public class VBOHandler {
 			int verticesPerItem = 4;
 
 			List<DataElement> inputData = (List<DataElement>) data;
-			DataElement biggest = Collections.max(inputData, new Comparator<DataElement>() {
-				@Override
-				public int compare(DataElement arg0, DataElement arg1) {
-					return Float.compare(arg0.getX(), arg1.getX());
-				}
-			});
-
-			float yRatio = biggest.getX() * Math.abs(yMax - yMin);
-
+			DataElement biggest = this.getBiggestX(inputData);
 			this.numItems = inputData.size();
-			xStep = (((xMax - xMin)) / ((float) numItems));
+
+			this.calcXStep();
 
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 8, 2, 4);
 			for (int i = 0; i < numItems; i++) {
 
 				float x = this.calcPosX(i);
-				float y = (inputData.get(i).getX() / yRatio) + yMin;
+				float value = this.calcValue_yAxes(inputData.get(i).getX(), biggest.getX());
 
-				buffers[0].put(new float[] { x, y, x + xStep, y, x + xStep, yMax, x, yMax });
+				buffers[0].put(new float[] { x, value, x + xStep, value, x + xStep, yMax, x, yMax });
 				for (int j = 0; j < verticesPerItem; j++)
 					buffers[1].put(new float[] { 0.8f, 0.8f, 0.8f, 1f });
 
-				buffers[0].put(new float[] { x + this.borderWidth, y + this.borderWidth, x + xStep - this.borderWidth,
-						y + this.borderWidth, x + xStep - this.borderWidth, yMax - this.borderWidth,
-						x + this.borderWidth, yMax - this.borderWidth });
+				buffers[0].put(new float[] { x + this.borderWidth, value + this.borderWidth,
+						x + xStep - this.borderWidth, value + this.borderWidth, x + xStep - this.borderWidth,
+						yMax - this.borderWidth, x + this.borderWidth, yMax - this.borderWidth });
 				for (int j = 0; j < verticesPerItem; j++)
 					buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
 
@@ -508,18 +544,45 @@ public class VBOHandler {
 	 * ------------------------------------------------------------------------
 	 */
 
+	/**
+	 * TODO: Whats the sense of the line chart again ??!
+	 * @author Markus
+	 *
+	 */
 	private static class VBOLineChartRenderer extends AVBOChartRenderer {
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void create(int viewportIndex, Object data) {
-			FloatBuffer[] buffers = initBuffers(viewportIndex, 0, 2, 4);
+
+			if (data == null)
+				return;
+
+			List<DataElement> inputData = (List<DataElement>) data;
+			DataElement biggestX = this.getBiggestX(inputData);
+			DataElement biggestY = this.getBiggestY(inputData);
+
+			this.numItems = inputData.size();
+			this.calcXStep();
+
+			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems, 2, 4);
+			for (int i = 0; i < numItems; i++) {
+
+				float valueX = this.calcPosX(i);
+				float valueY = this.calcValue_yAxes(inputData.get(i).getX(), biggestX.getX());
+
+				buffers[0].put(new float[] { valueX, valueY });
+				buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
+
+			}
+
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 		}
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
 			glDisable(GL_BLEND);
-			masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
+			masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
 			this.renderAxes();
 			glEnable(GL_BLEND);
 		}

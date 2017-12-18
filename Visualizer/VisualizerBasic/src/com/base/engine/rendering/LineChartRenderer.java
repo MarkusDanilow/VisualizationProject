@@ -76,7 +76,7 @@ public class LineChartRenderer implements IRenderer {
 
 	@Override
 	public Object selectRenderData(Engine engine) {
-		return 1;
+		return engine.getChartData();
 	}
 
 }

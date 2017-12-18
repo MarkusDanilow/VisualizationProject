@@ -13,6 +13,8 @@ import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
 import com.base.common.resources.StatisticObject;
 import com.base.engine.Settings;
+import java.util.Collections;
+import java.util.Comparator;
 
 import vis.data.DataHandler;
 
@@ -229,9 +231,10 @@ public class Statistic {
 	public static List<DataElement> getRenderableSampledList(Map<Float, DataElement> inputData) {
 		List<DataElement> outputData = new ArrayList<>();
 		int maxItemsInChart = Settings.getMaxItemsInChart();
-		if (inputData.size() < maxItemsInChart) {
+		if (inputData.size() <= maxItemsInChart) {
 			outputData = DataHandler.convertToRenderableList(inputData);
 		} else {
+			int bound = inputData.size() / maxItemsInChart;
 			int i = 0;
 			float x = 0, y = 0, z = 0;
 			float time0 = 0, time1 = 0;
@@ -240,13 +243,18 @@ public class Statistic {
 				y += dataElement.getY();
 				z += dataElement.getZ();
 				i++;
-				if (i >= maxItemsInChart) {
+				if (i <= 1) {
+					time0 = dataElement.getTime();
+				} else if (i >= bound) {
 					time1 = dataElement.getTime();
 					x /= (float) i;
 					y /= (float) i;
 					z /= (float) i;
 					float time = (time1 - time0) / 2f;
-					outputData.add(new DataElement(x, y, z, time));
+					DataElement tmp = new DataElement(x, y, z, time);
+					outputData.add(tmp);
+					if (outputData.size() >= maxItemsInChart)
+						break;
 					x = 0;
 					y = 0;
 					z = 0;
@@ -254,11 +262,10 @@ public class Statistic {
 					time0 = 0;
 					time1 = 0;
 					i = 0;
-				} else if (i == 1) {
-					time0 = dataElement.getTime();
 				}
 			}
 		}
+
 		return outputData;
 	}
 
