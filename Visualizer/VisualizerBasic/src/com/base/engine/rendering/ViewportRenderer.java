@@ -16,6 +16,8 @@ import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
+import java.util.List;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -42,26 +44,26 @@ public class ViewportRenderer implements Renderable {
 	public void close() {
 	}
 
-	public void render(Engine engine, Camera[] camera, IRenderer[][] renderers, float[] scaleFactors) {
+	public void render(Engine engine, Camera[] camera, List<IRenderer[]> renderers, float[] scaleFactors) {
 
-		if (renderers == null || renderers.length < 1)
+		if (renderers == null || renderers.size() < 1)
 			return;
 
 		int width = Display.getWidth() / 2;
 		int height = Display.getHeight() / 2;
 
-		for (int i = 0; i < renderers.length; i++) {
+		for (int i = 0; i < renderers.size(); i++) {
 
 			int x = i < 2 ? 0 : width;
 			int y = i % 2 != 0 ? 0 : height;
 
-			if (renderers[i] != null) {
+			if (renderers.get(i) != null) {
 
-				for (int j = 0; j < renderers[i].length; j++) {
+				for (int j = 0; j < renderers.get(i).length; j++) {
 
-					if (renderers[i][j] != null) {
+					if (renderers.get(i)[j] != null) {
 
-						int[] customViewport = renderers[i][j].createCustomViewport();
+						int[] customViewport = renderers.get(i)[j].createCustomViewport();
 						boolean isNormalViewport = customViewport == null;
 
 						if (isNormalViewport) {
@@ -102,11 +104,11 @@ public class ViewportRenderer implements Renderable {
 
 						try {
 							// only translate and rotate in 3D view
-							if (renderers[i][j].is3D() && renderers[i][j].isAffectedByCameraAngle()) {
+							if (renderers.get(i)[j].is3D() && renderers.get(i)[j].isAffectedByCameraAngle()) {
 								glRotatef(camera[i].getPitch(), 1, 0, 0);
 								glRotatef(camera[i].getYaw(), 0, 1, 0);
 							}
-							if (renderers[i][j].isAffectedByCameraPos()) {
+							if (renderers.get(i)[j].isAffectedByCameraPos()) {
 								glTranslatef(camera[i].getPos().getX(), camera[i].getPos().getY(),
 										camera[i].getPos().getZ());
 								glScalef(scaleFactors[i], scaleFactors[i], scaleFactors[i]);
@@ -118,9 +120,9 @@ public class ViewportRenderer implements Renderable {
 								glScalef(0.05f, 0.05f, 0.05f);
 							}
 
-							Object renderData = renderers[i][j].selectRenderData(engine);
+							Object renderData = renderers.get(i)[j].selectRenderData(engine);
 
-							GraphicBufferUitl.handleGraphicsData(renderData, renderers[i][j], i, j);
+							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j);
 
 							if (!isNormalViewport) {
 								GL11.glPointSize(15);

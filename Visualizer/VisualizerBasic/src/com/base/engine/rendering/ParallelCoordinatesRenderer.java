@@ -76,7 +76,7 @@ public class ParallelCoordinatesRenderer implements IRenderer {
 
 	@Override
 	public Object selectRenderData(Engine engine) {
-		return engine.getChartData();
+		return engine.getPointCloudData();
 	}
 
 }

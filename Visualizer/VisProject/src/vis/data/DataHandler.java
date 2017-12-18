@@ -105,11 +105,11 @@ public class DataHandler {
 						float x = Float.parseFloat(parts[1]);
 						float y = Float.parseFloat(parts[2]);
 						float z = Float.parseFloat(parts[3]);
-						
+
 						x = Math.abs(x);
 						y = Math.abs(y);
 						z = Math.abs(z);
-						
+
 						DataElement element = new DataElement(x, y, z, time);
 						elements.put(time, element);
 						if (useClustering)
@@ -131,6 +131,11 @@ public class DataHandler {
 	 * @return
 	 */
 	public static Map<Float, DataElement> loadDataFromRemoteAPI() {
+
+		int dataSetSize = 1000;
+
+		long start = System.currentTimeMillis();
+
 		boolean useClustering = NUM_CLUSTERS > -1;
 		KMeans kmeans = new KMeans(NUM_CLUSTERS);
 		Map<Float, DataElement> elements = new TreeMap<>();
@@ -147,7 +152,7 @@ public class DataHandler {
 			// close the print stream
 			ps.close();
 			ps.flush();
-			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=topK&k=1000");
+			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=topK&k=" + dataSetSize);
 			BufferedReader in = new BufferedReader(new InputStreamReader(url2.openStream()));
 
 			String inputLine;
@@ -212,6 +217,11 @@ public class DataHandler {
 		}
 		currentBuffer = new DataBuffer();
 		currentBuffer.setData(elements);
+
+		long end = System.currentTimeMillis();
+
+		System.out.println("Time for loading and parsing " + dataSetSize + " data elements: " + (end - start) + "ms");
+
 		return elements;
 	}
 

@@ -693,12 +693,12 @@ public class VBOHandler {
 			this.calcXStep();
 
 			float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
-			
+
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems, 2, 4);
 			for (int i = 0; i < numItems; i++) {
 
 				DataElement e = inputData.get(i);
-				
+
 				float valueX = this.calcValue_xAxes(e.getX());
 				float valueY = this.calcValue_yAxes(e.getY());
 

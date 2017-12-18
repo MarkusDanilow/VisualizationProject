@@ -16,6 +16,7 @@ import com.base.common.resources.Range;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
 import com.base.engine.Settings;
+import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 import vis.data.DataHandler;
 import vis.frame.LookAndFeel;
@@ -94,7 +95,6 @@ public class VisApplication implements AppInterface {
 	 * @throws SQLException
 	 */
 	public VisApplication() throws LWJGLException, FileNotFoundException, IOException, SQLException {
-
 		this.window = new MainWindow(this, Settings.getApplicationTitle(), Settings.getDisplayWidth(),
 				Settings.getDisplayHeight());
 		Canvas c = this.window.getCanvasById(0);
@@ -155,6 +155,7 @@ public class VisApplication implements AppInterface {
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
+		GraphicBufferUitl.performanceMeasureEnabled = true ; 
 		this.engine.resetAllViewportDisplayLists();
 	}
 
