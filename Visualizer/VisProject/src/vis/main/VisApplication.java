@@ -155,9 +155,7 @@ public class VisApplication implements AppInterface {
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
-		this.engine.resetViewportDisplayList(0);
-		this.engine.resetViewportDisplayList(2);
-		this.engine.resetViewportDisplayList(1);
+		this.engine.resetAllViewportDisplayLists();
 	}
 
 }

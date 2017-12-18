@@ -1,19 +1,50 @@
 package com.base.engine.rendering.buffers;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_POINTS;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glColorPointer;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glLineWidth;
+import static org.lwjgl.opengl.GL11.glPointSize;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.Sys;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
+import org.newdawn.slick.opengl.TextureLoader;
 
 import com.base.common.ColorUtil;
 import com.base.common.resources.Callback;
@@ -25,6 +56,7 @@ import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
 import com.base.engine.rendering.LineChartRenderer;
 import com.base.engine.rendering.MiniMapRenderer;
+import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 
@@ -68,6 +100,11 @@ public class VBOHandler {
 	/**
 	 * 
 	 */
+	private static int arrowTexture = 0;
+
+	/**
+	 * 
+	 */
 	static {
 
 		/*
@@ -78,6 +115,7 @@ public class VBOHandler {
 		VBOGridRenderer gridRenderer = new VBOGridRenderer();
 		VBOBarChartRenderer barChartRenderer = new VBOBarChartRenderer();
 		VBOLineChartRenderer lineChartRenderer = new VBOLineChartRenderer();
+		VBOParallelCoordinatesRenderer parallelCoordinatesRenderer = new VBOParallelCoordinatesRenderer();
 
 		/*
 		 * Add renderers to rendering techniques
@@ -101,6 +139,9 @@ public class VBOHandler {
 		List<IVBORenderer> lineChart = new ArrayList<>();
 		lineChart.add(lineChartRenderer);
 
+		List<IVBORenderer> parallelCoordinates = new ArrayList<>();
+		parallelCoordinates.add(parallelCoordinatesRenderer);
+
 		/*
 		 * associate renderer classes with rendering methods
 		 */
@@ -110,6 +151,7 @@ public class VBOHandler {
 		internalRenderers.put(MiniMapRenderer.class.getSimpleName(), minimap);
 		internalRenderers.put(BarChartRenderer.class.getSimpleName(), barChart);
 		internalRenderers.put(LineChartRenderer.class.getSimpleName(), lineChart);
+		internalRenderers.put(ParallelCoordinatesRenderer.class.getSimpleName(), parallelCoordinates);
 
 		/*
 		 * Define different callback methods for rendering
@@ -156,6 +198,9 @@ public class VBOHandler {
 		List<Callback> cLineChart = new ArrayList<>();
 		cLineChart.add(switch2D);
 
+		List<Callback> cParallelCoordinates = new ArrayList<>();
+		cParallelCoordinates.add(switch2D);
+
 		/*
 		 * associate renderer classes with callback methods
 		 */
@@ -165,6 +210,14 @@ public class VBOHandler {
 		internalCallbacks.put(MiniMapRenderer.class.getSimpleName(), cMinimap);
 		internalCallbacks.put(BarChartRenderer.class.getSimpleName(), cBarChart);
 		internalCallbacks.put(LineChartRenderer.class.getSimpleName(), cLineChart);
+		internalCallbacks.put(ParallelCoordinatesRenderer.class.getSimpleName(), cParallelCoordinates);
+
+		try {
+			arrowTexture = TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/arrow.png")))
+					.getTextureID();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -417,22 +470,73 @@ public class VBOHandler {
 		protected final float xMax = Math.abs(xMin);
 		protected int numItems = 50;
 		protected float xStep = 0.1f;
+		protected float biggestX, biggestY;
 
 		protected void renderAxes() {
-			glColor4f(0.5f, 0.5f, 0.5f, 1f);
+
+			glLineWidth(1f);
+
+			float upperBound = (float) (Math.ceil(this.biggestY) + Math.ceil(this.biggestY) * 0.01f);
+			int steps = 20;
+			float stepY = upperBound / steps;
+
+			this.setAxesColor();
+			this.setAxesStrength();
 			glBegin(GL_LINES);
-			glVertex2f(xMin - 0.025f, yMax);
+			glVertex2f(xMin - 0.05f, yMax);
 			glVertex2f(xMax + 0.05f, yMax);
 			glVertex2f(xMin - 0.025f, yMax + 0.05f);
 			glVertex2f(xMin - 0.025f, yMin - 0.05f);
 
-			for (int i = 0; i < numItems; i++) {
+			for (int i = 0; i <= numItems; i++) {
 				float x = this.calcPosX(i) + this.xStep / 2f;
 				glVertex2f(x, yMax + 0.025f);
 				glVertex2f(x, yMax);
 			}
 
+			for (int i = 0; i < steps; i++) {
+				float y = this.calcValue_yAxes((i + 1) * stepY);
+				glVertex2f(xMin - 0.0375f, y);
+				glVertex2f(xMin - 0.025f, y);
+			}
 			glEnd();
+
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, arrowTexture);
+
+			glColor4f(1, 1, 1, 1);
+
+			glPushMatrix();
+			RenderUtils.rotateTexture(180);
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 0);
+			glVertex2f(xMin - 0.0375f, yMin - 0.05f);
+			glTexCoord2f(1, 0);
+			glVertex2f(xMin - 0.0125f, yMin - 0.05f);
+			glTexCoord2f(1, 1);
+			glVertex2f(xMin - 0.0125f, yMin - 0.075f);
+			glTexCoord2f(0, 1);
+			glVertex2f(xMin - 0.0375f, yMin - 0.075f);
+			glEnd();
+			glPopMatrix();
+
+			glPushMatrix();
+			RenderUtils.rotateTexture(-90);
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 0);
+			glVertex2f(xMax + 0.05f, yMax - 0.0125f);
+			glTexCoord2f(1, 0);
+			glVertex2f(xMax + 0.0675f, yMax - 0.0125f);
+			glTexCoord2f(1, 1);
+			glVertex2f(xMax + 0.0675f, yMax + 0.0125f);
+			glTexCoord2f(0, 1);
+			glVertex2f(xMax + 0.05f, yMax + 0.0125f);
+			glEnd();
+			glPopMatrix();
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisable(GL_TEXTURE_2D);
+
 		}
 
 		protected float calcPosX(int i) {
@@ -442,6 +546,14 @@ public class VBOHandler {
 		protected float calcXStep() {
 			xStep = (((xMax - xMin)) / ((float) numItems));
 			return xStep;
+		}
+
+		public void setBiggestX(float biggestX) {
+			this.biggestX = biggestX;
+		}
+
+		public void setBiggestY(float biggestY) {
+			this.biggestY = biggestY;
 		}
 
 		protected DataElement getBiggestX(List<DataElement> inputData) {
@@ -471,14 +583,22 @@ public class VBOHandler {
 			});
 		}
 
-		protected float calcValue_yAxes(float value, float biggest) {
-			float valueRatio = value / biggest;
+		protected float calcValue_xAxes(float value) {
+			float valueRatio = value / this.biggestX;
+			return valueRatio * (xMax - xMin) + xMin;
+		}
+
+		protected float calcValue_yAxes(float value) {
+			float valueRatio = value / this.biggestY;
 			return valueRatio * (yMin - yMax) + yMax;
 		}
 
-		protected float calcValue_xAxes(float value, float biggest) {
-			float valueRatio = value / biggest;
-			return valueRatio * (xMax - xMin) + xMin;
+		protected void setAxesColor() {
+			glColor4f(1, 1, 1, 1f);
+		}
+
+		protected void setAxesStrength() {
+			glLineWidth(1.5f);
 		}
 
 	}
@@ -504,6 +624,8 @@ public class VBOHandler {
 
 			List<DataElement> inputData = (List<DataElement>) data;
 			DataElement biggest = this.getBiggestX(inputData);
+			this.setBiggestY(biggest.getX());
+
 			this.numItems = inputData.size();
 
 			this.calcXStep();
@@ -512,7 +634,7 @@ public class VBOHandler {
 			for (int i = 0; i < numItems; i++) {
 
 				float x = this.calcPosX(i);
-				float value = this.calcValue_yAxes(inputData.get(i).getX(), biggest.getX());
+				float value = this.calcValue_yAxes(inputData.get(i).getX());
 
 				buffers[0].put(new float[] { x, value, x + xStep, value, x + xStep, yMax, x, yMax });
 				for (int j = 0; j < verticesPerItem; j++)
@@ -532,8 +654,9 @@ public class VBOHandler {
 		public void render(int viewportIndex, Callback callback) {
 			glDisable(GL_BLEND);
 			masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
-			this.renderAxes();
 			glEnable(GL_BLEND);
+			this.renderAxes();
+
 		}
 
 	}
@@ -546,6 +669,7 @@ public class VBOHandler {
 
 	/**
 	 * TODO: Whats the sense of the line chart again ??!
+	 * 
 	 * @author Markus
 	 *
 	 */
@@ -562,17 +686,24 @@ public class VBOHandler {
 			DataElement biggestX = this.getBiggestX(inputData);
 			DataElement biggestY = this.getBiggestY(inputData);
 
+			this.setBiggestX(biggestX.getX());
+			this.setBiggestY(biggestY.getY());
+
 			this.numItems = inputData.size();
 			this.calcXStep();
 
+			float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
+			
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems, 2, 4);
 			for (int i = 0; i < numItems; i++) {
 
-				float valueX = this.calcPosX(i);
-				float valueY = this.calcValue_yAxes(inputData.get(i).getX(), biggestX.getX());
+				DataElement e = inputData.get(i);
+				
+				float valueX = this.calcValue_xAxes(e.getX());
+				float valueY = this.calcValue_yAxes(e.getY());
 
 				buffers[0].put(new float[] { valueX, valueY });
-				buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
+				buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), e.getTime(), maxTime));
 
 			}
 
@@ -581,10 +712,81 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			glDisable(GL_BLEND);
+			glLineWidth(1.5f);
 			masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
 			this.renderAxes();
-			glEnable(GL_BLEND);
+		}
+
+	}
+
+	/*
+	 * ------------------------------------------------------------------------
+	 * PARALLEL COORDINATES RENDERING
+	 * ------------------------------------------------------------------------
+	 */
+
+	private static class VBOParallelCoordinatesRenderer extends AVBOChartRenderer {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public void create(int viewportIndex, Object data) {
+			if (data == null)
+				return;
+
+			List<DataElement> inputData = (List<DataElement>) data;
+			DataElement biggestX = this.getBiggestX(inputData);
+			DataElement biggestY = this.getBiggestY(inputData);
+			DataElement biggestZ = this.getBiggestZ(inputData);
+
+			this.numItems = inputData.size();
+
+			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 4, 2, 4);
+
+			float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
+
+			for (int i = 0; i < numItems; i++) {
+				DataElement e = inputData.get(i);
+
+				// calc color
+				float[] color = PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), e.getTime(), maxTime);
+				float y = 0;
+
+				// x coordinate
+				this.setBiggestY(biggestX.getX());
+				y = this.calcValue_yAxes(e.getX());
+				buffers[0].put(new float[] { xMin, y });
+
+				// y coordinate
+				this.setBiggestY(biggestY.getY());
+				y = this.calcValue_yAxes(e.getY());
+				buffers[0].put(new float[] { 0, y, 0, y });
+
+				// z coordinate
+				this.setBiggestY(biggestZ.getZ());
+				y = this.calcValue_yAxes(e.getZ());
+				buffers[0].put(new float[] { xMax, y });
+
+				buffers[1].put(color);
+				buffers[1].put(color);
+				buffers[1].put(color);
+				buffers[1].put(color);
+
+			}
+
+			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
+		}
+
+		@Override
+		public void render(int viewportIndex, Callback callback) {
+			masterRenderMethod(viewportIndex, 2, 4, GL_LINES, callback);
+			this.setAxesStrength();
+			this.setAxesColor();
+			glBegin(GL_LINES);
+			for (int i = -1; i < 2; i++) {
+				glVertex2f(i * xMax, yMax);
+				glVertex2f(i * xMax, yMin);
+			}
+			glEnd();
 		}
 
 	}

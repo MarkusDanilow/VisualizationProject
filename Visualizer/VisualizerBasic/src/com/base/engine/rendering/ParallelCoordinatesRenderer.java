@@ -21,7 +21,7 @@ import com.base.common.IRenderer;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
 
-public class WhateverRenderer implements IRenderer {
+public class ParallelCoordinatesRenderer implements IRenderer {
 
 	@Override
 	public void render(Object... objects) {
@@ -76,7 +76,7 @@ public class WhateverRenderer implements IRenderer {
 
 	@Override
 	public Object selectRenderData(Engine engine) {
-		return 2;
+		return engine.getChartData();
 	}
 
 }

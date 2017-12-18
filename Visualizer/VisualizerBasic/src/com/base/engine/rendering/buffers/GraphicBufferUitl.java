@@ -11,7 +11,7 @@ public class GraphicBufferUitl {
 
 	static {
 		for (int i = 0; i < Engine.NUM_VIEWS; i++) {
-			useDisplayLists[i] = i == 3;
+			useDisplayLists[i] = false;
 		}
 	}
 

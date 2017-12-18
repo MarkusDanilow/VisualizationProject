@@ -33,7 +33,7 @@ import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
-import com.base.engine.rendering.WhateverRenderer;
+import com.base.engine.rendering.ParallelCoordinatesRenderer;
 
 import gen.algo.Algy;
 import gen.algo.common.MapMirrorType;
@@ -87,7 +87,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private MiniMapRenderer minimapRenderer;
 	private BarChartRenderer barChartRenderer;
 	private LineChartRenderer lineChartRenderer;
-	private WhateverRenderer whateverRenderer;
+	private ParallelCoordinatesRenderer parallelCoorinatesRenderer;
 
 	private IRenderer[][] renderers = new IRenderer[NUM_VIEWS][];
 	private float[] scaleFactors = new float[NUM_VIEWS];
@@ -286,7 +286,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		this.minimapRenderer = new MiniMapRenderer();
 		this.barChartRenderer = new BarChartRenderer();
 		this.lineChartRenderer = new LineChartRenderer();
-		this.whateverRenderer = new WhateverRenderer();
+		this.parallelCoorinatesRenderer = new ParallelCoordinatesRenderer();
 
 		Camera.setSpeed(25f);
 
@@ -309,7 +309,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				break;
 			case 3:
 				this.renderers[i] = new IRenderer[1];
-				this.renderers[i][0] = this.whateverRenderer;
+				this.renderers[i][0] = this.parallelCoorinatesRenderer;
 				break;
 			}
 			this.scaleFactors[i] = 0.25f;
@@ -652,6 +652,12 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@Override
 	public void resetViewportDisplayList(int index) {
 		this.viewportRenderer.resetDisplayList(this, index);
+	}
+
+	public void resetAllViewportDisplayLists() {
+		for (int i = 0; i < NUM_VIEWS; i++) {
+			this.resetViewportDisplayList(i);
+		}
 	}
 
 	@Override

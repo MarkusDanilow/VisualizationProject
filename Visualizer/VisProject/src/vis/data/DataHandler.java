@@ -105,6 +105,11 @@ public class DataHandler {
 						float x = Float.parseFloat(parts[1]);
 						float y = Float.parseFloat(parts[2]);
 						float z = Float.parseFloat(parts[3]);
+						
+						x = Math.abs(x);
+						y = Math.abs(y);
+						z = Math.abs(z);
+						
 						DataElement element = new DataElement(x, y, z, time);
 						elements.put(time, element);
 						if (useClustering)
@@ -142,7 +147,7 @@ public class DataHandler {
 			// close the print stream
 			ps.close();
 			ps.flush();
-			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=topK&k=10000");
+			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=topK&k=1000");
 			BufferedReader in = new BufferedReader(new InputStreamReader(url2.openStream()));
 
 			String inputLine;

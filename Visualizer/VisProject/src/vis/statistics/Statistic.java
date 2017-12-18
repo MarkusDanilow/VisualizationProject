@@ -230,39 +230,28 @@ public class Statistic {
 
 	public static List<DataElement> getRenderableSampledList(Map<Float, DataElement> inputData) {
 		List<DataElement> outputData = new ArrayList<>();
+		List<DataElement> input = DataHandler.convertToRenderableList(inputData);
 		int maxItemsInChart = Settings.getMaxItemsInChart();
 		if (inputData.size() <= maxItemsInChart) {
-			outputData = DataHandler.convertToRenderableList(inputData);
+			outputData = input;
 		} else {
 			int bound = inputData.size() / maxItemsInChart;
-			int i = 0;
-			float x = 0, y = 0, z = 0;
-			float time0 = 0, time1 = 0;
-			for (DataElement dataElement : inputData.values()) {
-				x += dataElement.getX();
-				y += dataElement.getY();
-				z += dataElement.getZ();
-				i++;
-				if (i <= 1) {
-					time0 = dataElement.getTime();
-				} else if (i >= bound) {
-					time1 = dataElement.getTime();
-					x /= (float) i;
-					y /= (float) i;
-					z /= (float) i;
-					float time = (time1 - time0) / 2f;
-					DataElement tmp = new DataElement(x, y, z, time);
-					outputData.add(tmp);
-					if (outputData.size() >= maxItemsInChart)
-						break;
-					x = 0;
-					y = 0;
-					z = 0;
-					time = 0;
-					time0 = 0;
-					time1 = 0;
-					i = 0;
-				}
+			/*
+			 * int i = 0; float x = 0, y = 0, z = 0; float time0 = 0, time1 = 0;
+			 * for (DataElement dataElement : inputData.values()) { x +=
+			 * dataElement.getX(); y += dataElement.getY(); z +=
+			 * dataElement.getZ(); i++; if (i <= 1) { time0 =
+			 * dataElement.getTime(); } else if (i >= bound) { time1 =
+			 * dataElement.getTime(); x /= (float) i; y /= (float) i; z /=
+			 * (float) i; float time = (time1 - time0) / 2f; DataElement tmp =
+			 * new DataElement(x, y, z, time); outputData.add(tmp); if
+			 * (outputData.size() >= maxItemsInChart) break; x = 0; y = 0; z =
+			 * 0; time = 0; time0 = 0; time1 = 0; i = 0; } }
+			 */
+			for (int i = 0; i < input.size(); i += bound) {
+				outputData.add(input.get(i));
+				if (outputData.size() >= maxItemsInChart)
+					break;
 			}
 		}
 
