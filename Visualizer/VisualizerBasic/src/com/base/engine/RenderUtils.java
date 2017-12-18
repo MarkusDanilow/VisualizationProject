@@ -105,4 +105,13 @@ public final class RenderUtils {
 
 	}
 
+	public static void rotateTexture(float angle) {
+		glMatrixMode(GL_TEXTURE);
+		glLoadIdentity();
+		glTranslatef(0.5f, 0.5f, 0.0f);
+		glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		glTranslatef(-0.5f, -0.5f, 0.0f);
+		glMatrixMode(GL_MODELVIEW);
+	}
+
 }

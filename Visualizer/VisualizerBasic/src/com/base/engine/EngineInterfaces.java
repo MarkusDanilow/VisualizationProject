@@ -40,6 +40,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void setChartData(List<DataElement> data);
 
 	void resetViewportDisplayList(int index);
+	void resetAllViewportDisplayLists();
 	
 	void changeScaleFactor(float factor, int viewIndex);
 

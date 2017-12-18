@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -33,7 +34,7 @@ import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
-import com.base.engine.rendering.WhateverRenderer;
+import com.base.engine.rendering.ParallelCoordinatesRenderer;
 
 import gen.algo.Algy;
 import gen.algo.common.MapMirrorType;
@@ -87,9 +88,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private MiniMapRenderer minimapRenderer;
 	private BarChartRenderer barChartRenderer;
 	private LineChartRenderer lineChartRenderer;
-	private WhateverRenderer whateverRenderer;
+	private ParallelCoordinatesRenderer parallelCoorinatesRenderer;
 
-	private IRenderer[][] renderers = new IRenderer[NUM_VIEWS][];
+	private List<IRenderer[]> renderers = new ArrayList<>();
 	private float[] scaleFactors = new float[NUM_VIEWS];
 	private Console console;
 	private Camera[] cameras = new Camera[NUM_VIEWS];
@@ -108,11 +109,11 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	}
 
 	public int getNumRenderersForViewport(int viewportIndex) {
-		return this.renderers[viewportIndex].length;
+		return this.renderers.get(viewportIndex).length;
 	}
 
 	public IRenderer[] getRenderersForViewportIndex(int viewportIndex) {
-		return this.renderers[viewportIndex];
+		return this.renderers.get(viewportIndex);
 	}
 
 	public void setRunning(boolean running) {
@@ -286,30 +287,34 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		this.minimapRenderer = new MiniMapRenderer();
 		this.barChartRenderer = new BarChartRenderer();
 		this.lineChartRenderer = new LineChartRenderer();
-		this.whateverRenderer = new WhateverRenderer();
+		this.parallelCoorinatesRenderer = new ParallelCoordinatesRenderer();
 
 		Camera.setSpeed(25f);
 
-		for (int i = 0; i < this.renderers.length; i++) {
+		for (int i = 0; i < NUM_VIEWS; i++) {
 			switch (i) {
 			case 0:
-				this.renderers[i] = new IRenderer[4];
-				this.renderers[i][0] = this.gridRenderer;
-				this.renderers[i][1] = this.pointCloudRenderer;
-				// this.renderers[i][2] = this.pointCloudClusterRenderer;
-				this.renderers[i][3] = this.minimapRenderer;
+				IRenderer[] renderers = new IRenderer[4];
+				renderers[0] = this.gridRenderer;
+				renderers[1] = this.pointCloudRenderer;
+				// renderers[2] = .pointCloudClusterRenderer;
+				renderers[3] = this.minimapRenderer;
+				this.renderers.add(renderers);
 				break;
 			case 1:
-				this.renderers[i] = new IRenderer[1];
-				this.renderers[i][0] = this.lineChartRenderer;
+				renderers = new IRenderer[1];
+				renderers[0] = this.lineChartRenderer;
+				this.renderers.add(renderers);
 				break;
 			case 2:
-				this.renderers[i] = new IRenderer[1];
-				this.renderers[i][0] = this.barChartRenderer;
+				renderers = new IRenderer[1];
+				renderers[0] = this.barChartRenderer;
+				this.renderers.add(renderers);
 				break;
 			case 3:
-				this.renderers[i] = new IRenderer[1];
-				this.renderers[i][0] = this.whateverRenderer;
+				renderers = new IRenderer[1];
+				renderers[0] = this.parallelCoorinatesRenderer;
+				this.renderers.add(renderers);
 				break;
 			}
 			this.scaleFactors[i] = 0.25f;
@@ -652,6 +657,12 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@Override
 	public void resetViewportDisplayList(int index) {
 		this.viewportRenderer.resetDisplayList(this, index);
+	}
+
+	public void resetAllViewportDisplayLists() {
+		for (int i = 0; i < NUM_VIEWS; i++) {
+			this.resetViewportDisplayList(i);
+		}
 	}
 
 	@Override
