@@ -6,6 +6,9 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,6 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+
+
 
 public class RightFXPanel {
 
@@ -44,6 +49,7 @@ public class RightFXPanel {
 		rbLive.setToggleGroup(groupT1);
 		rbLive.setSelected(true);
 		gridt1.add(rbLive, 0, 0);
+		
 		
 		RadioButton rbFreeze = new RadioButton("freeze");
 		rbFreeze.setToggleGroup(groupT1);
@@ -244,8 +250,27 @@ public class RightFXPanel {
         scene.getStylesheets().add(RightFXPanel.class.getResource("style.css").toExternalForm());
         
 	    rightSidebarPanelFX.setScene(scene);
+	    
+	  /* ----------------------EventHandler---------------------- */
+	  		
+	    rotateLeft.setOnAction(new EventHandler<ActionEvent>() {
+	  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rotateLeft");
+	  		}});
+	    
+	  	rotateRight.setOnAction(new EventHandler<ActionEvent>() {
+	  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rotateRight");
+	  		}});
+	  		
+	  		
 		
 	    return rightSidebarPanel;
 		
+	   
+	    
+	    
 	}
 }
