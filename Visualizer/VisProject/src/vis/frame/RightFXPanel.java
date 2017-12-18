@@ -264,6 +264,118 @@ public class RightFXPanel {
 	  		public void handle(ActionEvent event) {
 	  			System.out.println("Hello World from rotateRight");
 	  		}});
+	  	
+	  	rbLive.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from Live");
+	  		}});
+	  	
+	  	rbFreeze.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from Freeze");
+	  		}});
+	  	
+	  	rbDotVector.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbDotVector");
+	  		}});
+	  	
+	  	rbPlotAll.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbPlotAll");
+	  		}});
+	  	
+	  	rbPlotBetween.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbPlotBetween");
+	  		}});
+	  	
+	  	rbShowX.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbShowX");
+	  		}});
+	  	
+	  	
+	  	
+	  	
+	  	rbShowY.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbShowY");
+	  		}});
+	  	
+	  	rbShowZ.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbShowZ");
+	  		}});
+	  	
+	  	meanLast.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from meanLast");
+	  		}});
+	  	
+	  	rbShowXSpline.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbShowXSpline");
+	  		}});
+	  	
+	  	rbShowYSpline.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbShowYSpline");
+	  		}});
+	  	
+	  	rbShowZSpline.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from rbShowZSpline");
+	  		}});
+	  	
+	  	trendLast.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from trendLast");
+	  		}});
+	  	
+	  	showXPL.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from showXPL");
+	  		}});
+	  	
+	  	showYPL.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from showYPL");
+	  		}});
+	  	
+	  	showZPL.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from showZPL");
+	  		}});
+	  	
+	  	showDistancePL.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from showDistancePL");
+	  		}});
+	  	
+	  	minDistanceAT.setOnAction(new EventHandler<ActionEvent>() {
+  			
+	  		public void handle(ActionEvent event) {
+	  			System.out.println("Hello World from minDistanceAT");
+	  		}});
+	  	
 	  		
 	  		
 		
