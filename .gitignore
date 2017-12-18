@@ -26,3 +26,8 @@ Visualizer/VisProject/hs_err_pid18040.log
 Visualizer/VisProject/hs_err_pid10416.log
 Visualizer/VisProject/hs_err_pid14892.log
 >>>>>>> 00bd9c67b6f13c5d4e7fadac310588c1318652a3
+/.metadata/
+Visualizer/.classpath
+Visualizer/.project
+Visualizer/Visualizer/.project
+*.prefs
