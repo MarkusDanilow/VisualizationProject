@@ -226,178 +226,192 @@ public class RightFXPanel {
 		
 		final Label unitDistance = new Label ("cm");
 		gridt6.add(unitDistance, 1, 1);
-        
-        t6.setText("Pane X: Aimed Target");
-        t6.setContent(gridt6);
-		
-        
-        Accordion accordion = new Accordion(); 
-        accordion.getPanes().addAll(t1, t2, t3, t4, t5, t6); 
-        accordion.setExpandedPane(t1); 
-        accordion.setPrefSize(rightSidebarWidth-20, 200);
-        
-        GridPane gridMain = new GridPane(); 
-        gridMain.setAlignment(Pos.TOP_CENTER); 
-        gridMain.setHgap(5); 
-        gridMain.setVgap(5);
-        
-        final Label labelMain = new Label("Settings");
-        labelMain.setId("headline");
-        gridMain.add(labelMain, 0, 0);
-        
-        gridMain.add(accordion, 0, 1); 
-        gridMain.setGridLinesVisible(false);        
-        
-        Scene scene = new Scene(gridMain, rightSidebarWidth, height);
-        scene.getStylesheets().add(RightFXPanel.class.getResource("style.css").toExternalForm());
-        
-	    rightSidebarPanelFX.setScene(scene);
-	    
-	  /* ----------------------EventHandler---------------------- */
-	  		
-	    rotateLeft.setOnAction(new EventHandler<ActionEvent>() {
-	  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rotateLeft");
-	  		}});
-	    
-	  	rotateRight.setOnAction(new EventHandler<ActionEvent>() {
-	  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rotateRight");
-	  		}});
-	  	
-	  	rbLive.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from Live");
-	  		}});
-	  	
-	  	rbFreeze.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from Freeze");
-	  		}});
-	  	
-	  	rbDotVector.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbDotVector");
-	  		}});
-	  	
-	  	rbPlotAll.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbPlotAll");
-	  		}});
-	  	
-	  	rbPlotBetween.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbPlotBetween");
-	  		}});
-	  	
-	  	rbShowX.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbShowX");
-	  		}});
-	  	
-	  	
-	  	
-	  	
-	  	rbShowY.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbShowY");
-	  		}});
-	  	
-	  	rbShowZ.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbShowZ");
-	  		}});
-	  	
-	  	meanLast.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from meanLast");
-	  		}});
-	  	
-	  	rbShowXSpline.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbShowXSpline");
-	  		}});
-	  	
-	  	rbShowYSpline.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbShowYSpline");
-	  		}});
-	  	
-	  	rbShowZSpline.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from rbShowZSpline");
-	  		}});
-	  	
-	  	trendLast.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from trendLast");
-	  		}});
-	  	
-	  	showXPL.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from showXPL");
-	  		}});
-	  	
-	  	showYPL.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from showYPL");
-	  		}});
-	  	
-	  	showZPL.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from showZPL");
-	  		}});
-	  	
-	  	showDistancePL.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from showDistancePL");
-	  		}});
-	  	
-	  	minDistanceAT.setOnAction(new EventHandler<ActionEvent>() {
-  			
-	  		public void handle(ActionEvent event) {
-	  			System.out.println("Hello World from minDistanceAT");
-	  		}});
-	  	
-	  	txtATDistance.textProperty().addListener(new ChangeListener<String>() {
-	  	    @Override
-	  	    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
-	  	        System.out.println("Was changed");
-	  	    }
-	  	});
-	  	
-	  	txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
-	  	    @Override
-	  	    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
-	  	        System.out.println("Was changed");
-	  	    }
-	  	});
-	  		
-	  		
-		
-	    return rightSidebarPanel;
-		
-	   
-	    
-	    
+
+
+		t6.setText("Pane X: Aimed Target");
+		t6.setContent(gridt6);
+
+		Accordion accordion = new Accordion();
+		accordion.getPanes().addAll(t1, t2, t3, t4, t5, t6);
+		accordion.setExpandedPane(t1);
+		accordion.setPrefSize(rightSidebarWidth - 20, 200);
+
+		GridPane gridMain = new GridPane();
+		gridMain.setAlignment(Pos.TOP_CENTER);
+		gridMain.setHgap(5);
+		gridMain.setVgap(5);
+
+		final Label labelMain = new Label("Settings");
+		labelMain.setId("headline");
+		gridMain.add(labelMain, 0, 0);
+
+		gridMain.add(accordion, 0, 1);
+		gridMain.setGridLinesVisible(false);
+
+		Scene scene = new Scene(gridMain, rightSidebarWidth, height);
+		scene.getStylesheets().add(RightFXPanel.class.getResource("style.css").toExternalForm());
+
+		rightSidebarPanelFX.setScene(scene);
+
+		/* ----------------------EventHandler---------------------- */
+
+		rotateLeft.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rotateLeft");
+			}
+		});
+
+		rotateRight.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rotateRight");
+			}
+		});
+
+		rbLive.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from Live");
+			}
+		});
+
+		rbFreeze.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from Freeze");
+			}
+		});
+
+		rbDotVector.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbDotVector");
+			}
+		});
+
+		rbPlotAll.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbPlotAll");
+			}
+		});
+
+		rbPlotBetween.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbPlotBetween");
+			}
+		});
+
+		rbShowX.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbShowX");
+			}
+		});
+
+		rbShowY.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbShowY");
+			}
+		});
+
+		rbShowZ.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbShowZ");
+			}
+		});
+
+		meanLast.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from meanLast");
+			}
+		});
+
+		rbShowXSpline.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbShowXSpline");
+			}
+		});
+
+		rbShowYSpline.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbShowYSpline");
+			}
+		});
+
+		rbShowZSpline.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from rbShowZSpline");
+			}
+		});
+
+		trendLast.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from trendLast");
+			}
+		});
+
+		showXPL.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from showXPL");
+			}
+		});
+
+		showYPL.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from showYPL");
+			}
+		});
+
+		showZPL.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from showZPL");
+			}
+		});
+
+		showDistancePL.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from showDistancePL");
+			}
+		});
+
+		minDistanceAT.setOnAction(new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World from minDistanceAT");
+			}
+		});
+
+		txtATDistance.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+
+		txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+
+		return rightSidebarPanel;
+
 	}
 }
