@@ -67,6 +67,8 @@ public class MainWindow extends JFrame {
 
 	private AtomicBoolean timelineRunning = new AtomicBoolean(false);
 
+	private RightFXPanel fxPanelObjectRight;
+
 	public static Dimension getScreenSize() {
 		return Toolkit.getDefaultToolkit().getScreenSize();
 	}
@@ -143,7 +145,7 @@ public class MainWindow extends JFrame {
 		/* ------------ create the sidebar to the right ------------ */
 		JPanel rightSidebarPanel = new JPanel();
 
-		RightFXPanel fxPanelObjectRight = new RightFXPanel();
+		fxPanelObjectRight = new RightFXPanel();
 		JPanel fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight());
 
 		rightSidebarPanel.add(fxPanelRight);
@@ -298,4 +300,11 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
+
+	public RightFXPanel getFxPanelObjectRight() {
+		return fxPanelObjectRight;
+	}
+	
+	
+	
 }

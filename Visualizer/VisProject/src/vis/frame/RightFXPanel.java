@@ -33,13 +33,15 @@ public class RightFXPanel {
 	private TitledPane t2;
 	private TitledPane t3;
 	private TitledPane t4;
+	private Accordion accordion;
+	private JFXPanel rightSidebarPanelFX;
 	
 	
 //	TODO: Eingabefelder TextFields nur auf Zahlen beschränken durch Validierung
 	public JPanel getPanel (int rightSidebarWidth, int height) {
 		
 		JPanel rightSidebarPanel = new JPanel();
-		JFXPanel rightSidebarPanelFX = new JFXPanel();
+		rightSidebarPanelFX = new JFXPanel();
 		rightSidebarPanel.add(rightSidebarPanelFX);
 		
 		rightSidebarPanel.setBounds(new Rectangle(0, 0, rightSidebarWidth, height));
@@ -63,7 +65,7 @@ public class RightFXPanel {
 		TitledPaneObjects.setTitledPane(4, "D");
 		t4 = TitledPaneObjects.getT4();
 
-		Accordion accordion = new Accordion();
+		accordion = new Accordion();
 		accordion.getPanes().addAll(t1, t2, t3, t4);
 		accordion.setExpandedPane(t1);
 		accordion.setPrefSize(rightSidebarWidth - 20, 200);
@@ -85,212 +87,41 @@ public class RightFXPanel {
 
 		rightSidebarPanelFX.setScene(scene);
 
-		/* ----------------------EventHandler---------------------- */
-
-		//Buttons, Radiobuttons und Checkboxen
-		
-		/*
-		TitledPaneObjects.getRotateLeft().setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rotateLeft");
-			}
-		});
-		
-		rotateLeft.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rotateLeft");
-			}
-		});
-
-		rotateRight.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rotateRight");
-			}
-		});
-
-		rbLive.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from Live");
-			}
-		});
-
-		rbFreeze.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from Freeze");
-			}
-		});
-
-		rbDotVector.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbDotVector");
-			}
-		});
-
-		rbPlotAll.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbPlotAll");
-			}
-		});
-
-		rbPlotBetween.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbPlotBetween");
-			}
-		});
-
-		rbShowX.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbShowX");
-			}
-		});
-
-		rbShowY.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbShowY");
-			}
-		});
-
-		rbShowZ.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbShowZ");
-			}
-		});
-
-		meanLast.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from meanLast");
-			}
-		});
-
-		rbShowXSpline.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbShowXSpline");
-			}
-		});
-
-		rbShowYSpline.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbShowYSpline");
-			}
-		});
-
-		rbShowZSpline.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from rbShowZSpline");
-			}
-		});
-
-		trendLast.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from trendLast");
-			}
-		});
-
-		showXPL.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from showXPL");
-			}
-		});
-
-		showYPL.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from showYPL");
-			}
-		});
-
-		showZPL.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from showZPL");
-			}
-		});
-
-		showDistancePL.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from showDistancePL");
-			}
-		});
-
-		minDistanceAT.setOnAction(new EventHandler<ActionEvent>() {
-
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World from minDistanceAT");
-			}
-		});
-
-		//Textfelder
-		
-		txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-					final String newValue) {
-				System.out.println("Was changed");
-			}
-		});
-
-		txtPlotTo.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-					final String newValue) {
-				System.out.println("Was changed");
-			}
-		});
-		
-		txtMeanFor.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-					final String newValue) {
-				System.out.println("Was changed");
-			}
-		});
-		
-		txtTrendFor.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-					final String newValue) {
-				System.out.println("Was changed");
-			}
-		});
-		
-		txtATDistance.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-					final String newValue) {
-				System.out.println("Was changed");
-			}
-		});
-		
-		// Testarea
-		
-	    rotateLeft.addEventHandler(MouseEvent.MOUSE_ENTERED,
-	            new EventHandler<MouseEvent>() {
-	              @Override
-	              public void handle(MouseEvent e) {
-	            	  Bloom bloom = new Bloom();
-	            	  rotateLeft.setEffect(bloom);
-	              }
-	            });
-		*/
 		return rightSidebarPanel;
 
 	}
+	
+	public void changeAccordion(int paneType, String paneName) {
+		TitledPane tmp;
+		//Get new TitledPane and set it in the Accordion
+		TitledPaneObjects.setTitledPane(paneType, paneName);
+		switch(paneType) {
+		case 1:
+			tmp = TitledPaneObjects.getT1();
+			this.accordion.getPanes().remove(0);
+			this.accordion.getPanes().add(tmp);
+			break;
+		
+		case 2:
+			tmp = TitledPaneObjects.getT2();
+			this.accordion.getPanes().remove(1);
+			this.accordion.getPanes().add(paneType, tmp);
+			break;
+			
+		case 3:
+			tmp = TitledPaneObjects.getT3();
+			this.accordion.getPanes().remove(2);
+			this.accordion.getPanes().add(paneType, tmp);
+			break;
+			
+		case 4:
+			tmp = TitledPaneObjects.getT4();
+			this.accordion.getPanes().remove(3);
+			this.accordion.getPanes().add(paneType, tmp);
+			break;
+		}
+		
+	}
+	
+	
 }
