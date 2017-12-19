@@ -1,6 +1,11 @@
 package com.tsh.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.pi4j.io.i2c.I2CFactory.UnsupportedBusNumberException;
 import com.tsh.common.MsgTransformer;
@@ -28,15 +33,43 @@ public class TSHMain {
 		gyro = new ADXL345();
 		msg2 = new MsgTransformer();
 		buzz = new Buzzer();
+		String api = "http://www.liquidsolution.de/api.php?post=true";
+		LocalDateTime lt = LocalDateTime.now();
+
+		String t = lt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		// String t = lt.toString();
+		String deviceID = "Rpi1";
+		String appID = "tshV0.1";
+		int apiKey = 4711;
+
+		System.out.println(lt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
 		GUI gui = new GUI("The Seeing Hand");
 		while (true) {
 
 			msg = us.getDistance();
 			msg2.setVector(gyro.getVector());
+			String xPos = String.valueOf(gyro.getVector()[0]);
+			String yPos = String.valueOf(gyro.getVector()[1]);
+			String zPos = String.valueOf(gyro.getVector()[2]);
+			String distance = "65555";
 			if (msg.getValue() > 0) {
 				gui.setValueDisplay(msg);
 				gui.setDebugMsg(msg2.getVector());
+
+				String con = api + "&xPos=" + xPos + "&yPos=" + yPos + "&zPos=" + zPos + "&distance=" + distance
+						+ "&deviceID=" + deviceID + "&appID=" + appID + "&api=" + apiKey;
+				System.out.println(con);
+				System.out.println(con.length());
+
+				URL url2 = new URL(con);
+				BufferedReader in = new BufferedReader(new InputStreamReader(url2.openStream()));
+
+				String inputLine;
+				while ((inputLine = in.readLine()) != null)
+					System.out.println(inputLine);
+				in.close();
+
 				if (msg.getValue() < 15d) {
 					if (msg.getValue() < 7d) {
 						if (msg.getValue() < 6d) {
