@@ -255,6 +255,8 @@ public class RightFXPanel {
 
 		/* ----------------------EventHandler---------------------- */
 
+		//Buttons, Radiobuttons und Checkboxen
+		
 		rotateLeft.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -395,7 +397,9 @@ public class RightFXPanel {
 			}
 		});
 
-		txtATDistance.textProperty().addListener(new ChangeListener<String>() {
+		//Textfelder
+		
+		txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
 					final String newValue) {
@@ -403,7 +407,31 @@ public class RightFXPanel {
 			}
 		});
 
-		txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
+		txtPlotTo.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		txtMeanFor.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		txtTrendFor.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		txtATDistance.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
 					final String newValue) {
