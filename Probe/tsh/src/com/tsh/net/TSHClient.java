@@ -11,14 +11,10 @@ public class TSHClient {
 	 */
 	public static void main(String[] args) throws UnknownHostException {
 		// TODO Auto-generated method stub
-		String hostname = "";
-		int port;
+		String hostname = "localhost";
+		int port = 2222;
 		Socket c;
-
-
 		try {
-			hostname = "192.168.178.60";
-			port = 2222;
 			c = new Socket(hostname, port);
 			BufferedReader incomingMsg = new BufferedReader(new InputStreamReader(c.getInputStream()));
 			PrintWriter outgoingMsg = new PrintWriter(c.getOutputStream(), true);
@@ -28,10 +24,13 @@ public class TSHClient {
 			System.out.println(hostname + " : " + port);
 			String text = incomingMsg.readLine();
 			System.out.println(text);
-			text = keyInput.readLine();
-			outgoingMsg.println(text);
-			text = incomingMsg.readLine();
-			System.out.println(text);
+			while (true) {
+				text = keyInput.readLine();
+				outgoingMsg.println(text);
+				text = incomingMsg.readLine();
+				System.out.println(text);
+			}
+
 		} catch (ArrayIndexOutOfBoundsException ae) {
 			System.out.println("Please use: java TSHClient <hostname> <port>");
 		} catch (UnknownHostException ue) {

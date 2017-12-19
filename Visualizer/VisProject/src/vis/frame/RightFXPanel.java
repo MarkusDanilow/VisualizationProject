@@ -23,6 +23,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.Bloom;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 
@@ -255,6 +257,8 @@ public class RightFXPanel {
 
 		/* ----------------------EventHandler---------------------- */
 
+		//Buttons, Radiobuttons und Checkboxen
+		
 		rotateLeft.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
@@ -395,14 +399,8 @@ public class RightFXPanel {
 			}
 		});
 
-		txtATDistance.textProperty().addListener(new ChangeListener<String>() {
-			@Override
-			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
-					final String newValue) {
-				System.out.println("Was changed");
-			}
-		});
-
+		//Textfelder
+		
 		txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
@@ -410,6 +408,49 @@ public class RightFXPanel {
 				System.out.println("Was changed");
 			}
 		});
+
+		txtPlotTo.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		txtMeanFor.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		txtTrendFor.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		txtATDistance.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				System.out.println("Was changed");
+			}
+		});
+		
+		// Testarea
+		
+	    rotateLeft.addEventHandler(MouseEvent.MOUSE_ENTERED,
+	            new EventHandler<MouseEvent>() {
+	              @Override
+	              public void handle(MouseEvent e) {
+	            	  Bloom bloom = new Bloom();
+	            	  rotateLeft.setEffect(bloom);
+	              }
+	            });
 
 		return rightSidebarPanel;
 
