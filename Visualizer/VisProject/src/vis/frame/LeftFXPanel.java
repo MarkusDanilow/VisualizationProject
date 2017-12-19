@@ -11,11 +11,14 @@ import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
@@ -55,8 +58,8 @@ public class LeftFXPanel {
         				"3D",
         				"Bar-Chart",
         				"Spline",
-        				"Parallel Lines",
-        				"Aimed-Target"
+        				"Parallel Lines"
+        				//"Aimed-Target"
         				);        
         
         final ComboBox<String> cbPaneA = new ComboBox<String>(optionsPane);
@@ -86,15 +89,31 @@ public class LeftFXPanel {
         
         gridMain.add(gridVis, 0, 0);
         
-        GridPane gridParameter = new GridPane();
-        gridParameter.setVgap(4);
-        gridParameter.setHgap(5);
-        gridParameter.setPadding(new Insets(5, 5, 5, 5));
+        GridPane gridCommon = new GridPane();
+        gridCommon.setVgap(4);
+        gridCommon.setHgap(5);
+        gridCommon.setPadding(new Insets(5, 5, 5, 5));
         
-        final Label lblParameterFilter = new Label("Parameter filter (global)");
-        lblParameterFilter.setId("headline");
-        gridParameter.add(lblParameterFilter, 0, 0, 2, 1);
+      //  final Label lblParameterFilter = new Label("Parameter filter (global)");
+        final Label lblCommon = new Label("Common");
+        lblCommon.setId("headline");
+        gridCommon.add(lblCommon, 0, 0, 2, 1);
         
+        final ToggleGroup groupT1 = new ToggleGroup();
+        
+        RadioButton rbLive = new RadioButton("live-view");
+        rbLive.setToggleGroup(groupT1);
+        gridCommon.add(rbLive, 0, 1);
+        
+        RadioButton rbFreeze = new RadioButton("freeze");
+        rbFreeze.setToggleGroup(groupT1);
+        gridCommon.add(rbFreeze, 0, 2);
+        
+        Button invertBackground = new Button("Invert Background");
+        invertBackground.setMinWidth(70);
+        gridCommon.add(invertBackground, 0, 5);
+   
+   /*     
         CheckBox cbXPosition = new CheckBox("x-Position");
         gridParameter.add(cbXPosition, 0, 1);
         
@@ -122,8 +141,8 @@ public class LeftFXPanel {
         ColorPicker toChooser = new ColorPicker(Color.YELLOW);
         toChooser.setMaxWidth(100);
         gridParameter.add(toChooser, 1, 4);
-        
-        gridMain.add(gridParameter, 0, 1);
+     */   
+        gridMain.add(gridCommon, 0, 1);
         
         GridPane gridDate = new GridPane();
         gridDate.setVgap(4);
