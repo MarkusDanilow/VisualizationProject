@@ -1,5 +1,6 @@
 package vis.frame;
 
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -10,6 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import vis.events.FXHandlerCommon;
+import vis.events.FXHandlerPaneA;
+import vis.events.FXHandlerPaneB;
+import vis.events.FXHandlerPaneC;
+import vis.events.FXHandlerPaneD;
 
 public class TitledPaneObjects {
 	
@@ -53,23 +59,34 @@ public class TitledPaneObjects {
 			case 1: //Pane 3D
 				final ToggleGroup groupT1 = new ToggleGroup();
 				
+				//Erstellen von EventHandler-Objekten
+				
+				FXHandlerPaneA APHandler = new FXHandlerPaneA();
+				FXHandlerPaneB BPHandler = new FXHandlerPaneB();
+				FXHandlerPaneC CPHandler = new FXHandlerPaneC();
+				FXHandlerPaneD DPHandler = new FXHandlerPaneD();
+								
 				rbDotVector = new RadioButton("single dot /vector");
 				rbDotVector.setToggleGroup(groupT1);
 				rbDotVector.setSelected(true);
 				grid.add(rbDotVector, 0, 0, 3, 1);
+				rbDotVector.setOnAction(APHandler);
 				
 				rbPlotAll = new RadioButton("plot all");
 				rbPlotAll.setToggleGroup(groupT1);
 				grid.add(rbPlotAll, 0, 1, 3, 1);
+				rbPlotAll.setOnAction(APHandler);
 		        
 				rbPlotBetween = new RadioButton("plot between");
 				rbPlotBetween.setToggleGroup(groupT1);
 				grid.add(rbPlotBetween, 0, 2, 3, 1);
+				rbPlotBetween.setOnAction(APHandler);
 				
 				txtPlotFrom = new TextField();
 				txtPlotFrom.setMaxWidth(70);
 				txtPlotFrom.setPromptText("e.g. 1");
 				grid.add(txtPlotFrom, 0, 3);
+				//txtPlotFrom.textProperty().addListener(new ChangeListener());
 				
 				Label lblTo = new Label("to");
 				lblTo.setMinWidth(23);
