@@ -23,6 +23,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.Bloom;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 
@@ -438,6 +440,17 @@ public class RightFXPanel {
 				System.out.println("Was changed");
 			}
 		});
+		
+		// Testarea
+		
+	    rotateLeft.addEventHandler(MouseEvent.MOUSE_ENTERED,
+	            new EventHandler<MouseEvent>() {
+	              @Override
+	              public void handle(MouseEvent e) {
+	            	  Bloom bloom = new Bloom();
+	            	  rotateLeft.setEffect(bloom);
+	              }
+	            });
 
 		return rightSidebarPanel;
 
