@@ -234,6 +234,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			JFrame window = (JFrame) SwingUtilities.getRoot(canvas);
 			Point location = SwingUtilities.convertPoint(canvas, canvas.getX(), canvas.getY(), window);
 			Display.setLocation(location.x, location.y);
+			canvas.setLocation(location);
 		}
 
 		setDisplayWidth(Settings.getDisplayWidth());
@@ -255,6 +256,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			FrameRateUtil.start();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+
+		if (isParentDefined) {
 		}
 
 	}
