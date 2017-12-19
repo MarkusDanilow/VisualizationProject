@@ -700,10 +700,13 @@ public class VBOHandler {
 				DataElement e = inputData.get(i);
 
 				float valueX = this.calcValue_xAxes(e.getX());
-				float valueY = this.calcValue_yAxes(e.getY());
+				valueX = this.calcPosX(i);
+				float valueY = this.calcValue_yAxes(e.getX());
 
 				buffers[0].put(new float[] { valueX, valueY });
-				buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), e.getTime(), maxTime));
+				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
+
+				buffers[1].put(new float[] { 0, 0.7f, 0.7f, 1 });
 
 			}
 

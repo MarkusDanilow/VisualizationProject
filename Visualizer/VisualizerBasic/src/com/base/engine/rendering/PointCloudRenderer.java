@@ -51,8 +51,10 @@ public class PointCloudRenderer implements IRenderer {
 	public static float[] calcVertexColor(float x, float y, float z, float time, float maxTime) {
 		float timeStep = 1.0f / maxTime;
 		float c = time * timeStep;
-		return new float[] { c, 1.0f - c, 0, 1f };
+		// return new float[] { c, 1.0f - c, 0, 1f };
 		// return new float[] { 0, 1f - c, c, 1 };
+		float alpha = (0.99f / maxTime) * time;
+		return new float[] { 0, 0.7f, 0.7f, alpha };
 	}
 
 	@Override
