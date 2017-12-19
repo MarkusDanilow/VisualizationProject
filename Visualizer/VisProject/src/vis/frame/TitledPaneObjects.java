@@ -10,6 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import vis.events.FXHandlerCommon;
+import vis.events.FXHandlerPaneA;
+import vis.events.FXHandlerPaneB;
+import vis.events.FXHandlerPaneC;
+import vis.events.FXHandlerPaneD;
 
 public class TitledPaneObjects {
 	
@@ -52,6 +57,14 @@ public class TitledPaneObjects {
 		switch(paneType) {
 			case 1: //Pane 3D
 				final ToggleGroup groupT1 = new ToggleGroup();
+				
+				//Erstellen von EventHandler-Objekten
+				
+				FXHandlerPaneA APHandler = new FXHandlerPaneA();
+				FXHandlerPaneB BPHandler = new FXHandlerPaneB();
+				FXHandlerPaneC CPHandler = new FXHandlerPaneC();
+				FXHandlerPaneD DPHandler = new FXHandlerPaneD();
+				
 				
 				rbDotVector = new RadioButton("single dot /vector");
 				rbDotVector.setToggleGroup(groupT1);
