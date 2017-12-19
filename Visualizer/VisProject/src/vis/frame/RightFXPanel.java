@@ -392,6 +392,12 @@ public class RightFXPanel {
 	  	    }
 	  	});
 	  		
+	  	txtPlotTo.textProperty().addListener(new ChangeListener<String>() {
+	  	    @Override
+	  	    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+	  	        System.out.println("Was changed");
+	  	    }
+	  	});
 	  		
 		
 	    return rightSidebarPanel;
