@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -376,6 +378,19 @@ public class RightFXPanel {
 	  			System.out.println("Hello World from minDistanceAT");
 	  		}});
 	  	
+	  	txtATDistance.textProperty().addListener(new ChangeListener<String>() {
+	  	    @Override
+	  	    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+	  	        System.out.println("Was changed");
+	  	    }
+	  	});
+	  	
+	  	txtPlotFrom.textProperty().addListener(new ChangeListener<String>() {
+	  	    @Override
+	  	    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+	  	        System.out.println("Was changed");
+	  	    }
+	  	});
 	  		
 	  		
 		
