@@ -52,6 +52,7 @@ public class PointCloudRenderer implements IRenderer {
 		float timeStep = 1.0f / maxTime;
 		float c = time * timeStep;
 		return new float[] { c, 1.0f - c, 0, 1f };
+		// return new float[] { 0, 1f - c, c, 1 };
 	}
 
 	@Override

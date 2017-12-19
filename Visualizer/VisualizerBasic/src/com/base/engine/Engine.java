@@ -104,6 +104,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private RenderMode renderMode;
 
+	public boolean useCompleteParallelCoordinates = false;
+
 	public boolean isRunning() {
 		return running;
 	}
@@ -232,6 +234,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			JFrame window = (JFrame) SwingUtilities.getRoot(canvas);
 			Point location = SwingUtilities.convertPoint(canvas, canvas.getX(), canvas.getY(), window);
 			Display.setLocation(location.x, location.y);
+
+			// change canvas position for MAC fix
+			// canvas.setLocation(location);
 		}
 
 		setDisplayWidth(Settings.getDisplayWidth());
@@ -253,6 +258,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			FrameRateUtil.start();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+
+		if (isParentDefined) {
 		}
 
 	}
@@ -672,6 +680,11 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				this.scaleFactors[viewIndex] += factor;
 			}
 		}
+	}
+
+	@Override
+	public void toggleCompleteParallelCoordinates() {
+		this.useCompleteParallelCoordinates = !this.useCompleteParallelCoordinates;
 	}
 
 }

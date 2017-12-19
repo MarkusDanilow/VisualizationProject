@@ -43,5 +43,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void resetAllViewportDisplayLists();
 	
 	void changeScaleFactor(float factor, int viewIndex);
+	
+	void toggleCompleteParallelCoordinates();
 
 }

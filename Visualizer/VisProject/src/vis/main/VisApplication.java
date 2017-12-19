@@ -148,6 +148,11 @@ public class VisApplication implements AppInterface {
 		return DataHandler.getCurrentBuffer().getStep();
 	}
 
+	public void toggleCompleteParallelCoordinates() {
+		this.engine.toggleCompleteParallelCoordinates();
+		this.engine.resetViewportDisplayList(3);
+	}
+
 	@Override
 	public void displaySubData(Range<Float> range) {
 		Map<Float, DataElement> partialData = DataHandler.getPartialData(DataHandler.getCurrentBuffer().getData(),
@@ -155,7 +160,7 @@ public class VisApplication implements AppInterface {
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
-		GraphicBufferUitl.performanceMeasureEnabled = true ; 
+		GraphicBufferUitl.performanceMeasureEnabled = true;
 		this.engine.resetAllViewportDisplayLists();
 	}
 
