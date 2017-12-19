@@ -22,6 +22,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,6 +48,7 @@ import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
 import vis.events.TimelinePlayEvent;
 import vis.events.TimelinePreviousEvent;
+import vis.events.ToggleCompleteParallelCoordinatesEvent;
 import vis.interfaces.AppInterface;
 
 public class MainWindow extends JFrame {
@@ -54,7 +56,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static final int CANVAS_COUNT = 1;
-	public static final int leftSidebarWidth = 200, rightSidebarWidth = 200, footerHeight = 100;
+	public static final int leftSidebarWidth = 300, rightSidebarWidth = 300, footerHeight = 100;
 
 	public final AppInterface app;
 
@@ -133,26 +135,25 @@ public class MainWindow extends JFrame {
 
 		LeftFXPanel fxPanelObjectLeft = new LeftFXPanel();
 		JPanel fxPanelLeft = fxPanelObjectLeft.getPanel(leftSidebarWidth, this.getHeight());
-		
+
 		leftSidebarPanel.add(fxPanelLeft);
-		
+
 		getContentPane().add(leftSidebarPanel, BorderLayout.WEST);
-		
 
 		/* ------------ create the sidebar to the right ------------ */
 		JPanel rightSidebarPanel = new JPanel();
 
 		RightFXPanel fxPanelObjectRight = new RightFXPanel();
 		JPanel fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight());
-		
+
 		rightSidebarPanel.add(fxPanelRight);
-		
+
 		getContentPane().add(rightSidebarPanel, BorderLayout.EAST);
 
 		/* ------------ create the footer ------------ */
 		JPanel footerPanel = new JPanel(new GridLayout(2, 1));
 		footerPanel.setPreferredSize(new Dimension(this.getWidth(), footerHeight));
-		footerPanel.setBackground(new Color(83,83,83));
+		footerPanel.setBackground(new Color(83, 83, 83));
 
 		JPanel timelinePanel = new JPanel(new BorderLayout());
 		JPanel timelineButtonPanel = new JPanel(new GridLayout(1, 3));
@@ -170,14 +171,13 @@ public class MainWindow extends JFrame {
 
 		timelinePanel.add(timelineButtonPanel, BorderLayout.WEST);
 
-		
 		this.timeline = new JSlider(JSlider.HORIZONTAL);
 		this.timeline.addChangeListener(new TimelineChangeEvent(this));
 		timelinePanel.add(this.timeline, BorderLayout.CENTER);
-		this.timeline.setBackground(new Color(83,83,83));
-		this.back.setBackground(new Color(83,83,83));
-		this.forth.setBackground(new Color(83,83,83));
-		this.play.setBackground(new Color(83,83,83));
+		this.timeline.setBackground(new Color(83, 83, 83));
+		this.back.setBackground(new Color(83, 83, 83));
+		this.forth.setBackground(new Color(83, 83, 83));
+		this.play.setBackground(new Color(83, 83, 83));
 
 		this.toggleTimeline(false, 0, 0, 0);
 
@@ -204,6 +204,13 @@ public class MainWindow extends JFrame {
 		fileMenu.addSeparator();
 		fileMenu.add(closeApp);
 		menuBar.add(fileMenu);
+
+		// settings menu
+		JMenu settingsMenu = new JMenu("Einstellungen");
+		JCheckBoxMenuItem completeParallelCoordinates = new JCheckBoxMenuItem("Vollst. Parall. Koord.");
+		completeParallelCoordinates.addActionListener(new ToggleCompleteParallelCoordinatesEvent(this));
+		settingsMenu.add(completeParallelCoordinates);
+		menuBar.add(settingsMenu);
 
 		// help menu
 		JMenu helpMenu = new JMenu("Hilfe");

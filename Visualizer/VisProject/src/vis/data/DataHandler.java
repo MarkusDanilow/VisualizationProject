@@ -132,7 +132,7 @@ public class DataHandler {
 	 */
 	public static Map<Float, DataElement> loadDataFromRemoteAPI() {
 
-		int dataSetSize = 1000;
+		int dataSetSize = 10000;
 
 		long start = System.currentTimeMillis();
 
