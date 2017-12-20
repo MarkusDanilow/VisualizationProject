@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import vis.events.FXChangeListener;
 import vis.events.FXHandlerCommon;
 import vis.events.FXHandlerPaneA;
 import vis.events.FXHandlerPaneB;
@@ -61,32 +62,39 @@ public class TitledPaneObjects {
 				
 				//Erstellen von EventHandler-Objekten
 				
-				FXHandlerPaneA APHandler = new FXHandlerPaneA();
-				FXHandlerPaneB BPHandler = new FXHandlerPaneB();
-				FXHandlerPaneC CPHandler = new FXHandlerPaneC();
-				FXHandlerPaneD DPHandler = new FXHandlerPaneD();
+				FXHandlerPaneA aPHandler = new FXHandlerPaneA();
+				FXHandlerPaneB bPHandler = new FXHandlerPaneB();
+				FXHandlerPaneC cPHandler = new FXHandlerPaneC();
+				FXHandlerPaneD dPHandler = new FXHandlerPaneD();
+				FXChangeListener fXChange = new FXChangeListener();
+				
 								
 				rbDotVector = new RadioButton("single dot /vector");
 				rbDotVector.setToggleGroup(groupT1);
 				rbDotVector.setSelected(true);
 				grid.add(rbDotVector, 0, 0, 3, 1);
-				rbDotVector.setOnAction(APHandler);
+				rbDotVector.setOnAction(aPHandler);
 				
 				rbPlotAll = new RadioButton("plot all");
 				rbPlotAll.setToggleGroup(groupT1);
 				grid.add(rbPlotAll, 0, 1, 3, 1);
-				rbPlotAll.setOnAction(APHandler);
+				rbPlotAll.setOnAction(aPHandler);
 		        
 				rbPlotBetween = new RadioButton("plot between");
 				rbPlotBetween.setToggleGroup(groupT1);
 				grid.add(rbPlotBetween, 0, 2, 3, 1);
-				rbPlotBetween.setOnAction(APHandler);
+				rbPlotBetween.setOnAction(aPHandler);
 				
 				txtPlotFrom = new TextField();
 				txtPlotFrom.setMaxWidth(70);
 				txtPlotFrom.setPromptText("e.g. 1");
 				grid.add(txtPlotFrom, 0, 3);
+				
 				//txtPlotFrom.textProperty().addListener(new ChangeListener());
+				txtPlotFrom.textProperty().addListener((observable, oldValue, newValue)
+							-> {
+				    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+				}); 
 				
 				Label lblTo = new Label("to");
 				lblTo.setMinWidth(23);
