@@ -23,7 +23,6 @@ final class InputHandler {
 				throw new Exception("Listener must not be NULL!");
 			}
 			eventListener = listener;
-			// useSystemEvents = systemEvents;
 			Keyboard.create();
 			Mouse.create();
 		} catch (Exception e) {
@@ -40,7 +39,7 @@ final class InputHandler {
 		return character >= 32;
 	}
 
-	static void getKeyboardInput() {
+	static void getKeyboardInput(EngineInterfaces engine) {
 		while (Keyboard.next() && useSystemEvents) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_F11)) {
 				// eventListener.notify(EngineEvent.FULLSCREEN_TOGGLE);
@@ -98,7 +97,7 @@ final class InputHandler {
 		}
 	}
 
-	static void getMouseInput() {
+	static void getMouseInput(EngineInterfaces engine) {
 
 		while (Mouse.next()) {
 			if ((!(Console.isVisible() && Console.isCommandLineFocused())) || !useSystemEvents) {
@@ -146,7 +145,7 @@ final class InputHandler {
 				}
 
 				GraphicsHoverHandler.setCurrentMouseBufferIndex(bufferIndex);
-				GraphicsHoverHandler.handleHover(lx, ly);
+				GraphicsHoverHandler.handleHover(engine, lx, ly);
 
 				if (useSystemEvents)
 					Mouse.setGrabbed(true);

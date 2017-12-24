@@ -26,7 +26,7 @@ import com.base.common.resources.DataMap2D;
 import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
-import com.base.engine.font.FontManager;
+import com.base.engine.font.OLD_STUFF.FontManager;
 import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -380,8 +380,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		try {
 			viewportRenderer.prepare();
 			viewportRenderer.render(this, this.cameras, this.renderers, this.scaleFactors);
-			viewportRenderer.close();
 			console.render(null);
+			viewportRenderer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -389,8 +389,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private void getInput() {
 		try {
-			InputHandler.getMouseInput();
-			InputHandler.getKeyboardInput();
+			InputHandler.getMouseInput(this);
+			InputHandler.getKeyboardInput(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -687,6 +687,24 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@Override
 	public void toggleCompleteParallelCoordinates() {
 		this.useCompleteParallelCoordinates = !this.useCompleteParallelCoordinates;
+	}
+
+	@Override
+	public void setHoverData(int viewportIndex, DataElement data, float x, float y) {
+		for (int i = 0; i < this.renderers.size(); i++) {
+			for (ARenderer aRenderer : this.renderers.get(i)) {
+				if(aRenderer != null){
+					if (i == viewportIndex && aRenderer.hasHoverDataRenderer() && data != null) {
+						aRenderer.toggleHover(true);
+						aRenderer.getHoverDataRenderer().setHoverData(data);
+						aRenderer.getHoverDataRenderer().setX(x);
+						aRenderer.getHoverDataRenderer().setY(y);
+					} else {
+						aRenderer.toggleHover(false);
+					}
+				}
+			}
+		}
 	}
 
 }

@@ -45,5 +45,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void changeScaleFactor(float factor, int viewIndex);
 	
 	void toggleCompleteParallelCoordinates();
+	
+	void setHoverData(int viewportIndex, DataElement data, float x, float y);
 
 }

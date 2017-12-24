@@ -67,6 +67,8 @@ public class ViewportRenderer implements Renderable {
 						int[] customViewport = renderers.get(i)[j].createCustomViewport();
 						boolean isNormalViewport = customViewport == null;
 
+						glPushMatrix();
+
 						if (isNormalViewport) {
 							RenderUtils.switch3D(x, y, width, height);
 						} else {
@@ -126,6 +128,10 @@ public class ViewportRenderer implements Renderable {
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j);
 
+							if (renderers.get(i)[j].isHoverActivated()) {
+								renderers.get(i)[j].getHoverDataRenderer().render();
+							}
+
 							if (!isNormalViewport) {
 								GL11.glPointSize(15);
 								glScalef(5, 5, 5);
@@ -137,6 +143,8 @@ public class ViewportRenderer implements Renderable {
 								}
 								glEnd();
 							}
+
+							glPopMatrix();
 
 							GL11.glEnable(GL11.GL_DEPTH_TEST);
 

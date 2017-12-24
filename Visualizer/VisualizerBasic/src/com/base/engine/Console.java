@@ -12,14 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.base.common.Renderable;
-import com.base.engine.font.FontManager;
-import com.base.engine.font.FontRenderer;
+import com.base.engine.font.OLD_STUFF.FontManager;
+import com.base.engine.font.OLD_STUFF.FontRenderer;
 
 class Console implements Renderable {
 
-	private static boolean visible = false, commandLineFocused = false,
-			cursorVisible = false, hintsVisible = false;
-	
+	private static boolean visible = false, commandLineFocused = false, cursorVisible = false, hintsVisible = false;
+
 	public static boolean isCommandLineFocused() {
 		return commandLineFocused;
 	}
@@ -41,7 +40,7 @@ class Console implements Renderable {
 	}
 
 	public static void setHintsVisible(boolean hintsVisible) {
-		Console.hintsVisible = hintsVisible ;
+		Console.hintsVisible = hintsVisible;
 	}
 
 	private Map<Integer, String> data;
@@ -71,30 +70,23 @@ class Console implements Renderable {
 			glVertex2f(250, 10);
 			glVertex2f(10, 10);
 			glEnd();
+
 			for (Integer index : data.keySet()) {
 				String line = data.get(index);
-				FontRenderer.renderText(15, 20 * index + 15, line, FontManager
-						.getUFontByName(FontManager.DEBUGGING_TEXT_SPECIAL));
+				FontRenderer.renderText(15, 20 * index + 15, line,
+						FontManager.getUFontByName(FontManager.DEBUGGING_TEXT_SPECIAL));
 			}
 			if (isCommandLineFocused()) {
 				glColor4f(1, 1, 1, 0.15f);
 				glBegin(GL_QUADS);
 				glVertex2f(10, Engine.DISPLAY_HEIGHT - 10);
-				glVertex2f(Engine.DISPLAY_WIDTH - 10,
-						Engine.DISPLAY_HEIGHT - 10);
-				glVertex2f(Engine.DISPLAY_WIDTH - 10,
-						Engine.DISPLAY_HEIGHT - 30);
+				glVertex2f(Engine.DISPLAY_WIDTH - 10, Engine.DISPLAY_HEIGHT - 10);
+				glVertex2f(Engine.DISPLAY_WIDTH - 10, Engine.DISPLAY_HEIGHT - 30);
 				glVertex2f(10, Engine.DISPLAY_HEIGHT - 30);
 				glEnd();
-				String cmdTxt = "> " + getCommandLine().toString()
-						+ (cursorVisible ? "_" : "");
-				FontRenderer
-						.renderText(
-								15,
-								Engine.DISPLAY_HEIGHT - 29,
-								cmdTxt,
-								FontManager
-										.getUFontByName(FontManager.DEBUGGING_TEXT));
+				String cmdTxt = "> " + getCommandLine().toString() + (cursorVisible ? "_" : "");
+				FontRenderer.renderText(15, Engine.DISPLAY_HEIGHT - 29, cmdTxt,
+						FontManager.getUFontByName(FontManager.DEBUGGING_TEXT));
 
 				if (isHintsVisible()) {
 					glColor4f(0, 0, 0, 0.4f);
@@ -104,7 +96,7 @@ class Console implements Renderable {
 					glVertex2f(800, Engine.DISPLAY_HEIGHT - 650);
 					glVertex2f(10, Engine.DISPLAY_HEIGHT - 650);
 					glEnd();
-					FontRenderer.renderText(15, Engine.DISPLAY_HEIGHT - 599, hints, 
+					FontRenderer.renderText(15, Engine.DISPLAY_HEIGHT - 599, hints,
 							FontManager.getUFontByName(FontManager.DEBUGGING_TEXT));
 				}
 			}
@@ -120,7 +112,7 @@ class Console implements Renderable {
 
 	void updateHint(String... hints) {
 		if (hints != null) {
-			this.hints = "" ;
+			this.hints = "";
 			for (String s : hints) {
 				this.hints += s + "\n";
 			}
@@ -175,7 +167,7 @@ class Console implements Renderable {
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

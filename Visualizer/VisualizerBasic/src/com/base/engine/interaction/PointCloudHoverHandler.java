@@ -1,11 +1,12 @@
 package com.base.engine.interaction;
 
+import com.base.common.resources.DataElement;
+
 public class PointCloudHoverHandler extends AHoverHandler {
 
 	@Override
-	protected void handleHover(float x, float y, Object data) {
-		// TODO Auto-generated method stub
-		
+	protected DataElement handleHover(float x, float y, Object data) {
+		return null ; 
 	}
 
 

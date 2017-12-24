@@ -22,6 +22,10 @@ import com.base.engine.RenderUtils;
 
 public class BarChartRenderer extends ARenderer {
 
+	public BarChartRenderer() {
+		this.hoverDataRenderer = new BarChartHoverDataRenderer();
+	}
+	
 	@Override
 	public void render(Object... objects) {
 

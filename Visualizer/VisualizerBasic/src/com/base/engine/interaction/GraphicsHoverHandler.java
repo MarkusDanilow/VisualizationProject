@@ -3,7 +3,9 @@ package com.base.engine.interaction;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
+import com.base.engine.EngineInterfaces;
 import com.base.engine.interaction.data.AHoverBufferData;
 
 public class GraphicsHoverHandler {
@@ -48,8 +50,10 @@ public class GraphicsHoverHandler {
 		GraphicsHoverHandler.currentMouseBufferIndex = currentMouseBufferIndex;
 	}
 
-	public static void handleHover(float x, float y) {
-		handlers.get(currentMouseBufferIndex).handleHover(x, y, getBufferVertexDataAtMouseBufferIndex());
+	public static void handleHover(EngineInterfaces engine, float x, float y) {
+		DataElement hoverData = handlers.get(currentMouseBufferIndex).handleHover(x, y,
+				getBufferVertexDataAtMouseBufferIndex());
+		engine.setHoverData(currentMouseBufferIndex, hoverData, x, y);
 	}
 
 }

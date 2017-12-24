@@ -537,7 +537,7 @@ public class VBOHandler {
 			glEnd();
 			glPopMatrix();
 
-			glBindTexture(GL_TEXTURE_2D, 0);
+			// glBindTexture(GL_TEXTURE_2D, 0);
 			glDisable(GL_TEXTURE_2D);
 
 		}

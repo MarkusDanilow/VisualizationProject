@@ -10,7 +10,7 @@ public class GraphicBufferUitl {
 	public static final boolean[] useDisplayLists = new boolean[Engine.NUM_VIEWS];
 
 	private static long start, end;
-	public static boolean performanceMeasureEnabled = false ; 
+	public static boolean performanceMeasureEnabled = false;
 
 	static {
 		for (int i = 0; i < Engine.NUM_VIEWS; i++) {
@@ -52,9 +52,9 @@ public class GraphicBufferUitl {
 			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash);
 			if (viewportIndex == Engine.NUM_VIEWS - 1) {
 				end = System.currentTimeMillis();
-				if(performanceMeasureEnabled){
+				if (performanceMeasureEnabled) {
 					System.out.println("Time for rendering all data elements: " + (end - start) + "ms");
-					performanceMeasureEnabled = false ; 
+					performanceMeasureEnabled = false;
 				}
 			}
 		}

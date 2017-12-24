@@ -72,7 +72,6 @@ public final class RenderUtils {
 		glAlphaFunc(GL_GREATER, 0.001f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
-
 	}
 
 	public static void exitGL() {
@@ -89,6 +88,17 @@ public final class RenderUtils {
 		glLoadIdentity();
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
+	}
+
+	public static void set2DMode(float x, float width, float y, float height) {
+		// GL11.glDisable(GL11.GL_DEPTH_TEST);
+		glMatrixMode(GL_PROJECTION); // Select The Projection Matrix
+		glPushMatrix(); // Store The Projection Matrix
+		glLoadIdentity(); // Reset The Projection Matrix
+		glOrtho(x, width, y, height, -1, 1); // Set Up An Ortho Screen
+		glMatrixMode(GL_MODELVIEW); // Select The Modelview Matrix
+		glPushMatrix(); // Store The Modelview Matrix
+		glLoadIdentity(); // Reset The Modelview Matrix
 	}
 
 	public static void switch3D(int left, int top, int width, int height) {
