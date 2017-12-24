@@ -21,7 +21,7 @@ import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
 
 public class ParallelCoordinatesRenderer extends ARenderer {
-
+	
 	@Override
 	public void render(Object... objects) {
 		int texture = 0;

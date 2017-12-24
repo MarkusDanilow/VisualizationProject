@@ -26,6 +26,7 @@ import com.base.common.resources.DataMap2D;
 import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
+import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.font.OLD_STUFF.FontManager;
 import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
@@ -286,7 +287,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		// CommandInterpreter.create(this);
 		RenderUtils.create();
 		RenderUtils.initGL();
-		FontManager.init();
+		// FontManager.init();
+		NewFontManager.init();
 		InputHandler.create(this, useSystemEvents);
 
 		/* define renderers and add them to the list of all renderers */

@@ -9,8 +9,7 @@ import com.base.common.IRenderer;
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
-import com.base.engine.font.OLD_STUFF.FontManager;
-import com.base.engine.font.OLD_STUFF.FontRenderer;
+import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.font.OLD_STUFF.TrueTypeFont;
 
 public abstract class AHoverDataRenderer implements IRenderer {
@@ -20,7 +19,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	protected TrueTypeFont trueTypeFont;
 
-	protected float width = 0.5f, height = -0.35f;
+	protected float width = 0.5f, height = -0.7f;
 
 	public AHoverDataRenderer() {
 		String fontName = "Agent Orange";
@@ -56,12 +55,9 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	protected void renderFrame() {
 
-		float w = Display.getWidth();
-		float h = Display.getHeight();
-
 		GL11.glDisable(GL11.GL_BLEND);
 
-		GL11.glColor4f(0.2f, 0.2f, 0.2f, 0.9f);
+		GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2f(x, y);
 		GL11.glVertex2f(x + width, y);
@@ -80,11 +76,25 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		GL11.glVertex2f(x, y + height);
 		GL11.glVertex2f(x, y);
 		GL11.glEnd();
-            
-		RenderUtils.switch2D(-500, -500, 500, 500);
 
-		// Custom font rendering
+		int scale = 500 ; 
 		
+		GL11.glPushMatrix();
+		RenderUtils.switch2D(-scale, -scale, scale, scale);
+
+		float px = x * scale ;
+		float py = (y + height) * 500 ; 
+		float sx = 15, sy = 20 ; 
+		
+		// Custom font rendering
+		NewFontManager.renderText(px + sx, py + sy, 12, 3, "Datenpunkt");
+		NewFontManager.renderText(px + sx, py + sy * 3.5f, 10, 3, "Zeitpunkt: " + this.hoverData.getTime());
+		NewFontManager.renderText(px + sx, py + sy * 6f, 10, 3, "X: " + this.hoverData.getX());
+		NewFontManager.renderText(px + sx, py + sy * 8f, 10, 3, "Y: " + this.hoverData.getY());
+		NewFontManager.renderText(px + sx, py + sy * 10f, 10, 3, "Z: " + this.hoverData.getZ());
+
+		GL11.glPopMatrix();
+
 	}
 
 	@Override
