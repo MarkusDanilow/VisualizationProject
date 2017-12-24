@@ -18,6 +18,7 @@ import com.base.engine.EngineInterfaces;
 import com.base.engine.Settings;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
+import vis.controller.VisController;
 import vis.data.DataHandler;
 import vis.frame.LookAndFeel;
 import vis.frame.MainWindow;
@@ -95,10 +96,8 @@ public class VisApplication implements AppInterface {
 	 * @throws SQLException
 	 */
 	public VisApplication() throws LWJGLException, FileNotFoundException, IOException, SQLException {
-		this.window = new MainWindow(this, Settings.getApplicationTitle(), Settings.getDisplayWidth(),
-				Settings.getDisplayHeight());
-		Canvas c = this.window.getCanvasById(0);
-		this.engine = new Engine(c, false);
+		VisController.init(this);
+		this.engine = new Engine(VisController.getCanvas(), false);
 	}
 
 	/**

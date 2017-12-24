@@ -35,9 +35,13 @@ public class TSHClient {
 			System.out.println("Please use: java TSHClient <hostname> <port>");
 		} catch (UnknownHostException ue) {
 			System.out.println("Unknown DNS-Entry: " + hostname);
+		} catch (SocketException se) {
+			System.out.println("Socket-Error");
 		} catch (IOException e) {
 			System.out.println("IO-Error");
+		
 		}
+
 
 	}
 

@@ -59,6 +59,8 @@ public class TSHServer {
 			} else {
 				outgoingMsg.println(expectDate + " wrong command!");
 			}
+		} catch (SocketException se) {
+			System.out.println("Socket-Error");
 		} catch (IOException e) {
 			System.out.println("IO-Error");
 			e.printStackTrace();
