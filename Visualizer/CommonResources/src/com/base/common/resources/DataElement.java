@@ -5,6 +5,8 @@ public class DataElement {
 	private float time;
 	private Point point;
 
+	private int sampleRate = 0;
+
 	public DataElement(float x, float y, float z, float time) {
 		super();
 		this.point = new Point(x, y, z);
@@ -49,6 +51,14 @@ public class DataElement {
 
 	public void setPoint(Point point) {
 		this.point = point;
+	}
+
+	public int getSampleRate() {
+		return sampleRate;
+	}
+
+	public void setSampleRate(int sampleRate) {
+		this.sampleRate = sampleRate;
 	}
 
 	@Override

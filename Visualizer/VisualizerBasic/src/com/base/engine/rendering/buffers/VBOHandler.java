@@ -52,6 +52,9 @@ import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Point;
 import com.base.engine.RenderUtils;
+import com.base.engine.interaction.GraphicsHoverHandler;
+import com.base.engine.interaction.data.BarChartHoverBufferData;
+import com.base.engine.interaction.data.Rectangle;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
 import com.base.engine.rendering.LineChartRenderer;
@@ -631,10 +634,15 @@ public class VBOHandler {
 			this.calcXStep();
 
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 8, 2, 4);
+
+			List<Rectangle> bars = new ArrayList<>();
+
 			for (int i = 0; i < numItems; i++) {
 
+				DataElement e = inputData.get(i);
+
 				float x = this.calcPosX(i);
-				float value = this.calcValue_yAxes(inputData.get(i).getX());
+				float value = this.calcValue_yAxes(e.getX());
 
 				buffers[0].put(new float[] { x, value, x + xStep, value, x + xStep, yMax, x, yMax });
 				for (int j = 0; j < verticesPerItem; j++)
@@ -643,11 +651,22 @@ public class VBOHandler {
 				buffers[0].put(new float[] { x + this.borderWidth, value + this.borderWidth,
 						x + xStep - this.borderWidth, value + this.borderWidth, x + xStep - this.borderWidth,
 						yMax - this.borderWidth, x + this.borderWidth, yMax - this.borderWidth });
+
+				bars.add(new Rectangle(x, x + xStep, -yMax, -value));
+				System.out.println(yMax + "; " + value);
+
 				for (int j = 0; j < verticesPerItem; j++)
 					buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
 
 			}
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
+
+			// create and store buffer for hover interaction
+			BarChartHoverBufferData buffer = new BarChartHoverBufferData();
+			buffer.setRawData(inputData);
+			buffer.setBars(bars);
+			GraphicsHoverHandler.storeBufferVertexDataAtCurrentIndex(buffer);
+
 		}
 
 		@Override
@@ -656,7 +675,6 @@ public class VBOHandler {
 			masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
 			glEnable(GL_BLEND);
 			this.renderAxes();
-
 		}
 
 	}
@@ -667,12 +685,6 @@ public class VBOHandler {
 	 * ------------------------------------------------------------------------
 	 */
 
-	/**
-	 * TODO: Whats the sense of the line chart again ??!
-	 * 
-	 * @author Markus
-	 *
-	 */
 	private static class VBOLineChartRenderer extends AVBOChartRenderer {
 
 		@SuppressWarnings("unchecked")

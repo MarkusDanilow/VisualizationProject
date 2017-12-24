@@ -6,6 +6,8 @@ import org.lwjgl.opengl.Display;
 
 import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
+import com.base.common.resources.MathUtil;
+import com.base.engine.interaction.GraphicsHoverHandler;
 
 final class InputHandler {
 
@@ -70,8 +72,9 @@ final class InputHandler {
 			}
 		}
 		if ((!(Console.isVisible() && Console.isCommandLineFocused())) || (!useSystemEvents)) {
-			
-			// mouse movement currently for the upper left display which show the 3D view
+
+			// mouse movement currently for the upper left display which show
+			// the 3D view
 			if ((currentX < Display.getWidth() / 2) && (currentY > Display.getHeight() / 2)) {
 				if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 					eventListener.notify(EngineEvent.MOVE_LEFT, 0);
@@ -106,7 +109,19 @@ final class InputHandler {
 				currentX = Mouse.getX();
 				currentY = Mouse.getY();
 
-				if ((currentX < Display.getWidth() / 2) && (currentY > Display.getHeight() / 2)) {
+				int hWidth = Display.getWidth() / 2;
+				int hHeight = Display.getHeight() / 2;
+
+				boolean display0 = (currentX < hWidth) && (currentY > hHeight);
+				boolean display1 = (currentX < hWidth) && (currentY < hHeight);
+				boolean display2 = (currentX > hWidth) && (currentY > hHeight);
+				boolean display3 = (currentX > hWidth) && (currentY < hHeight);
+
+				float lx = 0;
+				float ly = 0;
+				int bufferIndex = 0;
+
+				if (display0) {
 					if (Mouse.isButtonDown(0)) {
 						eventListener.notify(EngineEvent.LOOK_X, dx, 0);
 						eventListener.notify(EngineEvent.LOOK_Y, -dy, 0);
@@ -115,7 +130,23 @@ final class InputHandler {
 					if (wheelDelta != 0) {
 						eventListener.notify(EngineEvent.SCALE, wheelDelta / 1000f, 0);
 					}
+					bufferIndex = 0;
+				} else if (display1) {
+					lx = MathUtil.map(currentX / (float) hWidth, 0, 1, -1, 1, -1);
+					ly = MathUtil.map(currentY / (float) hHeight, 0, 1, -1, 1, -1);
+					bufferIndex = 1;
+				} else if (display2) {
+					lx = MathUtil.map((currentX - hWidth) / (float) hWidth, 0, 1, -1, 1, -1);
+					ly = MathUtil.map((currentY - hHeight) / (float) hHeight, 0, 1, -1, 1, -1);
+					bufferIndex = 2;
+				} else if (display3) {
+					lx = MathUtil.map((currentX - hWidth) / (float) hWidth, 0, 1, -1, 1, -1);
+					ly = MathUtil.map(currentY / (float) hHeight, 0, 1, -1, 1, -1);
+					bufferIndex = 3;
 				}
+
+				GraphicsHoverHandler.setCurrentMouseBufferIndex(bufferIndex);
+				GraphicsHoverHandler.handleHover(lx, ly);
 
 				if (useSystemEvents)
 					Mouse.setGrabbed(true);
@@ -124,6 +155,10 @@ final class InputHandler {
 				Mouse.setGrabbed(false);
 			}
 		}
+
+	}
+
+	private static void getDisplayInformationByMousePos(float mx, float my) {
 
 	}
 

@@ -26,6 +26,7 @@ import com.base.common.Renderable;
 import com.base.engine.Camera;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
+import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 public class ViewportRenderer implements Renderable {
@@ -122,6 +123,7 @@ public class ViewportRenderer implements Renderable {
 
 							Object renderData = renderers.get(i)[j].selectRenderData(engine);
 
+							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j);
 
 							if (!isNormalViewport) {
