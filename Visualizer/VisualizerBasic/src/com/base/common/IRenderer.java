@@ -15,5 +15,8 @@ public interface IRenderer {
 	int[] createCustomViewport();
 
 	Object selectRenderData(Engine engine);
-
+	
+	void toggleHover(boolean state);
+	boolean isHoverActivated();
+	
 }

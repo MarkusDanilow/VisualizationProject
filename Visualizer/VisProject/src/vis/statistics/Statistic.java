@@ -3,8 +3,13 @@
 package vis.statistics;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.regression.SimpleRegression;
@@ -13,8 +18,6 @@ import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
 import com.base.common.resources.StatisticObject;
 import com.base.engine.Settings;
-import java.util.Collections;
-import java.util.Comparator;
 
 import vis.data.DataHandler;
 
@@ -32,6 +35,7 @@ public class Statistic {
 	private static int counter = 0;
 	private static int size = 0;
 	private static Float tmpRegression = 0F;
+	@SuppressWarnings("unused")
 	private static Float tmpMean = 0F;
 
 	public Statistic() {
@@ -92,6 +96,7 @@ public class Statistic {
 		return meanResult;
 	}
 
+	@SuppressWarnings("static-access")
 	public static void setMean(TreeMap<Float, DataElement> elements, String dimension) {
 		dataHandler = new DataHandler();
 		meanResult = new StatisticObject();
@@ -153,6 +158,7 @@ public class Statistic {
 		return regResult;
 	}
 
+	@SuppressWarnings("static-access")
 	public static void setRegAnalysis(Map<Float, DataElement> elements, String dimension) {
 		dataHandler = new DataHandler();
 		regResult = new StatisticObject();

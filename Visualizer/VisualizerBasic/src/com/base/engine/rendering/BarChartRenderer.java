@@ -1,6 +1,15 @@
 package com.base.engine.rendering;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,11 +17,10 @@ import java.io.IOException;
 
 import org.newdawn.slick.opengl.TextureLoader;
 
-import com.base.common.IRenderer;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
 
-public class BarChartRenderer implements IRenderer {
+public class BarChartRenderer extends ARenderer {
 
 	@Override
 	public void render(Object... objects) {

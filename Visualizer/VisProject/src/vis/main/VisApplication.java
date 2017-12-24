@@ -1,6 +1,5 @@
 package vis.main;
 
-import java.awt.Canvas;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,13 +14,11 @@ import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
-import com.base.engine.Settings;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 import vis.controller.VisController;
 import vis.data.DataHandler;
 import vis.frame.LookAndFeel;
-import vis.frame.MainWindow;
 import vis.interfaces.AppInterface;
 import vis.statistics.Statistic;
 

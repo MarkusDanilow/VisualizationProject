@@ -2,10 +2,9 @@ package com.base.engine.rendering;
 
 import org.lwjgl.opengl.Display;
 
-import com.base.common.IRenderer;
 import com.base.engine.Engine;
 
-public class MiniMapRenderer implements IRenderer {
+public class MiniMapRenderer extends ARenderer {
 
 	@Override
 	public void render(Object... objects) {

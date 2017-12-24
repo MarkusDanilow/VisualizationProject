@@ -10,11 +10,10 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.base.common.IRenderer;
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 
-public class PointCloudRenderer implements IRenderer {
+public class PointCloudRenderer extends ARenderer {
 
 	public PointCloudRenderer() {
 	}
@@ -49,8 +48,8 @@ public class PointCloudRenderer implements IRenderer {
 	}
 
 	public static float[] calcVertexColor(float x, float y, float z, float time, float maxTime) {
-		float timeStep = 1.0f / maxTime;
-		float c = time * timeStep;
+		// float timeStep = 1.0f / maxTime;
+		// float c = time * timeStep;
 		// return new float[] { c, 1.0f - c, 0, 1f };
 		// return new float[] { 0, 1f - c, c, 1 };
 		float alpha = (0.99f / maxTime) * time;

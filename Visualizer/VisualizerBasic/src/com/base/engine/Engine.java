@@ -27,14 +27,15 @@ import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.engine.font.FontManager;
+import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
 import com.base.engine.rendering.LineChartRenderer;
 import com.base.engine.rendering.MiniMapRenderer;
+import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
-import com.base.engine.rendering.ParallelCoordinatesRenderer;
 
 import gen.algo.Algy;
 import gen.algo.common.MapMirrorType;
@@ -83,6 +84,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private ViewportRenderer viewportRenderer;
 	private PointCloudRenderer pointCloudRenderer;
+	@SuppressWarnings("unused")
 	private PointCloudClusterRenderer pointCloudClusterRenderer;
 	private GridRenderer gridRenderer;
 	private MiniMapRenderer minimapRenderer;
@@ -90,7 +92,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private LineChartRenderer lineChartRenderer;
 	private ParallelCoordinatesRenderer parallelCoorinatesRenderer;
 
-	private List<IRenderer[]> renderers = new ArrayList<>();
+	private List<ARenderer[]> renderers = new ArrayList<>();
 	private float[] scaleFactors = new float[NUM_VIEWS];
 	private Console console;
 	private Camera[] cameras = new Camera[NUM_VIEWS];
@@ -302,7 +304,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		for (int i = 0; i < NUM_VIEWS; i++) {
 			switch (i) {
 			case 0:
-				IRenderer[] renderers = new IRenderer[4];
+				ARenderer[] renderers = new ARenderer[4];
 				renderers[0] = this.gridRenderer;
 				renderers[1] = this.pointCloudRenderer;
 				// renderers[2] = .pointCloudClusterRenderer;
@@ -310,17 +312,17 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				this.renderers.add(renderers);
 				break;
 			case 1:
-				renderers = new IRenderer[1];
+				renderers = new ARenderer[1];
 				renderers[0] = this.lineChartRenderer;
 				this.renderers.add(renderers);
 				break;
 			case 2:
-				renderers = new IRenderer[1];
+				renderers = new ARenderer[1];
 				renderers[0] = this.barChartRenderer;
 				this.renderers.add(renderers);
 				break;
 			case 3:
-				renderers = new IRenderer[1];
+				renderers = new ARenderer[1];
 				renderers[0] = this.parallelCoorinatesRenderer;
 				this.renderers.add(renderers);
 				break;

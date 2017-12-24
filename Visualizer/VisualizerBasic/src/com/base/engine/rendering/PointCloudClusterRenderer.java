@@ -1,9 +1,8 @@
 package com.base.engine.rendering;
 
-import com.base.common.IRenderer;
 import com.base.engine.Engine;
 
-public class PointCloudClusterRenderer implements IRenderer {
+public class PointCloudClusterRenderer extends ARenderer {
 
 	@Override
 	public void render(Object... objects) {

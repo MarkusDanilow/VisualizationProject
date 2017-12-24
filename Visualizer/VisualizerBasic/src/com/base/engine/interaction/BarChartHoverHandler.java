@@ -1,11 +1,7 @@
 package com.base.engine.interaction;
 
-import javax.swing.JOptionPane;
-
 import com.base.engine.interaction.data.BarChartHoverBufferData;
 import com.base.engine.interaction.data.Rectangle;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class BarChartHoverHandler extends AHoverHandler {
 

@@ -704,7 +704,7 @@ public class VBOHandler {
 			this.numItems = inputData.size();
 			this.calcXStep();
 
-			float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
+			// float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
 
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems, 2, 4);
 			for (int i = 0; i < numItems; i++) {

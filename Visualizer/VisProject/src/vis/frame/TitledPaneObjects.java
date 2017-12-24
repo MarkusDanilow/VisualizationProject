@@ -1,6 +1,5 @@
 package vis.frame;
 
-import javafx.beans.value.ChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -12,7 +11,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import vis.events.FXChangeListener;
-import vis.events.FXHandlerCommon;
 import vis.events.FXHandlerPaneA;
 import vis.events.FXHandlerPaneB;
 import vis.events.FXHandlerPaneC;
@@ -50,6 +48,7 @@ public class TitledPaneObjects {
 	private static TextField txtATDistance;
 	
 	
+	@SuppressWarnings("unused")
 	public static void setTitledPane(int paneType, String paneName) {
 		
 		GridPane grid = new GridPane();

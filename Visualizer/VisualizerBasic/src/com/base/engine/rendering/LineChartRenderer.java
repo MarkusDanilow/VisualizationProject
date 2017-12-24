@@ -17,11 +17,10 @@ import java.io.IOException;
 
 import org.newdawn.slick.opengl.TextureLoader;
 
-import com.base.common.IRenderer;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
 
-public class LineChartRenderer implements IRenderer {
+public class LineChartRenderer extends ARenderer{
 
 	@Override
 	public void render(Object... objects) {

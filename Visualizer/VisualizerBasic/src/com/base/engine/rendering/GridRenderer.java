@@ -7,10 +7,9 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
-import com.base.common.IRenderer;
 import com.base.engine.Engine;
 
-public class GridRenderer implements IRenderer {
+public class GridRenderer extends ARenderer {
 
 	static final int GRID_SIZE = 10;
 

@@ -45,7 +45,7 @@ public class ViewportRenderer implements Renderable {
 	public void close() {
 	}
 
-	public void render(Engine engine, Camera[] camera, List<IRenderer[]> renderers, float[] scaleFactors) {
+	public void render(Engine engine, Camera[] camera, List<ARenderer[]> renderers, float[] scaleFactors) {
 
 		if (renderers == null || renderers.size() < 1)
 			return;

@@ -158,8 +158,4 @@ final class InputHandler {
 
 	}
 
-	private static void getDisplayInformationByMousePos(float mx, float my) {
-
-	}
-
 }

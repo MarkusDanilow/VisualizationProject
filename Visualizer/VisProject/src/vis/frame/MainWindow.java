@@ -5,40 +5,26 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 import org.lwjgl.LWJGLException;
 
 import com.base.engine.Settings;
-import com.toedter.calendar.JDateChooser;
 
 import vis.events.LoadDataEvent;
 import vis.events.LoadFromAPIEvent;
@@ -130,7 +116,7 @@ public class MainWindow extends JFrame {
 
 		getContentPane().add(canvasPanel, BorderLayout.CENTER);
 
-		Font captionFont = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
+		// Font captionFont = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
 
 		/* ------------ create the sidebar to the left ------------ */
 		JPanel leftSidebarPanel = new JPanel();
@@ -281,6 +267,7 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
