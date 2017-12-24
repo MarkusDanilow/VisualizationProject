@@ -209,8 +209,6 @@ public class MainWindow extends JFrame {
 
 		this.setJMenuBar(menuBar);
 
-		System.out.println("finished creating frame");
-
 	}
 
 	public Canvas getCanvasById(int id) {

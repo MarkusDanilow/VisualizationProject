@@ -6,6 +6,7 @@ public class DataElement {
 	private Point point;
 
 	private int sampleRate = 0;
+	private Range<Float> timeRange = null;
 
 	public DataElement(float x, float y, float z, float time) {
 		super();
@@ -59,6 +60,18 @@ public class DataElement {
 
 	public void setSampleRate(int sampleRate) {
 		this.sampleRate = sampleRate;
+	}
+
+	public boolean isSampled() {
+		return this.sampleRate > 1 && this.timeRange != null;
+	}
+
+	public Range<Float> getTimeRange() {
+		return timeRange;
+	}
+
+	public void setTimeRange(Range<Float> timeRange) {
+		this.timeRange = timeRange;
 	}
 
 	@Override

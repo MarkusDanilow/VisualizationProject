@@ -234,30 +234,36 @@ public class Statistic {
 
 	}
 
-	public static List<DataElement> getRenderableSampledList(Map<Float, DataElement> inputData) {
+	public static List<DataElement> getRenderableSampledList(Map<Float, DataElement> input) {
 		List<DataElement> outputData = new ArrayList<>();
-		List<DataElement> input = DataHandler.convertToRenderableList(inputData);
+		List<DataElement> inputData = DataHandler.convertToRenderableList(input);
 		int maxItemsInChart = Settings.getMaxItemsInChart();
-		if (inputData.size() <= maxItemsInChart) {
-			outputData = input;
+		if (input.size() / 2 <= maxItemsInChart) {
+			outputData = inputData;
 		} else {
-			int bound = inputData.size() / maxItemsInChart;
-			/*
-			 * int i = 0; float x = 0, y = 0, z = 0; float time0 = 0, time1 = 0;
-			 * for (DataElement dataElement : inputData.values()) { x +=
-			 * dataElement.getX(); y += dataElement.getY(); z +=
-			 * dataElement.getZ(); i++; if (i <= 1) { time0 =
-			 * dataElement.getTime(); } else if (i >= bound) { time1 =
-			 * dataElement.getTime(); x /= (float) i; y /= (float) i; z /=
-			 * (float) i; float time = (time1 - time0) / 2f; DataElement tmp =
-			 * new DataElement(x, y, z, time); outputData.add(tmp); if
-			 * (outputData.size() >= maxItemsInChart) break; x = 0; y = 0; z =
-			 * 0; time = 0; time0 = 0; time1 = 0; i = 0; } }
-			 */
-			for (int i = 0; i < input.size(); i += bound) {
-				outputData.add(input.get(i));
-				if (outputData.size() >= maxItemsInChart)
-					break;
+			int bound = input.size() / maxItemsInChart;
+			float x = 0f, y = 0f, z = 0f, time0 = 0, time1 = 0;
+			for (int i = 0; i < inputData.size(); i++) {
+				x += inputData.get(i).getX();
+				y += inputData.get(i).getY();
+				z += inputData.get(i).getZ();
+				if (i % bound == 0) {
+					time0 = inputData.get(i).getTime();
+				}
+				if (i % bound == bound - 1) {
+					x /= (float) bound;
+					y /= (float) bound;
+					z /= (float) bound;
+					time1 = inputData.get(i).getTime();
+					DataElement e = new DataElement(x, y, z, time0 + (time1 - time0) / 2f);
+					if(bound > 1){
+						e.setTimeRange(new Range<Float>(time0, time1));
+						e.setSampleRate(bound);
+					}
+					outputData.add(e);
+					if (outputData.size() >= maxItemsInChart)
+						break;
+				}
 			}
 		}
 

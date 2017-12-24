@@ -20,6 +20,8 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import com.base.engine.RenderUtils;
+
 public class NewFontManager {
 
 	private static class FontTexturePoint {
@@ -36,6 +38,8 @@ public class NewFontManager {
 			return "" + x + ", " + y;
 		}
 	}
+
+	public static final int SCALE = 500;
 
 	private static int fontTexture = 0;
 	private static Map<Character, FontTexturePoint> fontMapping = new HashMap<>();
@@ -97,6 +101,15 @@ public class NewFontManager {
 
 	}
 
+	public static void prepare() {
+		GL11.glPushMatrix();
+		RenderUtils.switch2D(-SCALE, -SCALE, SCALE, SCALE);
+	}
+
+	public static void close() {
+		GL11.glPopMatrix();
+	}
+
 	public static void renderText(float x, float y, float fontSize, float scale, String text) {
 
 		fontSize *= scale;
@@ -119,7 +132,6 @@ public class NewFontManager {
 		for (int i = 0; i < text.length(); i++) {
 			char index = text.charAt(i);
 			FontTexturePoint p = fontMapping.get(index);
-			System.out.println(index + " >> " + p);
 
 			float posX = -i * hff;
 

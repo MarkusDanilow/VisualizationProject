@@ -19,7 +19,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	protected TrueTypeFont trueTypeFont;
 
-	protected float width = 0.5f, height = -0.7f;
+	protected float width = 0.7f, height = -0.7f;
 
 	public AHoverDataRenderer() {
 		String fontName = "Agent Orange";
@@ -77,24 +77,29 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		GL11.glVertex2f(x, y);
 		GL11.glEnd();
 
-		int scale = 500 ; 
-		
-		GL11.glPushMatrix();
-		RenderUtils.switch2D(-scale, -scale, scale, scale);
 
-		float px = x * scale ;
-		float py = (y + height) * 500 ; 
-		float sx = 15, sy = 20 ; 
+		float px = x * NewFontManager.SCALE;
+		float py = (y + height) * 500;
+		float sx = 15, sy = 20;
+
+		NewFontManager.prepare();
 		
 		// Custom font rendering
 		NewFontManager.renderText(px + sx, py + sy, 12, 3, "Datenpunkt");
-		NewFontManager.renderText(px + sx, py + sy * 3.5f, 10, 3, "Zeitpunkt: " + this.hoverData.getTime());
-		NewFontManager.renderText(px + sx, py + sy * 6f, 10, 3, "X: " + this.hoverData.getX());
-		NewFontManager.renderText(px + sx, py + sy * 8f, 10, 3, "Y: " + this.hoverData.getY());
-		NewFontManager.renderText(px + sx, py + sy * 10f, 10, 3, "Z: " + this.hoverData.getZ());
+		if(this.hoverData.isSampled()){
+			NewFontManager.renderText(px + sx, py + sy * 3f, 10, 3, "Elemente: " + this.hoverData.getSampleRate());
+			NewFontManager.renderText(px + sx, py + sy * 5f, 10, 3, "Zeitraum: " + this.hoverData.getTimeRange().getLoVal()
+					+ " bis " + this.hoverData.getTimeRange().getHiVal());
+		}else{
+			NewFontManager.renderText(px + sx, py + sy * 3f, 10, 3, "Elemente: 1");
+			NewFontManager.renderText(px + sx, py + sy * 5f, 10, 3, "Zeitpunkt: " + this.hoverData.getTime());
+		}
+		NewFontManager.renderText(px + sx, py + sy * 7f, 10, 3, "X: " + this.hoverData.getX());
+		NewFontManager.renderText(px + sx, py + sy * 9f, 10, 3, "Y: " + this.hoverData.getY());
+		NewFontManager.renderText(px + sx, py + sy * 11f, 10, 3, "Z: " + this.hoverData.getZ());
 
-		GL11.glPopMatrix();
-
+		NewFontManager.close();
+		
 	}
 
 	@Override

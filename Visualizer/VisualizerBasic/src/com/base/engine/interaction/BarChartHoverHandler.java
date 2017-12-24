@@ -13,7 +13,6 @@ public class BarChartHoverHandler extends AHoverHandler {
 			for (int i = 0; i < buffer.getBars().size(); i++) {
 				Rectangle bar = buffer.getBars().get(i);
 				if (bar.isInside(x, y)) {
-					System.out.println(x + ", " + y + ", " + buffer.getRawData().get(i).getX());
 					return buffer.getRawData().get(i);
 				}
 			}

@@ -560,18 +560,36 @@ public class VBOHandler {
 		}
 
 		protected DataElement getBiggestX(List<DataElement> inputData) {
-			return Collections.max(inputData, new Comparator<DataElement>() {
-				@Override
-				public int compare(DataElement arg0, DataElement arg1) {
-					return Float.compare(arg0.getX(), arg1.getX());
-				}
-			});
+			try{
+				return Collections.max(inputData, new Comparator<DataElement>() {
+					@Override
+					public int compare(DataElement arg0, DataElement arg1) {
+						if(arg0 == null && arg1 == null)
+							return 0 ; 
+						if(arg0 == null){
+							return -1;
+						}
+						if(arg1 == null)
+							return 1 ; 
+						return Float.compare(arg0.getX(), arg1.getX());
+					}
+				});
+			}catch(Exception e){
+				return null ; 
+			}
 		}
 
 		protected DataElement getBiggestY(List<DataElement> inputData) {
 			return Collections.max(inputData, new Comparator<DataElement>() {
 				@Override
 				public int compare(DataElement arg0, DataElement arg1) {
+					if(arg0 == null && arg1 == null)
+						return 0 ; 
+					if(arg0 == null){
+						return -1;
+					}
+					if(arg1 == null)
+						return 1 ; 
 					return Float.compare(arg0.getY(), arg1.getY());
 				}
 			});
@@ -581,6 +599,13 @@ public class VBOHandler {
 			return Collections.max(inputData, new Comparator<DataElement>() {
 				@Override
 				public int compare(DataElement arg0, DataElement arg1) {
+					if(arg0 == null && arg1 == null)
+						return 0 ; 
+					if(arg0 == null){
+						return -1;
+					}
+					if(arg1 == null)
+						return 1 ; 
 					return Float.compare(arg0.getZ(), arg1.getZ());
 				}
 			});
@@ -653,7 +678,6 @@ public class VBOHandler {
 						yMax - this.borderWidth, x + this.borderWidth, yMax - this.borderWidth });
 
 				bars.add(new Rectangle(x, x + xStep, -yMax, -value));
-				System.out.println(yMax + "; " + value);
 
 				for (int j = 0; j < verticesPerItem; j++)
 					buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
@@ -696,10 +720,8 @@ public class VBOHandler {
 
 			List<DataElement> inputData = (List<DataElement>) data;
 			DataElement biggestX = this.getBiggestX(inputData);
-			DataElement biggestY = this.getBiggestY(inputData);
 
-			this.setBiggestX(biggestX.getX());
-			this.setBiggestY(biggestY.getY());
+			this.setBiggestY(biggestX.getX());
 
 			this.numItems = inputData.size();
 			this.calcXStep();
@@ -763,7 +785,8 @@ public class VBOHandler {
 				DataElement e = inputData.get(i);
 
 				// calc color
-				float[] color = PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), e.getTime(), maxTime);
+				float time = e.isSampled() ? e.getTimeRange().getHiVal() : e.getTime();
+				float[] color = PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), time, maxTime);
 				float y = 0;
 
 				// x coordinate
@@ -793,6 +816,7 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
+			glLineWidth(1);
 			masterRenderMethod(viewportIndex, 2, 4, GL_LINES, callback);
 			this.setAxesStrength();
 			this.setAxesColor();

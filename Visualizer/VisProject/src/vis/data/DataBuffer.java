@@ -32,7 +32,6 @@ public class DataBuffer {
 	public void calculateStep() {
 		if (this.data != null && this.data.size() > 0) {
 			this.step = Math.round((bounds[1].getTime() - bounds[0].getTime()) / data.size());
-			System.out.println(step);
 		}
 	}
 

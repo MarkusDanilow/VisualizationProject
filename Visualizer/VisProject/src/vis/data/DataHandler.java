@@ -23,7 +23,7 @@ import com.base.common.resources.Range;
 public class DataHandler {
 
 	public static final int ELEMENT_SIZE = 4;
-	public static final int NUM_CLUSTERS = 5;
+	public static final int NUM_CLUSTERS = -1;
 
 	private static DataBuffer currentBuffer;
 	private static List<Cluster> currentClusters;
@@ -220,7 +220,8 @@ public class DataHandler {
 
 		long end = System.currentTimeMillis();
 
-		System.out.println("Time for loading and parsing " + dataSetSize + " data elements: " + (end - start) + "ms");
+		// System.out.println("Time for loading and parsing " + dataSetSize + "
+		// data elements: " + (end - start) + "ms");
 
 		return elements;
 	}
@@ -234,7 +235,7 @@ public class DataHandler {
 	public static Map<Float, DataElement> getPartialData(Map<Float, DataElement> entireDataSet, Range<Float> range) {
 		Map<Float, DataElement> elements = new TreeMap<>();
 		boolean useClustering = NUM_CLUSTERS > -1;
-		KMeans kmeans = new KMeans(NUM_CLUSTERS);
+		KMeans kmeans = useClustering ? new KMeans(NUM_CLUSTERS) : null;
 		if (entireDataSet != null && range != null) {
 			float start = range.getLoVal();
 			float end = range.getHiVal();

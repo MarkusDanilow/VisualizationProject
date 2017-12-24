@@ -81,7 +81,6 @@ public class DatabaseAdapter {
 		Class.forName("com.mysql.jdbc.Driver");
 		String connectionURL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?user=" + DB_USER
 				+ "&password=" + DB_PASSWORD;
-		System.out.println(connectionURL);
 		connection = DriverManager.getConnection(connectionURL);
 	}
 

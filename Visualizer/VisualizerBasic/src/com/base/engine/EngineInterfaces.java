@@ -35,8 +35,8 @@ public interface EngineInterfaces extends GenerateInterfaces {
 
 	void loadHeightmap(BufferedImage heightmap);
 
-	void setPointCloudData(List<DataElement> data);
 	void setPointCloudClusters(List<Cluster> clusters);
+	void setPointCloudData(List<DataElement> data);
 	void setChartData(List<DataElement> data);
 
 	void resetViewportDisplayList(int index);
