@@ -81,11 +81,6 @@ public class VisApplication implements AppInterface {
 	/**
 	 * 
 	 */
-	protected MainWindow window;
-
-	/**
-	 * 
-	 */
 	protected EngineInterfaces engine;
 
 	/**
@@ -118,7 +113,7 @@ public class VisApplication implements AppInterface {
 
 	private void handleLoadedData(final Map<Float, DataElement> data) {
 		DataElement[] bounds = DataHandler.getDataBounds(data);
-		this.window.toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
+		VisController.getWindow().toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
 				(int) bounds[1].getTime());
 	}
 
