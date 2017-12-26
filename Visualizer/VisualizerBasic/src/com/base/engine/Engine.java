@@ -325,7 +325,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				renderers[0] = this.gridRenderer;
 				renderers[1] = this.pointCloudRenderer;
 				// renderers[2] = .pointCloudClusterRenderer;
-				renderers[3] = this.minimapRenderer;
+				// renderers[3] = this.minimapRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.get3DView(), renderers);
 				Callback event = new InteractionEvent3D();
@@ -727,7 +727,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	@Override
 	public void setHoverData(int viewportIndex, DataElement data, float x, float y) {
-		for (int i = 0; i < this.renderers.size(); i++) {
+		boolean found = false;
+		for (int i = 0; i < this.renderers.size() && !found; i++) {
 			for (ARenderer aRenderer : this.renderers.get(i)) {
 				if (aRenderer != null) {
 					if (i == viewportIndex && aRenderer.hasHoverDataRenderer() && data != null) {
@@ -735,8 +736,12 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 						aRenderer.getHoverDataRenderer().setHoverData(data);
 						aRenderer.getHoverDataRenderer().setX(x);
 						aRenderer.getHoverDataRenderer().setY(y);
+						System.out.println("enabled hover for " + viewportIndex);
+						found = true;
+						break;
 					} else {
 						aRenderer.toggleHover(false);
+						System.out.println("disabled hover for " + viewportIndex);
 					}
 				}
 			}
@@ -748,7 +753,19 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		if (viewportIndex > -1 && viewportIndex < this.renderers.size() && this.rendererMapping.containsKey(viewName)
 				&& this.viewportInteractions.containsKey(viewName)) {
 			GraphicsHoverHandler.setHoverHandlerForView(viewportIndex, viewName);
-			this.renderers.set(viewportIndex, this.rendererMapping.get(viewName));
+			ARenderer[] renderers = this.rendererMapping.get(viewName);
+			ARenderer[] newRenderers = new ARenderer[renderers.length];
+			for (int i = 0; i < renderers.length; i++) {
+				if(renderers[i] != null){
+					Class<?> rClass = renderers[i].getClass();
+					try {
+						newRenderers[i] = (ARenderer) rClass.newInstance();
+					} catch (InstantiationException | IllegalAccessException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			this.renderers.set(viewportIndex, newRenderers);
 			this.viewportRectangles.get(viewportIndex).setCallback(this.viewportInteractions.get(viewName));
 			this.resetAllViewportDisplayLists();
 		}

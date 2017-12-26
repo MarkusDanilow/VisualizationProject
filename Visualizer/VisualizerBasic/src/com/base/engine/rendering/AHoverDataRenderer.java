@@ -1,33 +1,19 @@
 package com.base.engine.rendering;
 
-import java.awt.Font;
-
 import org.lwjgl.opengl.GL11;
 
 import com.base.common.IRenderer;
-import com.base.common.MadColor;
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
-import com.base.engine.font.OLD_STUFF.TrueTypeFont;
 
 public abstract class AHoverDataRenderer implements IRenderer {
 
 	protected DataElement hoverData = null;
 	protected float x, y;
 
-	protected TrueTypeFont trueTypeFont;
-
 	protected float width = 0.7f, height = -0.7f;
-
-	public AHoverDataRenderer() {
-		String fontName = "Agent Orange";
-		if (!TrueTypeFont.isSupported(fontName))
-			fontName = "serif";
-		Font font = new Font(fontName, Font.ITALIC | Font.BOLD, 20);
-		trueTypeFont = new TrueTypeFont(font, true);
-	}
 
 	public DataElement getHoverData() {
 		return hoverData;

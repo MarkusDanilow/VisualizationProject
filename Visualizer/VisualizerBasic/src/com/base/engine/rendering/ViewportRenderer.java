@@ -70,7 +70,12 @@ public class ViewportRenderer implements Renderable {
 
 						if (isNormalViewport) {
 							RenderUtils.switch3D(x, y, width, height);
-						} else {
+						} 
+						/* 
+						 * TODO: re-activate minimap after defining a custom viewport that depends on the 
+						 * parent viewport 
+						 * 
+						else {
 							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 							glPushMatrix();
@@ -101,6 +106,7 @@ public class ViewportRenderer implements Renderable {
 							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 						}
+						*/ 
 
 						glPushMatrix();
 

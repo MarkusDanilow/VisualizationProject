@@ -121,12 +121,10 @@ final class InputHandler {
 				for (int i = 0; i < engine.getViewports().size(); i++) {
 					InteractableRectangle r = engine.getViewports().get(i);
 					if (r.isInside(currentX, currentY)) {
-						System.out.println(r.getCallback().getClass().getSimpleName());
 						result = (InteractionEventResult) r.getCallback().execute(eventListener, dx, dy, wheelDelta,
 								hWidth, hHeight, currentX, currentY, i);
 						GraphicsHoverHandler.setCurrentMouseBufferIndex(i);
 						GraphicsHoverHandler.handleHover(engine, result.getLx(), result.getLy());
-						break;
 					}
 				}
 

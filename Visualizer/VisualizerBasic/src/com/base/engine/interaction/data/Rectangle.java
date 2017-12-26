@@ -16,4 +16,9 @@ public class Rectangle {
 		return x > x1 && x < x2 && y > y1 && y < y2;
 	}
 
+	@Override
+	public String toString() {
+		return x1 + ", " + x2 + ", " + y1 + ", " + y2;
+	}
+
 }
