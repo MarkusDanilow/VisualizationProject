@@ -148,6 +148,7 @@ public class VisApplication implements AppInterface {
 	public void displaySubData(Range<Float> range) {
 		Map<Float, DataElement> partialData = DataHandler.getPartialData(DataHandler.getCurrentBuffer().getData(),
 				range);
+		VisController.getWindow().setNumElements(partialData.size());
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));

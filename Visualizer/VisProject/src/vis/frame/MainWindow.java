@@ -9,12 +9,19 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -51,6 +58,9 @@ public class MainWindow extends JFrame {
 
 	private JButton back, forth, play;
 	private JSlider timeline;
+	private JLabel numElements, fps, dateTime;
+
+	protected TimerThread timerThread;
 
 	private AtomicBoolean timelineRunning = new AtomicBoolean(false);
 
@@ -175,8 +185,31 @@ public class MainWindow extends JFrame {
 		// Status bar at the bottom
 		JPanel statusBar = new JPanel();
 		statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		statusBar.setLayout(new GridLayout(1, 4));
+
+		this.numElements = new JLabel("Geladene Daten: -");
+		statusBar.add(this.numElements);
+
+		this.fps = new JLabel("FPS: -");
+		statusBar.add(this.fps);
+
+		statusBar.add(new JLabel(""));
+
+		this.dateTime = new JLabel("");
+		statusBar.add(this.dateTime);
+
 		footerPanel.add(statusBar);
-		
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				timerThread.setRunning(false);
+			}
+		});
+
+		timerThread = new TimerThread(this.dateTime, this.fps);
+		timerThread.start();
+
 		getContentPane().add(footerPanel, BorderLayout.SOUTH);
 
 		/*
@@ -214,7 +247,7 @@ public class MainWindow extends JFrame {
 		menuBar.add(helpMenu);
 
 		this.setJMenuBar(menuBar);
-		
+
 	}
 
 	public Canvas getCanvasById(int id) {
@@ -271,6 +304,14 @@ public class MainWindow extends JFrame {
 		}
 	}
 
+	public void setNumElements(int num) {
+		DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.GERMAN);
+		DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+		symbols.setGroupingSeparator('.');
+		formatter.setDecimalFormatSymbols(symbols);
+		this.numElements.setText("Geladene Daten: " + formatter.format(num));
+	}
+
 	@SuppressWarnings("unused")
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -295,7 +336,5 @@ public class MainWindow extends JFrame {
 	public RightFXPanel getFxPanelObjectRight() {
 		return fxPanelObjectRight;
 	}
-	
-	
-	
+
 }

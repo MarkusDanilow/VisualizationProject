@@ -2,7 +2,7 @@ package com.base.engine;
 
 import org.lwjgl.Sys;
 
-final class FrameRateUtil {
+public final class FrameRateUtil {
 
 	private static long lastFrame;
 	private static int fps;
