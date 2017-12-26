@@ -19,13 +19,14 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
+import com.base.engine.Settings;
 
 public class BarChartRenderer extends ARenderer {
 
 	public BarChartRenderer() {
 		this.hoverDataRenderer = new BarChartHoverDataRenderer();
 	}
-	
+
 	@Override
 	public void render(Object... objects) {
 
@@ -43,7 +44,10 @@ public class BarChartRenderer extends ARenderer {
 
 		RenderUtils.switch2D(-1, -1, 1, 1);
 		glBegin(GL_QUADS);
-		glColor4f(1, 1, 1, 1);
+
+		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
+				Settings.FONT_COLOR.getAlpha());
+
 		glTexCoord2f(0, 0);
 		glVertex2f(-1, -1);
 		glTexCoord2f(1, 0);

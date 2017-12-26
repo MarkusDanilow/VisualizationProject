@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_LINES;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glColor4f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
@@ -26,6 +26,7 @@ import com.base.common.Renderable;
 import com.base.engine.Camera;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
+import com.base.engine.Settings;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
@@ -77,7 +78,8 @@ public class ViewportRenderer implements Renderable {
 								RenderUtils.switch2D(-1, -1, 1, 1);
 								glBegin(GL11.GL_QUADS);
 								{
-									GL11.glColor3f(0, 0, 0);
+									GL11.glColor4f(Settings.MINIMAP_BG.getRed(), Settings.MINIMAP_BG.getGreen(),
+											Settings.MINIMAP_BG.getBlue(), Settings.MINIMAP_BG.getAlpha());
 									glVertex2f(-1, -1);
 									glVertex2f(1, -1);
 									glVertex2f(1, 1);
@@ -86,7 +88,8 @@ public class ViewportRenderer implements Renderable {
 								glEnd();
 								glBegin(GL11.GL_LINE_STRIP);
 								{
-									GL11.glColor4f(1, 1, 1, 0.7f);
+									glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(),
+											Settings.FONT_COLOR.getGreen(), Settings.FONT_COLOR.getAlpha());
 									glVertex2f(-1, -1);
 									glVertex2f(1, -1);
 									glVertex2f(1, 1);
@@ -126,18 +129,21 @@ public class ViewportRenderer implements Renderable {
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j);
 
+							/*
 							if (!isNormalViewport) {
 								GL11.glPointSize(15);
 								glScalef(5, 5, 5);
 								glBegin(GL11.GL_POINTS);
 								{
-									GL11.glColor3f(0, .5f, 1);
+									GL11.glColor4f(Settings.MINIMAP_POS.getRed(), Settings.MINIMAP_POS.getGreen(),
+											Settings.MINIMAP_POS.getBlue(), Settings.MINIMAP_POS.getAlpha());
 									GL11.glVertex3f(-camera[i].getPos().getX(), -camera[i].getPos().getY(),
 											-camera[i].getPos().getZ());
 								}
 								glEnd();
 							}
-							
+							*/
+
 							if (renderers.get(i)[j].isHoverActivated()) {
 								renderers.get(i)[j].getHoverDataRenderer().render();
 							}
@@ -169,7 +175,10 @@ public class ViewportRenderer implements Renderable {
 		RenderUtils.switch2D(0, 0, w, h);
 		glPushMatrix();
 		glLineWidth(2);
-		glColor3f(1, 1, 1);
+
+		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
+				Settings.FONT_COLOR.getAlpha());
+
 		glBegin(GL_LINES);
 		glVertex2f(0, h / 2);
 		glVertex2f(w, h / 2);

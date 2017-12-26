@@ -5,8 +5,10 @@ import java.awt.Font;
 import org.lwjgl.opengl.GL11;
 
 import com.base.common.IRenderer;
+import com.base.common.MadColor;
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
+import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.font.OLD_STUFF.TrueTypeFont;
 
@@ -67,7 +69,8 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 		GL11.glDisable(GL11.GL_BLEND);
 
-		GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
+		GL11.glColor4f(Settings.HOVER_BG_COLOR.getRed(), Settings.HOVER_BG_COLOR.getGreen(),
+				Settings.HOVER_BG_COLOR.getBlue(), Settings.HOVER_BG_COLOR.getAlpha());
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex2f(x, y);
 		GL11.glVertex2f(x + width, y);
@@ -78,7 +81,8 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		GL11.glEnable(GL11.GL_BLEND);
 
 		GL11.glLineWidth(1);
-		GL11.glColor4f(0.95f, 0.95f, 0.95f, 0.9f);
+		GL11.glColor4f(Settings.HOVER_BORDER_COLOR.getRed(), Settings.HOVER_BORDER_COLOR.getGreen(),
+				Settings.HOVER_BORDER_COLOR.getBlue(), Settings.HOVER_BORDER_COLOR.getAlpha());
 		GL11.glBegin(GL11.GL_LINE_STRIP);
 		GL11.glVertex2f(x, y);
 		GL11.glVertex2f(x + width, y);

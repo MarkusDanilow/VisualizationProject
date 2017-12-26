@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 
+import com.base.engine.Settings;
+
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,6 +29,8 @@ public class RightFXPanel {
 	public JPanel getPanel (int rightSidebarWidth, int height) {
 		
 		JPanel rightSidebarPanel = new JPanel();
+		rightSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
+		
 		rightSidebarPanelFX = new JFXPanel();
 		rightSidebarPanel.add(rightSidebarPanelFX);
 		
@@ -61,7 +65,7 @@ public class RightFXPanel {
 		gridMain.setHgap(5);
 		gridMain.setVgap(5);
 
-		final Label labelMain = new Label("Settings");
+		final Label labelMain = new Label("Einstellungen");
 		labelMain.setId("headline");
 		gridMain.add(labelMain, 0, 0);
 

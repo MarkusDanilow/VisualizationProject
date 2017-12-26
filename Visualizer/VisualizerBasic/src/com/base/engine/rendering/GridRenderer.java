@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glVertex3f;
 
 import com.base.engine.Engine;
+import com.base.engine.Settings;
 
 public class GridRenderer extends ARenderer {
 
@@ -28,22 +29,28 @@ public class GridRenderer extends ARenderer {
 		glLineWidth(5);
 		glBegin(GL_LINES);
 		// x = red
-		glColor4f(1, 0, 0, 0.5f);
+		glColor4f(Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(), Settings.X_COLOR.getBlue(),
+				Settings.X_COLOR.getAlpha());
 		glVertex3f(0, 0, 0);
 		glVertex3f(100, 0, 0);
 		// y = green
-		glColor4f(0, 1, 0, 0.5f);
+		glColor4f(Settings.Y_COLOR.getRed(), Settings.Y_COLOR.getGreen(), Settings.Y_COLOR.getBlue(),
+				Settings.Y_COLOR.getAlpha());
 		glVertex3f(0, 0, 0);
 		glVertex3f(0, 100, 0);
 		// z = blue
-		glColor4f(0, 0, 1, 0.5f);
+		glColor4f(Settings.Z_COLOR.getRed(), Settings.Z_COLOR.getGreen(), Settings.Z_COLOR.getBlue(),
+				Settings.Z_COLOR.getAlpha());
 		glVertex3f(0, 0, 0);
 		glVertex3f(0, 0, -100);
 		glEnd();
 		glLineWidth(1);
 
 		glBegin(GL_LINES);
-		glColor4f(1, 1, 1, 1f);
+
+		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
+				Settings.FONT_COLOR.getAlpha());
+
 		for (int x = minX; x < maxX; x += GRID_SIZE) {
 			glVertex3f(x, 0, minY);
 			glVertex3f(x, 0, maxY);

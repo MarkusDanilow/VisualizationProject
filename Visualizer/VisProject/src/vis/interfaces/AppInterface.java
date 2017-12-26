@@ -21,5 +21,7 @@ public interface AppInterface {
 	void displaySubData(Range<Float> range);
 
 	void toggleCompleteParallelCoordinates();
+	
+	void invertColors();
 
 }

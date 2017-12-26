@@ -380,6 +380,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private void render() {
 		try {
+			RenderUtils.setClearColor();
 			viewportRenderer.prepare();
 			viewportRenderer.render(this, this.cameras, this.renderers, this.scaleFactors);
 			console.render(null);

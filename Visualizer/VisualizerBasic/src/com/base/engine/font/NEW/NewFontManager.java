@@ -20,7 +20,9 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import com.base.common.MadColor;
 import com.base.engine.RenderUtils;
+import com.base.engine.Settings;
 
 public class NewFontManager {
 
@@ -127,7 +129,7 @@ public class NewFontManager {
 
 		GL11.glRotatef(90, 0, 0, 1);
 
-		glColor4f(1, 1, 1, 1);
+		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(), Settings.FONT_COLOR.getAlpha());
 
 		for (int i = 0; i < text.length(); i++) {
 			char index = text.charAt(i);

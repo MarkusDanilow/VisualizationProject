@@ -14,6 +14,7 @@ import com.base.common.resources.DataElement;
 import com.base.common.resources.Range;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
+import com.base.engine.Settings;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 import vis.controller.VisController;
@@ -153,6 +154,12 @@ public class VisApplication implements AppInterface {
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
 		GraphicBufferUitl.performanceMeasureEnabled = true;
+		this.engine.resetAllViewportDisplayLists();
+	}
+
+	@Override
+	public void invertColors() {
+		Settings.toggleColorInverted();
 		this.engine.resetAllViewportDisplayLists();
 	}
 

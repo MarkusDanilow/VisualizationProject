@@ -121,19 +121,23 @@ public class MainWindow extends JFrame {
 			cPanel.add(c);
 
 			c.setIgnoreRepaint(true);
-			c.setBackground(Settings.getClearColor());
+			c.setBackground(Settings.WND_COLOR.toAwtColor());
 			canvases[i] = c;
 		}
 
+		this.setBackground(Settings.WND_COLOR.toAwtColor());
+
 		getContentPane().add(canvasPanel, BorderLayout.CENTER);
+		getContentPane().setBackground(Settings.WND_COLOR.toAwtColor());
 
 		// Font captionFont = new Font("Arial", Font.BOLD + Font.PLAIN, 14);
 
 		/* ------------ create the sidebar to the left ------------ */
 		JPanel leftSidebarPanel = new JPanel();
+		leftSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
 
 		LeftFXPanel fxPanelObjectLeft = new LeftFXPanel();
-		JPanel fxPanelLeft = fxPanelObjectLeft.getPanel(leftSidebarWidth, this.getHeight());
+		JPanel fxPanelLeft = fxPanelObjectLeft.getPanel(leftSidebarWidth, this.getHeight(), this);
 
 		leftSidebarPanel.add(fxPanelLeft);
 
@@ -141,6 +145,7 @@ public class MainWindow extends JFrame {
 
 		/* ------------ create the sidebar to the right ------------ */
 		JPanel rightSidebarPanel = new JPanel();
+		rightSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
 
 		fxPanelObjectRight = new RightFXPanel();
 		JPanel fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight());
@@ -152,13 +157,13 @@ public class MainWindow extends JFrame {
 		/* ------------ create the footer ------------ */
 		JPanel footerPanel = new JPanel(new GridLayout(2, 1));
 		footerPanel.setPreferredSize(new Dimension(this.getWidth(), footerHeight));
-		footerPanel.setBackground(new Color(83, 83, 83));
+		footerPanel.setBackground(Settings.getWindowColor().toAwtColor());
 
 		JPanel timelinePanel = new JPanel(new BorderLayout());
 		JPanel timelineButtonPanel = new JPanel(new GridLayout(1, 3));
 		this.back = new JButton("<<");
 		this.forth = new JButton(">>");
-		this.play = new JButton("PLAY");
+		this.play = new JButton("Abspielen");
 
 		timelineButtonPanel.add(this.back);
 		timelineButtonPanel.add(this.play);
@@ -173,10 +178,10 @@ public class MainWindow extends JFrame {
 		this.timeline = new JSlider(JSlider.HORIZONTAL);
 		this.timeline.addChangeListener(new TimelineChangeEvent(this));
 		timelinePanel.add(this.timeline, BorderLayout.CENTER);
-		this.timeline.setBackground(new Color(83, 83, 83));
-		this.back.setBackground(new Color(83, 83, 83));
-		this.forth.setBackground(new Color(83, 83, 83));
-		this.play.setBackground(new Color(83, 83, 83));
+		this.timeline.setBackground(Settings.getWindowColor().toAwtColor());
+		this.back.setBackground(Settings.getWindowColor().toAwtColor());
+		this.forth.setBackground(Settings.getWindowColor().toAwtColor());
+		this.play.setBackground(Settings.getWindowColor().toAwtColor());
 
 		this.toggleTimeline(false, 0, 0, 0);
 
@@ -276,7 +281,7 @@ public class MainWindow extends JFrame {
 
 	public void startTimeline() {
 		this.timelineRunning.set(true);
-		this.play.setText("PAUSE");
+		this.play.setText("Pausieren");
 		new Thread() {
 			public void run() {
 				while (timelineRunning.get()) {
@@ -293,7 +298,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public void stopTimeline() {
-		this.play.setText("PLAY");
+		this.play.setText("Abspielen");
 		this.timelineRunning.set(false);
 	}
 

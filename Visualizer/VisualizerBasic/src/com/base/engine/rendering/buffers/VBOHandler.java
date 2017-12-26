@@ -52,6 +52,7 @@ import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Point;
 import com.base.engine.RenderUtils;
+import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.data.BarChartHoverBufferData;
@@ -436,21 +437,36 @@ public class VBOHandler {
 
 			FloatBuffer[] buffers = initBuffers(viewportIndex, size, 3, 4);
 
-			// push axes to the buffers
-			buffers[0].put(new float[] { 0, 0, 0, maxX, 0, 0, 0, 0, 0, 0, maxY, 0, 0, 0, 0, 0, 0, maxY });
-			buffers[1].put(new float[] { 1, 0, 0, 0.5f, 1, 0, 0, 0.5f, 0, 1, 0, 0.5f, 0, 1, 0, 0.5f, 0, 0, 1, 0.5f, 0,
-					0, 1, 0.5f });
+			float[] grid = new float[] { Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getGreen(),
+					Settings.FONT_COLOR.getBlue(), alphaChannel };
 
 			for (int x = minX; x < maxX; x += gridSizeX) {
 				buffers[0].put(new float[] { x, 0, minY, x, 0, maxY });
-				buffers[1].put(new float[] { 1, 1, 1, alphaChannel });
-				buffers[1].put(new float[] { 1, 1, 1, alphaChannel });
+				buffers[1].put(grid);
+				buffers[1].put(grid);
 			}
 			for (int y = minY; y < maxY; y += gridSizeY) {
 				buffers[0].put(new float[] { minX, 0, y, maxX, 0, y });
-				buffers[1].put(new float[] { 1, 1, 1, alphaChannel });
-				buffers[1].put(new float[] { 1, 1, 1, alphaChannel });
+				buffers[1].put(grid);
+				buffers[1].put(grid);
 			}
+
+			// push axes to the buffers
+			buffers[0].put(new float[] { 0, 0, 0, maxX, 0, 0, 0, 0, 0, 0, maxY, 0, 0, 0, 0, 0, 0, maxY });
+
+			float[] red = new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
+					Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() };
+			float[] green = new float[] { Settings.Y_COLOR.getRed(), Settings.Y_COLOR.getGreen(),
+					Settings.Y_COLOR.getBlue(), Settings.Y_COLOR.getAlpha() };
+			float[] blue = new float[] { Settings.Z_COLOR.getRed(), Settings.Z_COLOR.getGreen(),
+					Settings.Z_COLOR.getBlue(), Settings.Z_COLOR.getAlpha() };
+
+			buffers[1].put(red);
+			buffers[1].put(red);
+			buffers[1].put(green);
+			buffers[1].put(green);
+			buffers[1].put(blue);
+			buffers[1].put(blue);
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 		}
@@ -511,7 +527,8 @@ public class VBOHandler {
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, arrowTexture);
 
-			glColor4f(1, 1, 1, 1);
+			glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
+					Settings.FONT_COLOR.getAlpha());
 
 			glPushMatrix();
 			RenderUtils.rotateTexture(180);
@@ -632,7 +649,8 @@ public class VBOHandler {
 		}
 
 		protected void setAxesColor() {
-			glColor4f(1, 1, 1, 1f);
+			glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
+					Settings.FONT_COLOR.getAlpha());
 		}
 
 		protected void setAxesStrength() {
@@ -775,8 +793,9 @@ public class VBOHandler {
 			glLineWidth(1.5f);
 			glPointSize(8);
 			masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
-			
-			if(this.inputData != null){
+
+			if (this.inputData != null) {
+				glColor4f(0, 0.7f, 0.7f, 1);
 				glBegin(GL_POINTS);
 				for (int i = 0; i < numItems; i++) {
 					DataElement e = inputData.get(i);
@@ -784,7 +803,7 @@ public class VBOHandler {
 				}
 				glEnd();
 			}
-			
+
 			this.renderAxes();
 		}
 

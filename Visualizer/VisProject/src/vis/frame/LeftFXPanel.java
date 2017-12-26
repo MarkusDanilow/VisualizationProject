@@ -1,9 +1,12 @@
+
 package vis.frame;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.JPanel;
+
+import com.base.engine.Settings;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,12 +21,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import vis.events.FXHandlerInvertColors;
 
 public class LeftFXPanel {
 
-	public JPanel getPanel (int leftSidebarWidth, int height) {
+	public JPanel getPanel (int leftSidebarWidth, int height, MainWindow wnd) {
 		
 		JPanel leftSidebarPanel = new JPanel();
+		leftSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
 		JFXPanel leftSidebarPanelFX = new JFXPanel();
 		leftSidebarPanel.add(leftSidebarPanelFX);
 		
@@ -43,7 +48,7 @@ public class LeftFXPanel {
         gridVis.setPadding(new Insets(5, 5, 5, 5));
         
         //Vis-Techniken
-        final Label visTech = new Label("Visualization techniques");
+        final Label visTech = new Label("Visualisierungstechniken");
         visTech.setId("headline");
         gridVis.add(visTech, 0, 0, 2, 1);
         
@@ -53,9 +58,9 @@ public class LeftFXPanel {
         ObservableList<String> optionsPane = 
         		FXCollections.observableArrayList(
         				"3D",
-        				"Bar-Chart",
-        				"Spline",
-        				"Parallel Lines"
+        				"Balken-Diagramm",
+        				"Linien-Diagramm",
+        				"Parallele Koordinaten"
         				//"Aimed-Target"
         				);        
         
@@ -92,22 +97,23 @@ public class LeftFXPanel {
         gridCommon.setPadding(new Insets(5, 5, 5, 5));
         
       //  final Label lblParameterFilter = new Label("Parameter filter (global)");
-        final Label lblCommon = new Label("Common");
+        final Label lblCommon = new Label("Allgemeine Einstellungen");
         lblCommon.setId("headline");
         gridCommon.add(lblCommon, 0, 0, 2, 1);
         
         final ToggleGroup groupT1 = new ToggleGroup();
         
-        RadioButton rbLive = new RadioButton("live-view");
+        RadioButton rbLive = new RadioButton("Live-Ansicht");
         rbLive.setToggleGroup(groupT1);
         gridCommon.add(rbLive, 0, 1);
         
-        RadioButton rbFreeze = new RadioButton("freeze");
+        RadioButton rbFreeze = new RadioButton("Freeze-Ansicht");
         rbFreeze.setToggleGroup(groupT1);
         gridCommon.add(rbFreeze, 0, 2);
         
-        Button invertBackground = new Button("Invert Background");
+        Button invertBackground = new Button("Farben invertieren");
         invertBackground.setMinWidth(70);
+        invertBackground.setOnAction(new FXHandlerInvertColors(wnd));
         gridCommon.add(invertBackground, 0, 5);
    
    /*     
@@ -145,17 +151,17 @@ public class LeftFXPanel {
         gridDate.setVgap(4);
         gridDate.setPadding(new Insets(5, 5, 5, 5));
         
-        final Label lblDatePicker = new Label("Choose Date");
+        final Label lblDatePicker = new Label("Zeitraum auswählen");
         lblDatePicker.setId("headline");
         gridDate.add(lblDatePicker, 0, 0, 2, 1);
         
-        final Label lblDateFrom = new Label("From:");
+        final Label lblDateFrom = new Label("Von:");
         gridDate.add(lblDateFrom, 0, 1);
         
         DatePicker dateFrom = new DatePicker();
         gridDate.add(dateFrom, 1, 1);
         
-        final Label lblDateTo = new Label("To:");
+        final Label lblDateTo = new Label("Bis:");
         gridDate.add(lblDateTo, 0, 2);
         
         DatePicker dateTo = new DatePicker();

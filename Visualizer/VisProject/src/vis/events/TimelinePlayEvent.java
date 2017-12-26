@@ -17,9 +17,9 @@ public class TimelinePlayEvent extends AbstractActionEvent {
 	public void actionPerformed(ActionEvent arg0) {
 		JButton btn = (JButton) arg0.getSource();
 		String state = btn.getText();
-		if (state.toLowerCase().equals("play")) {
+		if (state.toLowerCase().equals("abspielen")) {
 			this.window.startTimeline();
-		} else if (state.toLowerCase().equals("pause")) {
+		} else if (state.toLowerCase().equals("pausieren")) {
 			this.window.stopTimeline();
 		}
 	}
