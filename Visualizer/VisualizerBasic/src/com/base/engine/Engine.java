@@ -96,6 +96,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@SuppressWarnings("unused")
 	private PointCloudClusterRenderer pointCloudClusterRenderer;
 	private GridRenderer gridRenderer;
+	@SuppressWarnings("unused")
 	private MiniMapRenderer minimapRenderer;
 	private BarChartRenderer barChartRenderer;
 	private LineChartRenderer lineChartRenderer;
@@ -736,12 +737,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 						aRenderer.getHoverDataRenderer().setHoverData(data);
 						aRenderer.getHoverDataRenderer().setX(x);
 						aRenderer.getHoverDataRenderer().setY(y);
-						System.out.println("enabled hover for " + viewportIndex);
 						found = true;
-						break;
 					} else {
 						aRenderer.toggleHover(false);
-						System.out.println("disabled hover for " + viewportIndex);
 					}
 				}
 			}
@@ -756,7 +754,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			ARenderer[] renderers = this.rendererMapping.get(viewName);
 			ARenderer[] newRenderers = new ARenderer[renderers.length];
 			for (int i = 0; i < renderers.length; i++) {
-				if(renderers[i] != null){
+				if (renderers[i] != null) {
 					Class<?> rClass = renderers[i].getClass();
 					try {
 						newRenderers[i] = (ARenderer) rClass.newInstance();

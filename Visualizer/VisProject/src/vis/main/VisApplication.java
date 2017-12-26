@@ -91,6 +91,9 @@ public class VisApplication implements AppInterface {
 	public VisApplication() throws LWJGLException, FileNotFoundException, IOException, SQLException {
 		VisController.init(this);
 		this.engine = new Engine(VisController.getCanvas(), false);
+
+		this.handleLoadedData(DataHandler.generateDataSet(1000000, new Range<Float>(0f, 65000f)));
+
 	}
 
 	/**

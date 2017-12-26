@@ -9,6 +9,7 @@ public class GraphicBufferUitl {
 	public static final String DISPLAY_LIST_REPFIX = "viewport_display_list_";
 	public static final boolean[] useDisplayLists = new boolean[Engine.NUM_VIEWS];
 
+	@SuppressWarnings("unused")
 	private static long start, end;
 	public static boolean performanceMeasureEnabled = false;
 

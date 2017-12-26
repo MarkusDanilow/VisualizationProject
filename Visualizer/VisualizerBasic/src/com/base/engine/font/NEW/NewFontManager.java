@@ -20,7 +20,6 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import com.base.common.MadColor;
 import com.base.engine.RenderUtils;
 import com.base.engine.Settings;
 

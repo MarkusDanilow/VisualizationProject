@@ -220,8 +220,7 @@ public class DataHandler {
 
 		long end = System.currentTimeMillis();
 
-		// System.out.println("Time for loading and parsing " + dataSetSize + "
-		// data elements: " + (end - start) + "ms");
+		System.out.println("Time for loading and parsing " + elements.size() + " data elements: " + (end - start) + "ms");
 
 		return elements;
 	}

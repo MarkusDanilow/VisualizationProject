@@ -473,6 +473,7 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
+			glLineWidth(1);
 			masterRenderMethod(viewportIndex, 3, 4, GL_LINES, callback);
 		}
 
@@ -492,6 +493,8 @@ public class VBOHandler {
 		protected int numItems = 50;
 		protected float xStep = 0.1f;
 		protected float biggestX, biggestY;
+
+		protected boolean enabled = false;
 
 		protected String propertyOnYAxes = "x";
 
@@ -578,6 +581,7 @@ public class VBOHandler {
 			return xStep;
 		}
 
+		@SuppressWarnings("unused")
 		public void setBiggestX(float biggestX) {
 			this.biggestX = biggestX;
 		}
@@ -673,7 +677,8 @@ public class VBOHandler {
 		@Override
 		public void create(int viewportIndex, Object data) {
 
-			if (data == null)
+			this.enabled = data != null;
+			if (!enabled)
 				return;
 
 			int verticesPerItem = 4;
@@ -723,10 +728,12 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			glDisable(GL_BLEND);
-			masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
-			glEnable(GL_BLEND);
-			this.renderAxes();
+			if (this.enabled) {
+				glDisable(GL_BLEND);
+				masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
+				glEnable(GL_BLEND);
+				this.renderAxes();
+			}
 		}
 
 	}
@@ -745,7 +752,8 @@ public class VBOHandler {
 		@Override
 		public void create(int viewportIndex, Object data) {
 
-			if (data == null)
+			this.enabled = data != null;
+			if (!enabled)
 				return;
 
 			this.inputData = (List<DataElement>) data;
@@ -790,21 +798,23 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			glLineWidth(1.5f);
-			glPointSize(8);
-			masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
+			if (this.enabled) {
+				glLineWidth(1.5f);
+				glPointSize(8);
+				masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
 
-			if (this.inputData != null) {
-				glColor4f(0, 0.7f, 0.7f, 1);
-				glBegin(GL_POINTS);
-				for (int i = 0; i < numItems; i++) {
-					DataElement e = inputData.get(i);
-					glVertex2f(this.calcPosX(i), this.calcValue_yAxes(e.getX()));
+				if (this.inputData != null) {
+					glColor4f(0, 0.7f, 0.7f, 1);
+					glBegin(GL_POINTS);
+					for (int i = 0; i < numItems; i++) {
+						DataElement e = inputData.get(i);
+						glVertex2f(this.calcPosX(i), this.calcValue_yAxes(e.getX()));
+					}
+					glEnd();
 				}
-				glEnd();
-			}
 
-			this.renderAxes();
+				this.renderAxes();
+			}
 		}
 
 	}
@@ -820,7 +830,9 @@ public class VBOHandler {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void create(int viewportIndex, Object data) {
-			if (data == null)
+
+			this.enabled = data != null;
+			if (!enabled)
 				return;
 
 			List<DataElement> inputData = (List<DataElement>) data;
@@ -869,23 +881,25 @@ public class VBOHandler {
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
-			glLineWidth(1);
-			masterRenderMethod(viewportIndex, 2, 4, GL_LINES, callback);
-			this.setAxesStrength();
-			this.setAxesColor();
-			glBegin(GL_LINES);
-			for (int i = -1; i < 2; i++) {
-				glVertex2f(i * xMax, yMax);
-				glVertex2f(i * xMax, yMin);
-			}
-			glEnd();
+			if (this.enabled) {
+				glLineWidth(1);
+				masterRenderMethod(viewportIndex, 2, 4, GL_LINES, callback);
+				this.setAxesStrength();
+				this.setAxesColor();
+				glBegin(GL_LINES);
+				for (int i = -1; i < 2; i++) {
+					glVertex2f(i * xMax, yMax);
+					glVertex2f(i * xMax, yMin);
+				}
+				glEnd();
 
-			NewFontManager.prepare();
-			NewFontManager.renderText(-460, 460, 16, 2, "x");
-			NewFontManager.renderText(0, 460, 16, 2, "y");
-			NewFontManager.renderText(460, 460, 16, 2, "z");
-			NewFontManager.close();
-			RenderUtils.switch2D(-1, -1, 1, 1);
+				NewFontManager.prepare();
+				NewFontManager.renderText(-460, 460, 16, 2, "x");
+				NewFontManager.renderText(0, 460, 16, 2, "y");
+				NewFontManager.renderText(460, 460, 16, 2, "z");
+				NewFontManager.close();
+				RenderUtils.switch2D(-1, -1, 1, 1);
+			}
 		}
 
 	}

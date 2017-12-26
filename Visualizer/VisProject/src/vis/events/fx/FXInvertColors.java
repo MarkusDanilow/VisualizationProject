@@ -1,7 +1,5 @@
 package vis.events.fx;
 
-import com.base.engine.Settings;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import vis.frame.MainWindow;

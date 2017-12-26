@@ -52,8 +52,8 @@ public class PointCloudRenderer extends ARenderer {
 		// float c = time * timeStep;
 		// return new float[] { c, 1.0f - c, 0, 1f };
 		// return new float[] { 0, 1f - c, c, 1 };
-		float alpha = (0.99f / maxTime) * time;
-		return new float[] { 0, 0.7f, 0.7f, alpha };
+		float value = (0.99f / maxTime) * time;
+		return new float[] { 1, 1 - value, value, 0.5f + value / 2f };
 	}
 
 	@Override
