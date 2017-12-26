@@ -9,7 +9,8 @@ import com.base.common.MadColor;
 
 public final class Settings {
 
-	static final String SECTION_DISPLAY = "Display", SECTION_APP = "Application", SECTION_RENDERER = "Renderer";
+	static final String SECTION_DISPLAY = "Display", SECTION_APP = "Application", SECTION_RENDERER = "Renderer",
+			SECTION_VIEWS = "Views";
 
 	private static Ini settingsFile;
 
@@ -77,6 +78,10 @@ public final class Settings {
 		return getSectionByName(SECTION_DISPLAY);
 	}
 
+	private static Section getViewsSection() {
+		return getSectionByName(SECTION_VIEWS);
+	}
+
 	public static String getApplicationTitle() {
 		return getApplicationSection().get("title");
 	}
@@ -97,10 +102,10 @@ public final class Settings {
 		return Boolean.valueOf(getDisplaySection().get("vsync"));
 	}
 
-	public static MadColor getWindowColor(){
+	public static MadColor getWindowColor() {
 		return getColorByName("wndColor");
 	}
-	
+
 	public static MadColor getClearColor() {
 		return getColorByName("clearColor" + getInvertedColorName());
 	}
@@ -153,4 +158,23 @@ public final class Settings {
 		return getColorByName("minimapPosition");
 	}
 
+	public static String getViewByName(String name) {
+		return getViewsSection().get(name);
+	}
+
+	public static String get3DView() {
+		return getViewByName("3D");
+	}
+
+	public static String getBarChartView() {
+		return getViewByName("BarChart");
+	}
+
+	public static String getLineChartView() {
+		return getViewByName("LineChart");
+	}
+
+	public static String getParallelCoordinatesView() {
+		return getViewByName("ParallelCoordinates");
+	}
 }

@@ -1,4 +1,4 @@
-package vis.events;
+package vis.events.fx;
 
 import com.base.engine.Settings;
 
@@ -6,11 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import vis.frame.MainWindow;
 
-public class FXHandlerInvertColors implements EventHandler<ActionEvent> {
+public class FXInvertColors implements EventHandler<ActionEvent> {
 
 	protected MainWindow wnd;
 
-	public FXHandlerInvertColors(MainWindow wnd) {
+	public FXInvertColors(MainWindow wnd) {
 		super();
 		this.wnd = wnd;
 	}

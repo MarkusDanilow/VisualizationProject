@@ -6,7 +6,9 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -27,7 +29,6 @@ import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.engine.font.NEW.NewFontManager;
-import com.base.engine.font.OLD_STUFF.FontManager;
 import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -93,6 +94,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private LineChartRenderer lineChartRenderer;
 	private ParallelCoordinatesRenderer parallelCoorinatesRenderer;
 
+	private Map<String, ARenderer[]> rendererMapping = new HashMap<>();
 	private List<ARenderer[]> renderers = new ArrayList<>();
 	private float[] scaleFactors = new float[NUM_VIEWS];
 	private Console console;
@@ -312,27 +314,33 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				// renderers[2] = .pointCloudClusterRenderer;
 				renderers[3] = this.minimapRenderer;
 				this.renderers.add(renderers);
+				this.rendererMapping.put(Settings.get3DView(), renderers);
 				break;
 			case 1:
 				renderers = new ARenderer[1];
 				renderers[0] = this.lineChartRenderer;
 				this.renderers.add(renderers);
+				this.rendererMapping.put(Settings.getLineChartView(), renderers);
 				break;
 			case 2:
 				renderers = new ARenderer[1];
 				renderers[0] = this.barChartRenderer;
 				this.renderers.add(renderers);
+				this.rendererMapping.put(Settings.getBarChartView(), renderers);
 				break;
 			case 3:
 				renderers = new ARenderer[1];
 				renderers[0] = this.parallelCoorinatesRenderer;
 				this.renderers.add(renderers);
+				this.rendererMapping.put(Settings.getParallelCoordinatesView(), renderers);
 				break;
 			}
+
 			this.scaleFactors[i] = 0.25f;
 			this.cameras[i] = new Camera(new Vector3f(591, -985, 532));
 			this.cameras[i].setPitch(23);
 			this.cameras[i].setYaw(130);
+
 		}
 		/* ------------- */
 
@@ -696,7 +704,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	public void setHoverData(int viewportIndex, DataElement data, float x, float y) {
 		for (int i = 0; i < this.renderers.size(); i++) {
 			for (ARenderer aRenderer : this.renderers.get(i)) {
-				if(aRenderer != null){
+				if (aRenderer != null) {
 					if (i == viewportIndex && aRenderer.hasHoverDataRenderer() && data != null) {
 						aRenderer.toggleHover(true);
 						aRenderer.getHoverDataRenderer().setHoverData(data);
@@ -708,6 +716,12 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void setView(int viewportIndex, String viewName) {
+		if (viewportIndex > -1 && viewportIndex < this.renderers.size() && this.rendererMapping.containsKey(viewName))
+			this.renderers.set(viewportIndex, this.rendererMapping.get(viewName));
 	}
 
 }

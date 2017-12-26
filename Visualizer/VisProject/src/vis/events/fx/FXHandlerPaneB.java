@@ -1,4 +1,4 @@
-package vis.events;
+package vis.events.fx;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

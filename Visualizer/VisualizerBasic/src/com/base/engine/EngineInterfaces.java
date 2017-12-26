@@ -47,5 +47,6 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void toggleCompleteParallelCoordinates();
 	
 	void setHoverData(int viewportIndex, DataElement data, float x, float y);
+	void setView(int viewportIndex, String viewName);
 
 }

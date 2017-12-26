@@ -163,4 +163,9 @@ public class VisApplication implements AppInterface {
 		this.engine.resetAllViewportDisplayLists();
 	}
 
+	@Override
+	public void setView(int viewportIndex, String viewName) {
+		this.engine.setView(viewportIndex, viewName);
+	}
+
 }

@@ -23,5 +23,6 @@ public interface AppInterface {
 	void toggleCompleteParallelCoordinates();
 	
 	void invertColors();
+	void setView(int viewportIndex, String viewName);
 
 }
