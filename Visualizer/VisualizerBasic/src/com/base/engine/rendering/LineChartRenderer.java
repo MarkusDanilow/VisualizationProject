@@ -22,6 +22,10 @@ import com.base.engine.RenderUtils;
 
 public class LineChartRenderer extends ARenderer{
 
+	public LineChartRenderer() {
+		this.hoverDataRenderer = new LineChartHoverDataRenderer();
+	}
+	
 	@Override
 	public void render(Object... objects) {
 		int texture = 0;

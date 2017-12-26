@@ -89,7 +89,7 @@ public class DataHandler {
 	public static Map<Float, DataElement> loadDataFromFile(String filePath) throws FileNotFoundException, IOException {
 
 		boolean useClustering = NUM_CLUSTERS > -1;
-		KMeans kmeans = new KMeans(NUM_CLUSTERS);
+		KMeans kmeans = useClustering ? new KMeans(NUM_CLUSTERS) : null;
 
 		Map<Float, DataElement> elements = new TreeMap<>();
 		if (filePath != null && filePath.length() > 0) {
@@ -137,7 +137,7 @@ public class DataHandler {
 		long start = System.currentTimeMillis();
 
 		boolean useClustering = NUM_CLUSTERS > -1;
-		KMeans kmeans = new KMeans(NUM_CLUSTERS);
+		KMeans kmeans = useClustering ? new KMeans(NUM_CLUSTERS) : null;
 		Map<Float, DataElement> elements = new TreeMap<>();
 		try {
 

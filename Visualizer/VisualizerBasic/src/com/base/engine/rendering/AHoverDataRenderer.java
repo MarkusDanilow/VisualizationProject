@@ -2,13 +2,11 @@ package com.base.engine.rendering;
 
 import java.awt.Font;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import com.base.common.IRenderer;
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
-import com.base.engine.RenderUtils;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.font.OLD_STUFF.TrueTypeFont;
 
@@ -55,6 +53,18 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	protected void renderFrame() {
 
+		if ((x + width) < -1) {
+			x += Math.abs(x + width) - 1;
+		} else if ((x + width) > 1) {
+			x -= Math.abs(x + width) - 1;
+		}
+
+		if ((y + height) < -1) {
+			y += Math.abs(y + height) - 1;
+		} else if ((y + height) > 1) {
+			y -= Math.abs(y + height) - 1;
+		}
+
 		GL11.glDisable(GL11.GL_BLEND);
 
 		GL11.glColor4f(0.1f, 0.1f, 0.1f, 1);
@@ -77,20 +87,19 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		GL11.glVertex2f(x, y);
 		GL11.glEnd();
 
-
 		float px = x * NewFontManager.SCALE;
 		float py = (y + height) * 500;
 		float sx = 15, sy = 20;
 
 		NewFontManager.prepare();
-		
+
 		// Custom font rendering
 		NewFontManager.renderText(px + sx, py + sy, 12, 3, "Datenpunkt");
-		if(this.hoverData.isSampled()){
+		if (this.hoverData.isSampled()) {
 			NewFontManager.renderText(px + sx, py + sy * 3f, 10, 3, "Elemente: " + this.hoverData.getSampleRate());
-			NewFontManager.renderText(px + sx, py + sy * 5f, 10, 3, "Zeitraum: " + this.hoverData.getTimeRange().getLoVal()
-					+ " bis " + this.hoverData.getTimeRange().getHiVal());
-		}else{
+			NewFontManager.renderText(px + sx, py + sy * 5f, 10, 3, "Zeitraum: "
+					+ this.hoverData.getTimeRange().getLoVal() + " bis " + this.hoverData.getTimeRange().getHiVal());
+		} else {
 			NewFontManager.renderText(px + sx, py + sy * 3f, 10, 3, "Elemente: 1");
 			NewFontManager.renderText(px + sx, py + sy * 5f, 10, 3, "Zeitpunkt: " + this.hoverData.getTime());
 		}
@@ -99,7 +108,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		NewFontManager.renderText(px + sx, py + sy * 11f, 10, 3, "Z: " + this.hoverData.getZ());
 
 		NewFontManager.close();
-		
+
 	}
 
 	@Override

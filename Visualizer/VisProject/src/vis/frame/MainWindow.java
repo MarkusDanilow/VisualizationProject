@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JSlider;
+import javax.swing.border.BevelBorder;
 
 import org.lwjgl.LWJGLException;
 
@@ -42,7 +43,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static final int CANVAS_COUNT = 1;
-	public static final int leftSidebarWidth = 300, rightSidebarWidth = 300, footerHeight = 100;
+	public static final int leftSidebarWidth = 300, rightSidebarWidth = 300, footerHeight = 50;
 
 	public final AppInterface app;
 
@@ -171,6 +172,11 @@ public class MainWindow extends JFrame {
 
 		footerPanel.add(timelinePanel);
 
+		// Status bar at the bottom
+		JPanel statusBar = new JPanel();
+		statusBar.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		footerPanel.add(statusBar);
+		
 		getContentPane().add(footerPanel, BorderLayout.SOUTH);
 
 		/*
@@ -208,7 +214,7 @@ public class MainWindow extends JFrame {
 		menuBar.add(helpMenu);
 
 		this.setJMenuBar(menuBar);
-
+		
 	}
 
 	public Canvas getCanvasById(int id) {

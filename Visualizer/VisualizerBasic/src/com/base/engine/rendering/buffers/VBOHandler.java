@@ -52,8 +52,10 @@ import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Point;
 import com.base.engine.RenderUtils;
+import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.data.BarChartHoverBufferData;
+import com.base.engine.interaction.data.LineChartHoverBufferData;
 import com.base.engine.interaction.data.Rectangle;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -475,6 +477,8 @@ public class VBOHandler {
 		protected float xStep = 0.1f;
 		protected float biggestX, biggestY;
 
+		protected String propertyOnYAxes = "x";
+
 		protected void renderAxes() {
 
 			glLineWidth(1f);
@@ -537,8 +541,14 @@ public class VBOHandler {
 			glEnd();
 			glPopMatrix();
 
-			// glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_2D, 0);
 			glDisable(GL_TEXTURE_2D);
+
+			NewFontManager.prepare();
+			NewFontManager.renderText(-460, -460, 16, 2, this.propertyOnYAxes);
+			NewFontManager.renderText(440, 450, 16, 2, "t");
+			NewFontManager.close();
+			RenderUtils.switch2D(-1, -1, 1, 1);
 
 		}
 
@@ -560,22 +570,22 @@ public class VBOHandler {
 		}
 
 		protected DataElement getBiggestX(List<DataElement> inputData) {
-			try{
+			try {
 				return Collections.max(inputData, new Comparator<DataElement>() {
 					@Override
 					public int compare(DataElement arg0, DataElement arg1) {
-						if(arg0 == null && arg1 == null)
-							return 0 ; 
-						if(arg0 == null){
+						if (arg0 == null && arg1 == null)
+							return 0;
+						if (arg0 == null) {
 							return -1;
 						}
-						if(arg1 == null)
-							return 1 ; 
+						if (arg1 == null)
+							return 1;
 						return Float.compare(arg0.getX(), arg1.getX());
 					}
 				});
-			}catch(Exception e){
-				return null ; 
+			} catch (Exception e) {
+				return null;
 			}
 		}
 
@@ -583,13 +593,13 @@ public class VBOHandler {
 			return Collections.max(inputData, new Comparator<DataElement>() {
 				@Override
 				public int compare(DataElement arg0, DataElement arg1) {
-					if(arg0 == null && arg1 == null)
-						return 0 ; 
-					if(arg0 == null){
+					if (arg0 == null && arg1 == null)
+						return 0;
+					if (arg0 == null) {
 						return -1;
 					}
-					if(arg1 == null)
-						return 1 ; 
+					if (arg1 == null)
+						return 1;
 					return Float.compare(arg0.getY(), arg1.getY());
 				}
 			});
@@ -599,13 +609,13 @@ public class VBOHandler {
 			return Collections.max(inputData, new Comparator<DataElement>() {
 				@Override
 				public int compare(DataElement arg0, DataElement arg1) {
-					if(arg0 == null && arg1 == null)
-						return 0 ; 
-					if(arg0 == null){
+					if (arg0 == null && arg1 == null)
+						return 0;
+					if (arg0 == null) {
 						return -1;
 					}
-					if(arg1 == null)
-						return 1 ; 
+					if (arg1 == null)
+						return 1;
 					return Float.compare(arg0.getZ(), arg1.getZ());
 				}
 			});
@@ -711,6 +721,8 @@ public class VBOHandler {
 
 	private static class VBOLineChartRenderer extends AVBOChartRenderer {
 
+		private List<DataElement> inputData;
+
 		@SuppressWarnings("unchecked")
 		@Override
 		public void create(int viewportIndex, Object data) {
@@ -718,7 +730,7 @@ public class VBOHandler {
 			if (data == null)
 				return;
 
-			List<DataElement> inputData = (List<DataElement>) data;
+			this.inputData = (List<DataElement>) data;
 			DataElement biggestX = this.getBiggestX(inputData);
 
 			this.setBiggestY(biggestX.getX());
@@ -727,6 +739,9 @@ public class VBOHandler {
 			this.calcXStep();
 
 			// float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
+
+			List<Rectangle> dots = new ArrayList<>();
+			float delta = 0.025f;
 
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems, 2, 4);
 			for (int i = 0; i < numItems; i++) {
@@ -742,15 +757,34 @@ public class VBOHandler {
 
 				buffers[1].put(new float[] { 0, 0.7f, 0.7f, 1 });
 
+				dots.add(new Rectangle(valueX - delta, valueX + delta, -valueY - delta, -valueY + delta));
+
 			}
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
+
+			// create and store buffer for hover interaction
+			LineChartHoverBufferData buffer = new LineChartHoverBufferData();
+			buffer.setRawData(inputData);
+			buffer.setExtendedDots(dots);
+			GraphicsHoverHandler.storeBufferVertexDataAtCurrentIndex(buffer);
 		}
 
 		@Override
 		public void render(int viewportIndex, Callback callback) {
 			glLineWidth(1.5f);
+			glPointSize(8);
 			masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
+			
+			if(this.inputData != null){
+				glBegin(GL_POINTS);
+				for (int i = 0; i < numItems; i++) {
+					DataElement e = inputData.get(i);
+					glVertex2f(this.calcPosX(i), this.calcValue_yAxes(e.getX()));
+				}
+				glEnd();
+			}
+			
 			this.renderAxes();
 		}
 
@@ -826,6 +860,13 @@ public class VBOHandler {
 				glVertex2f(i * xMax, yMin);
 			}
 			glEnd();
+
+			NewFontManager.prepare();
+			NewFontManager.renderText(-460, 460, 16, 2, "x");
+			NewFontManager.renderText(0, 460, 16, 2, "y");
+			NewFontManager.renderText(460, 460, 16, 2, "z");
+			NewFontManager.close();
+			RenderUtils.switch2D(-1, -1, 1, 1);
 		}
 
 	}
