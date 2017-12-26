@@ -1,11 +1,14 @@
 package com.base.engine.interaction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
+import com.base.engine.Settings;
 import com.base.engine.interaction.data.AHoverBufferData;
 
 public class GraphicsHoverHandler {
@@ -14,13 +17,29 @@ public class GraphicsHoverHandler {
 	private static int currentBufferIndex = 0;
 	private static int currentMouseBufferIndex = 0;
 
+	private static Map<String, AHoverHandler> handlerMapping = new HashMap<>();
 	private static List<AHoverHandler> handlers = new ArrayList<>();
 
 	static {
-		handlers.add(new PointCloudHoverHandler());
-		handlers.add(new LineChartHoverHandler());
-		handlers.add(new BarChartHoverHandler());
-		handlers.add(new ParallelCoordinatesHoverHandler());
+
+		PointCloudHoverHandler pointCloud = new PointCloudHoverHandler();
+		LineChartHoverHandler lineChart = new LineChartHoverHandler();
+		BarChartHoverHandler barChart = new BarChartHoverHandler();
+		ParallelCoordinatesHoverHandler parallelCorrdinates = new ParallelCoordinatesHoverHandler();
+
+		handlerMapping.put(Settings.get3DView(), pointCloud);
+		handlerMapping.put(Settings.getLineChartView(), lineChart);
+		handlerMapping.put(Settings.getBarChartView(), barChart);
+		handlerMapping.put(Settings.getParallelCoordinatesView(), parallelCorrdinates);
+
+		handlers.add(pointCloud);
+		handlers.add(lineChart);
+		handlers.add(barChart);
+		handlers.add(parallelCorrdinates);
+	}
+
+	public static void setHoverHandlerForView(int viewportIndex, String viewName) {
+		handlers.set(viewportIndex, handlerMapping.get(viewName));
 	}
 
 	public static void setCurrentBufferIndex(int index) {

@@ -6,6 +6,7 @@ import java.util.List;
 import com.base.common.GenerateInterfaces;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
+import com.base.engine.interaction.InteractableRectangle;
 
 public interface EngineInterfaces extends GenerateInterfaces {
 
@@ -48,5 +49,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	
 	void setHoverData(int viewportIndex, DataElement data, float x, float y);
 	void setView(int viewportIndex, String viewName);
+	
+	List<InteractableRectangle> getViewports();
 
 }

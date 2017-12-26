@@ -21,6 +21,7 @@ import org.lwjgl.util.vector.Vector3f;
 import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
 import com.base.common.IRenderer;
+import com.base.common.resources.Callback;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.DataInspector;
@@ -29,6 +30,12 @@ import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.engine.font.NEW.NewFontManager;
+import com.base.engine.interaction.GraphicsHoverHandler;
+import com.base.engine.interaction.InteractableRectangle;
+import com.base.engine.interaction.InteractionEvent3D;
+import com.base.engine.interaction.InteractionEventBarChart;
+import com.base.engine.interaction.InteractionEventLineChart;
+import com.base.engine.interaction.InteractionEventParallelCoordinates;
 import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -93,6 +100,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private BarChartRenderer barChartRenderer;
 	private LineChartRenderer lineChartRenderer;
 	private ParallelCoordinatesRenderer parallelCoorinatesRenderer;
+
+	private List<InteractableRectangle> viewportRectangles = new ArrayList<>();
+	private Map<String, Callback> viewportInteractions = new HashMap<>();
 
 	private Map<String, ARenderer[]> rendererMapping = new HashMap<>();
 	private List<ARenderer[]> renderers = new ArrayList<>();
@@ -293,6 +303,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		NewFontManager.init();
 		InputHandler.create(this, useSystemEvents);
 
+		int hWidth = Display.getWidth() / 2;
+		int hHeight = Display.getHeight() / 2;
+
 		/* define renderers and add them to the list of all renderers */
 		this.viewportRenderer = new ViewportRenderer();
 		this.pointCloudRenderer = new PointCloudRenderer();
@@ -315,24 +328,36 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				renderers[3] = this.minimapRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.get3DView(), renderers);
+				Callback event = new InteractionEvent3D();
+				this.viewportRectangles.add(new InteractableRectangle(0, hWidth, hHeight, hHeight * 2, event));
+				this.viewportInteractions.put(Settings.get3DView(), event);
 				break;
 			case 1:
 				renderers = new ARenderer[1];
 				renderers[0] = this.lineChartRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.getLineChartView(), renderers);
+				event = new InteractionEventLineChart();
+				this.viewportRectangles.add(new InteractableRectangle(0, hWidth, 0, hHeight, event));
+				this.viewportInteractions.put(Settings.getLineChartView(), event);
 				break;
 			case 2:
 				renderers = new ARenderer[1];
 				renderers[0] = this.barChartRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.getBarChartView(), renderers);
+				event = new InteractionEventBarChart();
+				this.viewportRectangles.add(new InteractableRectangle(hWidth, hWidth * 2, hHeight, hHeight * 2, event));
+				this.viewportInteractions.put(Settings.getBarChartView(), event);
 				break;
 			case 3:
 				renderers = new ARenderer[1];
 				renderers[0] = this.parallelCoorinatesRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.getParallelCoordinatesView(), renderers);
+				event = new InteractionEventParallelCoordinates();
+				this.viewportRectangles.add(new InteractableRectangle(hWidth, hWidth * 2, 0, hHeight, event));
+				this.viewportInteractions.put(Settings.getParallelCoordinatesView(), event);
 				break;
 			}
 
@@ -720,8 +745,18 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	@Override
 	public void setView(int viewportIndex, String viewName) {
-		if (viewportIndex > -1 && viewportIndex < this.renderers.size() && this.rendererMapping.containsKey(viewName))
+		if (viewportIndex > -1 && viewportIndex < this.renderers.size() && this.rendererMapping.containsKey(viewName)
+				&& this.viewportInteractions.containsKey(viewName)) {
+			GraphicsHoverHandler.setHoverHandlerForView(viewportIndex, viewName);
 			this.renderers.set(viewportIndex, this.rendererMapping.get(viewName));
+			this.viewportRectangles.get(viewportIndex).setCallback(this.viewportInteractions.get(viewName));
+			this.resetAllViewportDisplayLists();
+		}
+	}
+
+	@Override
+	public List<InteractableRectangle> getViewports() {
+		return this.viewportRectangles;
 	}
 
 }
