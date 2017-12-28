@@ -1,14 +1,13 @@
-package com.base.world;
+package com.base.engine.models;
 
 import static org.lwjgl.opengl.GL11.glColor4f;
 
 import org.lwjgl.util.Color;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.base.common.VectorHelper;
 import com.base.common.resources.DataInspector;
 import com.base.engine.RenderUtil;
-import com.base.engine.WavefrontModelLoader;
-import com.base.world.model.Model;
 
 public class World {
 
@@ -72,14 +71,15 @@ public class World {
 
 	public static void render() {
 		RenderUtil.pushMatrix();
-		RenderUtil.translate(new Vector3f(32700, 0, 32700));
-		RenderUtil.rotate(new Vector3f(0, -90, 0));
-		RenderUtil.scale(new Vector3f(3300, 3300, 3300));
+
+		// RenderUtil.transform(new Vector3f(32700, 0, 32700), new Vector3f(0,
+		// -90, 0));
+
 		for (String identifier : models.keySet()) {
 			Model model = models.get(identifier);
 			if (model.isVisible()) {
 				RenderUtil.pushMatrix();
-				glColor4f(1,0,0,0.5f);
+
 				RenderUtil.transform(model.getPosition(), model.getRotation(), model.getScale());
 				RenderUtil.renderIBO(models.getVertexBufferID(identifier), -1, models.getIndexBufferID(identifier),
 						models.getColorBufferID(identifier), models.getNumberOfIndices(identifier));
@@ -90,28 +90,24 @@ public class World {
 	}
 
 	public static void prepareModels() {
-		String[] models = new String[] { 
-				"buildings/geb1",
-				"buildings/geb2-5",
-				"buildings/geb3-4",
-				"buildings/geb6",
-				"buildings/geb7",
-				"buildings/geb8",
-				"buildings/geb9",
-				"buildings/geb10",
-				"buildings/geb11",
-				"buildings/geb12",
-				"buildings/geb13",
-				"buildings/geb14",
-				"buildings/geb15",
-				"buildings/geb17",
-				"buildings/geb20"};
+
+		// load buildings
+
+		String[] models = new String[] { "geb1", "geb2-5", "geb3-4", "geb6", "geb7", "geb8", "geb9", "geb10", "geb11",
+				"geb12", "geb13", "geb14", "geb15", "geb17", "geb20", "container" };
 		for (String s : models) {
-			Model m = WavefrontModelLoader.load(s);
+			Model m = WavefrontModelLoader.load("buildings/" + s, BuildingModel.class.getSimpleName());
 			addBlueprint(s, m);
-			addModelFromBlueprints(s, "model_" + s, new Vector3f(0,0,0),
-					new Vector3f(0,0,0), new Vector3f(1,1,1));
+			addModelFromBlueprints(s, s, new Vector3f(32700, 0, 32700), new Vector3f(0, -90, 0),
+					new Vector3f(3300, 3300, 3300));
 		}
+
+		// load player
+		String manName = "player";
+		Model m = WavefrontModelLoader.load(manName, PlayerModel.class.getSimpleName());
+		addBlueprint(manName, m);
+		addModelFromBlueprints(manName, manName, new Vector3f(30000, 0, 30000), new Vector3f(90, 0, 0),
+				new Vector3f(10, 10, 10));
 	}
 
 	public static boolean isWireframe() {

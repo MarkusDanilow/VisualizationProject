@@ -1,4 +1,4 @@
-package com.base.world.model;
+package com.base.engine.models;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -30,7 +30,7 @@ public class Model {
 	protected Vector3f rotation;
 	protected Vector3f scale;
 
-	protected Color defaultColor = new Color(0, 250, 250, 150);
+	protected Color defaultColor;
 
 	protected boolean visible = true;
 

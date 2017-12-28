@@ -1,4 +1,4 @@
-package com.base.world;
+package com.base.engine.models;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.base.common.resources.DataInspector;
 import com.base.engine.RenderUtil;
-import com.base.world.model.Model;
 
 public class ModelPool {
 

@@ -36,6 +36,7 @@ import com.base.engine.interaction.InteractionEventBarChart;
 import com.base.engine.interaction.InteractionEventLineChart;
 import com.base.engine.interaction.InteractionEventParallelCoordinates;
 import com.base.engine.interaction.InteractionEventPointCloud;
+import com.base.engine.models.World;
 import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -45,7 +46,6 @@ import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
-import com.base.world.World;
 
 import gen.algo.Algy;
 import gen.algo.common.MapMirrorType;

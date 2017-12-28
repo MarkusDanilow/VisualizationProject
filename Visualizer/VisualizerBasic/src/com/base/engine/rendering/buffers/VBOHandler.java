@@ -30,6 +30,7 @@ import com.base.engine.interaction.data.BarChartHoverBufferData;
 import com.base.engine.interaction.data.LineChartHoverBufferData;
 import com.base.engine.interaction.data.PointCloudHoverBufferData;
 import com.base.engine.interaction.data.Rectangle;
+import com.base.engine.models.World;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
 import com.base.engine.rendering.LineChartRenderer;
@@ -37,7 +38,6 @@ import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
-import com.base.world.World;
 
 /**
  * 
