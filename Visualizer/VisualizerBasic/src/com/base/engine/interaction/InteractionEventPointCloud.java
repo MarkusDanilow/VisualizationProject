@@ -4,9 +4,8 @@ import org.lwjgl.input.Mouse;
 
 import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
-import com.base.common.resources.Callback;
 
-public class InteractionEvent3D implements Callback {
+public class InteractionEventPointCloud extends AInteractionEvent {
 
 	@Override
 	public Object execute(Object... data) {
@@ -21,7 +20,7 @@ public class InteractionEvent3D implements Callback {
 		if (wheelDelta != 0) {
 			eventListener.notify(EngineEvent.SCALE, wheelDelta / 1000f, (int) data[8]);
 		}
-		return new InteractionEventResult((int) data[8], 0, 0);
+		return this.calcViewportCoords(data);
 	}
 
 }

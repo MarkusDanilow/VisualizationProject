@@ -1,4 +1,4 @@
-package com.base.engine.rendering;
+package com.base.engine.rendering.hover;
 
 public class BarChartHoverDataRenderer extends AHoverDataRenderer {
 

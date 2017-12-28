@@ -12,10 +12,12 @@ import org.lwjgl.opengl.GL11;
 
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
+import com.base.engine.rendering.hover.PointCloudHoverDataRenderer;
 
 public class PointCloudRenderer extends ARenderer {
 
 	public PointCloudRenderer() {
+		this.hoverDataRenderer = new PointCloudHoverDataRenderer();
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class PointCloudRenderer extends ARenderer {
 		// return new float[] { c, 1.0f - c, 0, 1f };
 		// return new float[] { 0, 1f - c, c, 1 };
 		float value = (0.99f / maxTime) * time;
-		return new float[] { 1, 1 - value, value, 0.5f + value / 2f };
+		return new float[] { 1, value, 1- value, 0.5f + value / 2f };
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtils;
 import com.base.engine.Settings;
+import com.base.engine.rendering.hover.BarChartHoverDataRenderer;
 
 public class BarChartRenderer extends ARenderer {
 

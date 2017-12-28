@@ -1,6 +1,7 @@
 package com.base.engine.rendering;
 
 import com.base.common.IRenderer;
+import com.base.engine.rendering.hover.AHoverDataRenderer;
 
 public abstract class ARenderer implements IRenderer {
 

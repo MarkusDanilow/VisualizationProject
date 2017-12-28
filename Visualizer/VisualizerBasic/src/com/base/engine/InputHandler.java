@@ -8,6 +8,7 @@ import com.base.common.EngineEvent;
 import com.base.common.EngineEventListener;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.InteractableRectangle;
+import com.base.engine.interaction.InteractionEventPointCloud;
 import com.base.engine.interaction.InteractionEventResult;
 
 final class InputHandler {
@@ -78,7 +79,7 @@ final class InputHandler {
 			for (int i = 0; i < engine.getViewports().size(); i++) {
 				InteractableRectangle r = engine.getViewports().get(i);
 				if (r.isInside(currentX, currentY)
-						&& r.getCallback().getClass().getSimpleName().equalsIgnoreCase("interactionevent3d")) {
+						&& r.getCallback().getClass().getSimpleName().equalsIgnoreCase(InteractionEventPointCloud.class.getSimpleName())) {
 					if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 						eventListener.notify(EngineEvent.MOVE_LEFT, i);
 					}

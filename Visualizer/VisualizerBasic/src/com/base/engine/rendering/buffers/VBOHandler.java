@@ -57,6 +57,7 @@ import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.data.BarChartHoverBufferData;
 import com.base.engine.interaction.data.LineChartHoverBufferData;
+import com.base.engine.interaction.data.PointCloudHoverBufferData;
 import com.base.engine.interaction.data.Rectangle;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -365,6 +366,10 @@ public class VBOHandler {
 			}
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
+
+			PointCloudHoverBufferData buffer = new PointCloudHoverBufferData();
+			buffer.setRawData(points);
+			GraphicsHoverHandler.storeBufferVertexDataAtCurrentIndex(buffer);
 
 		}
 
@@ -713,7 +718,8 @@ public class VBOHandler {
 				bars.add(new Rectangle(x, x + xStep, -yMax, -value));
 
 				for (int j = 0; j < verticesPerItem; j++)
-					buffers[1].put(new float[] { 1f, 0f, 0f, 1f });
+					buffers[1].put(new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
+							Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() });
 
 			}
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
@@ -781,7 +787,8 @@ public class VBOHandler {
 				buffers[0].put(new float[] { valueX, valueY });
 				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
 
-				buffers[1].put(new float[] { 0, 0.7f, 0.7f, 1 });
+				buffers[1].put(new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
+						Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() });
 
 				dots.add(new Rectangle(valueX - delta, valueX + delta, -valueY - delta, -valueY + delta));
 
@@ -804,7 +811,8 @@ public class VBOHandler {
 				masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
 
 				if (this.inputData != null) {
-					glColor4f(0, 0.7f, 0.7f, 1);
+					glColor4f(Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(), Settings.X_COLOR.getBlue(),
+							Settings.X_COLOR.getAlpha());
 					glBegin(GL_POINTS);
 					for (int i = 0; i < numItems; i++) {
 						DataElement e = inputData.get(i);

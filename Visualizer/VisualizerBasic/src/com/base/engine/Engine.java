@@ -32,7 +32,7 @@ import com.base.common.resources.Range;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.InteractableRectangle;
-import com.base.engine.interaction.InteractionEvent3D;
+import com.base.engine.interaction.InteractionEventPointCloud;
 import com.base.engine.interaction.InteractionEventBarChart;
 import com.base.engine.interaction.InteractionEventLineChart;
 import com.base.engine.interaction.InteractionEventParallelCoordinates;
@@ -329,7 +329,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				// renderers[3] = this.minimapRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.get3DView(), renderers);
-				Callback event = new InteractionEvent3D();
+				Callback event = new InteractionEventPointCloud();
 				this.viewportRectangles.add(new InteractableRectangle(0, hWidth, hHeight, hHeight * 2, event));
 				this.viewportInteractions.put(Settings.get3DView(), event);
 				break;

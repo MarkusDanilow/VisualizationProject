@@ -1,9 +1,14 @@
 package com.base.engine.interaction;
 
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
 
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
@@ -19,6 +24,10 @@ public class GraphicsHoverHandler {
 
 	private static Map<String, AHoverHandler> handlerMapping = new HashMap<>();
 	private static List<AHoverHandler> handlers = new ArrayList<>();
+
+	private static Map<Integer, FloatBuffer> modelViewMatrices = new HashMap<>();
+	private static Map<Integer, FloatBuffer> projectionMatrices = new HashMap<>();
+	private static Map<Integer, IntBuffer> viewportMatrices = new HashMap<>();
 
 	static {
 
@@ -73,6 +82,30 @@ public class GraphicsHoverHandler {
 		DataElement hoverData = handlers.get(currentMouseBufferIndex).handleHover(x, y,
 				getBufferVertexDataAtMouseBufferIndex());
 		engine.setHoverData(currentMouseBufferIndex, hoverData, x, y);
+	}
+
+	public static FloatBuffer getModelViewMatrixAtCurrentMouseIndex() {
+		return modelViewMatrices.get(currentMouseBufferIndex);
+	}
+
+	public static FloatBuffer getProjectionMatrixAtCurrentMouseIndex() {
+		return projectionMatrices.get(currentMouseBufferIndex);
+	}
+
+	public static IntBuffer getViewportMatrixAtCurrentMouseIndex() {
+		return viewportMatrices.get(currentMouseBufferIndex);
+	}
+
+	public static void storeCurrentMatrices() {
+		IntBuffer viewport = BufferUtils.createIntBuffer(16);
+		FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
+		FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+		GL11.glGetFloat(GL11.GL_MODELVIEW_MATRIX, modelView);
+		GL11.glGetFloat(GL11.GL_PROJECTION_MATRIX, projection);
+		GL11.glGetInteger(GL11.GL_VIEWPORT, viewport);
+		modelViewMatrices.put(currentBufferIndex, modelView);
+		viewportMatrices.put(currentBufferIndex, viewport);
+		projectionMatrices.put(currentBufferIndex, projection);
 	}
 
 }

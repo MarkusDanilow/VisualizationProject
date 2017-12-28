@@ -32,6 +32,8 @@ import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 public class ViewportRenderer implements Renderable {
 
+	public static final boolean minimapEnabled = false;
+
 	@Override
 	public void prepare() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -70,12 +72,7 @@ public class ViewportRenderer implements Renderable {
 
 						if (isNormalViewport) {
 							RenderUtils.switch3D(x, y, width, height);
-						} 
-						/* 
-						 * TODO: re-activate minimap after defining a custom viewport that depends on the 
-						 * parent viewport 
-						 * 
-						else {
+						} else if (minimapEnabled) {
 							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 							glPushMatrix();
@@ -106,7 +103,6 @@ public class ViewportRenderer implements Renderable {
 							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 						}
-						*/ 
 
 						glPushMatrix();
 
@@ -133,10 +129,10 @@ public class ViewportRenderer implements Renderable {
 							Object renderData = renderers.get(i)[j].selectRenderData(engine);
 
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
+							GraphicsHoverHandler.storeCurrentMatrices();
 							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j);
 
-							/*
-							if (!isNormalViewport) {
+							if (!isNormalViewport && minimapEnabled) {
 								GL11.glPointSize(15);
 								glScalef(5, 5, 5);
 								glBegin(GL11.GL_POINTS);
@@ -148,7 +144,6 @@ public class ViewportRenderer implements Renderable {
 								}
 								glEnd();
 							}
-							*/
 
 							if (renderers.get(i)[j].isHoverActivated()) {
 								renderers.get(i)[j].getHoverDataRenderer().render();
