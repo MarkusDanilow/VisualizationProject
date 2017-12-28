@@ -22,7 +22,7 @@ public class PointCloudHoverHandler extends AHoverHandler {
 		PointCloudHoverBufferData buffer = (PointCloudHoverBufferData) data;
 		if (buffer != null) {
 			for (DataElement point : buffer.getRawData()) {
-				int[] coords = getScreenCoords(point.getX(), point.getY(), point.getZ());
+				int[] coords = getScreenCoords(point.getX(), point.getZ(), point.getY());
 				int sx = coords[0];
 				int sy = coords[1];
 				sx -= (sx > hWidth ? hWidth : 0);

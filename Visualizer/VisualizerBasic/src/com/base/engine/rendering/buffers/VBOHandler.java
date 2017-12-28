@@ -1,36 +1,7 @@
 package com.base.engine.rendering.buffers;
 
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
-import static org.lwjgl.opengl.GL11.GL_LINES;
-import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
-import static org.lwjgl.opengl.GL11.GL_POINTS;
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.opengl.GL11.glColorPointer;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glDisableClientState;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glEnableClientState;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glLineWidth;
-import static org.lwjgl.opengl.GL11.glPointSize;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex2f;
-import static org.lwjgl.opengl.GL11.glVertexPointer;
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL15.glBufferData;
-import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL15.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +22,7 @@ import com.base.common.resources.Callback;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.Point;
-import com.base.engine.RenderUtils;
+import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
@@ -66,6 +37,7 @@ import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
+import com.base.world.World;
 
 /**
  * 
@@ -103,11 +75,6 @@ public class VBOHandler {
 	 * 
 	 */
 	private static Map<String, List<Callback>> internalCallbacks = new HashMap<>();
-
-	/**
-	 * 
-	 */
-	private static int arrowTexture = 0;
 
 	/**
 	 * 
@@ -179,7 +146,7 @@ public class VBOHandler {
 		Callback switch2D = new Callback() {
 			@Override
 			public Object execute(Object... data) {
-				RenderUtils.switch2D(-1, -1, 1, 1);
+				RenderUtil.switch2D(-1, -1, 1, 1);
 				return 0;
 			}
 		};
@@ -218,13 +185,6 @@ public class VBOHandler {
 		internalCallbacks.put(BarChartRenderer.class.getSimpleName(), cBarChart);
 		internalCallbacks.put(LineChartRenderer.class.getSimpleName(), cLineChart);
 		internalCallbacks.put(ParallelCoordinatesRenderer.class.getSimpleName(), cParallelCoordinates);
-
-		try {
-			arrowTexture = TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/arrow.png")))
-					.getTextureID();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 	}
 
@@ -359,7 +319,7 @@ public class VBOHandler {
 
 			float maxTime = PointCloudRenderer.getMaxTimeFromData(points);
 			for (DataElement vertex : points) {
-				buffers[0].put(new float[] { vertex.getX(), vertex.getY(), vertex.getZ() });
+				buffers[0].put(new float[] { vertex.getX(), vertex.getZ(), vertex.getY() });
 				float[] color = PointCloudRenderer.calcVertexColor(vertex.getX(), vertex.getY(), vertex.getZ(),
 						vertex.getTime(), maxTime);
 				buffers[1].put(new float[] { color[0], color[1], color[2], color[3] });
@@ -427,14 +387,26 @@ public class VBOHandler {
 
 	private static class VBOGridRenderer implements IVBORenderer {
 
+		private int campusTexture = 0;
+		int maxX = 65532;
+		int maxY = 65532;
+		int gridSizeX = 1000;
+		int gridSizeY = 1000;
+
+		public VBOGridRenderer() {
+			try {
+				campusTexture = TextureLoader
+						.getTexture("png", new FileInputStream(new File("res/textures/map.png")))
+						.getTextureID();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		@Override
 		public void create(int viewportIndex, Object data) {
-			int gridSizeX = 1000;
-			int gridSizeY = 1000;
 			int minX = 0;
 			int minY = 0;
-			int maxX = 65532;
-			int maxY = 65532;
 
 			float alphaChannel = 0.1f;
 
@@ -480,6 +452,30 @@ public class VBOHandler {
 		public void render(int viewportIndex, Callback callback) {
 			glLineWidth(1);
 			masterRenderMethod(viewportIndex, 3, 4, GL_LINES, callback);
+
+			//glDisable(GL_BLEND);
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, campusTexture);
+
+			glColor4f(1,1,1,0.5f);
+			
+			glBegin(GL_QUADS);
+			glTexCoord2f(0, 0);
+			glVertex3f(0, 0, 0);
+			glTexCoord2f(1, 0);
+			glVertex3f(maxX, 0, 0);
+			glTexCoord2f(1, 1);
+			glVertex3f(maxX, 0, maxY);
+			glTexCoord2f(0, 1);
+			glVertex3f(0, 0, maxY);
+			glEnd();
+			//glEnable(GL_BLEND);
+
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisable(GL_TEXTURE_2D);
+
+			World.render();
+
 		}
 
 	}
@@ -499,9 +495,20 @@ public class VBOHandler {
 		protected float xStep = 0.1f;
 		protected float biggestX, biggestY;
 
+		private int arrowTexture = 0;
+
 		protected boolean enabled = false;
 
 		protected String propertyOnYAxes = "x";
+
+		public AVBOChartRenderer() {
+			try {
+				arrowTexture = TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/arrow.png")))
+						.getTextureID();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		protected void renderAxes() {
 
@@ -539,7 +546,7 @@ public class VBOHandler {
 					Settings.FONT_COLOR.getAlpha());
 
 			glPushMatrix();
-			RenderUtils.rotateTexture(180);
+			RenderUtil.rotateTexture(180);
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
 			glVertex2f(xMin - 0.0375f, yMin - 0.05f);
@@ -553,7 +560,7 @@ public class VBOHandler {
 			glPopMatrix();
 
 			glPushMatrix();
-			RenderUtils.rotateTexture(-90);
+			RenderUtil.rotateTexture(-90);
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
 			glVertex2f(xMax + 0.05f, yMax - 0.0125f);
@@ -573,7 +580,7 @@ public class VBOHandler {
 			NewFontManager.renderText(-460, -460, 16, 2, this.propertyOnYAxes);
 			NewFontManager.renderText(440, 450, 16, 2, "t");
 			NewFontManager.close();
-			RenderUtils.switch2D(-1, -1, 1, 1);
+			RenderUtil.switch2D(-1, -1, 1, 1);
 
 		}
 
@@ -906,7 +913,7 @@ public class VBOHandler {
 				NewFontManager.renderText(0, 460, 16, 2, "y");
 				NewFontManager.renderText(460, 460, 16, 2, "z");
 				NewFontManager.close();
-				RenderUtils.switch2D(-1, -1, 1, 1);
+				RenderUtil.switch2D(-1, -1, 1, 1);
 			}
 		}
 

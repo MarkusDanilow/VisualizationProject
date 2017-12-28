@@ -20,7 +20,7 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import com.base.engine.RenderUtils;
+import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 
 public class NewFontManager {
@@ -104,7 +104,7 @@ public class NewFontManager {
 
 	public static void prepare() {
 		GL11.glPushMatrix();
-		RenderUtils.switch2D(-SCALE, -SCALE, SCALE, SCALE);
+		RenderUtil.switch2D(-SCALE, -SCALE, SCALE, SCALE);
 	}
 
 	public static void close() {

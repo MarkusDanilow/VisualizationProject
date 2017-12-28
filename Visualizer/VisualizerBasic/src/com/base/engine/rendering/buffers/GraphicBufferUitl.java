@@ -54,7 +54,7 @@ public class GraphicBufferUitl {
 			if (viewportIndex == Engine.NUM_VIEWS - 1) {
 				end = System.currentTimeMillis();
 				if (performanceMeasureEnabled) {
-					// System.out.println("Time for rendering all data elements: " + (end - start) + "ms");
+					System.out.println("Time for rendering all data elements: " + (end - start) + "ms");
 					performanceMeasureEnabled = false;
 				}
 			}

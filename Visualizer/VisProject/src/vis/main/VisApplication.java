@@ -35,6 +35,11 @@ public class VisApplication implements AppInterface {
 	public static void main(String[] args) throws Exception {
 		new VisApplication();
 	}
+	
+	/**
+	 * 
+	 */
+	public static final boolean LOAD_MODELS = true ;
 
 	/**
 	 * Currently selected {@link LookAndFeel}
@@ -90,10 +95,10 @@ public class VisApplication implements AppInterface {
 	 */
 	public VisApplication() throws LWJGLException, FileNotFoundException, IOException, SQLException {
 		VisController.init(this);
-		this.engine = new Engine(VisController.getCanvas(), false);
+		this.engine = new Engine(VisController.getCanvas(), LOAD_MODELS);
 
-		int numItems = 10;
-		this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, (float) numItems)));
+		int numItems = 100;
+		this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, 65000f)));
 
 	}
 
@@ -157,7 +162,7 @@ public class VisApplication implements AppInterface {
 		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
-		GraphicBufferUitl.performanceMeasureEnabled = true;
+		GraphicBufferUitl.performanceMeasureEnabled = false;
 		this.engine.resetAllViewportDisplayLists();
 	}
 

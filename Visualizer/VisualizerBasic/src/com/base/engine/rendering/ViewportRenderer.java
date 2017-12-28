@@ -25,7 +25,7 @@ import com.base.common.IRenderer;
 import com.base.common.Renderable;
 import com.base.engine.Camera;
 import com.base.engine.Engine;
-import com.base.engine.RenderUtils;
+import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
@@ -71,13 +71,13 @@ public class ViewportRenderer implements Renderable {
 						boolean isNormalViewport = customViewport == null;
 
 						if (isNormalViewport) {
-							RenderUtils.switch3D(x, y, width, height);
+							RenderUtil.switch3D(x, y, width, height);
 						} else if (minimapEnabled) {
-							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
+							RenderUtil.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 							glPushMatrix();
 							{
-								RenderUtils.switch2D(-1, -1, 1, 1);
+								RenderUtil.switch2D(-1, -1, 1, 1);
 								glBegin(GL11.GL_QUADS);
 								{
 									GL11.glColor4f(Settings.MINIMAP_BG.getRed(), Settings.MINIMAP_BG.getGreen(),
@@ -100,7 +100,7 @@ public class ViewportRenderer implements Renderable {
 								glEnd();
 							}
 							glPopMatrix();
-							RenderUtils.switch3D(customViewport[0], customViewport[1], customViewport[2],
+							RenderUtil.switch3D(customViewport[0], customViewport[1], customViewport[2],
 									customViewport[3]);
 						}
 
@@ -131,7 +131,7 @@ public class ViewportRenderer implements Renderable {
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicsHoverHandler.storeCurrentMatrices();
 							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j);
-
+							
 							if (!isNormalViewport && minimapEnabled) {
 								GL11.glPointSize(15);
 								glScalef(5, 5, 5);
@@ -165,7 +165,7 @@ public class ViewportRenderer implements Renderable {
 
 		}
 
-		RenderUtils.switch3D(0, 0, Display.getWidth(), Display.getHeight());
+		RenderUtil.switch3D(0, 0, Display.getWidth(), Display.getHeight());
 		this.renderSplitScreen();
 
 	}
@@ -173,7 +173,7 @@ public class ViewportRenderer implements Renderable {
 	private void renderSplitScreen() {
 		int w = Display.getWidth();
 		int h = Display.getHeight();
-		RenderUtils.switch2D(0, 0, w, h);
+		RenderUtil.switch2D(0, 0, w, h);
 		glPushMatrix();
 		glLineWidth(2);
 

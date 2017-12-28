@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.base.common.IRenderer;
 import com.base.common.resources.DataElement;
 import com.base.engine.Engine;
-import com.base.engine.RenderUtils;
+import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
 
@@ -42,7 +42,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	protected void renderFrame() {
 		
-		RenderUtils.switch2D(-1, -1, 1, 1);
+		RenderUtil.switch2D(-1, -1, 1, 1);
 
 		if ((x + width) < -1) {
 			x += Math.abs(x + width) - 1;

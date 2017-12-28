@@ -299,6 +299,7 @@ public class DataHandler {
 			float x = r.nextFloat() * (max - min) + min;
 			float y = r.nextFloat() * (max - min) + min;
 			float z = r.nextFloat() * (max - min) + min;
+			z = 0 ; 
 			DataElement vertex = new DataElement(x, y, z, i);
 			elements.put((float) i, vertex);
 			kmeans.addPoint(vertex.getPoint());

@@ -32,10 +32,10 @@ import com.base.common.resources.Range;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.InteractableRectangle;
-import com.base.engine.interaction.InteractionEventPointCloud;
 import com.base.engine.interaction.InteractionEventBarChart;
 import com.base.engine.interaction.InteractionEventLineChart;
 import com.base.engine.interaction.InteractionEventParallelCoordinates;
+import com.base.engine.interaction.InteractionEventPointCloud;
 import com.base.engine.rendering.ARenderer;
 import com.base.engine.rendering.BarChartRenderer;
 import com.base.engine.rendering.GridRenderer;
@@ -45,6 +45,7 @@ import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
 import com.base.engine.rendering.ViewportRenderer;
+import com.base.world.World;
 
 import gen.algo.Algy;
 import gen.algo.common.MapMirrorType;
@@ -298,8 +299,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private void prepareComponents(boolean useSystemEvents) {
 		// CommandInterpreter.create(this);
-		RenderUtils.create();
-		RenderUtils.initGL();
+		RenderUtil.create();
+		RenderUtil.initGL();
 		// FontManager.init();
 		NewFontManager.init();
 		InputHandler.create(this, useSystemEvents);
@@ -374,7 +375,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	}
 
 	private void prepareModels() {
-		WavefrontModelHandler.loadModels();
+		World.create();
 	}
 
 	private void gameLoop() {
@@ -414,7 +415,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	private void render() {
 		try {
-			RenderUtils.setClearColor();
+			RenderUtil.setClearColor();
 			viewportRenderer.prepare();
 			viewportRenderer.render(this, this.cameras, this.renderers, this.scaleFactors);
 			console.render(null);
@@ -435,7 +436,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public void exit() {
 		try {
-			RenderUtils.exitGL();
+			RenderUtil.exitGL();
 			InputHandler.destroy();
 			Display.destroy();
 			destroy();

@@ -54,7 +54,7 @@ class Console implements Renderable {
 
 	@Override
 	public void prepare() {
-		RenderUtils.switch2D(0, 0, Engine.DISPLAY_WIDTH, Engine.DISPLAY_HEIGHT);
+		RenderUtil.switch2D(0, 0, Engine.DISPLAY_WIDTH, Engine.DISPLAY_HEIGHT);
 	}
 
 	@Override

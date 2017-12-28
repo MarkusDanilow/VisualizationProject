@@ -3,54 +3,81 @@ package com.base.engine;
 import static org.lwjgl.opengl.GL11.GL_ALPHA_TEST;
 import static org.lwjgl.opengl.GL11.GL_BACK;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
 import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_FILL;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_FRONT;
+import static org.lwjgl.opengl.GL11.GL_FRONT_AND_BACK;
 import static org.lwjgl.opengl.GL11.GL_GREATER;
 import static org.lwjgl.opengl.GL11.GL_LEQUAL;
 import static org.lwjgl.opengl.GL11.GL_LIGHT1;
+import static org.lwjgl.opengl.GL11.GL_LINE;
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
 import static org.lwjgl.opengl.GL11.GL_LINE_SMOOTH;
 import static org.lwjgl.opengl.GL11.GL_LINE_SMOOTH_HINT;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_NICEST;
+import static org.lwjgl.opengl.GL11.GL_NORMAL_ARRAY;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_PERSPECTIVE_CORRECTION_HINT;
 import static org.lwjgl.opengl.GL11.GL_POLYGON_SMOOTH;
 import static org.lwjgl.opengl.GL11.GL_POLYGON_SMOOTH_HINT;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_SMOOTH;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
 import static org.lwjgl.opengl.GL11.glAlphaFunc;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glClearDepth;
+import static org.lwjgl.opengl.GL11.glColorPointer;
 import static org.lwjgl.opengl.GL11.glCullFace;
 import static org.lwjgl.opengl.GL11.glDepthFunc;
 import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glHint;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glNormalPointer;
 import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glPointSize;
+import static org.lwjgl.opengl.GL11.glPolygonMode;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glShadeModel;
+import static org.lwjgl.opengl.GL11.glScalef;
 import static org.lwjgl.opengl.GL11.glTexParameterf;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.util.glu.GLU.gluOrtho2D;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
-import org.lwjgl.opengl.Display;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
-public final class RenderUtils {
+import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector3f;
+
+public final class RenderUtil {
 
 	private static float NEAR_CLIPPING;
 	private static float FAR_CLIPPING;
@@ -89,7 +116,6 @@ public final class RenderUtils {
 		// switch3D();
 		glEnable(GL_TEXTURE_2D);
 
-		glShadeModel(GL_SMOOTH);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_LINE_SMOOTH);
@@ -105,9 +131,10 @@ public final class RenderUtils {
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, 0.001f);
+		glAlphaFunc(GL_GREATER, 0.05f);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_BLEND);
+		
 	}
 
 	public static void exitGL() {
@@ -158,6 +185,109 @@ public final class RenderUtils {
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
 		glTranslatef(-0.5f, -0.5f, 0.0f);
 		glMatrixMode(GL_MODELVIEW);
+	}
+
+	public static void transform(Vector3f translation, Vector3f rotation) {
+		translate(translation);
+		rotate(rotation);
+	}
+
+	public static void transform(Vector3f translation, Vector3f rotation, Vector3f scale) {
+		translate(translation);
+		rotate(rotation);
+		scale(scale);
+	}
+
+	public static void translate(Vector3f translation) {
+		glTranslatef(translation.x, translation.y, translation.z);
+	}
+
+	public static void rotate(Vector3f rotation) {
+		glRotatef(rotation.x, 1, 0, 0);
+		glRotatef(rotation.y, 0, 1, 0);
+		glRotatef(rotation.z, 0, 0, 1);
+	}
+
+	public static void scale(Vector3f scale) {
+		glScalef(scale.x, scale.y, scale.z);
+	}
+
+	public static void pushMatrix() {
+		glPushMatrix();
+	}
+
+	public static void popMatrix() {
+		glPopMatrix();
+	}
+
+	public static void enableWireframe() {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+
+	public static void disableWireframe() {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
+	public static int createBufferID() {
+		return glGenBuffers();
+	}
+
+	public static void bindVertexBufferData(int id, FloatBuffer vertexData) {
+		glBindBuffer(GL_ARRAY_BUFFER, id);
+		glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	public static void bindIndexBufferData(int id, IntBuffer indexData) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData, GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	public static void renderIBO(int vboID, int normalBufferID, int indexBufferID, int colorBufferID,
+			int numberOfIndices) {
+		renderIBO(vboID, normalBufferID, indexBufferID, colorBufferID, numberOfIndices, GL_TRIANGLES, false);
+	}
+
+	public static void renderIBOWireframe(int vboID, int normalBufferID, int indexBufferID, int colorBufferID,
+			int numberOfIndices) {
+		renderIBO(vboID, normalBufferID, indexBufferID, colorBufferID, numberOfIndices, GL_TRIANGLES, true);
+	}
+
+	public static void renderIBO(int vboID, int normalBufferID, int indexBufferID, int colorBufferID,
+			int numberOfIndices, int renderMode, boolean wireframe) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+
+		glPointSize(5);
+
+		glBindBuffer(GL_ARRAY_BUFFER, vboID);
+		glVertexPointer(3, GL_FLOAT, 0, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, colorBufferID);
+		glColorPointer(4, GL_FLOAT, 0, 0);
+
+		if (normalBufferID > -1) {
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, normalBufferID);
+			glNormalPointer(GL_FLOAT, 0, 0);
+		}
+
+		if (wireframe)
+			enableWireframe();
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
+		glDrawElements(renderMode, numberOfIndices, GL_UNSIGNED_INT, 0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		glDisableClientState(GL_VERTEX_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
+
+		disableWireframe();
+
 	}
 
 }

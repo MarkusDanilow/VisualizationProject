@@ -18,7 +18,7 @@ import java.io.IOException;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import com.base.engine.Engine;
-import com.base.engine.RenderUtils;
+import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.rendering.hover.LineChartHoverDataRenderer;
 
@@ -42,7 +42,7 @@ public class LineChartRenderer extends ARenderer {
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		RenderUtils.switch2D(-1, -1, 1, 1);
+		RenderUtil.switch2D(-1, -1, 1, 1);
 		glBegin(GL_QUADS);
 
 		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
