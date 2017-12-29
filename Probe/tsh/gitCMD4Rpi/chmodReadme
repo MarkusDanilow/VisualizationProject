@@ -1,0 +1,7 @@
+DONT USE WITHOUT CONFIG THE FILES!
+
+1. 	Set your git-path in both command-files
+2. 	All files in git-path will be added (git add .): Set or uncomment it
+3. 	To make the git-commandfiles runnable in terminal on Raspberry Pi
+	use chmod <param> <command-file>
+	e.g. chmod 764 gitpull.command
