@@ -45,7 +45,7 @@ public class TSHMain {
 
 		System.out.println(lt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-		RPIGUI gui = new RPIGUI("The Seeing Hand");
+		GUI gui = new GUI("The Seeing Hand");
 		while (true) {
 
 			msg = us.getDistance();
