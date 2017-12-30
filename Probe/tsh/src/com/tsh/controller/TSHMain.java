@@ -13,6 +13,7 @@ import com.tsh.gpio.ADXL345;
 import com.tsh.gpio.Buzzer;
 import com.tsh.gpio.Ultrasonic;
 import com.tsh.view.GUI;
+import com.tsh.view.RPIGUI;
 
 public class TSHMain {
 	public static Ultrasonic us;
@@ -44,7 +45,7 @@ public class TSHMain {
 
 		System.out.println(lt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-		GUI gui = new GUI("The Seeing Hand");
+		RPIGUI gui = new RPIGUI("The Seeing Hand");
 		while (true) {
 
 			msg = us.getDistance();
@@ -57,8 +58,8 @@ public class TSHMain {
 				gui.setValueDisplay(msg);
 				gui.setDebugMsg(msg2.getVector());
 
-				String con = api + "&xPos=" + xPos + "&yPos=" + yPos + "&zPos=" + zPos + "&distance=" + distance
-						+ "&deviceID=" + deviceID + "&appID=" + appID + "&api=" + apiKey;
+				String con = api + "&xPos=" + xPos + "&yPos=" + yPos + "&zPos=" + zPos + "&distance=" + (int)msg.getValue() + "&deviceID=" + deviceID + "&appID=" + appID + "&api=" + apiKey;
+				gui.setApi(con);
 				System.out.println(con);
 				System.out.println(con.length());
 

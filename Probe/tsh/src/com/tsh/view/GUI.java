@@ -2,6 +2,7 @@ package com.tsh.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GraphicsConfiguration;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -15,7 +16,6 @@ import javax.swing.SpringLayout;
 import javax.swing.border.BevelBorder;
 
 import com.tsh.common.MsgTransformer;
-
 
 public class GUI {
 
@@ -33,6 +33,7 @@ public class GUI {
 	private JLabel disLabel;
 	private JTextField txtStateHeader;
 	private JLabel txtPWInput;
+	private JLabel api;
 
 	public GUI(String frameTitle) {
 		this.setFrame(frameTitle);
@@ -114,9 +115,13 @@ public class GUI {
 	}
 
 	private void setContent() {
+		txtPWInput = new JLabel("DEBUG-MSG");
+		txtPWInput.setBounds(5, 5, 500, 20);
+		this.paneTop.add(txtPWInput);
+		
 		disLabel = new JLabel();
 		disLabel.setText("Initilize tsh...");
-		disLabel.setBounds(10, 7, 46, 20);
+		disLabel.setBounds(5, 5, 200, 20);
 		this.paneLeftMiddle.add(disLabel);
 
 		txtStateHeader = new JTextField();
@@ -124,22 +129,30 @@ public class GUI {
 		txtStateHeader.setText("State: fine");
 		txtStateHeader.setBounds(0, 0, 100, 20);
 		txtStateHeader.setColumns(10);
-		this.paneFooterLeft.add(txtStateHeader);
+		this.paneFooterRight.add(txtStateHeader);
+		
+		api = new JLabel("api-msg");
+		api.setBounds(5, 5, 700, 20);
+		api.setFont(new Font("Arial", Font.BOLD, 10));
+		this.paneFooterLeft.add(api);
 
-		txtPWInput = new JLabel("DEBUG-MSG");
-		txtPWInput.setBounds(10, 7, 500, 20);
-		this.paneTop.add(txtPWInput);
+		
 	}
 
 	public void setDebugMsg(MsgTransformer msg) {
-		this.txtPWInput.setText(msg.toString());
+		this.txtPWInput.setText("x,y,z: "+msg.toString());
 	}
+
 	public void setDebugMsg(String msg) {
-		this.txtPWInput.setText(msg);
+		this.txtPWInput.setText("x,y,z: "+msg);
 	}
 
 	public void setValueDisplay(MsgTransformer msg) {
 		this.disLabel.setText(String.valueOf(msg.getValue()));
 	}
+	public void setApi(String msg) {
+		this.api.setText(msg);
+	}
+	
 
 }
