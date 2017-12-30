@@ -118,7 +118,7 @@ public class GUI {
 		txtPWInput = new JLabel("DEBUG-MSG");
 		txtPWInput.setBounds(5, 5, 500, 20);
 		this.paneTop.add(txtPWInput);
-		
+
 		disLabel = new JLabel();
 		disLabel.setText("Initilize tsh...");
 		disLabel.setBounds(5, 5, 200, 20);
@@ -130,29 +130,28 @@ public class GUI {
 		txtStateHeader.setBounds(0, 0, 100, 20);
 		txtStateHeader.setColumns(10);
 		this.paneFooterRight.add(txtStateHeader);
-		
+
 		api = new JLabel("api-msg");
 		api.setBounds(5, 5, 700, 20);
 		api.setFont(new Font("Arial", Font.BOLD, 10));
 		this.paneFooterLeft.add(api);
 
-		
 	}
 
 	public void setDebugMsg(MsgTransformer msg) {
-		this.txtPWInput.setText("x,y,z: "+msg.toString());
+		this.txtPWInput.setText("x,y,z: " + msg.toString());
 	}
 
 	public void setDebugMsg(String msg) {
-		this.txtPWInput.setText("x,y,z: "+msg);
+		this.txtPWInput.setText("x,y,z: " + msg);
 	}
 
 	public void setValueDisplay(MsgTransformer msg) {
 		this.disLabel.setText(String.valueOf(msg.getValue()));
 	}
+
 	public void setApi(String msg) {
 		this.api.setText(msg);
 	}
-	
 
 }
