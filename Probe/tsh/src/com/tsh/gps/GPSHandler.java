@@ -1,5 +1,7 @@
 package com.tsh.gps;
 
+import com.tsh.serial.ReadGPS;
+
 public class GPSHandler {
 
 	public static void main(String[] args) {
@@ -21,6 +23,9 @@ public class GPSHandler {
 		System.out.println("Der Pixelpunkt bei x=" + x + " und y=" + y + " ergibt folgende Werte:\n");
 		System.out.println("Längengrad: " + (ratioWaagerecht * x + lol));
 		System.out.println("Breitengrad: " + (ratioSenkrecht * y + lob));
+		ReadGPS gps = new ReadGPS();
+		System.out.println(gps.getGPS());
+		
 	}
 
 }

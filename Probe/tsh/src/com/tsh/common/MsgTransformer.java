@@ -10,8 +10,6 @@ public class MsgTransformer {
 		this.value = value;
 	}
 
-
-
 	public MsgTransformer() {
 		// TODO Auto-generated constructor stub
 	}
