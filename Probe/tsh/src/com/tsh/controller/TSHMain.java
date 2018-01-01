@@ -61,9 +61,10 @@ public class TSHMain {
 			String xPos = String.valueOf(gyro.getVector()[0]);
 			String yPos = String.valueOf(gyro.getVector()[1]);
 			String zPos = String.valueOf(gyro.getVector()[2]);
-			String distance = "65555";
+			
 			if (msg.getValue() > 0) {
 				gui.setValueDisplay(msg);
+				gui.setGps(gpsData);
 
 				gui.setDebugMsg(msg2.getVector());
 

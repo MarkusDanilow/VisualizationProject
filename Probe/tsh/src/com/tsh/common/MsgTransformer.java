@@ -43,8 +43,8 @@ public class MsgTransformer {
 		GPSHandler gpsh = new GPSHandler();
 		gps = rawGPSData.split(",");
 		if (gps[2].equals("A")) {
-			System.out.println(gpsh.convertLat(gps[3], gps[4]));
-			System.out.println(gpsh.convertLon(gps[5], gps[6]));
+			System.out.println("Latitude: "+gpsh.convertLat(gps[3], gps[4]));
+			System.out.println("Longitude: "+gpsh.convertLon(gps[5], gps[6]));
 			gps[3] = String.valueOf(gpsh.convertLat(gps[3], gps[4]));
 			gps[5] = String.valueOf(gpsh.convertLon(gps[5], gps[6]));
 		}

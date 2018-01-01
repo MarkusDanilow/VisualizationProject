@@ -24,14 +24,18 @@ public class GPSHandler {
 
 	public GPSHandler() {
 		pixel = 1873;
-		lol = 9.183356612920761;
 		lob = 48.48547494510185;
-		rol = 9.19342964887619;
+		lol = 9.183356612920761;
+		
 		rob = 48.48547494510185;
-		rul = 9.19342964887619;
+		rol = 9.19342964887619;
+		
 		rub = 48.47885489462709;
-		lul = 9.183356612920761;
+		rul = 9.19342964887619;
+		
 		lub = 48.47885489462709;
+		lul = 9.183356612920761;
+		
 		matrix = new double[8];
 		matrix[0] = lol;
 		matrix[1] = lob;
@@ -95,8 +99,6 @@ public class GPSHandler {
 	public float convertLat(String raw_latitude, String lat_direction) {
 		// https://stefan.bloggt.es/2010/07/gps-und-java-nmea-daten-auswerten-1/
 		// 01.01.2018 16:08:19
-		System.out.println(raw_latitude);
-		System.out.println(lat_direction);
 		String lat_deg = raw_latitude.substring(0, 2);
 		String lat_min1 = raw_latitude.substring(2, 4);
 		String lat_min2 = raw_latitude.substring(5);
