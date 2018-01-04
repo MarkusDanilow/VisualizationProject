@@ -52,17 +52,16 @@ public class TitledPaneObjects {
 		GridPane grid = new GridPane();
 		grid.setVgap(4);
 		grid.setPadding(new Insets(5, 5, 5, 5));
+		FXHandlerPaneA aPHandler = new FXHandlerPaneA();
+		FXHandlerPaneB bPHandler = new FXHandlerPaneB();
+		FXHandlerPaneC cPHandler = new FXHandlerPaneC();
+		FXHandlerPaneD dPHandler = new FXHandlerPaneD();
 
 		switch (paneType) {
 		case 1: // Pane 3D
 			final ToggleGroup groupT1 = new ToggleGroup();
 
 			// Erstellen von EventHandler-Objekten
-
-			FXHandlerPaneA aPHandler = new FXHandlerPaneA();
-			FXHandlerPaneB bPHandler = new FXHandlerPaneB();
-			FXHandlerPaneC cPHandler = new FXHandlerPaneC();
-			FXHandlerPaneD dPHandler = new FXHandlerPaneD();
 
 			// TODO: spezifischen ChangeListener implementieren, der von
 			// FXChangeListener erbt und einbinden
@@ -157,22 +156,30 @@ public class TitledPaneObjects {
 			rbShowX.setToggleGroup(groupT2);
 			rbShowX.setSelected(true);
 			grid.add(rbShowX, 0, 0, 3, 1);
+			rbShowX.setOnAction(bPHandler);
 
 			rbShowY = new RadioButton("show y");
 			rbShowY.setToggleGroup(groupT2);
 			grid.add(rbShowY, 0, 1, 3, 1);
+			rbShowY.setOnAction(bPHandler);
 
 			rbShowZ = new RadioButton("show z");
 			rbShowZ.setToggleGroup(groupT2);
 			grid.add(rbShowZ, 0, 2, 3, 1);
+			rbShowZ.setOnAction(bPHandler);
 
 			meanLast = new CheckBox("Calculate mean for last");
 			grid.add(meanLast, 0, 5, 3, 1);
+			meanLast.setOnAction(bPHandler);
 
 			txtMeanFor = new TextField();
 			txtMeanFor.setMaxWidth(70);
 			txtMeanFor.setPromptText("e.g. 100");
 			grid.add(txtMeanFor, 0, 6);
+			//Handler
+			txtMeanFor.textProperty().addListener((observable, oldValue, newValue) -> {
+				System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
 
 			final Label positionMean = new Label("positions");
 			grid.add(positionMean, 1, 6);
