@@ -7,7 +7,7 @@ public class FXHandlerPaneA implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent event) {
-		
+		System.out.println("Action 2: " + event.getSource());
 	}
 
 }

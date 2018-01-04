@@ -89,19 +89,21 @@ public class TitledPaneObjects {
 			txtPlotFrom.setPromptText("e.g. 1");
 			grid.add(txtPlotFrom, 0, 3);
 
+			Label lblTo = new Label("to");
+			lblTo.setMinWidth(23);
+			grid.add(lblTo, 1, 3);
 			// txtPlotFrom.textProperty().addListener(new ChangeListener());
 			txtPlotFrom.textProperty().addListener((observable, oldValue, newValue) -> {
 				System.out.println("textfield changed from " + oldValue + " to " + newValue);
 			});
 
-			Label lblTo = new Label("to");
-			lblTo.setMinWidth(23);
-			grid.add(lblTo, 1, 3);
-
 			txtPlotTo = new TextField();
 			txtPlotTo.setMaxWidth(70);
 			txtPlotTo.setPromptText("e.g. 100");
 			grid.add(txtPlotTo, 0, 4);
+			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
+				System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
 
 			final Label positionPlot = new Label("positions");
 			grid.add(positionPlot, 1, 4, 2, 1);
