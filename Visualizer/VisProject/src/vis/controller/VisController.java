@@ -23,7 +23,7 @@ public class VisController {
 		// changeAccordion(1, "C");
 	}
 
-	public static void changeAccordion(int paneType, String paneName) {
+	public static void changeAccordion(String paneType, String paneName) {
 		// Aufruf von RightFX changeController(int, String)
 		window.get().getFxPanelObjectRight().changeAccordion(paneType, paneName);
 

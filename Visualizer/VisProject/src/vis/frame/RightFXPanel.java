@@ -38,22 +38,22 @@ public class RightFXPanel {
 		rightSidebarPanel.setPreferredSize(new Dimension(rightSidebarWidth, height));
 		rightSidebarPanel.setVisible(true);
 
-		new TitledPaneObjects();
+		TitledPaneObjects pane = new TitledPaneObjects();
 		//Pane A
-		TitledPaneObjects.setTitledPane(1, "A");
-		t1 = TitledPaneObjects.getT1();
+		pane.setTitledPane(Settings.get3DView(), "A");
+		t1 = pane.getT1();
 				
         //Pane B
-		TitledPaneObjects.setTitledPane(2, "B");
-		t2 = TitledPaneObjects.getT2();
+		pane.setTitledPane(Settings.getBarChartView(), "B");
+		t2 = pane.getT2();
 				
 		//Pane C
-		TitledPaneObjects.setTitledPane(3, "C");
-		t3 = TitledPaneObjects.getT3();
+		pane.setTitledPane(Settings.getLineChartView(), "C");
+		t3 = pane.getT3();
 		
 		//Pane D
-		TitledPaneObjects.setTitledPane(4, "D");
-		t4 = TitledPaneObjects.getT4();
+		pane.setTitledPane(Settings.getParallelCoordinatesView(), "D");
+		t4 = pane.getT4();
 
 		accordion = new Accordion();
 		accordion.getPanes().addAll(t1, t2, t3, t4);
@@ -81,33 +81,54 @@ public class RightFXPanel {
 
 	}
 	
-	public void changeAccordion(int paneType, String paneName) {
-		TitledPane tmp;
+	public void changeAccordion(String paneType, String paneName) {
+		TitledPane tmp = null;
 		//Get new TitledPane and set it in the Accordion
-		TitledPaneObjects.setTitledPane(paneType, paneName);
+		TitledPaneObjects pane = new TitledPaneObjects();
+		pane.setTitledPane(paneType, paneName);
+		
 		switch(paneType) {
-		case 1:
-			tmp = TitledPaneObjects.getT1();
-			this.accordion.getPanes().remove(0);
-			this.accordion.getPanes().add(tmp);
+		case "3D":
+			tmp = pane.getT1();
+			System.out.println(tmp);
+			break;
+			
+		case "Balken-Diagramm":
+			tmp = pane.getT2();
+			System.out.println(tmp);
+			break;
+			
+		case "Linien-Diagramm":
+			tmp = pane.getT3();
+			System.out.println(tmp);
+			break;
+			
+		case "Parallele Koordinaten":
+			tmp = pane.getT4();
+			System.out.println(tmp);
 			break;
 		
-		case 2:
-			tmp = TitledPaneObjects.getT2();
+		}
+		
+		switch(paneName) {
+		case "A":
+			this.accordion.getPanes().remove(0);
+			this.accordion.getPanes().add(0, tmp);
+			break;
+		
+		case "B":
 			this.accordion.getPanes().remove(1);
-			this.accordion.getPanes().add(paneType, tmp);
+			this.accordion.getPanes().add(1, tmp);
 			break;
 			
-		case 3:
-			tmp = TitledPaneObjects.getT3();
+		case "C":
 			this.accordion.getPanes().remove(2);
-			this.accordion.getPanes().add(paneType, tmp);
+			this.accordion.getPanes().add(2, tmp);
 			break;
 			
-		case 4:
-			tmp = TitledPaneObjects.getT4();
+		case "D":
 			this.accordion.getPanes().remove(3);
-			this.accordion.getPanes().add(paneType, tmp);
+			this.accordion.getPanes().add(3, tmp);
 			break;
 		}
 		

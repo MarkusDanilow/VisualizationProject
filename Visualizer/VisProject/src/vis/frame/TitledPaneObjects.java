@@ -17,37 +17,36 @@ import vis.events.fx.FXHandlerPaneD;
 
 public class TitledPaneObjects {
 
-	private static TitledPane t1 = new TitledPane();
-	private static TitledPane t2 = new TitledPane();
-	private static TitledPane t3 = new TitledPane();
-	private static TitledPane t4 = new TitledPane();
+	private  TitledPane t1 = new TitledPane();
+	private  TitledPane t2 = new TitledPane();
+	private  TitledPane t3 = new TitledPane();
+	private  TitledPane t4 = new TitledPane();
 
-	private static RadioButton rbDotVector;
-	private static RadioButton rbPlotAll;
-	private static RadioButton rbPlotBetween;
-	private static TextField txtPlotFrom;
-	private static TextField txtPlotTo;
-	private static Button rotateLeft;
-	private static Button rotateRight;
-	private static RadioButton rbShowX;
-	private static RadioButton rbShowY;
-	private static RadioButton rbShowZ;
-	private static CheckBox meanLast;
-	private static TextField txtMeanFor;
-	private static RadioButton rbShowXSpline;
-	private static RadioButton rbShowYSpline;
-	private static RadioButton rbShowZSpline;
-	private static CheckBox trendLast;
-	private static TextField txtTrendFor;
-	private static CheckBox showXPL;
-	private static CheckBox showYPL;
-	private static CheckBox showZPL;
-	private static CheckBox showDistancePL;
-	private static CheckBox minDistanceAT;
-	private static TextField txtATDistance;
+	private RadioButton rbDotVector;
+	private  RadioButton rbPlotAll;
+	private  RadioButton rbPlotBetween;
+	private  TextField txtPlotFrom;
+	private  TextField txtPlotTo;
+	private  Button rotateLeft;
+	private  Button rotateRight;
+	private  RadioButton rbShowX;
+	private  RadioButton rbShowY;
+	private  RadioButton rbShowZ;
+	private  CheckBox meanLast;
+	private  TextField txtMeanFor;
+	private  RadioButton rbShowXSpline;
+	private  RadioButton rbShowYSpline;
+	private  RadioButton rbShowZSpline;
+	private  CheckBox trendLast;
+	private  TextField txtTrendFor;
+	private  CheckBox showXPL;
+	private  CheckBox showYPL;
+	private  CheckBox showZPL;
+	private  CheckBox showDistancePL;
+	private  CheckBox minDistanceAT;
+	private  TextField txtATDistance;
 
-	@SuppressWarnings("unused")
-	public static void setTitledPane(int paneType, String paneName) {
+	public void setTitledPane(String paneType, String paneName) {
 
 		GridPane grid = new GridPane();
 		grid.setVgap(4);
@@ -56,9 +55,9 @@ public class TitledPaneObjects {
 		FXHandlerPaneB bPHandler = new FXHandlerPaneB();
 		FXHandlerPaneC cPHandler = new FXHandlerPaneC();
 		FXHandlerPaneD dPHandler = new FXHandlerPaneD();
-
+		
 		switch (paneType) {
-		case 1: // Pane 3D
+		case "3D": // Pane 3D
 			final ToggleGroup groupT1 = new ToggleGroup();
 
 			// Erstellen von EventHandler-Objekten
@@ -149,7 +148,7 @@ public class TitledPaneObjects {
 			t1.setContent(grid);
 			break;
 
-		case 2: // Pane Bar-Chart
+		case "Balken-Diagramm": // Pane Bar-Chart
 			final ToggleGroup groupT2 = new ToggleGroup();
 
 			rbShowX = new RadioButton("show x");
@@ -189,7 +188,7 @@ public class TitledPaneObjects {
 
 			break;
 
-		case 3: // Pane Spline
+		case "Linien-Diagramm": // Pane Spline
 			final ToggleGroup groupT3 = new ToggleGroup();
 
 			rbShowXSpline = new RadioButton("show x");
@@ -224,12 +223,12 @@ public class TitledPaneObjects {
 			final Label positionTrend = new Label("positions");
 			grid.add(positionTrend, 1, 6);
 
-			t3.setText("Pane : " + paneName + ": Spline");
+			t3.setText("Pane " + paneName + ": Spline");
 			t3.setContent(grid);
 
 			break;
 
-		case 4: // Pane Parallel lines
+		case "Parallele Koordinaten": // Pane Parallel lines
 			showXPL = new CheckBox("show x");
 			showXPL.setSelected(true);
 			grid.add(showXPL, 0, 0);
@@ -256,204 +255,204 @@ public class TitledPaneObjects {
 		}
 	}
 
-	public static TitledPane getT1() {
+	public  TitledPane getT1() {
 		return t1;
 	}
 
-	public static TitledPane getT2() {
+	public  TitledPane getT2() {
 		return t2;
 	}
 
-	public static TitledPane getT3() {
+	public  TitledPane getT3() {
 		return t3;
 	}
 
-	public static TitledPane getT4() {
+	public  TitledPane getT4() {
 		return t4;
 	}
 
-	public static RadioButton getRbDotVector() {
+	public  RadioButton getRbDotVector() {
 		return rbDotVector;
 	}
 
-	public static void setRbDotVector(RadioButton rbDotVector) {
-		TitledPaneObjects.rbDotVector = rbDotVector;
+	public  void setRbDotVector(RadioButton rbDotVector) {
+		this.rbDotVector = rbDotVector;
 	}
 
-	public static RadioButton getRbPlotAll() {
+	public  RadioButton getRbPlotAll() {
 		return rbPlotAll;
 	}
 
-	public static void setRbPlotAll(RadioButton rbPlotAll) {
-		TitledPaneObjects.rbPlotAll = rbPlotAll;
+	public  void setRbPlotAll(RadioButton rbPlotAll) {
+		this.rbPlotAll = rbPlotAll;
 	}
 
-	public static RadioButton getRbPlotBetween() {
+	public  RadioButton getRbPlotBetween() {
 		return rbPlotBetween;
 	}
 
-	public static void setRbPlotBetween(RadioButton rbPlotBetween) {
-		TitledPaneObjects.rbPlotBetween = rbPlotBetween;
+	public  void setRbPlotBetween(RadioButton rbPlotBetween) {
+		this.rbPlotBetween = rbPlotBetween;
 	}
 
-	public static TextField getTxtPlotFrom() {
+	public  TextField getTxtPlotFrom() {
 		return txtPlotFrom;
 	}
 
-	public static void setTxtPlotFrom(TextField txtPlotFrom) {
-		TitledPaneObjects.txtPlotFrom = txtPlotFrom;
+	public  void setTxtPlotFrom(TextField txtPlotFrom) {
+		this.txtPlotFrom = txtPlotFrom;
 	}
 
-	public static TextField getTxtPlotTo() {
+	public  TextField getTxtPlotTo() {
 		return txtPlotTo;
 	}
 
-	public static void setTxtPlotTo(TextField txtPlotTo) {
-		TitledPaneObjects.txtPlotTo = txtPlotTo;
+	public  void setTxtPlotTo(TextField txtPlotTo) {
+		this.txtPlotTo = txtPlotTo;
 	}
 
-	public static Button getRotateLeft() {
+	public  Button getRotateLeft() {
 		return rotateLeft;
 	}
 
-	public static void setRotateLeft(Button rotateLeft) {
-		TitledPaneObjects.rotateLeft = rotateLeft;
+	public  void setRotateLeft(Button rotateLeft) {
+		this.rotateLeft = rotateLeft;
 	}
 
-	public static Button getRotateRight() {
+	public  Button getRotateRight() {
 		return rotateRight;
 	}
 
-	public static void setRotateRight(Button rotateRight) {
-		TitledPaneObjects.rotateRight = rotateRight;
+	public  void setRotateRight(Button rotateRight) {
+		this.rotateRight = rotateRight;
 	}
 
-	public static RadioButton getRbShowX() {
+	public  RadioButton getRbShowX() {
 		return rbShowX;
 	}
 
-	public static void setRbShowX(RadioButton rbShowX) {
-		TitledPaneObjects.rbShowX = rbShowX;
+	public  void setRbShowX(RadioButton rbShowX) {
+		this.rbShowX = rbShowX;
 	}
 
-	public static RadioButton getRbShowY() {
+	public  RadioButton getRbShowY() {
 		return rbShowY;
 	}
 
-	public static void setRbShowY(RadioButton rbShowY) {
-		TitledPaneObjects.rbShowY = rbShowY;
+	public  void setRbShowY(RadioButton rbShowY) {
+		this.rbShowY = rbShowY;
 	}
 
-	public static RadioButton getRbShowZ() {
+	public  RadioButton getRbShowZ() {
 		return rbShowZ;
 	}
 
-	public static void setRbShowZ(RadioButton rbShowZ) {
-		TitledPaneObjects.rbShowZ = rbShowZ;
+	public  void setRbShowZ(RadioButton rbShowZ) {
+		this.rbShowZ = rbShowZ;
 	}
 
-	public static CheckBox getMeanLast() {
+	public  CheckBox getMeanLast() {
 		return meanLast;
 	}
 
-	public static void setMeanLast(CheckBox meanLast) {
-		TitledPaneObjects.meanLast = meanLast;
+	public  void setMeanLast(CheckBox meanLast) {
+		this.meanLast = meanLast;
 	}
 
-	public static TextField getTxtMeanFor() {
+	public  TextField getTxtMeanFor() {
 		return txtMeanFor;
 	}
 
-	public static void setTxtMeanFor(TextField txtMeanFor) {
-		TitledPaneObjects.txtMeanFor = txtMeanFor;
+	public  void setTxtMeanFor(TextField txtMeanFor) {
+		this.txtMeanFor = txtMeanFor;
 	}
 
-	public static RadioButton getRbShowXSpline() {
+	public  RadioButton getRbShowXSpline() {
 		return rbShowXSpline;
 	}
 
-	public static void setRbShowXSpline(RadioButton rbShowXSpline) {
-		TitledPaneObjects.rbShowXSpline = rbShowXSpline;
+	public  void setRbShowXSpline(RadioButton rbShowXSpline) {
+		this.rbShowXSpline = rbShowXSpline;
 	}
 
-	public static RadioButton getRbShowYSpline() {
+	public  RadioButton getRbShowYSpline() {
 		return rbShowYSpline;
 	}
 
-	public static void setRbShowYSpline(RadioButton rbShowYSpline) {
-		TitledPaneObjects.rbShowYSpline = rbShowYSpline;
+	public  void setRbShowYSpline(RadioButton rbShowYSpline) {
+		this.rbShowYSpline = rbShowYSpline;
 	}
 
-	public static RadioButton getRbShowZSpline() {
+	public  RadioButton getRbShowZSpline() {
 		return rbShowZSpline;
 	}
 
-	public static void setRbShowZSpline(RadioButton rbShowZSpline) {
-		TitledPaneObjects.rbShowZSpline = rbShowZSpline;
+	public  void setRbShowZSpline(RadioButton rbShowZSpline) {
+		this.rbShowZSpline = rbShowZSpline;
 	}
 
-	public static CheckBox getTrendLast() {
+	public  CheckBox getTrendLast() {
 		return trendLast;
 	}
 
-	public static void setTrendLast(CheckBox trendLast) {
-		TitledPaneObjects.trendLast = trendLast;
+	public  void setTrendLast(CheckBox trendLast) {
+		this.trendLast = trendLast;
 	}
 
-	public static TextField getTxtTrendFor() {
+	public  TextField getTxtTrendFor() {
 		return txtTrendFor;
 	}
 
-	public static void setTxtTrendFor(TextField txtTrendFor) {
-		TitledPaneObjects.txtTrendFor = txtTrendFor;
+	public  void setTxtTrendFor(TextField txtTrendFor) {
+		this.txtTrendFor = txtTrendFor;
 	}
 
-	public static CheckBox getShowXPL() {
+	public  CheckBox getShowXPL() {
 		return showXPL;
 	}
 
-	public static void setShowXPL(CheckBox showXPL) {
-		TitledPaneObjects.showXPL = showXPL;
+	public  void setShowXPL(CheckBox showXPL) {
+		this.showXPL = showXPL;
 	}
 
-	public static CheckBox getShowYPL() {
+	public  CheckBox getShowYPL() {
 		return showYPL;
 	}
 
-	public static void setShowYPL(CheckBox showYPL) {
-		TitledPaneObjects.showYPL = showYPL;
+	public  void setShowYPL(CheckBox showYPL) {
+		this.showYPL = showYPL;
 	}
 
-	public static CheckBox getShowZPL() {
+	public  CheckBox getShowZPL() {
 		return showZPL;
 	}
 
-	public static void setShowZPL(CheckBox showZPL) {
-		TitledPaneObjects.showZPL = showZPL;
+	public  void setShowZPL(CheckBox showZPL) {
+		this.showZPL = showZPL;
 	}
 
-	public static CheckBox getShowDistancePL() {
+	public  CheckBox getShowDistancePL() {
 		return showDistancePL;
 	}
 
-	public static void setShowDistancePL(CheckBox showDistancePL) {
-		TitledPaneObjects.showDistancePL = showDistancePL;
+	public  void setShowDistancePL(CheckBox showDistancePL) {
+		this.showDistancePL = showDistancePL;
 	}
 
-	public static CheckBox getMinDistanceAT() {
+	public  CheckBox getMinDistanceAT() {
 		return minDistanceAT;
 	}
 
-	public static void setMinDistanceAT(CheckBox minDistanceAT) {
-		TitledPaneObjects.minDistanceAT = minDistanceAT;
+	public  void setMinDistanceAT(CheckBox minDistanceAT) {
+		this.minDistanceAT = minDistanceAT;
 	}
 
-	public static TextField getTxtATDistance() {
+	public  TextField getTxtATDistance() {
 		return txtATDistance;
 	}
 
-	public static void setTxtATDistance(TextField txtATDistance) {
-		TitledPaneObjects.txtATDistance = txtATDistance;
+	public  void setTxtATDistance(TextField txtATDistance) {
+		this.txtATDistance = txtATDistance;
 	}
 
 }
