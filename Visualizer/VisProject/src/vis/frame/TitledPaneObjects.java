@@ -72,16 +72,19 @@ public class TitledPaneObjects {
 			rbDotVector.setToggleGroup(groupT1);
 			rbDotVector.setSelected(true);
 			grid.add(rbDotVector, 0, 0, 3, 1);
+			//Handler
 			rbDotVector.setOnAction(aPHandler);
 
 			rbPlotAll = new RadioButton("plot all");
 			rbPlotAll.setToggleGroup(groupT1);
 			grid.add(rbPlotAll, 0, 1, 3, 1);
+			//Handler
 			rbPlotAll.setOnAction(aPHandler);
 
 			rbPlotBetween = new RadioButton("plot between");
 			rbPlotBetween.setToggleGroup(groupT1);
 			grid.add(rbPlotBetween, 0, 2, 3, 1);
+			//Handler
 			rbPlotBetween.setOnAction(aPHandler);
 
 			txtPlotFrom = new TextField();
@@ -92,7 +95,7 @@ public class TitledPaneObjects {
 			Label lblTo = new Label("to");
 			lblTo.setMinWidth(23);
 			grid.add(lblTo, 1, 3);
-			// txtPlotFrom.textProperty().addListener(new ChangeListener());
+			//Handler
 			txtPlotFrom.textProperty().addListener((observable, oldValue, newValue) -> {
 				System.out.println("textfield changed from " + oldValue + " to " + newValue);
 			});
@@ -101,6 +104,7 @@ public class TitledPaneObjects {
 			txtPlotTo.setMaxWidth(70);
 			txtPlotTo.setPromptText("e.g. 100");
 			grid.add(txtPlotTo, 0, 4);
+			//Handler
 			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
 				System.out.println("textfield changed from " + oldValue + " to " + newValue);
 			});
@@ -116,18 +120,28 @@ public class TitledPaneObjects {
 			rotateLeft = new Button("90° left");
 			rotateLeft.setMinWidth(70);
 			grid.add(rotateLeft, 0, 8);
+			//Handler
+			rotateLeft.setOnAction(aPHandler);
 
 			rotateRight = new Button("90° right");
 			rotateRight.setMinWidth(70);
 			grid.add(rotateRight, 2, 8);
+			//Handler
+			rotateRight.setOnAction(aPHandler);
 
 			minDistanceAT = new CheckBox("Set minimum distance");
 			grid.add(minDistanceAT, 0, 9, 3, 1);
+			//Handler
+			minDistanceAT.setOnAction(aPHandler);
 
 			txtATDistance = new TextField();
 			txtATDistance.setMaxWidth(70);
 			txtATDistance.setPromptText("e.g. 10");
 			grid.add(txtATDistance, 0, 10);
+			//Handler
+			txtATDistance.textProperty().addListener((observable, oldValue, newValue) -> {
+				System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
 
 			final Label unitDistance = new Label("cm");
 			grid.add(unitDistance, 1, 10);
