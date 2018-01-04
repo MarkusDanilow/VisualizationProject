@@ -1,11 +1,7 @@
 package com.base.engine.models;
 
-import static org.lwjgl.opengl.GL11.glColor4f;
-
-import org.lwjgl.util.Color;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.base.common.VectorHelper;
 import com.base.common.resources.DataInspector;
 import com.base.engine.RenderUtil;
 

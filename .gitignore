@@ -14,18 +14,16 @@ Visualizer/VisProject/.settings/
 Visualizer/VisProject/bin/
 Visualizer/VisualizerBasic/.settings/
 Visualizer/VisualizerBasic/bin/
-Visualizer/VisualizerBasic/models/
-<<<<<<< HEAD
-Visualizer/VisProject/.classpath
+Visualizer/VisualizerBasic/models/Visualizer/VisProject/.classpath
 .DS_Store
-=======
+
 Visualizer/DemoDBConnectionPHP/.idea/workspace.xml
 Visualizer/VisProject/hs_err_pid8464.log
 Visualizer/VisProject/hs_err_pid2820.log
 Visualizer/VisProject/hs_err_pid18040.log
 Visualizer/VisProject/hs_err_pid10416.log
 Visualizer/VisProject/hs_err_pid14892.log
->>>>>>> 00bd9c67b6f13c5d4e7fadac310588c1318652a3
+00bd9c67b6f13c5d4e7fadac310588c1318652a3
 /.metadata/
 Visualizer/.classpath
 Visualizer/.project
