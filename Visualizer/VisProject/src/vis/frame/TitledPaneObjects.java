@@ -196,22 +196,30 @@ public class TitledPaneObjects {
 			rbShowXSpline.setToggleGroup(groupT3);
 			rbShowXSpline.setSelected(true);
 			grid.add(rbShowXSpline, 0, 0, 3, 1);
+			rbShowXSpline.setOnAction(cPHandler);
 
 			rbShowYSpline = new RadioButton("show y");
 			rbShowYSpline.setToggleGroup(groupT3);
 			grid.add(rbShowYSpline, 0, 1, 3, 1);
+			rbShowYSpline.setOnAction(cPHandler);
 
 			rbShowZSpline = new RadioButton("show z");
 			rbShowZSpline.setToggleGroup(groupT3);
 			grid.add(rbShowZSpline, 0, 2, 3, 1);
+			rbShowZSpline.setOnAction(cPHandler);
 
 			trendLast = new CheckBox("Calculate trend for last");
 			grid.add(trendLast, 0, 5, 3, 1);
+			trendLast.setOnAction(cPHandler);
 
 			txtTrendFor = new TextField();
 			txtTrendFor.setMaxWidth(70);
 			txtTrendFor.setPromptText("e.g. 100");
 			grid.add(txtTrendFor, 0, 6);
+			txtTrendFor.textProperty().addListener((observable, oldValue, newValue) -> {
+				System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
+			
 
 			final Label positionTrend = new Label("positions");
 			grid.add(positionTrend, 1, 6);
@@ -225,18 +233,22 @@ public class TitledPaneObjects {
 			showXPL = new CheckBox("show x");
 			showXPL.setSelected(true);
 			grid.add(showXPL, 0, 0);
+			showXPL.setOnAction(dPHandler);
 
 			showYPL = new CheckBox("show y");
 			showYPL.setSelected(true);
 			grid.add(showYPL, 0, 1);
+			showYPL.setOnAction(dPHandler);
 
 			showZPL = new CheckBox("show z");
 			showZPL.setSelected(true);
 			grid.add(showZPL, 0, 2);
+			showZPL.setOnAction(dPHandler);
 
 			showDistancePL = new CheckBox("show distance");
 			showDistancePL.setSelected(true);
 			grid.add(showDistancePL, 0, 3);
+			showDistancePL.setOnAction(dPHandler);
 
 			t4.setText("Pane " + paneName + " : Parallel lines");
 			t4.setContent(grid);
