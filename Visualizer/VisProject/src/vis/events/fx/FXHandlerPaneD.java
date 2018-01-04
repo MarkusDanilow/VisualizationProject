@@ -7,8 +7,7 @@ public class FXHandlerPaneD implements EventHandler<ActionEvent> {
 
 	@Override
 	public void handle(ActionEvent event) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Action 2: " + event.getSource());
 	}
 
 }
