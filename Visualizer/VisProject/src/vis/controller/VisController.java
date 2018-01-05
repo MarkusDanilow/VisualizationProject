@@ -13,6 +13,7 @@ import vis.main.VisApplication;
 public class VisController {
 
 	private static AtomicReference<MainWindow> window;
+	private String ID;
 
 	public static void init(VisApplication visApp) throws LWJGLException {
 		window = new AtomicReference<>();
@@ -42,7 +43,7 @@ public class VisController {
 
 	}
 	
-	public static void EinzelpunktVektor() {
+	public static void einzelpunktVektor() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -65,7 +66,7 @@ public class VisController {
 		
 	}
 	
-	public static void PlotAll() {
+	public static void plotAll() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -87,7 +88,7 @@ public class VisController {
 		}
 	}
 	
-	public static void PlotFromTo() {
+	public static void plotFromTo() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -109,7 +110,7 @@ public class VisController {
 		}
 	}
 	
-	public static void RotateRight() {
+	public static void rotateRight() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -131,7 +132,7 @@ public class VisController {
 		}
 	}
 	
-	public static void PlotLeft() {
+	public static void plotLeft() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -153,7 +154,7 @@ public class VisController {
 		}
 	}
 	
-	public static void SetMinimum() {
+	public static void setMinimum() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
