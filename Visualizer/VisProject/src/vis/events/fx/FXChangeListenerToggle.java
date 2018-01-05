@@ -3,15 +3,15 @@ package vis.events.fx;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Toggle;
+import vis.frame.MainWindow;
 
-public class FXChangeListenerToggle implements ChangeListener<Toggle> {
+public abstract class FXChangeListenerToggle implements ChangeListener<Object> {
 
-	@Override
-	public void changed(ObservableValue<? extends Toggle> arg0, Toggle arg1, Toggle arg2) {
-		System.out.println(arg0);
-		System.out.println(arg1);
-		System.out.println(arg2);
-	
+	protected final MainWindow wnd;
+
+	public FXChangeListenerToggle(MainWindow wnd) {
+		this.wnd = wnd;
 	}
+	
 
 }

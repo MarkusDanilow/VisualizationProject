@@ -1,27 +1,21 @@
 package vis.events.fx;
 
-import javafx.event.ActionEvent;
+import javafx.beans.value.ObservableValue;
 import vis.frame.MainWindow;
 
-public class FXHandlerPaneA extends FXEventHandler {
+public class FXHandlerPaneA extends FXChangeListenerToggle {
 
 	public FXHandlerPaneA(MainWindow wnd) {
 		super(wnd);
 	}
 
 	@Override
-	public void handle(ActionEvent event) {
-		System.out.println("Action 2: " + event.getSource());
-		
-		System.out.println(event.getEventType().getName());
-		System.out.println(event.getSource().getClass());
-		
-		if(event.getSource() == "plot-between") {
-			
-			
-		}
-
-		
+	public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+		System.out.println(observable);
+		System.out.println(oldValue);
+		System.out.println(newValue);
 	}
+
+
 
 }
