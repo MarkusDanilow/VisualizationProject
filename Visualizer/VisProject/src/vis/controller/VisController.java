@@ -176,7 +176,7 @@ public class VisController {
 		}
 	}
 	
-	public static void bcShowX() {
+	public static void bdShowX() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -198,7 +198,7 @@ public class VisController {
 		}
 	}
 	
-	public static void bcShowY() {
+	public static void bdShowY() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -220,7 +220,7 @@ public class VisController {
 		}
 	}
 	
-	public static void bcShowZ() {
+	public static void bdShowZ() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -264,7 +264,180 @@ public class VisController {
 		}
 	}
 	
-
+	public static void ldShowX() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
 	
+	public static void ldShowY() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void ldShowZ() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void Trend() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+
+	public static void pkShowX() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void pkShowY() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void pkShowZ() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void showDistance() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
 
 }
