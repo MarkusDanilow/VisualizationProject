@@ -15,8 +15,7 @@ public class FXHandlerPaneA extends FXChangeListenerObject {
 
 	@Override
 	public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
-		wnd.getFxPanelObjectRight();
-		
+		System.out.println(observable.getValue());
 		System.out.println("Hallo " + observable.getValue().toString());		
 		
 	    String stringToSearch = observable.getValue().toString();

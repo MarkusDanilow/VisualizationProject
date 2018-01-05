@@ -82,6 +82,10 @@ public class RightFXPanel {
 
 	}
 	
+	public TitledPane getActiveAccordion() {
+		return this.accordion.getExpandedPane();
+	}
+	
 	public void changeAccordion(String paneType, String paneName, MainWindow wnd) {
 		TitledPane tmp = null;
 		//Get new TitledPane and set it in the Accordion
@@ -132,10 +136,6 @@ public class RightFXPanel {
 			this.accordion.getPanes().add(3, tmp);
 			break;
 		}	
-	}
-
-	public TitledPane getPane(int ind) {
-		return this.accordion.getPanes().get(ind);
 	}
 	
 }

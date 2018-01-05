@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
+import vis.controller.VisController;
 import vis.events.fx.FXHandlerPaneA;
 import vis.events.fx.FXHandlerPaneB;
 import vis.events.fx.FXHandlerPaneC;
@@ -60,40 +61,51 @@ public class TitledPaneObjects {
 		case "3D": // Pane 3D
 			final ToggleGroup groupT1 = new ToggleGroup();
 
-			rbDotVector = new RadioButton("single dot/vector");
+			rbDotVector = new RadioButton("Einzelpunkt/-vektor");
 			rbDotVector.setToggleGroup(groupT1);
 			rbDotVector.setSelected(true);
 			grid.add(rbDotVector, 0, 0, 3, 1);
 
-			rbPlotAll = new RadioButton("plot all");
+			rbDotVector.setOnAction((event) -> {
+				System.out.println("Single");
+				VisController.event();
+			});
+			
+			rbPlotAll = new RadioButton("Plotte alle");
 			rbPlotAll.setToggleGroup(groupT1);
 			grid.add(rbPlotAll, 0, 1, 3, 1);
 
-			rbPlotBetween = new RadioButton("plot between");
+			rbPlotAll.setOnAction((event) -> {
+				System.out.println("Alle");
+			});
+			
+			rbPlotBetween = new RadioButton("Plotte");
 			rbPlotBetween.setToggleGroup(groupT1);
 			grid.add(rbPlotBetween, 0, 2, 3, 1);
 			
-			groupT1.selectedToggleProperty().addListener(aPHandler);
-
-			txtPlotFrom = new TextField();
+			txtPlotFrom = new TextField("Von");
 			txtPlotFrom.setMaxWidth(70);
-			txtPlotFrom.setPromptText("e.g. 1");
+			txtPlotFrom.setPromptText("z.B. 1");
 			grid.add(txtPlotFrom, 0, 3);
 			//Handler
-			txtPlotFrom.textProperty().addListener(aPHandler);
+			txtPlotFrom.textProperty().addListener((observable, oldValue, newValue) -> {
+			    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
 			
-			Label lblTo = new Label("to");
+			Label lblTo = new Label("bis");
 			lblTo.setMinWidth(23);
 			grid.add(lblTo, 1, 3);
 			
 			txtPlotTo = new TextField();
 			txtPlotTo.setMaxWidth(70);
-			txtPlotTo.setPromptText("e.g. 100");
+			txtPlotTo.setPromptText("z.B. 100");
 			grid.add(txtPlotTo, 0, 4);
 			//Handler
-			txtPlotTo.textProperty().addListener(aPHandler);
-
-			final Label positionPlot = new Label("positions");
+			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
+			    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
+			
+			final Label positionPlot = new Label("Punkte");
 			grid.add(positionPlot, 1, 4, 2, 1);
 
 			final Label lblRotate = new Label("Rotate");
@@ -105,30 +117,39 @@ public class TitledPaneObjects {
 			rotateLeft.setMinWidth(70);
 			grid.add(rotateLeft, 0, 8);
 			//Handler
-			rotateLeft.pressedProperty().addListener(aPHandler);
+			rotateLeft.setOnAction((event) -> {
+				System.out.println("Alle");
+			});
 
 			rotateRight = new Button("90° right");
 			rotateRight.setMinWidth(70);
 			grid.add(rotateRight, 2, 8);
 			//Handler
-			rotateRight.pressedProperty().addListener(aPHandler);
+			rotateRight.setOnAction((event) -> {
+				System.out.println("Alle");
+			});
 
 			minDistanceAT = new CheckBox("Set minimum distance");
 			grid.add(minDistanceAT, 0, 9, 3, 1);
 			//Handler
-			minDistanceAT.selectedProperty().addListener(aPHandler);
+			minDistanceAT.setOnAction((event) -> {
+				System.out.println("Alle");
+			});
 
 			txtATDistance = new TextField();
 			txtATDistance.setMaxWidth(70);
 			txtATDistance.setPromptText("e.g. 10");
 			grid.add(txtATDistance, 0, 10);
 			//Handler
-			txtATDistance.textProperty().addListener(aPHandler);
+			txtATDistance.textProperty().addListener((observable, oldValue, newValue) -> {
+			    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			});
 
 			final Label unitDistance = new Label("cm");
 			grid.add(unitDistance, 1, 10);
 
 			t1.setText("Pane " + paneName + ": 3D");
+			t1.setId(paneName);
 			t1.setContent(grid);
 			break;
 
@@ -165,6 +186,7 @@ public class TitledPaneObjects {
 			grid.add(positionMean, 1, 6);
 
 			t2.setText("Pane " + paneName + ": Bar-Chart");
+			t2.setId(paneName);
 			t2.setContent(grid);
 
 			break;
@@ -202,6 +224,7 @@ public class TitledPaneObjects {
 			grid.add(positionTrend, 1, 6);
 
 			t3.setText("Pane " + paneName + ": Spline");
+			t3.setId(paneName);
 			t3.setContent(grid);
 
 			break;
@@ -228,6 +251,7 @@ public class TitledPaneObjects {
 			showDistancePL.selectedProperty().addListener(dPHandler);
 
 			t4.setText("Pane " + paneName + " : Parallel lines");
+			t4.setId(paneName);
 			t4.setContent(grid);
 			break;
 		}

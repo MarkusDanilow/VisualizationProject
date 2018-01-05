@@ -37,8 +37,8 @@ public class VisController {
 		return window.get();
 	}
 
-	public static void event(Object observable, Object oldValue, Object newValue) {
-		
+	public static void event() {
+		System.out.println(window.get().getFxPanelObjectRight().getActiveAccordion().getId());
 
 	}
 
