@@ -13,7 +13,7 @@ import vis.main.VisApplication;
 public class VisController {
 
 	private static AtomicReference<MainWindow> window;
-	private String ID;
+	private static String ID;
 
 	public static void init(VisApplication visApp) throws LWJGLException {
 		window = new AtomicReference<>();
@@ -44,20 +44,20 @@ public class VisController {
 	}
 	
 	public static void einzelpunktVektor() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
-			System.out.println("Es ist Pane A");
+			System.out.println("Einzelpunkt/Vektor bei Pane A wurde gedrückt");
 			break;
 		case "B":
-			System.out.println("Es ist Pane B");
+			System.out.println("Einzelpunkt/Vektor bei Pane B wurde gedrückt");
 			break;
 		case "C":
-			System.out.println("Es ist Pane C");
+			System.out.println("Einzelpunkt/Vektor bei Pane C wurde gedrückt");
 			break;
 		case "D":
-			System.out.println("Es ist Pane D");
+			System.out.println("Einzelpunkt/Vektor bei Pane D wurde gedrückt");
 			break;
 		default:
 			System.out.println("Alles falsch");
@@ -67,20 +67,20 @@ public class VisController {
 	}
 	
 	public static void plotAll() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
-			System.out.println("Es ist Pane A");
+			System.out.println("PlotAll bei Pane A wurde gedrückt");
 			break;
 		case "B":
-			System.out.println("Es ist Pane B");
+			System.out.println("PlotAll bei Pane B wurde gedrückt");
 			break;
 		case "C":
-			System.out.println("Es ist Pane C");
+			System.out.println("PlotAll bei Pane C wurde gedrückt");
 			break;
 		case "D":
-			System.out.println("Es ist Pane D");
+			System.out.println("PlotAll bei Pane D wurde gedrückt");
 			break;
 		default:
 			System.out.println("Alles falsch");
@@ -89,7 +89,11 @@ public class VisController {
 	}
 	
 	public static void plotFromTo(String from, String to) {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		String f = from;
+		String t = to;
+		
+		System.out.println("Von" + f + "bis" + t);
 		
 		
 		switch (ID) {
@@ -112,7 +116,7 @@ public class VisController {
 	}
 	
 	public static void rotateRight() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -134,7 +138,7 @@ public class VisController {
 	}
 	
 	public static void rotateLeft() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -155,8 +159,8 @@ public class VisController {
 		}
 	}
 	
-	public static void setMinimum() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+	public static void setMinimum(String s) {
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -178,7 +182,7 @@ public class VisController {
 	}
 	
 	public static void bdShowX() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -200,7 +204,7 @@ public class VisController {
 	}
 	
 	public static void bdShowY() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -222,7 +226,7 @@ public class VisController {
 	}
 	
 	public static void bdShowZ() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -243,8 +247,8 @@ public class VisController {
 		}
 	}
 	
-	public static void calculateMean() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+	public static void calculateMean(String s) {
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -266,7 +270,7 @@ public class VisController {
 	}
 	
 	public static void ldShowX() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -288,7 +292,7 @@ public class VisController {
 	}
 	
 	public static void ldShowY() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -310,7 +314,7 @@ public class VisController {
 	}
 	
 	public static void ldShowZ() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -331,8 +335,8 @@ public class VisController {
 		}
 	}
 	
-	public static void trend() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+	public static void trend(String s) {
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -354,7 +358,7 @@ public class VisController {
 	}
 
 	public static void pkShowX() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -376,7 +380,7 @@ public class VisController {
 	}
 	
 	public static void pkShowY() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -398,7 +402,7 @@ public class VisController {
 	}
 	
 	public static void pkShowZ() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
@@ -420,7 +424,7 @@ public class VisController {
 	}
 	
 	public static void showDistance() {
-		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
 		case "A":
