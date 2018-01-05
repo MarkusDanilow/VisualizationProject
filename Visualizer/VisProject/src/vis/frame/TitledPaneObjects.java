@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import vis.events.fx.FXChangeListenerToggle;
 import vis.events.fx.FXHandlerPaneA;
 import vis.events.fx.FXHandlerPaneB;
 import vis.events.fx.FXHandlerPaneC;
@@ -53,7 +52,7 @@ public class TitledPaneObjects {
 		grid.setVgap(4);
 		grid.setPadding(new Insets(5, 5, 5, 5));
 		FXHandlerPaneA aPHandler = new FXHandlerPaneA(wnd);
-		FXHandlerPaneB bPHandler = new FXHandlerPaneB();
+		FXHandlerPaneB bPHandler = new FXHandlerPaneB(wnd);
 		FXHandlerPaneC cPHandler = new FXHandlerPaneC(wnd);
 		FXHandlerPaneD dPHandler = new FXHandlerPaneD(wnd);
 		
@@ -140,21 +139,21 @@ public class TitledPaneObjects {
 			rbShowX.setToggleGroup(groupT2);
 			rbShowX.setSelected(true);
 			grid.add(rbShowX, 0, 0, 3, 1);
-			rbShowX.setOnAction(bPHandler);
+//			rbShowX.setOnAction(bPHandler);
 
 			rbShowY = new RadioButton("show y");
 			rbShowY.setToggleGroup(groupT2);
 			grid.add(rbShowY, 0, 1, 3, 1);
-			rbShowY.setOnAction(bPHandler);
+//			rbShowY.setOnAction(bPHandler);
 
 			rbShowZ = new RadioButton("show z");
 			rbShowZ.setToggleGroup(groupT2);
 			grid.add(rbShowZ, 0, 2, 3, 1);
-			rbShowZ.setOnAction(bPHandler);
+//			rbShowZ.setOnAction(bPHandler);
 
 			meanLast = new CheckBox("Calculate mean for last");
 			grid.add(meanLast, 0, 5, 3, 1);
-			meanLast.setOnAction(bPHandler);
+//			meanLast.setOnAction(bPHandler);
 
 			txtMeanFor = new TextField();
 			txtMeanFor.setMaxWidth(70);

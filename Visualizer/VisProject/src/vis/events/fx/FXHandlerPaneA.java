@@ -3,7 +3,7 @@ package vis.events.fx;
 import javafx.beans.value.ObservableValue;
 import vis.frame.MainWindow;
 
-public class FXHandlerPaneA extends FXChangeListenerToggle {
+public class FXHandlerPaneA extends FXChangeListenerObject {
 
 	public FXHandlerPaneA(MainWindow wnd) {
 		super(wnd);
