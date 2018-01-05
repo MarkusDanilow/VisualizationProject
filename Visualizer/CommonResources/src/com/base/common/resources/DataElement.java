@@ -138,7 +138,6 @@ public class DataElement {
 			lat = latRange.getHiVal();
 		this.realLat = lat;
 		this.lat = MathUtil.mapWithoutPrecision(lat, latRange.getLoVal(), latRange.getHiVal(), 0, scale);
-		System.out.println("lat: " + lat + ", " + this.lat);
 	}
 
 	public float getLng() {
@@ -152,7 +151,6 @@ public class DataElement {
 			lng = lngRange.getHiVal();
 		this.realLng = lng;
 		this.lng = MathUtil.mapWithoutPrecision(lng, lngRange.getLoVal(), lngRange.getHiVal(), 0, scale);
-		System.out.println("lng: " + lng + ", " + this.lng);
 	}
 
 	public float getDistance() {
