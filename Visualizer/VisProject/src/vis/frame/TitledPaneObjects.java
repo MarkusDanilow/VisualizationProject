@@ -14,10 +14,10 @@ import vis.controller.VisController;
 
 public class TitledPaneObjects {
 
-	private  TitledPane t1 = new TitledPane();
-	private  TitledPane t2 = new TitledPane();
-	private  TitledPane t3 = new TitledPane();
-	private  TitledPane t4 = new TitledPane();
+	private TitledPane t1 = new TitledPane();
+	private TitledPane t2 = new TitledPane();
+	private TitledPane t3 = new TitledPane();
+	private TitledPane t4 = new TitledPane();
 
 	private RadioButton rbDotVector;
 	private RadioButton rbPlotAll;
@@ -81,7 +81,7 @@ public class TitledPaneObjects {
 			grid.add(rbPlotBetween, 0, 2, 3, 1);
 			
 			rbPlotBetween.setOnAction((event) -> {
-				VisController.plotFromTo();
+				VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
 			});
 			
 			Label lblTo = new Label("bis");
@@ -98,8 +98,8 @@ public class TitledPaneObjects {
 			    	newValue = newValue.replaceAll("[^0-9]","");
 			    	txtPlotFrom.setText(newValue);
 			    }
-				
-				System.out.println("PlotFrom changed from " + oldValue + " to " + newValue);
+			    
+				VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
 			});
 			
 			txtPlotTo = new TextField("100");
@@ -113,7 +113,7 @@ public class TitledPaneObjects {
 			    	txtPlotTo.setText(newValue);
 			    }
 				
-			    System.out.println("PlotTo changed from " + oldValue + " to " + newValue);
+				VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
 			});
 			
 			final Label positionPlot = new Label("Punkte");
@@ -129,7 +129,7 @@ public class TitledPaneObjects {
 			grid.add(rotateLeft, 0, 8);
 			//Handler
 			rotateLeft.setOnAction((event) -> {
-				System.out.println("Links");
+				VisController.rotateLeft();
 			});
 
 			rotateRight = new Button("90° rechts");
@@ -137,14 +137,14 @@ public class TitledPaneObjects {
 			grid.add(rotateRight, 2, 8);
 			//Handler
 			rotateRight.setOnAction((event) -> {
-				System.out.println("Rechts");
+				VisController.rotateRight();
 			});
 
 			minDistanceAT = new CheckBox("Minimale Distanz");
 			grid.add(minDistanceAT, 0, 9, 3, 1);
 			//Handler
 			minDistanceAT.setOnAction((event) -> {
-				System.out.println("Distanz");
+				VisController.setMinimum(this.getTxtATDistance());
 			});
 
 			txtATDistance = new TextField("10");
@@ -158,7 +158,7 @@ public class TitledPaneObjects {
 			    	txtATDistance.setText(newValue);
 			    }
 				
-			    System.out.println("Distance changed from " + oldValue + " to " + newValue);
+				VisController.setMinimum(this.getTxtATDistance());
 			});
 
 			final Label unitDistance = new Label("cm");
@@ -178,7 +178,7 @@ public class TitledPaneObjects {
 			grid.add(rbShowX, 0, 0, 3, 1);
 
 			rbShowX.setOnAction((event) -> {
-				System.out.println("show x BK");
+				VisController.bdShowX();
 			});
 			
 			rbShowY = new RadioButton("y anzeigen");
@@ -186,7 +186,7 @@ public class TitledPaneObjects {
 			grid.add(rbShowY, 0, 1, 3, 1);
 
 			rbShowY.setOnAction((event) -> {
-				System.out.println("show y BK");
+				VisController.bdShowY();
 			});
 			
 			rbShowZ = new RadioButton("z anzeigen");
@@ -194,13 +194,13 @@ public class TitledPaneObjects {
 			grid.add(rbShowZ, 0, 2, 3, 1);
 
 			rbShowZ.setOnAction((event) -> {
-				System.out.println("show z BK");
+				VisController.bdShowZ();
 			});
 						
 			meanLast = new CheckBox("Durchschnitt für die letzten");
 			grid.add(meanLast, 0, 5, 3, 1);
 			meanLast.setOnAction((event) -> {
-				System.out.println("Checkbox durchscnitt BK");
+				VisController.calculateMean(this.getTxtMeanFor());
 			});
 
 			txtMeanFor = new TextField("100");
@@ -214,7 +214,7 @@ public class TitledPaneObjects {
 			    	txtMeanFor.setText(newValue);
 			    }
 				
-			    System.out.println("Durchschnitt " + oldValue + " to " + newValue);
+				VisController.calculateMean(this.getTxtMeanFor());
 			});
 
 			final Label positionMean = new Label("Punkte anzeigen");
@@ -235,7 +235,7 @@ public class TitledPaneObjects {
 			grid.add(rbShowXSpline, 0, 0, 3, 1);
 			
 			rbShowXSpline.setOnAction((event) -> {
-				System.out.println("Show x Spline");
+				VisController.ldShowX();
 			});
 
 			rbShowYSpline = new RadioButton("y anzeigen");
@@ -243,7 +243,7 @@ public class TitledPaneObjects {
 			grid.add(rbShowYSpline, 0, 1, 3, 1);
 
 			rbShowYSpline.setOnAction((event) -> {
-				System.out.println("Show y Spline");
+				VisController.ldShowY();
 			});
 			
 			rbShowZSpline = new RadioButton("z anzeigen");
@@ -251,13 +251,13 @@ public class TitledPaneObjects {
 			grid.add(rbShowZSpline, 0, 2, 3, 1);
 			
 			rbShowZSpline.setOnAction((event) -> {
-				System.out.println("Show z Spline");
+				VisController.ldShowZ();
 			});
 					
 			trendLast = new CheckBox("Trend für die letzten");
 			grid.add(trendLast, 0, 5, 3, 1);
 			trendLast.setOnAction((event) -> {
-				System.out.println("Trend LD");
+				VisController.trend(this.getTxtTrendFor());
 			});
 
 			txtTrendFor = new TextField("100");
@@ -270,7 +270,7 @@ public class TitledPaneObjects {
 			    	txtTrendFor.setText(newValue);
 			    }
 				
-			    System.out.println("Trend " + oldValue + " to " + newValue);
+				VisController.trend(this.getTxtTrendFor());
 			});
 			
 
@@ -289,7 +289,7 @@ public class TitledPaneObjects {
 			grid.add(showXPL, 0, 0);
 			
 			showXPL.setOnAction((event) -> {
-				System.out.println("Show x PL");
+				VisController.pkShowX();
 			});
 
 			showYPL = new CheckBox("y anzeigen");
@@ -297,7 +297,7 @@ public class TitledPaneObjects {
 			grid.add(showYPL, 0, 1);
 			
 			showYPL.setOnAction((event) -> {
-				System.out.println("Show y PL");
+				VisController.pkShowY();
 			});
 
 			showZPL = new CheckBox("z anzeigen");
@@ -305,7 +305,7 @@ public class TitledPaneObjects {
 			grid.add(showZPL, 0, 2);
 			
 			showZPL.setOnAction((event) -> {
-				System.out.println("Show z PL");
+				VisController.pkShowZ();
 			});
 			
 			showDistancePL = new CheckBox("Distanz anzeigen");
@@ -313,7 +313,7 @@ public class TitledPaneObjects {
 			grid.add(showDistancePL, 0, 3);
 			
 			showDistancePL.setOnAction((event) -> {
-				System.out.println("Distant PL");
+				VisController.showDistance();
 			});
 
 			t4.setText("Pane " + paneName + " : Parallele Koordinaten");
@@ -363,16 +363,16 @@ public class TitledPaneObjects {
 		this.rbPlotBetween = rbPlotBetween;
 	}
 
-	public  TextField getTxtPlotFrom() {
-		return txtPlotFrom;
+	public  String getTxtPlotFrom() {
+		return txtPlotFrom.getText();
 	}
 
 	public  void setTxtPlotFrom(TextField txtPlotFrom) {
 		this.txtPlotFrom = txtPlotFrom;
 	}
 
-	public  TextField getTxtPlotTo() {
-		return txtPlotTo;
+	public  String getTxtPlotTo() {
+		return txtPlotTo.getText();
 	}
 
 	public  void setTxtPlotTo(TextField txtPlotTo) {
@@ -427,8 +427,8 @@ public class TitledPaneObjects {
 		this.meanLast = meanLast;
 	}
 
-	public  TextField getTxtMeanFor() {
-		return txtMeanFor;
+	public  String getTxtMeanFor() {
+		return txtMeanFor.getText();
 	}
 
 	public  void setTxtMeanFor(TextField txtMeanFor) {
@@ -467,8 +467,8 @@ public class TitledPaneObjects {
 		this.trendLast = trendLast;
 	}
 
-	public  TextField getTxtTrendFor() {
-		return txtTrendFor;
+	public  String getTxtTrendFor() {
+		return txtTrendFor.getText();
 	}
 
 	public  void setTxtTrendFor(TextField txtTrendFor) {
@@ -515,8 +515,8 @@ public class TitledPaneObjects {
 		this.minDistanceAT = minDistanceAT;
 	}
 
-	public  TextField getTxtATDistance() {
-		return txtATDistance;
+	public  String getTxtATDistance() {
+		return txtATDistance.getText();
 	}
 
 	public  void setTxtATDistance(TextField txtATDistance) {
