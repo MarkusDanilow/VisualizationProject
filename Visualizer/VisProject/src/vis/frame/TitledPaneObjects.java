@@ -23,38 +23,38 @@ public class TitledPaneObjects {
 	private  TitledPane t4 = new TitledPane();
 
 	private RadioButton rbDotVector;
-	private  RadioButton rbPlotAll;
-	private  RadioButton rbPlotBetween;
-	private  TextField txtPlotFrom;
-	private  TextField txtPlotTo;
-	private  Button rotateLeft;
-	private  Button rotateRight;
-	private  RadioButton rbShowX;
-	private  RadioButton rbShowY;
-	private  RadioButton rbShowZ;
-	private  CheckBox meanLast;
-	private  TextField txtMeanFor;
-	private  RadioButton rbShowXSpline;
-	private  RadioButton rbShowYSpline;
-	private  RadioButton rbShowZSpline;
-	private  CheckBox trendLast;
-	private  TextField txtTrendFor;
-	private  CheckBox showXPL;
-	private  CheckBox showYPL;
-	private  CheckBox showZPL;
-	private  CheckBox showDistancePL;
-	private  CheckBox minDistanceAT;
-	private  TextField txtATDistance;
+	private RadioButton rbPlotAll;
+	private RadioButton rbPlotBetween;
+	private TextField txtPlotFrom;
+	private TextField txtPlotTo;
+	private Button rotateLeft;
+	private Button rotateRight;
+	private RadioButton rbShowX;
+	private RadioButton rbShowY;
+	private RadioButton rbShowZ;
+	private CheckBox meanLast;
+	private TextField txtMeanFor;
+	private RadioButton rbShowXSpline;
+	private RadioButton rbShowYSpline;
+	private RadioButton rbShowZSpline;
+	private CheckBox trendLast;
+	private TextField txtTrendFor;
+	private CheckBox showXPL;
+	private CheckBox showYPL;
+	private CheckBox showZPL;
+	private CheckBox showDistancePL;
+	private CheckBox minDistanceAT;
+	private TextField txtATDistance;
 
-	public void setTitledPane(String paneType, String paneName) {
+	public void setTitledPane(String paneType, String paneName, MainWindow wnd) {
 
 		GridPane grid = new GridPane();
 		grid.setVgap(4);
 		grid.setPadding(new Insets(5, 5, 5, 5));
-		FXHandlerPaneA aPHandler = new FXHandlerPaneA();
+		FXHandlerPaneA aPHandler = new FXHandlerPaneA(wnd);
 		FXHandlerPaneB bPHandler = new FXHandlerPaneB();
-		FXHandlerPaneC cPHandler = new FXHandlerPaneC();
-		FXHandlerPaneD dPHandler = new FXHandlerPaneD();
+		FXHandlerPaneC cPHandler = new FXHandlerPaneC(wnd);
+		FXHandlerPaneD dPHandler = new FXHandlerPaneD(wnd);
 		
 		switch (paneType) {
 		case "3D": // Pane 3D

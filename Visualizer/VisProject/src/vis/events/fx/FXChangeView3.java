@@ -1,6 +1,7 @@
 package vis.events.fx;
 
 import javafx.beans.value.ObservableValue;
+import vis.controller.VisController;
 import vis.frame.MainWindow;
 
 public class FXChangeView3 extends FXChangeListener {
@@ -14,7 +15,7 @@ public class FXChangeView3 extends FXChangeListener {
 		this.wnd.app.setView(3, newValue);
 		
 		//Accordion anpassen
-		this.wnd.getFxPanelObjectRight().changeAccordion(newValue, "D");
+		VisController.changeAccordion(newValue, "D", wnd);
 	}
  
 }

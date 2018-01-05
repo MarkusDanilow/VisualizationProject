@@ -148,7 +148,7 @@ public class MainWindow extends JFrame {
 		rightSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
 
 		fxPanelObjectRight = new RightFXPanel();
-		JPanel fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight());
+		JPanel fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight(), this);
 
 		rightSidebarPanel.add(fxPanelRight);
 

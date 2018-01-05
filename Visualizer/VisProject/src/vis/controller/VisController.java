@@ -19,13 +19,11 @@ public class VisController {
 		window.set(new MainWindow(visApp, Settings.getApplicationTitle(), Settings.getDisplayWidth(),
 				Settings.getDisplayHeight()));
 
-		// TODO: Threading Problem lösen.
-		// changeAccordion(1, "C");
 	}
 
-	public static void changeAccordion(String paneType, String paneName) {
+	public static void changeAccordion(String paneType, String paneName, MainWindow wnd) {
 		// Aufruf von RightFX changeController(int, String)
-		window.get().getFxPanelObjectRight().changeAccordion(paneType, paneName);
+		window.get().getFxPanelObjectRight().changeAccordion(paneType, paneName, wnd);
 
 	}
 

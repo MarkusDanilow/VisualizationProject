@@ -26,7 +26,7 @@ public class RightFXPanel {
 	
 	
 //	TODO: Eingabefelder TextFields nur auf Zahlen beschränken durch Validierung
-	public JPanel getPanel (int rightSidebarWidth, int height) {
+	public JPanel getPanel (int rightSidebarWidth, int height, MainWindow wnd) {
 		
 		JPanel rightSidebarPanel = new JPanel();
 		rightSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
@@ -40,19 +40,19 @@ public class RightFXPanel {
 
 		TitledPaneObjects pane = new TitledPaneObjects();
 		//Pane A
-		pane.setTitledPane(Settings.get3DView(), "A");
+		pane.setTitledPane(Settings.get3DView(), "A", wnd);
 		t1 = pane.getT1();
 				
         //Pane B
-		pane.setTitledPane(Settings.getBarChartView(), "B");
+		pane.setTitledPane(Settings.getBarChartView(), "B", wnd);
 		t2 = pane.getT2();
 				
 		//Pane C
-		pane.setTitledPane(Settings.getLineChartView(), "C");
+		pane.setTitledPane(Settings.getLineChartView(), "C", wnd);
 		t3 = pane.getT3();
 		
 		//Pane D
-		pane.setTitledPane(Settings.getParallelCoordinatesView(), "D");
+		pane.setTitledPane(Settings.getParallelCoordinatesView(), "D", wnd);
 		t4 = pane.getT4();
 
 		accordion = new Accordion();
@@ -81,11 +81,11 @@ public class RightFXPanel {
 
 	}
 	
-	public void changeAccordion(String paneType, String paneName) {
+	public void changeAccordion(String paneType, String paneName, MainWindow wnd) {
 		TitledPane tmp = null;
 		//Get new TitledPane and set it in the Accordion
 		TitledPaneObjects pane = new TitledPaneObjects();
-		pane.setTitledPane(paneType, paneName);
+		pane.setTitledPane(paneType, paneName, wnd);
 		
 		switch(paneType) {
 		case "3D":
