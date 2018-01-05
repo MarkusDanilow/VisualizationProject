@@ -58,7 +58,6 @@ public class WavefrontModelLoader {
 					}
 				}
 				br.close();
-				System.out.println("Successfully loaded model from " + modelFile);
 				model.setVisible(true);
 				return model;
 			}
