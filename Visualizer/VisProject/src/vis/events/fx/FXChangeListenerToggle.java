@@ -8,8 +8,10 @@ public class FXChangeListenerToggle implements ChangeListener<Toggle> {
 
 	@Override
 	public void changed(ObservableValue<? extends Toggle> arg0, Toggle arg1, Toggle arg2) {
-		
-		
+		System.out.println(arg0);
+		System.out.println(arg1);
+		System.out.println(arg2);
+	
 	}
 
 }
