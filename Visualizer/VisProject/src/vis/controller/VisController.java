@@ -132,7 +132,7 @@ public class VisController {
 		}
 	}
 	
-	public static void plotLeft() {
+	public static void rotateLeft() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
@@ -175,6 +175,96 @@ public class VisController {
 			break;	
 		}
 	}
+	
+	public static void bcShowX() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void bcShowY() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void bcShowZ() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void calculateMean() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+
 	
 
 }
