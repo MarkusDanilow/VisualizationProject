@@ -41,5 +41,139 @@ public class VisController {
 		System.out.println(window.get().getFxPanelObjectRight().getActiveAccordion().getId());
 
 	}
+	
+	public static void EinzelpunktVektor() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+		
+	}
+	
+	public static void PlotAll() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void PlotFromTo() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void RotateRight() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void PlotLeft() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
+	public static void SetMinimum() {
+		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		switch (ID) {
+		case "A":
+			System.out.println("Es ist Pane A");
+			break;
+		case "B":
+			System.out.println("Es ist Pane B");
+			break;
+		case "C":
+			System.out.println("Es ist Pane C");
+			break;
+		case "D":
+			System.out.println("Es ist Pane D");
+			break;
+		default:
+			System.out.println("Alles falsch");
+			break;	
+		}
+	}
+	
 
 }
