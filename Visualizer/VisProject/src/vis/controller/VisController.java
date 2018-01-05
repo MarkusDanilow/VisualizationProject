@@ -88,8 +88,9 @@ public class VisController {
 		}
 	}
 	
-	public static void plotFromTo() {
+	public static void plotFromTo(String from, String to) {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
 		
 		switch (ID) {
 		case "A":
