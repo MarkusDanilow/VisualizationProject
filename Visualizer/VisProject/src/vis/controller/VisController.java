@@ -330,7 +330,7 @@ public class VisController {
 		}
 	}
 	
-	public static void Trend() {
+	public static void trend() {
 		String ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		
 		switch (ID) {
