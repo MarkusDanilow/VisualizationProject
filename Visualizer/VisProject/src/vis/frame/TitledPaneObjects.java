@@ -60,7 +60,7 @@ public class TitledPaneObjects {
 		case "3D": // Pane 3D
 			final ToggleGroup groupT1 = new ToggleGroup();
 
-			rbDotVector = new RadioButton("single dot /vector");
+			rbDotVector = new RadioButton("single dot/vector");
 			rbDotVector.setToggleGroup(groupT1);
 			rbDotVector.setSelected(true);
 			grid.add(rbDotVector, 0, 0, 3, 1);
@@ -139,30 +139,27 @@ public class TitledPaneObjects {
 			rbShowX.setToggleGroup(groupT2);
 			rbShowX.setSelected(true);
 			grid.add(rbShowX, 0, 0, 3, 1);
-//			rbShowX.setOnAction(bPHandler);
 
 			rbShowY = new RadioButton("show y");
 			rbShowY.setToggleGroup(groupT2);
 			grid.add(rbShowY, 0, 1, 3, 1);
-//			rbShowY.setOnAction(bPHandler);
 
 			rbShowZ = new RadioButton("show z");
 			rbShowZ.setToggleGroup(groupT2);
 			grid.add(rbShowZ, 0, 2, 3, 1);
-//			rbShowZ.setOnAction(bPHandler);
 
+			groupT2.selectedToggleProperty().addListener(bPHandler);
+			
 			meanLast = new CheckBox("Calculate mean for last");
 			grid.add(meanLast, 0, 5, 3, 1);
-//			meanLast.setOnAction(bPHandler);
+			meanLast.selectedProperty().addListener(bPHandler);
 
 			txtMeanFor = new TextField();
 			txtMeanFor.setMaxWidth(70);
 			txtMeanFor.setPromptText("e.g. 100");
 			grid.add(txtMeanFor, 0, 6);
 			//Handler
-			txtMeanFor.textProperty().addListener((observable, oldValue, newValue) -> {
-				System.out.println("textfield changed from " + oldValue + " to " + newValue);
-			});
+			txtMeanFor.textProperty().addListener(bPHandler);
 
 			final Label positionMean = new Label("positions");
 			grid.add(positionMean, 1, 6);
@@ -179,29 +176,26 @@ public class TitledPaneObjects {
 			rbShowXSpline.setToggleGroup(groupT3);
 			rbShowXSpline.setSelected(true);
 			grid.add(rbShowXSpline, 0, 0, 3, 1);
-			rbShowXSpline.setOnAction(cPHandler);
 
 			rbShowYSpline = new RadioButton("show y");
 			rbShowYSpline.setToggleGroup(groupT3);
 			grid.add(rbShowYSpline, 0, 1, 3, 1);
-			rbShowYSpline.setOnAction(cPHandler);
 
 			rbShowZSpline = new RadioButton("show z");
 			rbShowZSpline.setToggleGroup(groupT3);
 			grid.add(rbShowZSpline, 0, 2, 3, 1);
-			rbShowZSpline.setOnAction(cPHandler);
-
+			
+			groupT3.selectedToggleProperty().addListener(cPHandler);
+			
 			trendLast = new CheckBox("Calculate trend for last");
 			grid.add(trendLast, 0, 5, 3, 1);
-			trendLast.setOnAction(cPHandler);
+			trendLast.selectedProperty().addListener(cPHandler);
 
 			txtTrendFor = new TextField();
 			txtTrendFor.setMaxWidth(70);
 			txtTrendFor.setPromptText("e.g. 100");
 			grid.add(txtTrendFor, 0, 6);
-			txtTrendFor.textProperty().addListener((observable, oldValue, newValue) -> {
-				System.out.println("textfield changed from " + oldValue + " to " + newValue);
-			});
+			txtTrendFor.textProperty().addListener(cPHandler);
 			
 
 			final Label positionTrend = new Label("positions");
@@ -216,22 +210,22 @@ public class TitledPaneObjects {
 			showXPL = new CheckBox("show x");
 			showXPL.setSelected(true);
 			grid.add(showXPL, 0, 0);
-			showXPL.setOnAction(dPHandler);
+			showXPL.selectedProperty().addListener(dPHandler);
 
 			showYPL = new CheckBox("show y");
 			showYPL.setSelected(true);
 			grid.add(showYPL, 0, 1);
-			showYPL.setOnAction(dPHandler);
+			showYPL.selectedProperty().addListener(dPHandler);
 
 			showZPL = new CheckBox("show z");
 			showZPL.setSelected(true);
 			grid.add(showZPL, 0, 2);
-			showZPL.setOnAction(dPHandler);
+			showZPL.selectedProperty().addListener(dPHandler);
 
 			showDistancePL = new CheckBox("show distance");
 			showDistancePL.setSelected(true);
 			grid.add(showDistancePL, 0, 3);
-			showDistancePL.setOnAction(dPHandler);
+			showDistancePL.selectedProperty().addListener(dPHandler);
 
 			t4.setText("Pane " + paneName + " : Parallel lines");
 			t4.setContent(grid);

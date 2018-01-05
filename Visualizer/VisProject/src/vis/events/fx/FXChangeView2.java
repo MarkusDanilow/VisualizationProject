@@ -17,7 +17,7 @@ public class FXChangeView2 extends FXChangeListener {
 		//TODO: Prüfen Reihenfolge der Canvas
 		//Accordion anpassen
 //		this.wnd.getFxPanelObjectRight().changeAccordion(newValue, "B", wnd);
-		VisController.changeAccordion(newValue, "C", wnd);
+		VisController.changeAccordion(newValue, "B", wnd);
 	}
  
 }

@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import com.base.engine.Settings;
 
+import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,7 +24,7 @@ public class RightFXPanel {
 	private TitledPane t4;
 	private Accordion accordion;
 	private JFXPanel rightSidebarPanelFX;
-	
+	private TitledPaneObjects pane;
 	
 //	TODO: Eingabefelder TextFields nur auf Zahlen beschränken durch Validierung
 	public JPanel getPanel (int rightSidebarWidth, int height, MainWindow wnd) {
@@ -38,7 +39,7 @@ public class RightFXPanel {
 		rightSidebarPanel.setPreferredSize(new Dimension(rightSidebarWidth, height));
 		rightSidebarPanel.setVisible(true);
 
-		TitledPaneObjects pane = new TitledPaneObjects();
+		pane = new TitledPaneObjects();
 		//Pane A
 		pane.setTitledPane(Settings.get3DView(), "A", wnd);
 		t1 = pane.getT1();
@@ -84,7 +85,7 @@ public class RightFXPanel {
 	public void changeAccordion(String paneType, String paneName, MainWindow wnd) {
 		TitledPane tmp = null;
 		//Get new TitledPane and set it in the Accordion
-		TitledPaneObjects pane = new TitledPaneObjects();
+		pane = new TitledPaneObjects();
 		pane.setTitledPane(paneType, paneName, wnd);
 		
 		switch(paneType) {
@@ -130,9 +131,11 @@ public class RightFXPanel {
 			this.accordion.getPanes().remove(3);
 			this.accordion.getPanes().add(3, tmp);
 			break;
-		}
-		
+		}	
 	}
-	
+
+	public TitledPane getPane(int ind) {
+		return this.accordion.getPanes().get(ind);
+	}
 	
 }
