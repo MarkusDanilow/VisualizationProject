@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 import com.base.engine.Settings;
 
-import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

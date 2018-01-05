@@ -11,10 +11,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import vis.controller.VisController;
-import vis.events.fx.FXHandlerPaneA;
-import vis.events.fx.FXHandlerPaneB;
-import vis.events.fx.FXHandlerPaneC;
-import vis.events.fx.FXHandlerPaneD;
 
 public class TitledPaneObjects {
 
@@ -52,10 +48,12 @@ public class TitledPaneObjects {
 		GridPane grid = new GridPane();
 		grid.setVgap(4);
 		grid.setPadding(new Insets(5, 5, 5, 5));
-		FXHandlerPaneA aPHandler = new FXHandlerPaneA(wnd);
-		FXHandlerPaneB bPHandler = new FXHandlerPaneB(wnd);
-		FXHandlerPaneC cPHandler = new FXHandlerPaneC(wnd);
-		FXHandlerPaneD dPHandler = new FXHandlerPaneD(wnd);
+		
+		//TODO: Bereinigen
+//		FXHandlerPaneA aPHandler = new FXHandlerPaneA(wnd);
+//		FXHandlerPaneB bPHandler = new FXHandlerPaneB(wnd);
+//		FXHandlerPaneC cPHandler = new FXHandlerPaneC(wnd);
+//		FXHandlerPaneD dPHandler = new FXHandlerPaneD(wnd);
 		
 		switch (paneType) {
 		case "3D": // Pane 3D
@@ -67,8 +65,7 @@ public class TitledPaneObjects {
 			grid.add(rbDotVector, 0, 0, 3, 1);
 
 			rbDotVector.setOnAction((event) -> {
-				System.out.println("Single");
-				VisController.event();
+				VisController.einzelpunktVektor();
 			});
 			
 			rbPlotAll = new RadioButton("Plotte alle");
@@ -76,33 +73,47 @@ public class TitledPaneObjects {
 			grid.add(rbPlotAll, 0, 1, 3, 1);
 
 			rbPlotAll.setOnAction((event) -> {
-				System.out.println("Alle");
+				VisController.plotAll();
 			});
 			
 			rbPlotBetween = new RadioButton("Plotte");
 			rbPlotBetween.setToggleGroup(groupT1);
 			grid.add(rbPlotBetween, 0, 2, 3, 1);
 			
-			txtPlotFrom = new TextField("Von");
-			txtPlotFrom.setMaxWidth(70);
-			txtPlotFrom.setPromptText("z.B. 1");
-			grid.add(txtPlotFrom, 0, 3);
-			//Handler
-			txtPlotFrom.textProperty().addListener((observable, oldValue, newValue) -> {
-			    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			rbPlotBetween.setOnAction((event) -> {
+				VisController.plotFromTo();
 			});
 			
 			Label lblTo = new Label("bis");
 			lblTo.setMinWidth(23);
-			grid.add(lblTo, 1, 3);
+			grid.add(lblTo, 1, 3, 3, 1);
 			
-			txtPlotTo = new TextField();
-			txtPlotTo.setMaxWidth(70);
-			txtPlotTo.setPromptText("z.B. 100");
+			txtPlotFrom = new TextField("1");
+			txtPlotFrom.setMaxWidth(80);
+			txtPlotFrom.setPromptText("1");
+			grid.add(txtPlotFrom, 0, 3);
+			//Handler
+			txtPlotFrom.textProperty().addListener((observable, oldValue, newValue) -> {
+			    if(!newValue.matches("[0-9]+")) {
+			    	newValue = newValue.replaceAll("[^0-9]","");
+			    	txtPlotFrom.setText(newValue);
+			    }
+				
+				System.out.println("PlotFrom changed from " + oldValue + " to " + newValue);
+			});
+			
+			txtPlotTo = new TextField("100");
+			txtPlotTo.setMaxWidth(80);
+			txtPlotTo.setPromptText("100");
 			grid.add(txtPlotTo, 0, 4);
 			//Handler
 			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
-			    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			    if(!newValue.matches("[0-9]+")) {
+			    	newValue = newValue.replaceAll("[^0-9]","");
+			    	txtPlotTo.setText(newValue);
+			    }
+				
+			    System.out.println("PlotTo changed from " + oldValue + " to " + newValue);
 			});
 			
 			final Label positionPlot = new Label("Punkte");
@@ -113,36 +124,41 @@ public class TitledPaneObjects {
 			GridPane.setHalignment(lblRotate, HPos.LEFT);
 			grid.add(lblRotate, 0, 7, 3, 1);
 
-			rotateLeft = new Button("90° left");
+			rotateLeft = new Button("90° links");
 			rotateLeft.setMinWidth(70);
 			grid.add(rotateLeft, 0, 8);
 			//Handler
 			rotateLeft.setOnAction((event) -> {
-				System.out.println("Alle");
+				System.out.println("Links");
 			});
 
-			rotateRight = new Button("90° right");
+			rotateRight = new Button("90° rechts");
 			rotateRight.setMinWidth(70);
 			grid.add(rotateRight, 2, 8);
 			//Handler
 			rotateRight.setOnAction((event) -> {
-				System.out.println("Alle");
+				System.out.println("Rechts");
 			});
 
-			minDistanceAT = new CheckBox("Set minimum distance");
+			minDistanceAT = new CheckBox("Minimale Distanz");
 			grid.add(minDistanceAT, 0, 9, 3, 1);
 			//Handler
 			minDistanceAT.setOnAction((event) -> {
-				System.out.println("Alle");
+				System.out.println("Distanz");
 			});
 
-			txtATDistance = new TextField();
-			txtATDistance.setMaxWidth(70);
-			txtATDistance.setPromptText("e.g. 10");
+			txtATDistance = new TextField("10");
+			txtATDistance.setMaxWidth(80);
+			txtATDistance.setPromptText("10");
 			grid.add(txtATDistance, 0, 10);
 			//Handler
 			txtATDistance.textProperty().addListener((observable, oldValue, newValue) -> {
-			    System.out.println("textfield changed from " + oldValue + " to " + newValue);
+			    if(!newValue.matches("[0-9]+")) {
+			    	newValue = newValue.replaceAll("[^0-9]","");
+			    	txtATDistance.setText(newValue);
+			    }
+				
+			    System.out.println("Distance changed from " + oldValue + " to " + newValue);
 			});
 
 			final Label unitDistance = new Label("cm");
@@ -156,36 +172,55 @@ public class TitledPaneObjects {
 		case "Balken-Diagramm": // Pane Bar-Chart
 			final ToggleGroup groupT2 = new ToggleGroup();
 
-			rbShowX = new RadioButton("show x");
+			rbShowX = new RadioButton("x anzeigen");
 			rbShowX.setToggleGroup(groupT2);
 			rbShowX.setSelected(true);
 			grid.add(rbShowX, 0, 0, 3, 1);
 
-			rbShowY = new RadioButton("show y");
+			rbShowX.setOnAction((event) -> {
+				System.out.println("show x BK");
+			});
+			
+			rbShowY = new RadioButton("y anzeigen");
 			rbShowY.setToggleGroup(groupT2);
 			grid.add(rbShowY, 0, 1, 3, 1);
 
-			rbShowZ = new RadioButton("show z");
+			rbShowY.setOnAction((event) -> {
+				System.out.println("show y BK");
+			});
+			
+			rbShowZ = new RadioButton("z anzeigen");
 			rbShowZ.setToggleGroup(groupT2);
 			grid.add(rbShowZ, 0, 2, 3, 1);
 
-			groupT2.selectedToggleProperty().addListener(bPHandler);
-			
-			meanLast = new CheckBox("Calculate mean for last");
+			rbShowZ.setOnAction((event) -> {
+				System.out.println("show z BK");
+			});
+						
+			meanLast = new CheckBox("Durchschnitt für die letzten");
 			grid.add(meanLast, 0, 5, 3, 1);
-			meanLast.selectedProperty().addListener(bPHandler);
+			meanLast.setOnAction((event) -> {
+				System.out.println("Checkbox durchscnitt BK");
+			});
 
-			txtMeanFor = new TextField();
-			txtMeanFor.setMaxWidth(70);
-			txtMeanFor.setPromptText("e.g. 100");
+			txtMeanFor = new TextField("100");
+			txtMeanFor.setMaxWidth(80);
+			txtMeanFor.setPromptText("100");
 			grid.add(txtMeanFor, 0, 6);
 			//Handler
-			txtMeanFor.textProperty().addListener(bPHandler);
+			txtMeanFor.textProperty().addListener((observable, oldValue, newValue) -> {
+			    if(!newValue.matches("[0-9]+")) {
+			    	newValue = newValue.replaceAll("[^0-9]","");
+			    	txtMeanFor.setText(newValue);
+			    }
+				
+			    System.out.println("Durchschnitt " + oldValue + " to " + newValue);
+			});
 
-			final Label positionMean = new Label("positions");
+			final Label positionMean = new Label("Punkte anzeigen");
 			grid.add(positionMean, 1, 6);
 
-			t2.setText("Pane " + paneName + ": Bar-Chart");
+			t2.setText("Pane " + paneName + ": Balken-Diagramm");
 			t2.setId(paneName);
 			t2.setContent(grid);
 
@@ -194,63 +229,94 @@ public class TitledPaneObjects {
 		case "Linien-Diagramm": // Pane Spline
 			final ToggleGroup groupT3 = new ToggleGroup();
 
-			rbShowXSpline = new RadioButton("show x");
+			rbShowXSpline = new RadioButton("x anzeigen");
 			rbShowXSpline.setToggleGroup(groupT3);
 			rbShowXSpline.setSelected(true);
 			grid.add(rbShowXSpline, 0, 0, 3, 1);
+			
+			rbShowXSpline.setOnAction((event) -> {
+				System.out.println("Show x Spline");
+			});
 
-			rbShowYSpline = new RadioButton("show y");
+			rbShowYSpline = new RadioButton("y anzeigen");
 			rbShowYSpline.setToggleGroup(groupT3);
 			grid.add(rbShowYSpline, 0, 1, 3, 1);
 
-			rbShowZSpline = new RadioButton("show z");
+			rbShowYSpline.setOnAction((event) -> {
+				System.out.println("Show y Spline");
+			});
+			
+			rbShowZSpline = new RadioButton("z anzeigen");
 			rbShowZSpline.setToggleGroup(groupT3);
 			grid.add(rbShowZSpline, 0, 2, 3, 1);
 			
-			groupT3.selectedToggleProperty().addListener(cPHandler);
-			
-			trendLast = new CheckBox("Calculate trend for last");
+			rbShowZSpline.setOnAction((event) -> {
+				System.out.println("Show z Spline");
+			});
+					
+			trendLast = new CheckBox("Trend für die letzten");
 			grid.add(trendLast, 0, 5, 3, 1);
-			trendLast.selectedProperty().addListener(cPHandler);
+			trendLast.setOnAction((event) -> {
+				System.out.println("Trend LD");
+			});
 
-			txtTrendFor = new TextField();
-			txtTrendFor.setMaxWidth(70);
-			txtTrendFor.setPromptText("e.g. 100");
+			txtTrendFor = new TextField("100");
+			txtTrendFor.setMaxWidth(80);
+			txtTrendFor.setPromptText("100");
 			grid.add(txtTrendFor, 0, 6);
-			txtTrendFor.textProperty().addListener(cPHandler);
+			txtTrendFor.textProperty().addListener((observable, oldValue, newValue) -> {
+			    if(!newValue.matches("[0-9]+")) {
+			    	newValue = newValue.replaceAll("[^0-9]","");
+			    	txtTrendFor.setText(newValue);
+			    }
+				
+			    System.out.println("Trend " + oldValue + " to " + newValue);
+			});
 			
 
-			final Label positionTrend = new Label("positions");
+			final Label positionTrend = new Label("Punkte anzeigen");
 			grid.add(positionTrend, 1, 6);
 
-			t3.setText("Pane " + paneName + ": Spline");
+			t3.setText("Pane " + paneName + ": Linien-Diagramm");
 			t3.setId(paneName);
 			t3.setContent(grid);
 
 			break;
 
 		case "Parallele Koordinaten": // Pane Parallel lines
-			showXPL = new CheckBox("show x");
+			showXPL = new CheckBox("x anzeigen");
 			showXPL.setSelected(true);
 			grid.add(showXPL, 0, 0);
-			showXPL.selectedProperty().addListener(dPHandler);
+			
+			showXPL.setOnAction((event) -> {
+				System.out.println("Show x PL");
+			});
 
-			showYPL = new CheckBox("show y");
+			showYPL = new CheckBox("y anzeigen");
 			showYPL.setSelected(true);
 			grid.add(showYPL, 0, 1);
-			showYPL.selectedProperty().addListener(dPHandler);
+			
+			showYPL.setOnAction((event) -> {
+				System.out.println("Show y PL");
+			});
 
-			showZPL = new CheckBox("show z");
+			showZPL = new CheckBox("z anzeigen");
 			showZPL.setSelected(true);
 			grid.add(showZPL, 0, 2);
-			showZPL.selectedProperty().addListener(dPHandler);
-
-			showDistancePL = new CheckBox("show distance");
+			
+			showZPL.setOnAction((event) -> {
+				System.out.println("Show z PL");
+			});
+			
+			showDistancePL = new CheckBox("Distanz anzeigen");
 			showDistancePL.setSelected(true);
 			grid.add(showDistancePL, 0, 3);
-			showDistancePL.selectedProperty().addListener(dPHandler);
+			
+			showDistancePL.setOnAction((event) -> {
+				System.out.println("Distant PL");
+			});
 
-			t4.setText("Pane " + paneName + " : Parallel lines");
+			t4.setText("Pane " + paneName + " : Parallele Koordinaten");
 			t4.setId(paneName);
 			t4.setContent(grid);
 			break;
