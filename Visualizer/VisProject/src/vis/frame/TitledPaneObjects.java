@@ -9,6 +9,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import vis.controller.VisController;
 
@@ -19,6 +20,33 @@ public class TitledPaneObjects {
 	private TitledPane t3 = new TitledPane();
 	private TitledPane t4 = new TitledPane();
 
+	private final ToggleGroup groupT1 = new ToggleGroup();
+	private final ToggleGroup groupT2 = new ToggleGroup();
+	private final ToggleGroup groupT3 = new ToggleGroup();
+
+	//Tooltips
+	final Tooltip tooltip = new Tooltip("Alles ausgeben");
+	final Tooltip tooltip1 = new Tooltip("Bestimmten Einzelpunkt/-vektor ausgeben");
+	final Tooltip tooltip2 = new Tooltip("Ausgabe zwischen zwei bestimmten Punkten");
+	final Tooltip tooltip3 = new Tooltip("Wert zwischen 1 und 100000000 eingeben. Buchstaben sind nicht erlaubt");
+	final Tooltip tooltip4 = new Tooltip("Koordinatenkreutz nach rechts rotieren");
+	final Tooltip tooltip5 = new Tooltip("Koordinatenkreutz nach rechts rotieren");
+	final Tooltip tooltip6 = new Tooltip("Minimale Distanz setzen:");
+	final Tooltip tooltip7 = new Tooltip("x anzeigen");
+	final Tooltip tooltip8 = new Tooltip("y anzeigen");
+	final Tooltip tooltip9 = new Tooltip("z anzeigen");
+	final Tooltip tooltip10 = new Tooltip("Durchschnitt der letzten Punkte anzeigen");
+	final Tooltip tooltip11 = new Tooltip("Anzahl der letzten Punkte");
+	final Tooltip tooltip12 = new Tooltip("x anzeigen");
+	final Tooltip tooltip13 = new Tooltip("y anzeigen");
+	final Tooltip tooltip14 = new Tooltip("z anzeigen");
+	final Tooltip tooltip15 = new Tooltip("Trend der letzen Punkte anzeigen");
+	final Tooltip tooltip16 = new Tooltip("Anzahl der letzten Punkte");
+	final Tooltip tooltip17 = new Tooltip("x anzeigen");
+	final Tooltip tooltip18 = new Tooltip("y anzeigen");
+	final Tooltip tooltip19 = new Tooltip("z anzeigen");
+	final Tooltip tooltip20 = new Tooltip("Distanz anzeigen");
+	
 	private RadioButton rbDotVector;
 	private RadioButton rbPlotAll;
 	private RadioButton rbPlotBetween;
@@ -44,7 +72,6 @@ public class TitledPaneObjects {
 	private TextField txtATDistance;
 
 	public void setTitledPane(String paneType, String paneName, MainWindow wnd) {
-
 		GridPane grid = new GridPane();
 		grid.setVgap(4);
 		grid.setPadding(new Insets(5, 5, 5, 5));
@@ -57,40 +84,53 @@ public class TitledPaneObjects {
 		
 		switch (paneType) {
 		case "3D": // Pane 3D
-			final ToggleGroup groupT1 = new ToggleGroup();
 
-			rbDotVector = new RadioButton("Einzelpunkt/-vektor");
-			rbDotVector.setToggleGroup(groupT1);
-			rbDotVector.setSelected(true);
-			grid.add(rbDotVector, 0, 0, 3, 1);
-
-			rbDotVector.setOnAction((event) -> {
-				VisController.einzelpunktVektor();
-			});
-			
 			rbPlotAll = new RadioButton("Plotte alle");
 			rbPlotAll.setToggleGroup(groupT1);
-			grid.add(rbPlotAll, 0, 1, 3, 1);
+			rbPlotAll.setSelected(true);
+			
+			rbPlotAll.setTooltip(tooltip);
+			
+			grid.add(rbPlotAll, 0, 0, 3, 1);
 
 			rbPlotAll.setOnAction((event) -> {
 				VisController.plotAll();
 			});
 			
+			rbDotVector = new RadioButton("Einzelpunkt/-vektor");
+			rbDotVector.setToggleGroup(groupT1);
+			
+			rbDotVector.setTooltip(tooltip1);
+			
+			grid.add(rbDotVector, 0, 1, 3, 1);
+
+			rbDotVector.setOnAction((event) -> {
+				VisController.einzelpunktVektor();
+			});
+			
 			rbPlotBetween = new RadioButton("Plotte");
 			rbPlotBetween.setToggleGroup(groupT1);
+			
+			rbPlotBetween.setTooltip(tooltip2);
+			
 			grid.add(rbPlotBetween, 0, 2, 3, 1);
 			
 			rbPlotBetween.setOnAction((event) -> {
-				VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				if(!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {
+					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				}
 			});
 			
 			Label lblTo = new Label("bis");
 			lblTo.setMinWidth(23);
 			grid.add(lblTo, 1, 3, 3, 1);
 			
-			txtPlotFrom = new TextField("1");
+			txtPlotFrom = new TextField();
 			txtPlotFrom.setMaxWidth(80);
-			txtPlotFrom.setPromptText("1");
+			txtPlotFrom.setPromptText("z. B. 1");
+			
+			txtPlotFrom.setTooltip(tooltip3);
+			
 			grid.add(txtPlotFrom, 0, 3);
 			//Handler
 			txtPlotFrom.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -99,12 +139,17 @@ public class TitledPaneObjects {
 			    	txtPlotFrom.setText(newValue);
 			    }
 			    
-				VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				if(!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {
+					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				}
 			});
 			
-			txtPlotTo = new TextField("100");
+			txtPlotTo = new TextField();
 			txtPlotTo.setMaxWidth(80);
-			txtPlotTo.setPromptText("100");
+			txtPlotTo.setPromptText("z. B. 100");
+			
+			txtPlotTo.setTooltip(tooltip3);
+			
 			grid.add(txtPlotTo, 0, 4);
 			//Handler
 			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -113,7 +158,9 @@ public class TitledPaneObjects {
 			    	txtPlotTo.setText(newValue);
 			    }
 				
-				VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				if(!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {
+					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				}
 			});
 			
 			final Label positionPlot = new Label("Punkte");
@@ -126,6 +173,9 @@ public class TitledPaneObjects {
 
 			rotateLeft = new Button("90° links");
 			rotateLeft.setMinWidth(70);
+			
+			rotateLeft.setTooltip(tooltip4);
+			
 			grid.add(rotateLeft, 0, 8);
 			//Handler
 			rotateLeft.setOnAction((event) -> {
@@ -134,6 +184,9 @@ public class TitledPaneObjects {
 
 			rotateRight = new Button("90° rechts");
 			rotateRight.setMinWidth(70);
+			
+			txtPlotFrom.setTooltip(tooltip5);
+			
 			grid.add(rotateRight, 2, 8);
 			//Handler
 			rotateRight.setOnAction((event) -> {
@@ -141,15 +194,23 @@ public class TitledPaneObjects {
 			});
 
 			minDistanceAT = new CheckBox("Minimale Distanz");
+			
+			minDistanceAT.setTooltip(tooltip6);
+			
 			grid.add(minDistanceAT, 0, 9, 3, 1);
 			//Handler
 			minDistanceAT.setOnAction((event) -> {
-				VisController.setMinimum(this.getTxtATDistance());
+				if(!this.getTxtATDistance().isEmpty()) {
+					VisController.setMinimum(this.getTxtATDistance());
+				}
 			});
 
-			txtATDistance = new TextField("10");
+			txtATDistance = new TextField();
 			txtATDistance.setMaxWidth(80);
-			txtATDistance.setPromptText("10");
+			txtATDistance.setPromptText("z. B. 10");
+			
+			txtATDistance.setTooltip(tooltip6);
+			
 			grid.add(txtATDistance, 0, 10);
 			//Handler
 			txtATDistance.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -157,8 +218,9 @@ public class TitledPaneObjects {
 			    	newValue = newValue.replaceAll("[^0-9]","");
 			    	txtATDistance.setText(newValue);
 			    }
-				
-				VisController.setMinimum(this.getTxtATDistance());
+				if(!this.getTxtATDistance().isEmpty()) {
+					VisController.setMinimum(this.getTxtATDistance());
+				}
 			});
 
 			final Label unitDistance = new Label("cm");
@@ -170,51 +232,83 @@ public class TitledPaneObjects {
 			break;
 
 		case "Balken-Diagramm": // Pane Bar-Chart
-			final ToggleGroup groupT2 = new ToggleGroup();
-
 			rbShowX = new RadioButton("x anzeigen");
 			rbShowX.setToggleGroup(groupT2);
 			rbShowX.setSelected(true);
+			rbShowX.setUserData("x");
+			
+			rbShowX.setTooltip(tooltip7);
+			   
 			grid.add(rbShowX, 0, 0, 3, 1);
 
 			rbShowX.setOnAction((event) -> {
 				VisController.bdShowX();
+				
+				if(this.getMeanLast().isSelected() && !this.getTxtMeanFor().isEmpty()) {
+					VisController.calculateMean(this.getTxtMeanFor(), this.getGroupT2().getSelectedToggle().getUserData().toString());
+				}
 			});
 			
 			rbShowY = new RadioButton("y anzeigen");
 			rbShowY.setToggleGroup(groupT2);
+			rbShowY.setUserData("y");
+			
+			rbShowY.setTooltip(tooltip8);
+			
 			grid.add(rbShowY, 0, 1, 3, 1);
 
 			rbShowY.setOnAction((event) -> {
 				VisController.bdShowY();
+				
+				if(this.getMeanLast().isSelected() && !this.getTxtMeanFor().isEmpty()) {
+					VisController.calculateMean(this.getTxtMeanFor(), this.getGroupT2().getSelectedToggle().getUserData().toString());
+				}
 			});
 			
 			rbShowZ = new RadioButton("z anzeigen");
 			rbShowZ.setToggleGroup(groupT2);
+			rbShowZ.setUserData("z");
+			
+			rbShowZ.setTooltip(tooltip9);
+			
 			grid.add(rbShowZ, 0, 2, 3, 1);
 
 			rbShowZ.setOnAction((event) -> {
 				VisController.bdShowZ();
+				
+				if(this.getMeanLast().isSelected() && !this.getTxtMeanFor().isEmpty()) {
+					VisController.calculateMean(this.getTxtMeanFor(), this.getGroupT2().getSelectedToggle().getUserData().toString());
+				}
 			});
 						
 			meanLast = new CheckBox("Durchschnitt für die letzten");
+			
+			meanLast.setTooltip(tooltip10);
+			   
 			grid.add(meanLast, 0, 5, 3, 1);
 			meanLast.setOnAction((event) -> {
-				VisController.calculateMean(this.getTxtMeanFor());
+				if(!this.getTxtMeanFor().isEmpty()) {
+					VisController.calculateMean(this.getTxtMeanFor(), this.getGroupT2().getSelectedToggle().getUserData().toString());
+				}
 			});
 
-			txtMeanFor = new TextField("100");
+			txtMeanFor = new TextField();
 			txtMeanFor.setMaxWidth(80);
-			txtMeanFor.setPromptText("100");
+			txtMeanFor.setPromptText("z. B. 100");
+			
+			txtMeanFor.setTooltip(tooltip11);
+			
 			grid.add(txtMeanFor, 0, 6);
 			//Handler
 			txtMeanFor.textProperty().addListener((observable, oldValue, newValue) -> {
 			    if(!newValue.matches("[0-9]+")) {
 			    	newValue = newValue.replaceAll("[^0-9]","");
-			    	txtMeanFor.setText(newValue);
+			    	this.setTxtMeanFor(newValue);
+			    } 
+			    
+			    if(!this.getTxtMeanFor().isEmpty()) {
+			    	VisController.calculateMean(this.getTxtMeanFor(), this.getGroupT2().getSelectedToggle().getUserData().toString());
 			    }
-				
-				VisController.calculateMean(this.getTxtMeanFor());
 			});
 
 			final Label positionMean = new Label("Punkte anzeigen");
@@ -227,42 +321,72 @@ public class TitledPaneObjects {
 			break;
 
 		case "Linien-Diagramm": // Pane Spline
-			final ToggleGroup groupT3 = new ToggleGroup();
-
 			rbShowXSpline = new RadioButton("x anzeigen");
 			rbShowXSpline.setToggleGroup(groupT3);
 			rbShowXSpline.setSelected(true);
+			rbShowXSpline.setUserData("x");
+			
+			rbShowXSpline.setTooltip(tooltip12);
+			   
 			grid.add(rbShowXSpline, 0, 0, 3, 1);
 			
 			rbShowXSpline.setOnAction((event) -> {
 				VisController.ldShowX();
+				
+				if(this.getTrendLast().isSelected() && !this.getTxtTrendFor().isEmpty()) {
+					VisController.trend(this.getTxtTrendFor(), this.getGroupT3().getSelectedToggle().getUserData().toString());
+				}
 			});
 
 			rbShowYSpline = new RadioButton("y anzeigen");
 			rbShowYSpline.setToggleGroup(groupT3);
+			rbShowYSpline.setUserData("y");
+			
+			rbShowYSpline.setTooltip(tooltip13);
+			
 			grid.add(rbShowYSpline, 0, 1, 3, 1);
 
 			rbShowYSpline.setOnAction((event) -> {
 				VisController.ldShowY();
+				
+				if(this.getTrendLast().isSelected() && !this.getTxtTrendFor().isEmpty()) {
+					VisController.trend(this.getTxtTrendFor(), this.getGroupT3().getSelectedToggle().getUserData().toString());
+				}
 			});
 			
 			rbShowZSpline = new RadioButton("z anzeigen");
 			rbShowZSpline.setToggleGroup(groupT3);
+			rbShowZSpline.setUserData("z");
+			
+			rbShowZSpline.setTooltip(tooltip14);
+			
 			grid.add(rbShowZSpline, 0, 2, 3, 1);
 			
 			rbShowZSpline.setOnAction((event) -> {
 				VisController.ldShowZ();
+	
+				if(this.getTrendLast().isSelected() && !this.getTxtTrendFor().isEmpty()) {
+					VisController.trend(this.getTxtTrendFor(), this.getGroupT3().getSelectedToggle().getUserData().toString());
+				}
 			});
 					
 			trendLast = new CheckBox("Trend für die letzten");
+			
+			trendLast.setTooltip(tooltip15);
+			
 			grid.add(trendLast, 0, 5, 3, 1);
 			trendLast.setOnAction((event) -> {
-				VisController.trend(this.getTxtTrendFor());
+				if(!this.getTxtTrendFor().isEmpty()) {
+					VisController.trend(this.getTxtTrendFor(), this.getGroupT3().getSelectedToggle().getUserData().toString());
+				}
 			});
 
-			txtTrendFor = new TextField("100");
+			txtTrendFor = new TextField();
 			txtTrendFor.setMaxWidth(80);
 			txtTrendFor.setPromptText("100");
+			
+			txtTrendFor.setTooltip(tooltip16);
+			
 			grid.add(txtTrendFor, 0, 6);
 			txtTrendFor.textProperty().addListener((observable, oldValue, newValue) -> {
 			    if(!newValue.matches("[0-9]+")) {
@@ -270,7 +394,9 @@ public class TitledPaneObjects {
 			    	txtTrendFor.setText(newValue);
 			    }
 				
-				VisController.trend(this.getTxtTrendFor());
+			    if(!this.getTxtTrendFor().isEmpty()) {
+			    	VisController.trend(this.getTxtTrendFor(), this.getGroupT3().getSelectedToggle().getUserData().toString());
+			    }
 			});
 			
 
@@ -286,6 +412,9 @@ public class TitledPaneObjects {
 		case "Parallele Koordinaten": // Pane Parallel lines
 			showXPL = new CheckBox("x anzeigen");
 			showXPL.setSelected(true);
+			
+			showXPL.setTooltip(tooltip17);
+			
 			grid.add(showXPL, 0, 0);
 			
 			showXPL.setOnAction((event) -> {
@@ -294,6 +423,9 @@ public class TitledPaneObjects {
 
 			showYPL = new CheckBox("y anzeigen");
 			showYPL.setSelected(true);
+			
+			showYPL.setTooltip(tooltip18);
+			
 			grid.add(showYPL, 0, 1);
 			
 			showYPL.setOnAction((event) -> {
@@ -302,6 +434,9 @@ public class TitledPaneObjects {
 
 			showZPL = new CheckBox("z anzeigen");
 			showZPL.setSelected(true);
+			
+			showZPL.setTooltip(tooltip19);
+			
 			grid.add(showZPL, 0, 2);
 			
 			showZPL.setOnAction((event) -> {
@@ -310,6 +445,9 @@ public class TitledPaneObjects {
 			
 			showDistancePL = new CheckBox("Distanz anzeigen");
 			showDistancePL.setSelected(true);
+			
+			showDistancePL.setTooltip(tooltip20);
+			
 			grid.add(showDistancePL, 0, 3);
 			
 			showDistancePL.setOnAction((event) -> {
@@ -431,8 +569,8 @@ public class TitledPaneObjects {
 		return txtMeanFor.getText();
 	}
 
-	public  void setTxtMeanFor(TextField txtMeanFor) {
-		this.txtMeanFor = txtMeanFor;
+	public  void setTxtMeanFor(String txtMeanFor) {
+		this.txtMeanFor.setText(txtMeanFor);
 	}
 
 	public  RadioButton getRbShowXSpline() {
@@ -523,4 +661,16 @@ public class TitledPaneObjects {
 		this.txtATDistance = txtATDistance;
 	}
 
+	public ToggleGroup getGroupT1() {
+		return groupT1;
+	}
+
+	public ToggleGroup getGroupT2() {
+		return groupT2;
+	}
+
+	public ToggleGroup getGroupT3() {
+		return groupT3;
+	}
+	
 }
