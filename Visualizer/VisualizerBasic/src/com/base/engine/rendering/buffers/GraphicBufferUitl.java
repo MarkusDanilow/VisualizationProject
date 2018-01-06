@@ -24,7 +24,8 @@ public class GraphicBufferUitl {
 		return ColorUtil.hashCode("" + viewportIndex + "_" + rendererIndex);
 	}
 
-	public static void handleGraphicsData(Object data, IRenderer renderer, int viewportIndex, int rendererIndex, DataType type) {
+	public static void handleGraphicsData(Object data, IRenderer renderer, int viewportIndex, int rendererIndex,
+			DataType type) {
 
 		if (renderer == null || viewportIndex < 0)
 			return;
@@ -51,7 +52,7 @@ public class GraphicBufferUitl {
 			if (viewportIndex == 0)
 				start = System.currentTimeMillis();
 			VBOHandler.handleBufferCreation(renderer.getClass().getSimpleName(), rendererHash, data, type);
-			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash);
+			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash, type);
 			if (viewportIndex == Engine.NUM_VIEWS - 1) {
 				end = System.currentTimeMillis();
 				if (performanceMeasureEnabled) {

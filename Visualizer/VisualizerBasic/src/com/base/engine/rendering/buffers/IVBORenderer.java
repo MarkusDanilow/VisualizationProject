@@ -7,6 +7,6 @@ public interface IVBORenderer {
 
 	void create(int viewportIndex, Object data, DataType type);
 
-	void render(int viewportIndex, Callback callback);
+	void render(int viewportIndex, Callback callback, DataType type);
 
 }

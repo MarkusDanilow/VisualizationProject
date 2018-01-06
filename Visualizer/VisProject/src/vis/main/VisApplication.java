@@ -99,7 +99,7 @@ public class VisApplication implements AppInterface {
 		this.engine = new Engine(VisController.getCanvas(), LOAD_MODELS);
 
 		int numItems = 100;
-		// this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, 65000f)));
+		this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, 65000f)));
 
 	}
 

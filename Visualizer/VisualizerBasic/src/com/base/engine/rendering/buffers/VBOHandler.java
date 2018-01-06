@@ -1,7 +1,37 @@
 package com.base.engine.rendering.buffers;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_POINTS;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glColorPointer;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glLineWidth;
+import static org.lwjgl.opengl.GL11.glPointSize;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glVertex3f;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
+import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
+import static org.lwjgl.opengl.GL15.glBindBuffer;
+import static org.lwjgl.opengl.GL15.glBufferData;
+import static org.lwjgl.opengl.GL15.glGenBuffers;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +43,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.crypto.Data;
 
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -242,14 +270,14 @@ public class VBOHandler {
 	 * 
 	 * @param viewportIndex
 	 */
-	public static void renderBuffer(String rendererClassName, int viewportIndex) {
+	public static void renderBuffer(String rendererClassName, int viewportIndex, DataType type) {
 		if (internalRenderers.containsKey(rendererClassName)) {
 			int i = 0;
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
 				Callback callback = null;
 				if (internalCallbacks.get(rendererClassName).size() > i)
 					callback = internalCallbacks.get(rendererClassName).get(i);
-				renderer.render(viewportIndex + renderer.hashCode(), callback);
+				renderer.render(viewportIndex + renderer.hashCode(), callback, type);
 				i++;
 			}
 		}
@@ -328,12 +356,15 @@ public class VBOHandler {
 				// vertex.getY() });
 
 				// use this for GPS position
-				buffers[0].put(new float[] { vertex.getLat(), vertex.getY(), vertex.getLng() });
+				buffers[0].put(new float[] { vertex.getLat(), vertex.getZ(), vertex.getLng() });
 
-				float[] color = PointCloudRenderer.calcVertexColor(vertex.getX(), vertex.getY(), vertex.getZ(),
+				float[] color = PointCloudRenderer.calcVertexColor(vertex.getLat(), vertex.getZ(), vertex.getLng(),
 						vertex.getTime(), maxTime);
 				buffers[1].put(new float[] { color[0], color[1], color[2], color[3] });
 			}
+
+			DataElement lastVertex = points.get(points.size() - 1);
+			World.movePlayer(lastVertex.getLat(), lastVertex.getZ(), lastVertex.getLng());
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 
@@ -344,7 +375,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback) {
+		public void render(int viewportIndex, Callback callback, DataType type) {
 			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
@@ -383,7 +414,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback) {
+		public void render(int viewportIndex, Callback callback, DataType type) {
 			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
@@ -458,7 +489,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback) {
+		public void render(int viewportIndex, Callback callback, DataType type) {
 			glLineWidth(1);
 			masterRenderMethod(viewportIndex, 3, 4, GL_LINES, callback);
 
@@ -524,7 +555,7 @@ public class VBOHandler {
 			this.propertyOnYAxes = type;
 		}
 
-		protected void renderAxes() {
+		protected void renderAxes(DataType type) {
 
 			glLineWidth(1f);
 
@@ -591,7 +622,7 @@ public class VBOHandler {
 			glDisable(GL_TEXTURE_2D);
 
 			NewFontManager.prepare();
-			NewFontManager.renderText(-460, -460, 16, 2, this.propertyOnYAxes.name);
+			NewFontManager.renderText(-460, -460, 16, 2, type.name);
 			NewFontManager.renderText(440, 450, 16, 2, "t");
 			NewFontManager.close();
 			RenderUtil.switch2D(-1, -1, 1, 1);
@@ -726,12 +757,12 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback) {
+		public void render(int viewportIndex, Callback callback, DataType type) {
 			if (this.enabled) {
 				glDisable(GL_BLEND);
 				masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
 				glEnable(GL_BLEND);
-				this.renderAxes();
+				this.renderAxes(type);
 			}
 		}
 
@@ -798,7 +829,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback) {
+		public void render(int viewportIndex, Callback callback, DataType type) {
 			if (this.enabled) {
 				glLineWidth(1.5f);
 				glPointSize(8);
@@ -810,13 +841,12 @@ public class VBOHandler {
 					glBegin(GL_POINTS);
 					for (int i = 0; i < numItems; i++) {
 						DataElement e = inputData.get(i);
-						glVertex2f(this.calcPosX(i),
-								this.calcValue_yAxes(DataType.getValueByType(propertyOnYAxes, inputData.get(i))));
+						glVertex2f(this.calcPosX(i), this.calcValue_yAxes(DataType.getValueByType(propertyOnYAxes, e)));
 					}
 					glEnd();
 				}
 
-				this.renderAxes();
+				this.renderAxes(type);
 			}
 		}
 
@@ -844,10 +874,11 @@ public class VBOHandler {
 			DataElement biggestX = this.getBiggest(inputData, DataType.X);
 			DataElement biggestY = this.getBiggest(inputData, DataType.Y);
 			DataElement biggestZ = this.getBiggest(inputData, DataType.Z);
+			DataElement biggestDist = this.getBiggest(inputData, DataType.DIST);
 
 			this.numItems = inputData.size();
 
-			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 4, 2, 4);
+			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 6, 2, 4);
 
 			float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
 
@@ -867,11 +898,16 @@ public class VBOHandler {
 				// y coordinate
 				this.setBiggestY(biggestY.getY());
 				y = this.calcValue_yAxes(e.getY());
-				buffers[0].put(new float[] { 0, y, 0, y });
+				buffers[0].put(new float[] { -0.3f, y, -0.3f, y });
 
 				// z coordinate
 				this.setBiggestY(biggestZ.getZ());
 				y = this.calcValue_yAxes(e.getZ());
+				buffers[0].put(new float[] { -0.3f, y, -0.3f, y });
+
+				// distance
+				this.setBiggestY(biggestDist.getDistance());
+				y = this.calcValue_yAxes(e.getDistance());
 				buffers[0].put(new float[] { xMax, y });
 
 				buffers[1].put(color);
@@ -885,23 +921,24 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback) {
+		public void render(int viewportIndex, Callback callback, DataType type) {
 			if (this.enabled) {
 				glLineWidth(1);
 				masterRenderMethod(viewportIndex, 2, 4, GL_LINES, callback);
 				this.setAxesStrength();
 				this.setAxesColor();
 				glBegin(GL_LINES);
-				for (int i = -1; i < 2; i++) {
-					glVertex2f(i * xMax, yMax);
-					glVertex2f(i * xMax, yMin);
+				for (int i = 0; i < 4; i++) {
+					glVertex2f(i * 0.6f - xMax, yMax);
+					glVertex2f(i * 0.6f - xMax, yMin);
 				}
 				glEnd();
 
 				NewFontManager.prepare();
 				NewFontManager.renderText(-460, 460, 16, 2, "x");
-				NewFontManager.renderText(0, 460, 16, 2, "y");
-				NewFontManager.renderText(460, 460, 16, 2, "z");
+				NewFontManager.renderText(-154, 460, 16, 2, "y");
+				NewFontManager.renderText(154, 460, 16, 2, "z");
+				NewFontManager.renderText(445, 460, 16, 2, "dist");
 				NewFontManager.close();
 				RenderUtil.switch2D(-1, -1, 1, 1);
 			}

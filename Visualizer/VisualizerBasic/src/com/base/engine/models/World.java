@@ -46,6 +46,14 @@ public class World {
 	public static void removeModel(String identifier) {
 		models.removeModel(identifier);
 	}
+	
+	public static Model getModelByName(String name) {
+		return models.getModels().get(name);
+	}
+	
+	public static void movePlayer(float x, float y, float z){
+		getModelByName("player").setPosition(new Vector3f(x, y, z));
+	}
 
 	public static boolean modelExists(String identifier) {
 		return DataInspector.notNull(models.get(identifier));
