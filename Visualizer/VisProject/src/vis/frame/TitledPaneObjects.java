@@ -199,38 +199,38 @@ public class TitledPaneObjects {
 				VisController.rotateRight();
 			});
 
-			minDistanceAT = new CheckBox("Minimale Distanz");
-			
-			minDistanceAT.setTooltip(tooltip6);
-			
-			grid.add(minDistanceAT, 0, 9, 3, 1);
-			//Handler
-			minDistanceAT.setOnAction((event) -> {
-				if(!this.getTxtATDistance().isEmpty()) {
-					VisController.setMinimum(this.getTxtATDistance());
-				}
-			});
-
-			txtATDistance = new TextField();
-			txtATDistance.setMaxWidth(80);
-			txtATDistance.setPromptText("z. B. 10");
-			
-			txtATDistance.setTooltip(tooltip6);
-			
-			grid.add(txtATDistance, 0, 10);
-			//Handler
-			txtATDistance.textProperty().addListener((observable, oldValue, newValue) -> {
-			    if(!newValue.matches("[0-9]+")) {
-			    	newValue = newValue.replaceAll("[^0-9]","");
-			    	txtATDistance.setText(newValue);
-			    }
-				if(!this.getTxtATDistance().isEmpty()) {
-					VisController.setMinimum(this.getTxtATDistance());
-				}
-			});
-
-			final Label unitDistance = new Label("cm");
-			grid.add(unitDistance, 1, 10);
+//			minDistanceAT = new CheckBox("Minimale Distanz");
+//			
+//			minDistanceAT.setTooltip(tooltip6);
+//			
+//			grid.add(minDistanceAT, 0, 9, 3, 1);
+//			//Handler
+//			minDistanceAT.setOnAction((event) -> {
+//				if(!this.getTxtATDistance().isEmpty()) {
+//					VisController.setMinimum(this.getTxtATDistance());
+//				}
+//			});
+//
+//			txtATDistance = new TextField();
+//			txtATDistance.setMaxWidth(80);
+//			txtATDistance.setPromptText("z. B. 10");
+//			
+//			txtATDistance.setTooltip(tooltip6);
+//			
+//			grid.add(txtATDistance, 0, 10);
+//			//Handler
+//			txtATDistance.textProperty().addListener((observable, oldValue, newValue) -> {
+//			    if(!newValue.matches("[0-9]+")) {
+//			    	newValue = newValue.replaceAll("[^0-9]","");
+//			    	txtATDistance.setText(newValue);
+//			    }
+//				if(!this.getTxtATDistance().isEmpty()) {
+//					VisController.setMinimum(this.getTxtATDistance());
+//				}
+//			});
+//
+//			final Label unitDistance = new Label("cm");
+//			grid.add(unitDistance, 1, 10);
 
 			t1.setText("Pane " + paneName + ": 3D");
 			t1.setId(paneName);

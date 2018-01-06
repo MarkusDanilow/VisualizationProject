@@ -69,8 +69,6 @@ public class LeftFXPanel {
 		final Label visTech = new Label("Visualisierungstechniken");
 		visTech.setId("headline");
 		gridVis.add(visTech, 0, 0, 2, 1);
-		
-
 
 		ObservableList<String> optionsPane = FXCollections.observableArrayList(Settings.get3DView(),
 				Settings.getBarChartView(), Settings.getLineChartView(), Settings.getParallelCoordinatesView());
@@ -78,17 +76,14 @@ public class LeftFXPanel {
 		final Label paneA = new Label("Pane A:");
 		gridVis.add(paneA, 0, 1);
 		
-
 		cbPaneA = new ComboBox<String>(optionsPane);
 		cbPaneA.setValue(optionsPane.get(0));
 		cbPaneA.valueProperty().addListener(new FXChangeView0(wnd));
 		gridVis.add(cbPaneA, 1, 1);
 		
-
 		final Label paneB = new Label("Pane B:");
 		gridVis.add(paneB, 0, 2);
 		
-
 		cbPaneB = new ComboBox<String>(optionsPane);
 		cbPaneB.setValue(optionsPane.get(1));
 		cbPaneB.valueProperty().addListener(new FXChangeView2(wnd));
@@ -98,7 +93,6 @@ public class LeftFXPanel {
 		final Label paneC = new Label("Pane C:");
 		gridVis.add(paneC, 0, 3);
 		
-
 		cbPaneC = new ComboBox<String>(optionsPane);
 		cbPaneC.setValue(optionsPane.get(2));
 		cbPaneC.valueProperty().addListener(new FXChangeView1(wnd));
@@ -108,7 +102,6 @@ public class LeftFXPanel {
 		final Label paneD = new Label("Pane D:");
 		gridVis.add(paneD, 0, 4);
 		
-
 		cbPaneD = new ComboBox<String>(optionsPane);
 		cbPaneD.setValue(optionsPane.get(3));
 		cbPaneD.valueProperty().addListener(new FXChangeView3(wnd));
@@ -128,7 +121,6 @@ public class LeftFXPanel {
 		lblCommon.setId("headline");
 		gridCommon.add(lblCommon, 0, 0, 2, 1);
 
-
 		final ToggleGroup groupT1 = new ToggleGroup();
 		
 		rbFreeze = new RadioButton("Freeze-Ansicht");
@@ -140,10 +132,6 @@ public class LeftFXPanel {
 		rbLive.setToggleGroup(groupT1);
 
 		gridCommon.add(rbLive, 0, 2);
-		
-
-
-		
 
 		invertBackground = new Button("Farben invertieren");
 		invertBackground.setMinWidth(70);
