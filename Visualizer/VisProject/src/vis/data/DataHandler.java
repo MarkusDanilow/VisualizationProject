@@ -132,12 +132,10 @@ public class DataHandler {
 	 * 
 	 * @return
 	 */
-	public static Map<Float, DataElement> loadDataFromRemoteAPI() {
-
-		int dataSetSize = 10000;
+	public static Map<Float, DataElement> loadDataFromRemoteAPI(int dataSetSize, boolean append) {
 
 		DataElement.scale = Settings.getAxisScale();
-		
+
 		long start = System.currentTimeMillis();
 
 		boolean useClustering = NUM_CLUSTERS > -1;
@@ -188,9 +186,9 @@ public class DataHandler {
 								value += parsedKeyValues[i];
 							}
 
-							if(value == null || value.length() <= 0)
+							if (value == null || value.length() <= 0)
 								continue;
-							
+
 							if (key.equals("id")) {
 								id = Integer.parseInt(value);
 							} else if (key.equals("t")) {
@@ -232,6 +230,12 @@ public class DataHandler {
 		if (useClustering) {
 			currentClusters = kmeans.getPointsClusters();
 		}
+
+		if (append) {
+			Map<Float, DataElement> target = currentBuffer.getData();
+			target.forEach(elements::putIfAbsent);
+		}
+
 		currentBuffer = new DataBuffer();
 		currentBuffer.setData(elements);
 

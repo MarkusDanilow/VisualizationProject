@@ -32,7 +32,15 @@ public class VisController {
 		window = new AtomicReference<>();
 		window.set(new MainWindow(visApp, Settings.getApplicationTitle(), Settings.getDisplayWidth(),
 				Settings.getDisplayHeight()));
+	}
 
+	public static void toggleLiveMode(boolean live) {
+		if (live) {
+			application.startLiveView();
+		} else {
+			application.stopLiveView();
+		}
+		System.out.println("live view enabled " + live);
 	}
 
 	public static void changeAccordion(String paneType, String paneName, MainWindow wnd) {

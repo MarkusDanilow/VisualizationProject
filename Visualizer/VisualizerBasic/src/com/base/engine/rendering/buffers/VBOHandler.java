@@ -366,7 +366,7 @@ public class VBOHandler {
 			}
 
 			DataElement lastVertex = points.get(points.size() - 1);
-			World.movePlayer(lastVertex.getLat(), lastVertex.getZ(), lastVertex.getLng());
+			World.movePlayer(lastVertex.getLat()- scale, lastVertex.getZ(), lastVertex.getLng()- scale);
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 

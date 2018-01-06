@@ -50,12 +50,9 @@ public class PointCloudRenderer extends ARenderer {
 	}
 
 	public static float[] calcVertexColor(float x, float y, float z, float time, float maxTime) {
-		// float timeStep = 1.0f / maxTime;
-		// float c = time * timeStep;
-		// return new float[] { c, 1.0f - c, 0, 1f };
-		// return new float[] { 0, 1f - c, c, 1 };
+		// color goes from yellow (oldest values) to dark orange (newest values)
 		float value = (0.99f / maxTime) * time;
-		return new float[] { 1, value, 1- value, 0.5f + value / 2f };
+		return new float[] { 1, 1 - ((value / 3f) * 2), 0, 0.5f + value / 2f };
 	}
 
 	@Override

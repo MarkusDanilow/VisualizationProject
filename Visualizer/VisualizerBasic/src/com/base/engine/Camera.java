@@ -39,7 +39,6 @@ public class Camera {
 
 	public void yaw(float val) {
 		val *= MOUSE_SENSITIVITY;
-		System.out.println("yawing by " + val);
 		this.yaw += val;
 	}
 

@@ -3,7 +3,6 @@ package vis.main;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +22,7 @@ import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 import vis.controller.VisController;
 import vis.data.DataHandler;
+import vis.data.RealTimeThread;
 import vis.frame.LookAndFeel;
 import vis.interfaces.AppInterface;
 import vis.statistics.Statistic;
@@ -90,6 +90,8 @@ public class VisApplication implements AppInterface {
 	 */
 	protected EngineInterfaces engine;
 
+	private RealTimeThread realtimeThread;
+
 	/**
 	 * 
 	 * @throws LWJGLException
@@ -119,10 +121,10 @@ public class VisApplication implements AppInterface {
 	 */
 	@Override
 	public void loadDataFromRemotAPI() {
-		this.handleLoadedData(DataHandler.loadDataFromRemoteAPI());
+		this.handleLoadedData(DataHandler.loadDataFromRemoteAPI(10000, false));
 	}
 
-	private void handleLoadedData(final Map<Float, DataElement> data) {
+	public void handleLoadedData(final Map<Float, DataElement> data) {
 		DataElement[] bounds = DataHandler.getDataBounds(data);
 		VisController.getWindow().toggleTimeline(true, (int) bounds[0].getTime(), (int) bounds[1].getTime(),
 				(int) bounds[1].getTime());
@@ -205,6 +207,15 @@ public class VisApplication implements AppInterface {
 
 	public void rotateView(int viewportIndex, int angle) {
 		this.engine.rotateView(viewportIndex, angle);
+	}
+
+	public void startLiveView() {
+		this.realtimeThread = new RealTimeThread(this);
+		realtimeThread.start();
+	}
+
+	public void stopLiveView() {
+		realtimeThread.stopThread();
 	}
 
 }

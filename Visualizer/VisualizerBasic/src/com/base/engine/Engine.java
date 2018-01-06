@@ -383,8 +383,9 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			}
 
 			this.scaleFactors[i] = 0.25f;
-			this.cameras[i] = new Camera(new Vector3f(591, -985, 532));
-			this.cameras[i].setPitch(23);
+			this.cameras[i] = new Camera(
+					new Vector3f(591 + ViewportRenderer.scale / 7, -4085, 532 + ViewportRenderer.scale / 7));
+			this.cameras[i].setPitch(30);
 			this.cameras[i].setYaw(130);
 
 			Arrays.fill(this.selectedDataTypes[i], null);
