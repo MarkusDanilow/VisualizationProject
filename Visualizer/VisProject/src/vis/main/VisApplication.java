@@ -13,6 +13,7 @@ import org.lwjgl.LWJGLException;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.Range;
+import com.base.common.resources.StatisticObject;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
 import com.base.engine.Settings;
@@ -181,6 +182,21 @@ public class VisApplication implements AppInterface {
 	public void setDataType(int viewportIndex, DataType type){
 		this.engine.setDataType(viewportIndex, type);
 		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+	
+	public void setStatisticObject (int viewportIndex, StatisticObject type) {
+		this.engine.setStatisticObject(viewportIndex, type);
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+
+	public void setPointCloudData(int viewportIndex, Map<Float, DataElement> partMap) {
+		//TODO: PointCloud den jeweiligenPanes zuordnen, damit mehrere 3D Ansichten generiert werden können.
+		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partMap));
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+
+	public void rotateView(int viewportIndex, int i) {
+		this.engine.rotateView(viewportIndex, i);
 	}
 	
 }
