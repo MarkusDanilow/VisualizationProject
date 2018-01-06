@@ -319,7 +319,14 @@ public class VBOHandler {
 
 			float maxTime = PointCloudRenderer.getMaxTimeFromData(points);
 			for (DataElement vertex : points) {
-				buffers[0].put(new float[] { vertex.getX(), vertex.getZ(), vertex.getY() });
+
+				// use this for x,y,z rotation
+				// buffers[0].put(new float[] { vertex.getX(), vertex.getZ(),
+				// vertex.getY() });
+
+				// use this for GPS position
+				buffers[0].put(new float[] { vertex.getLat(), vertex.getY(), vertex.getLng() });
+
 				float[] color = PointCloudRenderer.calcVertexColor(vertex.getX(), vertex.getY(), vertex.getZ(),
 						vertex.getTime(), maxTime);
 				buffers[1].put(new float[] { color[0], color[1], color[2], color[3] });
@@ -388,15 +395,14 @@ public class VBOHandler {
 	private static class VBOGridRenderer implements IVBORenderer {
 
 		private int campusTexture = 0;
-		int maxX = 65532;
-		int maxY = 65532;
+		int maxX = Settings.getAxisScale();
+		int maxY = Settings.getAxisScale();
 		int gridSizeX = 1000;
 		int gridSizeY = 1000;
 
 		public VBOGridRenderer() {
 			try {
-				campusTexture = TextureLoader
-						.getTexture("png", new FileInputStream(new File("res/textures/map.png")))
+				campusTexture = TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/map.png")))
 						.getTextureID();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -453,12 +459,12 @@ public class VBOHandler {
 			glLineWidth(1);
 			masterRenderMethod(viewportIndex, 3, 4, GL_LINES, callback);
 
-			//glDisable(GL_BLEND);
+			// glDisable(GL_BLEND);
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, campusTexture);
 
-			glColor4f(1,1,1,0.5f);
-			
+			glColor4f(1, 1, 1, 0.5f);
+
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
 			glVertex3f(0, 0, 0);
@@ -469,7 +475,7 @@ public class VBOHandler {
 			glTexCoord2f(0, 1);
 			glVertex3f(0, 0, maxY);
 			glEnd();
-			//glEnable(GL_BLEND);
+			// glEnable(GL_BLEND);
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glDisable(GL_TEXTURE_2D);

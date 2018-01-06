@@ -34,6 +34,7 @@ public class GUI {
 	private JTextField txtStateHeader;
 	private JLabel txtPWInput;
 	private JLabel api;
+	private JLabel gps;
 
 	public GUI(String frameTitle) {
 		this.setFrame(frameTitle);
@@ -83,6 +84,7 @@ public class GUI {
 		this.paneContrainer.add(paneLeftMiddle);
 		// *********************************LAYOUT***************************************************************
 		paneFooterLeft = new JLayeredPane();
+		paneFooterLeft.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		paneFooterLeft.setBounds(10, 509, 734, 20);
 		paneFooterLeft.setVisible(true);
 		this.paneContrainer.add(paneFooterLeft);
@@ -98,15 +100,15 @@ public class GUI {
 		this.paneContrainer.add(paneFooterRight);
 		// *********************************LAYOUT***************************************************************
 		paneLeftDown = new JLayeredPane();
-		paneLeftDown.setBounds(10, 371, 452, 127);
+		paneLeftDown.setBounds(10, 371, 900, 127);
 		paneLeftDown.setLayout(new BorderLayout(0, 0));
 		paneLeftDown.setVisible(true);
 		this.paneContrainer.add(paneLeftDown);
 		// *********************************LAYOUT***************************************************************
-		paneRightDown = new JLayeredPane();
-		paneRightDown.setBounds(472, 371, 492, 127);
-		paneRightDown.setVisible(true);
-		this.paneContrainer.add(paneRightDown);
+		//paneRightDown = new JLayeredPane();
+		//paneRightDown.setBounds(472, 371, 492, 127);
+		//paneRightDown.setVisible(true);
+		//this.paneContrainer.add(paneRightDown);
 		// *********************************LAYOUT***************************************************************
 		paneRightUp = new JLayeredPane();
 		paneRightUp.setBounds(940, 11, 24, 26);
@@ -117,11 +119,13 @@ public class GUI {
 	private void setContent() {
 		txtPWInput = new JLabel("DEBUG-MSG");
 		txtPWInput.setBounds(5, 5, 500, 20);
+		txtPWInput.setFont(new Font("Arial", Font.BOLD, 20));
 		this.paneTop.add(txtPWInput);
 
 		disLabel = new JLabel();
 		disLabel.setText("Initilize tsh...");
 		disLabel.setBounds(5, 5, 200, 20);
+		disLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		this.paneLeftMiddle.add(disLabel);
 
 		txtStateHeader = new JTextField();
@@ -129,12 +133,19 @@ public class GUI {
 		txtStateHeader.setText("State: fine");
 		txtStateHeader.setBounds(0, 0, 100, 20);
 		txtStateHeader.setColumns(10);
+
 		this.paneFooterRight.add(txtStateHeader);
 
 		api = new JLabel("api-msg");
 		api.setBounds(5, 5, 700, 20);
 		api.setFont(new Font("Arial", Font.BOLD, 10));
 		this.paneFooterLeft.add(api);
+		
+		gps = new JLabel();
+		gps.setText("GPS DATA...");
+		gps.setBounds(5, 5, 200, 20);
+		gps.setFont(new Font("Arial", Font.BOLD, 20));
+		this.paneLeftDown.add(gps);
 
 	}
 
@@ -152,6 +163,10 @@ public class GUI {
 
 	public void setApi(String msg) {
 		this.api.setText(msg);
+	}
+	
+	public void setGps(String msg) {
+		this.gps.setText(msg);
 	}
 
 }

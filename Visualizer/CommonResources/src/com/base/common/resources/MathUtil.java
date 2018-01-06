@@ -103,6 +103,10 @@ public class MathUtil {
 		}
 		return r;
 	}
+	
+	public static float mapWithoutPrecision(float value, float min1, float max1, float min2, float max2) {
+		return ((value - min1) * (max2 - min2)) / (max1 - min1) + min2;
+	}
 
 
 	public static boolean isPowerOfTwo(int n) {

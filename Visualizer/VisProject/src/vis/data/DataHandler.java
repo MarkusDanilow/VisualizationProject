@@ -19,6 +19,7 @@ import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.KMeans;
 import com.base.common.resources.Range;
+import com.base.engine.Settings;
 
 public class DataHandler {
 
@@ -114,6 +115,7 @@ public class DataHandler {
 						elements.put(time, element);
 						if (useClustering)
 							kmeans.addPoint(element.getPoint());
+
 					}
 				}
 			}
@@ -134,6 +136,8 @@ public class DataHandler {
 
 		int dataSetSize = 10000;
 
+		DataElement.scale = Settings.getAxisScale();
+		
 		long start = System.currentTimeMillis();
 
 		boolean useClustering = NUM_CLUSTERS > -1;
@@ -170,7 +174,9 @@ public class DataHandler {
 					String[] parts = json.split("\\},\\{");
 					for (String partialJson : parts) {
 
-						float x = 0, y = 0, z = 0, time = 0;
+						float x = 0, y = 0, z = 0, lat = 0, lng = 0, distance = 0;
+						float id = 0;
+						String time;
 
 						// parse attributes
 						String[] keyValuePairs = partialJson.split(",");
@@ -182,21 +188,32 @@ public class DataHandler {
 								value += parsedKeyValues[i];
 							}
 
+							if(value == null || value.length() <= 0)
+								continue;
+							
 							if (key.equals("id")) {
-								time = Float.parseFloat(value);
+								id = Integer.parseInt(value);
+							} else if (key.equals("t")) {
+								time = value;
 							} else if (key.equals("xPos")) {
 								x = Float.parseFloat(value);
 							} else if (key.equals("yPos")) {
 								z = Float.parseFloat(value);
 							} else if (key.equals("zPos")) {
 								y = Float.parseFloat(value);
+							} else if (key.equals("gpsLatitude")) {
+								lat = Float.parseFloat(value);
+							} else if (key.equals("gpsLongitude")) {
+								lng = Float.parseFloat(value);
+							} else if (key.equals("distance")) {
+								distance = Float.parseFloat(value);
 							}
 
 						}
 
 						// create new data element
-						DataElement e = new DataElement(x, y, z, time);
-						elements.put(time, e);
+						DataElement e = new DataElement(x, y, z, id, lat, lng, distance);
+						elements.put(id, e);
 						if (useClustering)
 							kmeans.addPoint(e.getPoint());
 
@@ -220,7 +237,8 @@ public class DataHandler {
 
 		long end = System.currentTimeMillis();
 
-		System.out.println("Time for loading and parsing " + elements.size() + " data elements: " + (end - start) + "ms");
+		System.out
+				.println("Time for loading and parsing " + elements.size() + " data elements: " + (end - start) + "ms");
 
 		return elements;
 	}
@@ -299,7 +317,7 @@ public class DataHandler {
 			float x = r.nextFloat() * (max - min) + min;
 			float y = r.nextFloat() * (max - min) + min;
 			float z = r.nextFloat() * (max - min) + min;
-			z = 0 ; 
+			z = 0;
 			DataElement vertex = new DataElement(x, y, z, i);
 			elements.put((float) i, vertex);
 			kmeans.addPoint(vertex.getPoint());

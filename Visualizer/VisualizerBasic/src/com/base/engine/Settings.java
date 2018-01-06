@@ -177,4 +177,9 @@ public final class Settings {
 	public static String getParallelCoordinatesView() {
 		return getViewByName("ParallelCoordinates");
 	}
+
+	public static int getAxisScale() {
+		return Integer.parseInt(getRendererSection().get("axisScale"));
+	}
+
 }

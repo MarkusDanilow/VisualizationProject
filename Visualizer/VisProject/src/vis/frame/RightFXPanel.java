@@ -23,10 +23,10 @@ public class RightFXPanel {
 	private TitledPane t4;
 	private Accordion accordion;
 	private JFXPanel rightSidebarPanelFX;
-	
+	private TitledPaneObjects pane;
 	
 //	TODO: Eingabefelder TextFields nur auf Zahlen beschränken durch Validierung
-	public JPanel getPanel (int rightSidebarWidth, int height) {
+	public JPanel getPanel (int rightSidebarWidth, int height, MainWindow wnd) {
 		
 		JPanel rightSidebarPanel = new JPanel();
 		rightSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
@@ -38,22 +38,22 @@ public class RightFXPanel {
 		rightSidebarPanel.setPreferredSize(new Dimension(rightSidebarWidth, height));
 		rightSidebarPanel.setVisible(true);
 
-		new TitledPaneObjects();
+		pane = new TitledPaneObjects();
 		//Pane A
-		TitledPaneObjects.setTitledPane(1, "A");
-		t1 = TitledPaneObjects.getT1();
+		pane.setTitledPane(Settings.get3DView(), "A", wnd);
+		t1 = pane.getT1();
 				
         //Pane B
-		TitledPaneObjects.setTitledPane(2, "B");
-		t2 = TitledPaneObjects.getT2();
+		pane.setTitledPane(Settings.getBarChartView(), "B", wnd);
+		t2 = pane.getT2();
 				
 		//Pane C
-		TitledPaneObjects.setTitledPane(3, "C");
-		t3 = TitledPaneObjects.getT3();
+		pane.setTitledPane(Settings.getLineChartView(), "C", wnd);
+		t3 = pane.getT3();
 		
 		//Pane D
-		TitledPaneObjects.setTitledPane(4, "D");
-		t4 = TitledPaneObjects.getT4();
+		pane.setTitledPane(Settings.getParallelCoordinatesView(), "D", wnd);
+		t4 = pane.getT4();
 
 		accordion = new Accordion();
 		accordion.getPanes().addAll(t1, t2, t3, t4);
@@ -81,37 +81,60 @@ public class RightFXPanel {
 
 	}
 	
-	public void changeAccordion(int paneType, String paneName) {
-		TitledPane tmp;
-		//Get new TitledPane and set it in the Accordion
-		TitledPaneObjects.setTitledPane(paneType, paneName);
-		switch(paneType) {
-		case 1:
-			tmp = TitledPaneObjects.getT1();
-			this.accordion.getPanes().remove(0);
-			this.accordion.getPanes().add(tmp);
-			break;
-		
-		case 2:
-			tmp = TitledPaneObjects.getT2();
-			this.accordion.getPanes().remove(1);
-			this.accordion.getPanes().add(paneType, tmp);
-			break;
-			
-		case 3:
-			tmp = TitledPaneObjects.getT3();
-			this.accordion.getPanes().remove(2);
-			this.accordion.getPanes().add(paneType, tmp);
-			break;
-			
-		case 4:
-			tmp = TitledPaneObjects.getT4();
-			this.accordion.getPanes().remove(3);
-			this.accordion.getPanes().add(paneType, tmp);
-			break;
-		}
-		
+	public TitledPane getActiveAccordion() {
+		return this.accordion.getExpandedPane();
 	}
 	
+	public void changeAccordion(String paneType, String paneName, MainWindow wnd) {
+		TitledPane tmp = null;
+		//Get new TitledPane and set it in the Accordion
+		pane = new TitledPaneObjects();
+		pane.setTitledPane(paneType, paneName, wnd);
+		
+		switch(paneType) {
+		case "3D":
+			tmp = pane.getT1();
+			System.out.println(tmp);
+			break;
+			
+		case "Balken-Diagramm":
+			tmp = pane.getT2();
+			System.out.println(tmp);
+			break;
+			
+		case "Linien-Diagramm":
+			tmp = pane.getT3();
+			System.out.println(tmp);
+			break;
+			
+		case "Parallele Koordinaten":
+			tmp = pane.getT4();
+			System.out.println(tmp);
+			break;
+		
+		}
+		
+		switch(paneName) {
+		case "A":
+			this.accordion.getPanes().remove(0);
+			this.accordion.getPanes().add(0, tmp);
+			break;
+		
+		case "B":
+			this.accordion.getPanes().remove(1);
+			this.accordion.getPanes().add(1, tmp);
+			break;
+			
+		case "C":
+			this.accordion.getPanes().remove(2);
+			this.accordion.getPanes().add(2, tmp);
+			break;
+			
+		case "D":
+			this.accordion.getPanes().remove(3);
+			this.accordion.getPanes().add(3, tmp);
+			break;
+		}	
+	}
 	
 }

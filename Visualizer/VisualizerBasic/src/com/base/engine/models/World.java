@@ -1,11 +1,7 @@
 package com.base.engine.models;
 
-import static org.lwjgl.opengl.GL11.glColor4f;
-
-import org.lwjgl.util.Color;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.base.common.VectorHelper;
 import com.base.common.resources.DataInspector;
 import com.base.engine.RenderUtil;
 
@@ -32,7 +28,6 @@ public class World {
 	public static void addModelFromBlueprints(String blueprintIdentifer, String modelIdentifier, Vector3f position,
 			Vector3f rotation, Vector3f scale) {
 		if (blueprintExists(blueprintIdentifer)) {
-			System.out.println("blueprint found: " + blueprintIdentifer);
 			Model model = blueprints.get(blueprintIdentifer).clone();
 			model.setPosition(position);
 			model.setRotation(rotation);
@@ -58,7 +53,6 @@ public class World {
 
 	public static void addBlueprint(String identifier, Model model) {
 		blueprints.addModel(identifier, model);
-		System.out.println("Added blueprint: " + identifier);
 	}
 
 	public static void removeBlueprint(String identifier) {
@@ -92,7 +86,6 @@ public class World {
 	public static void prepareModels() {
 
 		// load buildings
-
 		String[] models = new String[] { "geb1", "geb2-5", "geb3-4", "geb6", "geb7", "geb8", "geb9", "geb10", "geb11",
 				"geb12", "geb13", "geb14", "geb15", "geb17", "geb20", "container" };
 		for (String s : models) {

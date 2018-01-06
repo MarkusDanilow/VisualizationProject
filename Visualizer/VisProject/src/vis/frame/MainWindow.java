@@ -65,6 +65,7 @@ public class MainWindow extends JFrame {
 	private AtomicBoolean timelineRunning = new AtomicBoolean(false);
 
 	private RightFXPanel fxPanelObjectRight;
+	private JPanel fxPanelRight;
 
 	public static Dimension getScreenSize() {
 		return Toolkit.getDefaultToolkit().getScreenSize();
@@ -148,7 +149,7 @@ public class MainWindow extends JFrame {
 		rightSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
 
 		fxPanelObjectRight = new RightFXPanel();
-		JPanel fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight());
+		fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight(), this);
 
 		rightSidebarPanel.add(fxPanelRight);
 
