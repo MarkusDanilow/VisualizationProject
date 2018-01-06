@@ -23,9 +23,8 @@ import vis.data.DataHandler;
 
 public class Statistic {
 
-	private final static int MAX_VALUE_CONTENT = 5;
+	private final static int MAX_VALUE_CONTENT = 100;
 	private final static int AMOUNT_PREDICTION_VALUE = 10;
-	private static DataHandler dataHandler;
 
 	private static StatisticObject regResult;
 	private static SimpleRegression calcRegression;
@@ -44,7 +43,7 @@ public class Statistic {
 
 	public static void main(String arg[]) {
 		// TreeMap für Mean...HashMap für Regression
-		TreeMap<Float, DataElement> treemap = new TreeMap<>();
+		Map<Float, DataElement> treemap = new TreeMap<>();
 		DataElement d0 = new DataElement(0, 0, 0, 0);
 		DataElement d1 = new DataElement(1, 1, 1, 1);
 		DataElement d2 = new DataElement(2, 2, 2, 2);
@@ -82,11 +81,11 @@ public class Statistic {
 		// setMean(treemap, "x");
 		// System.out.println(getMean());
 
-		setRegAnalysis(treemap, "x");
+		setRegAnalysis(treemap, "x", 100);
 		System.out.println(getRegAnalysis());
-		setRegAnalysis(treemap, "y");
+		setRegAnalysis(treemap, "y", 100);
 		System.out.println(getRegAnalysis());
-		setRegAnalysis(treemap, "z");
+		setRegAnalysis(treemap, "z", 100);
 		System.out.println(getRegAnalysis());
 
 		getPrediction(getRegPrediction());
@@ -97,8 +96,7 @@ public class Statistic {
 	}
 
 	@SuppressWarnings("static-access")
-	public static void setMean(TreeMap<Float, DataElement> elements, String dimension) {
-		dataHandler = new DataHandler();
+	public static void setMean(Map<Float, DataElement> elements, String dimension, int lastCount) {
 		meanResult = new StatisticObject();
 		calcMean = new DescriptiveStatistics();
 
@@ -108,9 +106,15 @@ public class Statistic {
 		size = tempMap.size();
 		// System.out.println("Map Size before: " + tempMap.size());
 
-		if (size > MAX_VALUE_CONTENT) {
-			tempMap = dataHandler.getPartialData(tempMap,
+		if(lastCount <= MAX_VALUE_CONTENT) {
+			tempMap = DataHandler.getPartialData(tempMap,
+					new Range<Float>((float) size - lastCount, (float) size));
+			
+		} else {
+			System.out.println("Zu viele Elemente");
+			tempMap = DataHandler.getPartialData(tempMap,
 					new Range<Float>((float) size - MAX_VALUE_CONTENT, (float) size));
+			
 		}
 
 		// getSize of incoming values
@@ -137,7 +141,7 @@ public class Statistic {
 				break;
 			}
 		}
-
+		
 		meanResult.setA((float) calcMean.getMean());
 		meanResult.setB((float) calcMean.getStandardDeviation());
 		// ggf. über GUI änderbar
@@ -159,8 +163,7 @@ public class Statistic {
 	}
 
 	@SuppressWarnings("static-access")
-	public static void setRegAnalysis(Map<Float, DataElement> elements, String dimension) {
-		dataHandler = new DataHandler();
+	public static void setRegAnalysis(Map<Float, DataElement> elements, String dimension, int lastCount) {
 		regResult = new StatisticObject();
 		calcRegression = new SimpleRegression();
 
@@ -169,9 +172,15 @@ public class Statistic {
 		tempMap = elements;
 		size = tempMap.size();
 
-		if (size > MAX_VALUE_CONTENT) {
-			tempMap = dataHandler.getPartialData(tempMap,
+		if(lastCount <= MAX_VALUE_CONTENT) {
+			tempMap = DataHandler.getPartialData(tempMap,
+					new Range<Float>((float) size - lastCount, (float) size));
+			
+		} else {
+			System.out.println("Zu viele Elemente");
+			tempMap = DataHandler.getPartialData(tempMap,
 					new Range<Float>((float) size - MAX_VALUE_CONTENT, (float) size));
+			
 		}
 
 		// getSize of incoming values
@@ -205,7 +214,7 @@ public class Statistic {
 		// y = ab ^ t
 	}
 
-	public static TreeMap<Float, Float> getRegPrediction() {
+	public static Map<Float, Float> getRegPrediction() {
 		predictData = new TreeMap<Float, Float>();
 
 		while (counter <= AMOUNT_PREDICTION_VALUE - 1) {
@@ -218,7 +227,7 @@ public class Statistic {
 		return predictData;
 	}
 
-	public static void getPrediction(TreeMap<Float, Float> data) {
+	public static void getPrediction(Map<Float, Float> data) {
 
 		System.out.println("DEBUGGING:");
 		Set<Entry<Float, Float>> set = data.entrySet();
