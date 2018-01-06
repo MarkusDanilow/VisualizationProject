@@ -11,6 +11,7 @@ import javax.swing.UIManager;
 import org.lwjgl.LWJGLException;
 
 import com.base.common.resources.DataElement;
+import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.Range;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
@@ -98,7 +99,7 @@ public class VisApplication implements AppInterface {
 		this.engine = new Engine(VisController.getCanvas(), LOAD_MODELS);
 
 		int numItems = 100;
-		this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, 65000f)));
+		// this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, 65000f)));
 
 	}
 
@@ -177,4 +178,9 @@ public class VisApplication implements AppInterface {
 		this.engine.setView(viewportIndex, viewName);
 	}
 
+	public void setDataType(int viewportIndex, DataType type){
+		this.engine.setDataType(viewportIndex, type);
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+	
 }

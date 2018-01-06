@@ -29,6 +29,7 @@ import com.base.common.resources.DataMap2D;
 import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
+import com.base.common.resources.DataElement.DataType;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.InteractableRectangle;
@@ -90,6 +91,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		VSYNC_ENABLED = val;
 	}
 
+	/* --------------- MEMBER ATTRIBUTES ------------------------ */
+
 	private boolean running = false;
 
 	private ViewportRenderer viewportRenderer;
@@ -122,6 +125,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private RenderMode renderMode;
 
 	public boolean useCompleteParallelCoordinates = false;
+
+	public DataType[] selectedDataTypes = new DataType[NUM_VIEWS];
 
 	public boolean isRunning() {
 		return running;
@@ -367,6 +372,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			this.cameras[i] = new Camera(new Vector3f(591, -985, 532));
 			this.cameras[i].setPitch(23);
 			this.cameras[i].setYaw(130);
+
+			this.selectedDataTypes[i] = DataType.X;
 
 		}
 		/* ------------- */
@@ -773,6 +780,16 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@Override
 	public List<InteractableRectangle> getViewports() {
 		return this.viewportRectangles;
+	}
+
+	@Override
+	public void setDataType(int viewportIndex, DataType type) {
+		if (type != null && viewportIndex > -1 && viewportIndex < NUM_VIEWS)
+			this.selectedDataTypes[viewportIndex] = type;
+	}
+
+	public DataType getViewportDataType(int viewportIndex) {
+		return this.selectedDataTypes[viewportIndex];
 	}
 
 }

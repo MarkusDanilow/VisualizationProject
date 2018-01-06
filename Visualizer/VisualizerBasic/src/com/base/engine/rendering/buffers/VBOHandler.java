@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.crypto.Data;
+
 import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -21,6 +23,7 @@ import com.base.common.ColorUtil;
 import com.base.common.resources.Callback;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
+import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.Point;
 import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
@@ -224,12 +227,12 @@ public class VBOHandler {
 	 * @param data
 	 * @param viewportIndex
 	 */
-	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data) {
+	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data, DataType type) {
 		if (internalRenderers.containsKey(rendererClassName)) {
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
 				int bufferHashCode = viewportIndex + renderer.hashCode();
 				if (!VBOHandler.bufferExists(bufferHashCode)) {
-					renderer.create(bufferHashCode, data);
+					renderer.create(bufferHashCode, data, type);
 				}
 			}
 		}
@@ -310,7 +313,7 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data) {
+		public void create(int viewportIndex, Object data, DataType type) {
 			if (data == null)
 				return;
 			List<DataElement> points = (List<DataElement>) data;
@@ -357,7 +360,7 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data) {
+		public void create(int viewportIndex, Object data, DataType type) {
 			if (data == null)
 				return;
 			List<Cluster> clusters = (List<Cluster>) data;
@@ -410,7 +413,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void create(int viewportIndex, Object data) {
+		public void create(int viewportIndex, Object data, DataType type) {
 			int minX = 0;
 			int minY = 0;
 
@@ -505,7 +508,7 @@ public class VBOHandler {
 
 		protected boolean enabled = false;
 
-		protected String propertyOnYAxes = "x";
+		protected DataType propertyOnYAxes = DataType.X;
 
 		public AVBOChartRenderer() {
 			try {
@@ -514,6 +517,11 @@ public class VBOHandler {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+
+		@Override
+		public void create(int viewportIndex, Object data, DataType type) {
+			this.propertyOnYAxes = type;
 		}
 
 		protected void renderAxes() {
@@ -583,7 +591,7 @@ public class VBOHandler {
 			glDisable(GL_TEXTURE_2D);
 
 			NewFontManager.prepare();
-			NewFontManager.renderText(-460, -460, 16, 2, this.propertyOnYAxes);
+			NewFontManager.renderText(-460, -460, 16, 2, this.propertyOnYAxes.name);
 			NewFontManager.renderText(440, 450, 16, 2, "t");
 			NewFontManager.close();
 			RenderUtil.switch2D(-1, -1, 1, 1);
@@ -608,7 +616,7 @@ public class VBOHandler {
 			this.biggestY = biggestY;
 		}
 
-		protected DataElement getBiggestX(List<DataElement> inputData) {
+		protected DataElement getBiggest(List<DataElement> inputData, DataType type) {
 			try {
 				return Collections.max(inputData, new Comparator<DataElement>() {
 					@Override
@@ -620,44 +628,14 @@ public class VBOHandler {
 						}
 						if (arg1 == null)
 							return 1;
-						return Float.compare(arg0.getX(), arg1.getX());
+						float v1 = DataType.getValueByType(type, arg0);
+						float v2 = DataType.getValueByType(type, arg1);
+						return Float.compare(v1, v2);
 					}
 				});
 			} catch (Exception e) {
 				return null;
 			}
-		}
-
-		protected DataElement getBiggestY(List<DataElement> inputData) {
-			return Collections.max(inputData, new Comparator<DataElement>() {
-				@Override
-				public int compare(DataElement arg0, DataElement arg1) {
-					if (arg0 == null && arg1 == null)
-						return 0;
-					if (arg0 == null) {
-						return -1;
-					}
-					if (arg1 == null)
-						return 1;
-					return Float.compare(arg0.getY(), arg1.getY());
-				}
-			});
-		}
-
-		protected DataElement getBiggestZ(List<DataElement> inputData) {
-			return Collections.max(inputData, new Comparator<DataElement>() {
-				@Override
-				public int compare(DataElement arg0, DataElement arg1) {
-					if (arg0 == null && arg1 == null)
-						return 0;
-					if (arg0 == null) {
-						return -1;
-					}
-					if (arg1 == null)
-						return 1;
-					return Float.compare(arg0.getZ(), arg1.getZ());
-				}
-			});
 		}
 
 		protected float calcValue_xAxes(float value) {
@@ -693,7 +671,9 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data) {
+		public void create(int viewportIndex, Object data, DataType type) {
+
+			super.create(viewportIndex, data, type);
 
 			this.enabled = data != null;
 			if (!enabled)
@@ -702,8 +682,8 @@ public class VBOHandler {
 			int verticesPerItem = 4;
 
 			List<DataElement> inputData = (List<DataElement>) data;
-			DataElement biggest = this.getBiggestX(inputData);
-			this.setBiggestY(biggest.getX());
+			DataElement biggest = this.getBiggest(inputData, type);
+			this.setBiggestY(DataType.getValueByType(type, biggest));
 
 			this.numItems = inputData.size();
 
@@ -718,7 +698,7 @@ public class VBOHandler {
 				DataElement e = inputData.get(i);
 
 				float x = this.calcPosX(i);
-				float value = this.calcValue_yAxes(e.getX());
+				float value = this.calcValue_yAxes(DataType.getValueByType(type, e));
 
 				buffers[0].put(new float[] { x, value, x + xStep, value, x + xStep, yMax, x, yMax });
 				for (int j = 0; j < verticesPerItem; j++)
@@ -769,16 +749,17 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data) {
+		public void create(int viewportIndex, Object data, DataType type) {
+
+			super.create(viewportIndex, data, type);
 
 			this.enabled = data != null;
 			if (!enabled)
 				return;
 
 			this.inputData = (List<DataElement>) data;
-			DataElement biggestX = this.getBiggestX(inputData);
-
-			this.setBiggestY(biggestX.getX());
+			DataElement biggest = this.getBiggest(inputData, type);
+			this.setBiggestY(DataType.getValueByType(type, biggest));
 
 			this.numItems = inputData.size();
 			this.calcXStep();
@@ -795,7 +776,7 @@ public class VBOHandler {
 
 				float valueX = this.calcValue_xAxes(e.getX());
 				valueX = this.calcPosX(i);
-				float valueY = this.calcValue_yAxes(e.getX());
+				float valueY = this.calcValue_yAxes(DataType.getValueByType(type, e));
 
 				buffers[0].put(new float[] { valueX, valueY });
 				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
@@ -829,7 +810,8 @@ public class VBOHandler {
 					glBegin(GL_POINTS);
 					for (int i = 0; i < numItems; i++) {
 						DataElement e = inputData.get(i);
-						glVertex2f(this.calcPosX(i), this.calcValue_yAxes(e.getX()));
+						glVertex2f(this.calcPosX(i),
+								this.calcValue_yAxes(DataType.getValueByType(propertyOnYAxes, inputData.get(i))));
 					}
 					glEnd();
 				}
@@ -850,16 +832,18 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data) {
+		public void create(int viewportIndex, Object data, DataType type) {
+
+			super.create(viewportIndex, data, type);
 
 			this.enabled = data != null;
 			if (!enabled)
 				return;
 
 			List<DataElement> inputData = (List<DataElement>) data;
-			DataElement biggestX = this.getBiggestX(inputData);
-			DataElement biggestY = this.getBiggestY(inputData);
-			DataElement biggestZ = this.getBiggestZ(inputData);
+			DataElement biggestX = this.getBiggest(inputData, DataType.X);
+			DataElement biggestY = this.getBiggest(inputData, DataType.Y);
+			DataElement biggestZ = this.getBiggest(inputData, DataType.Z);
 
 			this.numItems = inputData.size();
 

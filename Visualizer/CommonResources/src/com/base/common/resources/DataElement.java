@@ -4,7 +4,13 @@ public class DataElement {
 
 	public static enum DataType {
 
-		ID, TIME, X, Y, Z, LAT, LNG, DIST;
+		ID("id"), TIME("t"), X("x"), Y("y"), Z("z"), LAT("lat"), LNG("lng"), DIST("dist");
+
+		public final String name;
+
+		private DataType(String name) {
+			this.name = name;
+		}
 
 		public static float getValueByType(DataType t, DataElement e) {
 			if (t != null && e != null) {
