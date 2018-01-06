@@ -27,8 +27,10 @@ public class Range<T extends Comparable<T>> {
 	}
 	
 	public Range(T lo, T hi) {
+		/*
 		if (!(lo.compareTo(hi) < 0))
 			throw new IllegalArgumentException();
+			*/
 		this.setLoVal(lo);
 		this.setHiVal(hi);
 	}

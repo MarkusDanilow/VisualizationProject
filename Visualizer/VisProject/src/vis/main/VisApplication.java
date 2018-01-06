@@ -3,6 +3,8 @@ package vis.main;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -161,7 +163,9 @@ public class VisApplication implements AppInterface {
 		Map<Float, DataElement> partialData = DataHandler.getPartialData(DataHandler.getCurrentBuffer().getData(),
 				range);
 		VisController.getWindow().setNumElements(partialData.size());
-		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partialData));
+		List<DataElement> data = DataHandler.convertToRenderableList(partialData);
+		for (int i = 0; i < Engine.NUM_VIEWS; i++)
+			this.engine.setPointCloudData(i, data);
 		this.engine.setPointCloudClusters(DataHandler.getCurrentClusters());
 		this.engine.setChartData(Statistic.getRenderableSampledList(partialData));
 		GraphicBufferUitl.performanceMeasureEnabled = false;
@@ -195,14 +199,12 @@ public class VisApplication implements AppInterface {
 	}
 
 	public void setPointCloudData(int viewportIndex, Map<Float, DataElement> partMap) {
-		// TODO: PointCloud den jeweiligenPanes zuordnen, damit mehrere 3D
-		// Ansichten generiert werden können.
-		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partMap));
+		this.engine.setPointCloudData(viewportIndex, DataHandler.convertToRenderableList(partMap));
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}
 
-	public void rotateView(int viewportIndex, int i) {
-		this.engine.rotateView(viewportIndex, i);
+	public void rotateView(int viewportIndex, int angle) {
+		this.engine.rotateView(viewportIndex, angle);
 	}
 
 }

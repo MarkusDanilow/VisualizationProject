@@ -339,6 +339,8 @@ public class VBOHandler {
 
 	private static class VBOPointCloudRenderer implements IVBORenderer {
 
+		private float scale = Settings.getAxisScale() / 2;
+		
 		@SuppressWarnings("unchecked")
 		@Override
 		public void create(int viewportIndex, Object data, DataType[] type) {
@@ -356,7 +358,7 @@ public class VBOHandler {
 				// vertex.getY() });
 
 				// use this for GPS position
-				buffers[0].put(new float[] { vertex.getLat(), vertex.getZ(), vertex.getLng() });
+				buffers[0].put(new float[] { vertex.getLat() - scale, vertex.getZ(), vertex.getLng() - scale });
 
 				float[] color = PointCloudRenderer.calcVertexColor(vertex.getLat(), vertex.getZ(), vertex.getLng(),
 						vertex.getTime(), maxTime);
@@ -429,8 +431,12 @@ public class VBOHandler {
 	private static class VBOGridRenderer implements IVBORenderer {
 
 		private int campusTexture = 0;
-		int maxX = Settings.getAxisScale();
-		int maxY = Settings.getAxisScale();
+
+		int maxX = Settings.getAxisScale() / 2;
+		int maxY = Settings.getAxisScale() / 2;
+		int minX = -maxX;
+		int minY = -maxY;
+
 		int gridSizeX = 1000;
 		int gridSizeY = 1000;
 
@@ -445,8 +451,6 @@ public class VBOHandler {
 
 		@Override
 		public void create(int viewportIndex, Object data, DataType[] type) {
-			int minX = 0;
-			int minY = 0;
 
 			float alphaChannel = 0.1f;
 
@@ -469,7 +473,14 @@ public class VBOHandler {
 			}
 
 			// push axes to the buffers
-			buffers[0].put(new float[] { 0, 0, 0, maxX, 0, 0, 0, 0, 0, 0, maxY, 0, 0, 0, 0, 0, 0, maxY });
+			// buffers[0].put(new float[] { 0, 0, 0, maxX, 0, 0, 0, 0, 0, 0, maxY, 0, 0, 0, 0, 0, 0, maxY });
+			
+			buffers[0].put(new float[] { minX, 0, minY, 
+										maxX, 0, minY, 
+										minX, 0, minY, 
+										minY, maxY * 2, minY, 
+										minX, 0, minY,
+										minX, 0, maxY });
 
 			float[] red = new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
 					Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() };
@@ -501,13 +512,13 @@ public class VBOHandler {
 
 			glBegin(GL_QUADS);
 			glTexCoord2f(0, 0);
-			glVertex3f(0, 0, 0);
+			glVertex3f(minX, 0, minY);
 			glTexCoord2f(1, 0);
-			glVertex3f(maxX, 0, 0);
+			glVertex3f(maxX, 0, minY);
 			glTexCoord2f(1, 1);
 			glVertex3f(maxX, 0, maxY);
 			glTexCoord2f(0, 1);
-			glVertex3f(0, 0, maxY);
+			glVertex3f(minX, 0, maxY);
 			glEnd();
 			// glEnable(GL_BLEND);
 

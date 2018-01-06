@@ -34,6 +34,8 @@ public class ViewportRenderer implements Renderable {
 
 	public static final boolean minimapEnabled = false;
 
+	public static float scale = Settings.getAxisScale();
+
 	@Override
 	public void prepare() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -128,25 +130,36 @@ public class ViewportRenderer implements Renderable {
 
 							Object renderData = renderers.get(i)[j].selectRenderData(engine);
 
+							if (renderData != null && renderData.getClass().isArray()) {
+								renderData = ((Object[]) renderData)[i];
+							}
+
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicsHoverHandler.storeCurrentMatrices();
-							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j, 
-									engine.getViewportDataType(i));
-							
-							/*
-							if (!isNormalViewport && minimapEnabled) {
-								GL11.glPointSize(15);
-								glScalef(5, 5, 5);
-								glBegin(GL11.GL_POINTS);
-								{
-									GL11.glColor4f(Settings.MINIMAP_POS.getRed(), Settings.MINIMAP_POS.getGreen(),
-											Settings.MINIMAP_POS.getBlue(), Settings.MINIMAP_POS.getAlpha());
-									GL11.glVertex3f(-camera[i].getPos().getX(), -camera[i].getPos().getY(),
-											-camera[i].getPos().getZ());
-								}
-								glEnd();
+
+							if (renderers.get(i)[j].is3D()) {
+								glPushMatrix();
+								glRotatef(engine.getPointCloudWorldRotations()[i], 0, 1, 0);
+								GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j,
+										engine.getViewportDataType(i));
+								glPopMatrix();
+							} else {
+								GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j,
+										engine.getViewportDataType(i));
 							}
-							*/
+
+							/*
+							 * if (!isNormalViewport && minimapEnabled) {
+							 * GL11.glPointSize(15); glScalef(5, 5, 5);
+							 * glBegin(GL11.GL_POINTS); {
+							 * GL11.glColor4f(Settings.MINIMAP_POS.getRed(),
+							 * Settings.MINIMAP_POS.getGreen(),
+							 * Settings.MINIMAP_POS.getBlue(),
+							 * Settings.MINIMAP_POS.getAlpha());
+							 * GL11.glVertex3f(-camera[i].getPos().getX(),
+							 * -camera[i].getPos().getY(),
+							 * -camera[i].getPos().getZ()); } glEnd(); }
+							 */
 
 							if (renderers.get(i)[j].isHoverActivated()) {
 								renderers.get(i)[j].getHoverDataRenderer().render();

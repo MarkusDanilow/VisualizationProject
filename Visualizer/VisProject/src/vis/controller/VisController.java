@@ -6,8 +6,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.lwjgl.LWJGLException;
 
-import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.DataElement;
+import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.Range;
 import com.base.common.resources.StatisticObject;
 import com.base.engine.Settings;
@@ -58,10 +58,11 @@ public class VisController {
 		actMap = actData.getData();
 
 		Map<Float, DataElement> partMap;
-		partMap = DataHandler.getPartialData(actMap, new Range<Float>(window.get().getTimelineValue(), window.get().getTimelineValue()));
+		partMap = DataHandler.getPartialData(actMap,
+				new Range<Float>(window.get().getTimelineValue(), window.get().getTimelineValue()));
 
 		int viewportIndex = convertIDToViewportIndex(ID);
-		
+
 		application.setPointCloudData(viewportIndex, partMap);
 	}
 
@@ -70,7 +71,7 @@ public class VisController {
 
 		actData = DataHandler.getCurrentBuffer();
 		actMap = actData.getData();
-		
+
 		int viewportIndex = convertIDToViewportIndex(ID);
 		application.setPointCloudData(viewportIndex, actMap);
 	}
@@ -87,20 +88,12 @@ public class VisController {
 
 		Map<Float, DataElement> partMap;
 		partMap = DataHandler.getPartialData(actMap, new Range<Float>((float) f, (float) t));
-		
+
 		int viewportIndex = convertIDToViewportIndex(ID);
 		application.setPointCloudData(viewportIndex, partMap);
 	}
 
 	public static void rotateRight() {
-		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		
-		int viewportIndex = convertIDToViewportIndex(ID);
-		
-		application.rotateView(viewportIndex, 90);
-	}
-
-	public static void rotateLeft() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 
 		int viewportIndex = convertIDToViewportIndex(ID);
@@ -108,18 +101,25 @@ public class VisController {
 		application.rotateView(viewportIndex, -90);
 	}
 
+	public static void rotateLeft() {
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+
+		int viewportIndex = convertIDToViewportIndex(ID);
+
+		application.rotateView(viewportIndex, 90);
+	}
+
 	public static void setMinimum(String s) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		
+
 		int viewportIndex = convertIDToViewportIndex(ID);
 
 		// TODO: @Markus, wie bereinigen wir die Map um die zu kurzen Distanzen?
-		
+
 		actData = DataHandler.getCurrentBuffer();
 		actMap = actData.getData();
-		
-		//TODO: In Klärung
-		
+
+		// TODO: In Klärung
 
 	}
 
@@ -151,9 +151,9 @@ public class VisController {
 
 		StatisticObject result = Statistic.getMean();
 		System.out.println(result);
-		
+
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setStatisticObject(viewportIndex, result);		
+		application.setStatisticObject(viewportIndex, result);
 	}
 
 	public static void ldShowX() {
@@ -194,28 +194,24 @@ public class VisController {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewport = convertIDToViewportIndex(ID);
 		application.toggleDataType(viewport, DataType.X, toggled, 0);
-		System.out.println("x toggled " + toggled);
 	}
 
 	public static void pkShowY(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewport = convertIDToViewportIndex(ID);
 		application.toggleDataType(viewport, DataType.Y, toggled, 1);
-		System.out.println("y toggled " + toggled);
 	}
 
 	public static void pkShowZ(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewport = convertIDToViewportIndex(ID);
 		application.toggleDataType(viewport, DataType.Z, toggled, 2);
-		System.out.println("z toggled " + toggled);
 	}
 
 	public static void pkShowDistance(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewport = convertIDToViewportIndex(ID);
 		application.toggleDataType(viewport, DataType.DIST, toggled, 3);
-		System.out.println("dist toggled " + toggled);
 	}
 
 	/**

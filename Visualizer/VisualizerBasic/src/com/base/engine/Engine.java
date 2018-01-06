@@ -25,13 +25,13 @@ import com.base.common.IRenderer;
 import com.base.common.resources.Callback;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
+import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.DataInspector;
 import com.base.common.resources.DataMap2D;
 import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
 import com.base.common.resources.StatisticObject;
-import com.base.common.resources.DataElement.DataType;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
 import com.base.engine.interaction.InteractableRectangle;
@@ -120,15 +120,19 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private DataMap2D data2D;
 	private DataMap3D data3D;
 
-	private List<DataElement> pointCloudData;
+	@SuppressWarnings("unchecked")
+	private List<DataElement>[] pointCloudData = new List[NUM_VIEWS];
 	private List<Cluster> pointCloudClusters;
 	private List<DataElement> chartData;
+
+	private float[] pointCloudWorldRotations = new float[NUM_VIEWS];
 
 	private RenderMode renderMode;
 
 	public boolean useCompleteParallelCoordinates = false;
 
 	public DataType[][] selectedDataTypes = new DataType[NUM_VIEWS][DataType.values().length];
+	public StatisticObject[] statistics = new StatisticObject[NUM_VIEWS];
 
 	public boolean isRunning() {
 		return running;
@@ -154,8 +158,12 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		return data3D.getData();
 	}
 
-	public List<DataElement> getPointCloudData() {
+	public List<DataElement>[] getPointCloudData() {
 		return this.pointCloudData;
+	}
+
+	public List<DataElement> getPointCloudData(int viewportIndex) {
+		return this.pointCloudData[viewportIndex];
 	}
 
 	public List<Cluster> getPointCloudClusters() {
@@ -178,8 +186,12 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		data3D.setData(data);
 	}
 
-	public void setPointCloudData(List<DataElement> data) {
+	public void setPointCloudData(List<DataElement>[] data) {
 		this.pointCloudData = data;
+	}
+
+	public void setPointCloudData(int viewportIndex, List<DataElement> data) {
+		this.pointCloudData[viewportIndex] = data;
 	}
 
 	public void setChartData(List<DataElement> data) {
@@ -382,11 +394,6 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				this.selectedDataTypes[i][1] = DataType.Y;
 				this.selectedDataTypes[i][2] = DataType.Z;
 				this.selectedDataTypes[i][3] = DataType.DIST;
-			}
-
-			System.out.println("original array: " + i);
-			for (int j = 0; j < this.selectedDataTypes[i].length; j++) {
-				System.out.println(j + ": " + this.selectedDataTypes[i][j]);
 			}
 
 		}
@@ -823,22 +830,23 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	public void toggleDataType(int viewportIndex, DataType type, boolean toggled, int position) {
 		if (viewportIndex > -1 && viewportIndex < this.selectedDataTypes.length && position > -1
 				&& position < this.selectedDataTypes[viewportIndex].length) {
-			
 			if (!Arrays.asList(this.selectedDataTypes[viewportIndex]).contains(type) || !toggled)
 				this.selectedDataTypes[viewportIndex][position] = (toggled ? type : null);
 		}
-
 	}
 
 	@Override
-	public void setStatisticObject(int viewportIndex, StatisticObject type) {
-		// TODO: Markus
-		
+	public void setStatisticObject(int viewportIndex, StatisticObject stats) {
+		this.statistics[viewportIndex] = stats;
 	}
 
 	@Override
-	public void rotateView(int viewportIndex, int i) {
-		//TODO: Markus
+	public void rotateView(int viewportIndex, int angle) {
+		this.pointCloudWorldRotations[viewportIndex] += angle;
+	}
+
+	public float[] getPointCloudWorldRotations() {
+		return pointCloudWorldRotations;
 	}
 
 }

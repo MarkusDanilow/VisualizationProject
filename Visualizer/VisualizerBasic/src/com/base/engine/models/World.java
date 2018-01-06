@@ -46,12 +46,12 @@ public class World {
 	public static void removeModel(String identifier) {
 		models.removeModel(identifier);
 	}
-	
+
 	public static Model getModelByName(String name) {
 		return models.getModels().get(name);
 	}
-	
-	public static void movePlayer(float x, float y, float z){
+
+	public static void movePlayer(float x, float y, float z) {
 		getModelByName("player").setPosition(new Vector3f(x, y, z));
 	}
 
@@ -73,9 +73,6 @@ public class World {
 
 	public static void render() {
 		RenderUtil.pushMatrix();
-
-		// RenderUtil.transform(new Vector3f(32700, 0, 32700), new Vector3f(0,
-		// -90, 0));
 
 		for (String identifier : models.keySet()) {
 			Model model = models.get(identifier);
@@ -99,7 +96,7 @@ public class World {
 		for (String s : models) {
 			Model m = WavefrontModelLoader.load("buildings/" + s, BuildingModel.class.getSimpleName());
 			addBlueprint(s, m);
-			addModelFromBlueprints(s, s, new Vector3f(32700, 0, 32700), new Vector3f(0, -90, 0),
+			addModelFromBlueprints(s, s, new Vector3f(0, 0, 0), new Vector3f(0, -90, 0),
 					new Vector3f(3300, 3300, 3300));
 		}
 
