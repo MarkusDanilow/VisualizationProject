@@ -808,13 +808,14 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	private DataType[] cleanDataTypes(DataType[] v) {
 		int r, w;
 		final int n = r = w = v.length;
+		DataType[] copy = Arrays.copyOfRange(v, 0, v.length);
 		while (r > 0) {
-			final DataType s = v[--r];
+			final DataType s = copy[--r];
 			if (s != null) {
-				v[--w] = s;
+				copy[--w] = s;
 			}
 		}
-		return Arrays.copyOfRange(v, w, n);
+		return Arrays.copyOfRange(copy, w, n);
 	}
 
 	@Override
@@ -822,24 +823,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 		if (viewportIndex > -1 && viewportIndex < this.selectedDataTypes.length && position > -1
 				&& position < this.selectedDataTypes[viewportIndex].length) {
 			
-			System.out.println("original array before modification: ");
-			for (int i = 0; i < this.selectedDataTypes[viewportIndex].length; i++) {
-				System.out.println(i + ": " + this.selectedDataTypes[viewportIndex][i]);
-			}
-			
 			if (!Arrays.asList(this.selectedDataTypes[viewportIndex]).contains(type) || !toggled)
 				this.selectedDataTypes[viewportIndex][position] = (toggled ? type : null);
-
-			System.out.println("original array: ");
-			for (int i = 0; i < this.selectedDataTypes[viewportIndex].length; i++) {
-				System.out.println(i + ": " + this.selectedDataTypes[viewportIndex][i]);
-			}
-			System.out.println("cleaned array: ");
-			DataType[] cleaned = cleanDataTypes(this.selectedDataTypes[viewportIndex]);
-			for (int i = 0; i < cleaned.length; i++) {
-				System.out.println(i + ": " + cleaned[i]);
-			}
-			System.out.println(" ------------------- ");
 		}
 
 	}

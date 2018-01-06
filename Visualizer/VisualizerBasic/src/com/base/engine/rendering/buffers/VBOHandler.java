@@ -892,12 +892,15 @@ public class VBOHandler {
 				float[] color = PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), time, maxTime);
 				float y = 0;
 
-				for (int j = 0; i <= numProperties; i++) {
+				for (int j = 0; j <= numProperties; j++) {
 					this.setBiggestY(DataType.getValueByType(type[j], biggest[j]));
 					y = this.calcValue_yAxes(DataType.getValueByType(type[j], e));
-					buffers[0].put(new float[] { xMin + i * xStep, y });
-					if (j < numProperties)
-						buffers[0].put(new float[] { xMin + (i + 1) * xStep });
+					buffers[0].put(new float[] { xMin + j * xStep, y });
+					if (j < numProperties) {
+						float yNext = this.calcValue_yAxes(DataType.getValueByType(type[j + 1], e));
+						buffers[0].put(new float[] { xMin + (j + 1) * xStep, yNext });
+						buffers[1].put(color);
+					}
 					buffers[1].put(color);
 				}
 
