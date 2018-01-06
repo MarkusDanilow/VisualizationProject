@@ -66,6 +66,8 @@ public class MainWindow extends JFrame {
 
 	private RightFXPanel fxPanelObjectRight;
 	private JPanel fxPanelRight;
+	
+	private LeftFXPanel fxPanelObjectLeft;
 
 	public static Dimension getScreenSize() {
 		return Toolkit.getDefaultToolkit().getScreenSize();
@@ -137,9 +139,10 @@ public class MainWindow extends JFrame {
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
 
-		LeftFXPanel fxPanelObjectLeft = new LeftFXPanel();
+		fxPanelObjectLeft = new LeftFXPanel();
 		JPanel fxPanelLeft = fxPanelObjectLeft.getPanel(leftSidebarWidth, this.getHeight(), this);
 
+		
 		leftSidebarPanel.add(fxPanelLeft);
 
 		getContentPane().add(leftSidebarPanel, BorderLayout.WEST);
@@ -150,10 +153,12 @@ public class MainWindow extends JFrame {
 
 		fxPanelObjectRight = new RightFXPanel();
 		fxPanelRight = fxPanelObjectRight.getPanel(rightSidebarWidth, this.getHeight(), this);
+		TitledPaneObjects.setTooltipLeft(this);
 
 		rightSidebarPanel.add(fxPanelRight);
 
 		getContentPane().add(rightSidebarPanel, BorderLayout.EAST);
+		
 
 		/* ------------ create the footer ------------ */
 		JPanel footerPanel = new JPanel(new GridLayout(2, 1));
@@ -346,5 +351,11 @@ public class MainWindow extends JFrame {
 	public float getTimelineValue() {
 		return timeline.getValue();
 	}
+
+	public LeftFXPanel getFxPanelObjectLeft() {
+		return fxPanelObjectLeft;
+	}
+	
+	
 
 }

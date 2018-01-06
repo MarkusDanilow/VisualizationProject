@@ -70,8 +70,14 @@ public class TitledPaneObjects {
 	private CheckBox showDistancePL;
 	private CheckBox minDistanceAT;
 	private TextField txtATDistance;
+	
+
 
 	public void setTitledPane(String paneType, String paneName, MainWindow wnd) {
+		
+
+	
+		
 		GridPane grid = new GridPane();
 		grid.setVgap(4);
 		grid.setPadding(new Insets(5, 5, 5, 5));
@@ -459,6 +465,30 @@ public class TitledPaneObjects {
 			t4.setContent(grid);
 			break;
 		}
+	}
+	
+	public static void setTooltipLeft (MainWindow wnd) {
+		final Tooltip toolPaneA = new Tooltip("Ansicht für Pane A (links oben) ändern");
+		final Tooltip toolPaneB = new Tooltip("Ansicht für Pane B (rechts oben) ändern");
+		final Tooltip toolPaneC = new Tooltip("Ansicht für Pane C (links unten) ändern");
+		final Tooltip toolPaneD = new Tooltip("Ansicht für Pane D (rechts unten) ändern");
+		final Tooltip toolLiveView = new Tooltip("Live-Ansicht für Live-Daten");
+		final Tooltip toolFreeze = new Tooltip("Aktuelle Daten-Visualisiseren einfrieren zum genauereren Betrachten");
+		final Tooltip toolColor = new Tooltip("Hintergrundfarbe ändern");
+		final Tooltip toolTimeFrom = new Tooltip("Beginndatum");
+		final Tooltip toolTimeTo = new Tooltip("Enddatum");	
+		
+		wnd.getFxPanelObjectLeft().getCbPaneA().setTooltip(toolPaneA);
+		wnd.getFxPanelObjectLeft().getCbPaneB().setTooltip(toolPaneB);
+		wnd.getFxPanelObjectLeft().getCbPaneC().setTooltip(toolPaneC);
+		wnd.getFxPanelObjectLeft().getCbPaneD().setTooltip(toolPaneD);
+		wnd.getFxPanelObjectLeft().getRbFreeze().setTooltip(toolFreeze);
+		wnd.getFxPanelObjectLeft().getRbLive().setTooltip(toolLiveView);
+		wnd.getFxPanelObjectLeft().getInvertBackground().setTooltip(toolColor);
+		wnd.getFxPanelObjectLeft().getDateFrom().setTooltip(toolTimeFrom);
+		wnd.getFxPanelObjectLeft().getDateTo().setTooltip(toolTimeTo);
+		
+		
 	}
 
 	public  TitledPane getT1() {

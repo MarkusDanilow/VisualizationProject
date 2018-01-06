@@ -20,6 +20,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import vis.events.fx.FXChangeView0;
 import vis.events.fx.FXChangeView1;
@@ -28,8 +29,21 @@ import vis.events.fx.FXChangeView3;
 import vis.events.fx.FXInvertColors;
 
 public class LeftFXPanel {
+	
+	private ComboBox<String> 	cbPaneA;
+	private ComboBox<String>  	cbPaneB;
+	private ComboBox<String>  	cbPaneC;
+	private ComboBox<String>  	cbPaneD;
+	private RadioButton 		rbFreeze; 
+	private RadioButton 		rbLive;
+	private Button 				invertBackground;
+	private DatePicker 			dateFrom;
+	private DatePicker 			dateTo;
+
+
 
 	public JPanel getPanel(int leftSidebarWidth, int height, MainWindow wnd) {
+		
 
 		JPanel leftSidebarPanel = new JPanel();
 		leftSidebarPanel.setBackground(Settings.WND_COLOR.toAwtColor());
@@ -55,40 +69,50 @@ public class LeftFXPanel {
 		final Label visTech = new Label("Visualisierungstechniken");
 		visTech.setId("headline");
 		gridVis.add(visTech, 0, 0, 2, 1);
+		
+
 
 		ObservableList<String> optionsPane = FXCollections.observableArrayList(Settings.get3DView(),
 				Settings.getBarChartView(), Settings.getLineChartView(), Settings.getParallelCoordinatesView());
 
 		final Label paneA = new Label("Pane A:");
 		gridVis.add(paneA, 0, 1);
+		
 
-		final ComboBox<String> cbPaneA = new ComboBox<String>(optionsPane);
+		cbPaneA = new ComboBox<String>(optionsPane);
 		cbPaneA.setValue(optionsPane.get(0));
 		cbPaneA.valueProperty().addListener(new FXChangeView0(wnd));
 		gridVis.add(cbPaneA, 1, 1);
+		
 
 		final Label paneB = new Label("Pane B:");
 		gridVis.add(paneB, 0, 2);
+		
 
-		final ComboBox<String> cbPaneB = new ComboBox<String>(optionsPane);
+		cbPaneB = new ComboBox<String>(optionsPane);
 		cbPaneB.setValue(optionsPane.get(1));
 		cbPaneB.valueProperty().addListener(new FXChangeView2(wnd));
+
 		gridVis.add(cbPaneB, 1, 2);
 
 		final Label paneC = new Label("Pane C:");
 		gridVis.add(paneC, 0, 3);
+		
 
-		final ComboBox<String> cbPaneC = new ComboBox<String>(optionsPane);
+		cbPaneC = new ComboBox<String>(optionsPane);
 		cbPaneC.setValue(optionsPane.get(2));
 		cbPaneC.valueProperty().addListener(new FXChangeView1(wnd));
+
 		gridVis.add(cbPaneC, 1, 3);
 
 		final Label paneD = new Label("Pane D:");
 		gridVis.add(paneD, 0, 4);
+		
 
-		final ComboBox<String> cbPaneD = new ComboBox<String>(optionsPane);
+		cbPaneD = new ComboBox<String>(optionsPane);
 		cbPaneD.setValue(optionsPane.get(3));
 		cbPaneD.valueProperty().addListener(new FXChangeView3(wnd));
+
 		gridVis.add(cbPaneD, 1, 4);
 
 		gridMain.add(gridVis, 0, 0);
@@ -104,20 +128,28 @@ public class LeftFXPanel {
 		lblCommon.setId("headline");
 		gridCommon.add(lblCommon, 0, 0, 2, 1);
 
+
 		final ToggleGroup groupT1 = new ToggleGroup();
-
-		RadioButton rbLive = new RadioButton("Live-Ansicht");
-		rbLive.setToggleGroup(groupT1);
-		gridCommon.add(rbLive, 0, 1);
-
-		RadioButton rbFreeze = new RadioButton("Freeze-Ansicht");
+		
+		rbFreeze = new RadioButton("Freeze-Ansicht");
 		rbFreeze.setToggleGroup(groupT1);
-		gridCommon.add(rbFreeze, 0, 2);
 
-		Button invertBackground = new Button("Farben invertieren");
+		gridCommon.add(rbFreeze, 0, 1);
+
+		rbLive = new RadioButton("Live-Ansicht");
+		rbLive.setToggleGroup(groupT1);
+
+		gridCommon.add(rbLive, 0, 2);
+		
+
+
+		
+
+		invertBackground = new Button("Farben invertieren");
 		invertBackground.setMinWidth(70);
 		invertBackground.setOnAction(new FXInvertColors(wnd));
 		gridCommon.add(invertBackground, 0, 5);
+		
 
 		/*
 		 * CheckBox cbXPosition = new CheckBox("x-Position");
@@ -153,18 +185,21 @@ public class LeftFXPanel {
 		final Label lblDatePicker = new Label("Zeitraum auswählen");
 		lblDatePicker.setId("headline");
 		gridDate.add(lblDatePicker, 0, 0, 2, 1);
+		
 
 		final Label lblDateFrom = new Label("Von:");
 		gridDate.add(lblDateFrom, 0, 1);
 
-		DatePicker dateFrom = new DatePicker();
+		dateFrom = new DatePicker();
 		gridDate.add(dateFrom, 1, 1);
+		
 
 		final Label lblDateTo = new Label("Bis:");
 		gridDate.add(lblDateTo, 0, 2);
-
-		DatePicker dateTo = new DatePicker();
+		
+		dateTo = new DatePicker();
 		gridDate.add(dateTo, 1, 2);
+		
 
 		gridMain.add(gridDate, 0, 2);
 
@@ -175,4 +210,62 @@ public class LeftFXPanel {
 
 		return leftSidebarPanel;
 	}
+
+
+
+	public ComboBox<String> getCbPaneA() {
+		return cbPaneA;
+	}
+
+
+
+	public ComboBox<String> getCbPaneB() {
+		return cbPaneB;
+	}
+
+
+
+	public ComboBox<String> getCbPaneC() {
+		return cbPaneC;
+	}
+
+
+
+	public ComboBox<String> getCbPaneD() {
+		return cbPaneD;
+	}
+
+
+
+	public RadioButton getRbFreeze() {
+		return rbFreeze;
+	}
+
+
+
+	public RadioButton getRbLive() {
+		return rbLive;
+	}
+
+
+
+	public Button getInvertBackground() {
+		return invertBackground;
+	}
+
+
+
+	public DatePicker getDateFrom() {
+		return dateFrom;
+	}
+
+
+
+	public DatePicker getDateTo() {
+		return dateTo;
+	}
+
+	
+	
+	
 }
