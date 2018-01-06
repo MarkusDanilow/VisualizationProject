@@ -897,6 +897,7 @@ public class VBOHandler {
 					y = this.calcValue_yAxes(DataType.getValueByType(type[j], e));
 					buffers[0].put(new float[] { xMin + j * xStep, y });
 					if (j < numProperties) {
+						this.setBiggestY(DataType.getValueByType(type[j + 1], biggest[j + 1]));
 						float yNext = this.calcValue_yAxes(DataType.getValueByType(type[j + 1], e));
 						buffers[0].put(new float[] { xMin + (j + 1) * xStep, yNext });
 						buffers[1].put(color);

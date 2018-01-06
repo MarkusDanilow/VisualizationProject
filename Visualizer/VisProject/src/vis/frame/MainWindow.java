@@ -343,4 +343,8 @@ public class MainWindow extends JFrame {
 		return fxPanelObjectRight;
 	}
 
+	public float getTimelineValue() {
+		return timeline.getValue();
+	}
+
 }

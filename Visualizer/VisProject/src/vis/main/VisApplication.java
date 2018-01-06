@@ -13,6 +13,7 @@ import org.lwjgl.LWJGLException;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.Range;
+import com.base.common.resources.StatisticObject;
 import com.base.engine.Engine;
 import com.base.engine.EngineInterfaces;
 import com.base.engine.Settings;
@@ -36,11 +37,11 @@ public class VisApplication implements AppInterface {
 	public static void main(String[] args) throws Exception {
 		new VisApplication();
 	}
-	
+
 	/**
 	 * 
 	 */
-	public static final boolean LOAD_MODELS = true ;
+	public static final boolean LOAD_MODELS = true;
 
 	/**
 	 * Currently selected {@link LookAndFeel}
@@ -178,7 +179,7 @@ public class VisApplication implements AppInterface {
 		this.engine.setView(viewportIndex, viewName);
 	}
 
-	public void setDataType(int viewportIndex, DataType[] type){
+	public void setDataType(int viewportIndex, DataType[] type) {
 		this.engine.setDataType(viewportIndex, type);
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}
@@ -187,4 +188,21 @@ public class VisApplication implements AppInterface {
 		this.engine.toggleDataType(viewportIndex, type, toggled, position);
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}
+
+	public void setStatisticObject(int viewportIndex, StatisticObject type) {
+		this.engine.setStatisticObject(viewportIndex, type);
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+
+	public void setPointCloudData(int viewportIndex, Map<Float, DataElement> partMap) {
+		// TODO: PointCloud den jeweiligenPanes zuordnen, damit mehrere 3D
+		// Ansichten generiert werden können.
+		this.engine.setPointCloudData(DataHandler.convertToRenderableList(partMap));
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+
+	public void rotateView(int viewportIndex, int i) {
+		this.engine.rotateView(viewportIndex, i);
+	}
+
 }

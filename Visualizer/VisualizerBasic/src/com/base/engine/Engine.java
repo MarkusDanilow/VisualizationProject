@@ -30,6 +30,7 @@ import com.base.common.resources.DataMap2D;
 import com.base.common.resources.DataMap3D;
 import com.base.common.resources.MathUtil;
 import com.base.common.resources.Range;
+import com.base.common.resources.StatisticObject;
 import com.base.common.resources.DataElement.DataType;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
@@ -827,6 +828,17 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				this.selectedDataTypes[viewportIndex][position] = (toggled ? type : null);
 		}
 
+	}
+
+	@Override
+	public void setStatisticObject(int viewportIndex, StatisticObject type) {
+		// TODO: Markus
+		
+	}
+
+	@Override
+	public void rotateView(int viewportIndex, int i) {
+		//TODO: Markus
 	}
 
 }

@@ -51,65 +51,28 @@ public class VisController {
 		return window.get();
 	}
 
-	public static void event() {
-		System.out.println(window.get().getFxPanelObjectRight().getActiveAccordion().getId());
-
-	}
-
 	public static void einzelpunktVektor() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 
 		actData = DataHandler.getCurrentBuffer();
 		actMap = actData.getData();
 
-		// TODO: Range = akutelle Slider Position
-		DataHandler.getPartialData(actMap, new Range<Float>((float) 1, (float) 1));
+		Map<Float, DataElement> partMap;
+		partMap = DataHandler.getPartialData(actMap, new Range<Float>(window.get().getTimelineValue(), window.get().getTimelineValue()));
 
-		// TODO: @Markus: Wie in Pane darstellen?
-
-		switch (ID) {
-		case "A":
-			System.out.println("Einzelpunkt/Vektor bei Pane A wurde gedrückt");
-			break;
-		case "B":
-			System.out.println("Einzelpunkt/Vektor bei Pane B wurde gedrückt");
-			break;
-		case "C":
-			System.out.println("Einzelpunkt/Vektor bei Pane C wurde gedrückt");
-			break;
-		case "D":
-			System.out.println("Einzelpunkt/Vektor bei Pane D wurde gedrückt");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
-
+		int viewportIndex = convertIDToViewportIndex(ID);
+		
+		application.setPointCloudData(viewportIndex, partMap);
 	}
 
 	public static void plotAll() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 
-		// TODO: @Markus: Wo kommt alles her?! Aktueller CurrentBuffer ist nicht
-		// mehr vollständig
-
-		switch (ID) {
-		case "A":
-			System.out.println("PlotAll bei Pane A wurde gedrückt");
-			break;
-		case "B":
-			System.out.println("PlotAll bei Pane B wurde gedrückt");
-			break;
-		case "C":
-			System.out.println("PlotAll bei Pane C wurde gedrückt");
-			break;
-		case "D":
-			System.out.println("PlotAll bei Pane D wurde gedrückt");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		actData = DataHandler.getCurrentBuffer();
+		actMap = actData.getData();
+		
+		int viewportIndex = convertIDToViewportIndex(ID);
+		application.setPointCloudData(viewportIndex, actMap);
 	}
 
 	public static void plotFromTo(String from, String to) {
@@ -122,95 +85,42 @@ public class VisController {
 		actData = DataHandler.getCurrentBuffer();
 		actMap = actData.getData();
 
-		DataHandler.getPartialData(actMap, new Range<Float>((float) f, (float) t));
-
-		// TODO: @Markus: Wie in Pane darstellen?
-
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		Map<Float, DataElement> partMap;
+		partMap = DataHandler.getPartialData(actMap, new Range<Float>((float) f, (float) t));
+		
+		int viewportIndex = convertIDToViewportIndex(ID);
+		application.setPointCloudData(viewportIndex, partMap);
 	}
 
 	public static void rotateRight() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus, was soll hier passieren? Welcher Aufruf?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		
+		int viewportIndex = convertIDToViewportIndex(ID);
+		
+		application.rotateView(viewportIndex, 90);
 	}
 
 	public static void rotateLeft() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 
-		// TODO: @Markus, was soll hier passieren? Welcher Aufruf?
+		int viewportIndex = convertIDToViewportIndex(ID);
 
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		application.rotateView(viewportIndex, -90);
 	}
 
 	public static void setMinimum(String s) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		
+		int viewportIndex = convertIDToViewportIndex(ID);
+
 		// TODO: @Markus, wie bereinigen wir die Map um die zu kurzen Distanzen?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		
+		actData = DataHandler.getCurrentBuffer();
+		actMap = actData.getData();
+		
+		//TODO: In Klärung
+		
+
 	}
 
 	public static void bdShowX() {
@@ -231,28 +141,6 @@ public class VisController {
 		application.setDataType(viewportIndex, new DataType[] { DataType.Z });
 	}
 
-	public static void calculateMean(String s) {
-		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus: Wie switchen wir die Dimensionen beim Diagramm?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
-	}
-
 	public static void calculateMean(String s, String dimension) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 
@@ -263,26 +151,9 @@ public class VisController {
 
 		StatisticObject result = Statistic.getMean();
 		System.out.println(result);
-
-		// TODO: Markus anzeige in Pane besprechen!
-
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		
+		int viewportIndex = convertIDToViewportIndex(ID);
+		application.setStatisticObject(viewportIndex, result);		
 	}
 
 	public static void ldShowX() {
@@ -303,28 +174,6 @@ public class VisController {
 		application.setDataType(viewportIndex, new DataType[] { DataType.Z });
 	}
 
-	public static void trend(String s) {
-		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus: Wie switchen wir die Dimensionen beim Diagramm?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
-	}
-
 	public static void trend(String s, String dimension) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 
@@ -337,25 +186,8 @@ public class VisController {
 
 		System.out.println(result);
 
-		// TODO: @Markus: Anzeigen in Pane?
-
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		int viewportIndex = convertIDToViewportIndex(ID);
+		application.setStatisticObject(viewportIndex, result);
 	}
 
 	public static void pkShowX(boolean toggled) {

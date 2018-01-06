@@ -7,6 +7,7 @@ import com.base.common.GenerateInterfaces;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.DataElement.DataType;
+import com.base.common.resources.StatisticObject;
 import com.base.engine.interaction.InteractableRectangle;
 
 public interface EngineInterfaces extends GenerateInterfaces {
@@ -54,5 +55,9 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void toggleDataType(int viewportIndex, DataType type, boolean toggled, int position);
 	
 	List<InteractableRectangle> getViewports();
+
+	void setStatisticObject(int viewportIndex, StatisticObject type);
+
+	void rotateView(int viewportIndex, int i);
 
 }
