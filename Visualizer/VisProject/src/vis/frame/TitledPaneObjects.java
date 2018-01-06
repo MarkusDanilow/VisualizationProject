@@ -418,7 +418,7 @@ public class TitledPaneObjects {
 			grid.add(showXPL, 0, 0);
 			
 			showXPL.setOnAction((event) -> {
-				VisController.pkShowX();
+				VisController.pkShowX(showXPL.isSelected());
 			});
 
 			showYPL = new CheckBox("y anzeigen");
@@ -429,7 +429,7 @@ public class TitledPaneObjects {
 			grid.add(showYPL, 0, 1);
 			
 			showYPL.setOnAction((event) -> {
-				VisController.pkShowY();
+				VisController.pkShowY(showYPL.isSelected());
 			});
 
 			showZPL = new CheckBox("z anzeigen");
@@ -440,7 +440,7 @@ public class TitledPaneObjects {
 			grid.add(showZPL, 0, 2);
 			
 			showZPL.setOnAction((event) -> {
-				VisController.pkShowZ();
+				VisController.pkShowZ(showZPL.isSelected());
 			});
 			
 			showDistancePL = new CheckBox("Distanz anzeigen");
@@ -451,7 +451,7 @@ public class TitledPaneObjects {
 			grid.add(showDistancePL, 0, 3);
 			
 			showDistancePL.setOnAction((event) -> {
-				VisController.showDistance();
+				VisController.pkShowDistance(showDistancePL.isSelected());
 			});
 
 			t4.setText("Pane " + paneName + " : Parallele Koordinaten");

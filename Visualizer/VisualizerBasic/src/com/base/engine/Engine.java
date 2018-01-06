@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,7 +127,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public boolean useCompleteParallelCoordinates = false;
 
-	public DataType[] selectedDataTypes = new DataType[NUM_VIEWS];
+	public DataType[][] selectedDataTypes = new DataType[NUM_VIEWS][DataType.values().length];
 
 	public boolean isRunning() {
 		return running;
@@ -373,7 +374,19 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 			this.cameras[i].setPitch(23);
 			this.cameras[i].setYaw(130);
 
-			this.selectedDataTypes[i] = DataType.X;
+			Arrays.fill(this.selectedDataTypes[i], null);
+			this.selectedDataTypes[i][0] = DataType.X;
+
+			if (i == 3) {
+				this.selectedDataTypes[i][1] = DataType.Y;
+				this.selectedDataTypes[i][2] = DataType.Z;
+				this.selectedDataTypes[i][3] = DataType.DIST;
+			}
+
+			System.out.println("original array: " + i);
+			for (int j = 0; j < this.selectedDataTypes[i].length; j++) {
+				System.out.println(j + ": " + this.selectedDataTypes[i][j]);
+			}
 
 		}
 		/* ------------- */
@@ -783,13 +796,52 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	}
 
 	@Override
-	public void setDataType(int viewportIndex, DataType type) {
+	public void setDataType(int viewportIndex, DataType[] type) {
 		if (type != null && viewportIndex > -1 && viewportIndex < NUM_VIEWS)
 			this.selectedDataTypes[viewportIndex] = type;
 	}
 
-	public DataType getViewportDataType(int viewportIndex) {
-		return this.selectedDataTypes[viewportIndex];
+	public DataType[] getViewportDataType(int viewportIndex) {
+		return cleanDataTypes(this.selectedDataTypes[viewportIndex]);
+	}
+
+	private DataType[] cleanDataTypes(DataType[] v) {
+		int r, w;
+		final int n = r = w = v.length;
+		while (r > 0) {
+			final DataType s = v[--r];
+			if (s != null) {
+				v[--w] = s;
+			}
+		}
+		return Arrays.copyOfRange(v, w, n);
+	}
+
+	@Override
+	public void toggleDataType(int viewportIndex, DataType type, boolean toggled, int position) {
+		if (viewportIndex > -1 && viewportIndex < this.selectedDataTypes.length && position > -1
+				&& position < this.selectedDataTypes[viewportIndex].length) {
+			
+			System.out.println("original array before modification: ");
+			for (int i = 0; i < this.selectedDataTypes[viewportIndex].length; i++) {
+				System.out.println(i + ": " + this.selectedDataTypes[viewportIndex][i]);
+			}
+			
+			if (!Arrays.asList(this.selectedDataTypes[viewportIndex]).contains(type) || !toggled)
+				this.selectedDataTypes[viewportIndex][position] = (toggled ? type : null);
+
+			System.out.println("original array: ");
+			for (int i = 0; i < this.selectedDataTypes[viewportIndex].length; i++) {
+				System.out.println(i + ": " + this.selectedDataTypes[viewportIndex][i]);
+			}
+			System.out.println("cleaned array: ");
+			DataType[] cleaned = cleanDataTypes(this.selectedDataTypes[viewportIndex]);
+			for (int i = 0; i < cleaned.length; i++) {
+				System.out.println(i + ": " + cleaned[i]);
+			}
+			System.out.println(" ------------------- ");
+		}
+
 	}
 
 }

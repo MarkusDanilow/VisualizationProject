@@ -5,8 +5,8 @@ import com.base.common.resources.DataElement.DataType;
 
 public interface IVBORenderer {
 
-	void create(int viewportIndex, Object data, DataType type);
+	void create(int viewportIndex, Object data, DataType[] type);
 
-	void render(int viewportIndex, Callback callback, DataType type);
+	void render(int viewportIndex, Callback callback, DataType[] type);
 
 }

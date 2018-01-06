@@ -50,7 +50,8 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	
 	void setHoverData(int viewportIndex, DataElement data, float x, float y);
 	void setView(int viewportIndex, String viewName);
-	void setDataType(int viewportIndex, DataType type);
+	void setDataType(int viewportIndex, DataType[] type);
+	void toggleDataType(int viewportIndex, DataType type, boolean toggled, int position);
 	
 	List<InteractableRectangle> getViewports();
 

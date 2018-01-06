@@ -216,19 +216,19 @@ public class VisController {
 	public static void bdShowX() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setDataType(viewportIndex, DataType.X);
+		application.setDataType(viewportIndex, new DataType[] { DataType.X });
 	}
 
 	public static void bdShowY() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setDataType(viewportIndex, DataType.Y);
+		application.setDataType(viewportIndex, new DataType[] { DataType.Y });
 	}
 
 	public static void bdShowZ() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setDataType(viewportIndex, DataType.Z);
+		application.setDataType(viewportIndex, new DataType[] { DataType.Z });
 	}
 
 	public static void calculateMean(String s) {
@@ -288,19 +288,19 @@ public class VisController {
 	public static void ldShowX() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setDataType(viewportIndex, DataType.X);
+		application.setDataType(viewportIndex, new DataType[] { DataType.X });
 	}
 
 	public static void ldShowY() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setDataType(viewportIndex, DataType.Y);
+		application.setDataType(viewportIndex, new DataType[] { DataType.Y });
 	}
 
 	public static void ldShowZ() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
 		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setDataType(viewportIndex, DataType.Z);
+		application.setDataType(viewportIndex, new DataType[] { DataType.Z });
 	}
 
 	public static void trend(String s) {
@@ -358,94 +358,42 @@ public class VisController {
 		}
 	}
 
-	public static void pkShowX() {
+	public static void pkShowX(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus: Wie switchen wir die Dimensionen beim Diagramm?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		int viewport = convertIDToViewportIndex(ID);
+		application.toggleDataType(viewport, DataType.X, toggled, 0);
+		System.out.println("x toggled " + toggled);
 	}
 
-	public static void pkShowY() {
+	public static void pkShowY(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus: Wie switchen wir die Dimensionen beim Diagramm?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		int viewport = convertIDToViewportIndex(ID);
+		application.toggleDataType(viewport, DataType.Y, toggled, 1);
+		System.out.println("y toggled " + toggled);
 	}
 
-	public static void pkShowZ() {
+	public static void pkShowZ(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus: Wie switchen wir die Dimensionen beim Diagramm?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		int viewport = convertIDToViewportIndex(ID);
+		application.toggleDataType(viewport, DataType.Z, toggled, 2);
+		System.out.println("z toggled " + toggled);
 	}
 
-	public static void showDistance() {
+	public static void pkShowDistance(boolean toggled) {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-		// TODO: @Markus: Wie switchen wir die Dimensionen beim Diagramm?
-		switch (ID) {
-		case "A":
-			System.out.println("Es ist Pane A");
-			break;
-		case "B":
-			System.out.println("Es ist Pane B");
-			break;
-		case "C":
-			System.out.println("Es ist Pane C");
-			break;
-		case "D":
-			System.out.println("Es ist Pane D");
-			break;
-		default:
-			System.out.println("Alles falsch");
-			break;
-		}
+		int viewport = convertIDToViewportIndex(ID);
+		application.toggleDataType(viewport, DataType.DIST, toggled, 3);
+		System.out.println("dist toggled " + toggled);
 	}
 
+	/**
+	 * Converts the ID (A,B,C,D) of the titled pane to the integer ID of the
+	 * corresponding viewport. Switch-case-statements are therefore no longer
+	 * needed.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	private static int convertIDToViewportIndex(String id) {
 		int viewportIndex = (int) (ID.charAt(0)) - 65;
 		return (viewportIndex == 1 ? 2 : (viewportIndex == 2 ? 1 : viewportIndex));

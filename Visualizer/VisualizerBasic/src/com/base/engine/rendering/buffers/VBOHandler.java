@@ -255,7 +255,7 @@ public class VBOHandler {
 	 * @param data
 	 * @param viewportIndex
 	 */
-	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data, DataType type) {
+	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data, DataType[] type) {
 		if (internalRenderers.containsKey(rendererClassName)) {
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
 				int bufferHashCode = viewportIndex + renderer.hashCode();
@@ -270,7 +270,7 @@ public class VBOHandler {
 	 * 
 	 * @param viewportIndex
 	 */
-	public static void renderBuffer(String rendererClassName, int viewportIndex, DataType type) {
+	public static void renderBuffer(String rendererClassName, int viewportIndex, DataType[] type) {
 		if (internalRenderers.containsKey(rendererClassName)) {
 			int i = 0;
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
@@ -341,7 +341,7 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
+		public void create(int viewportIndex, Object data, DataType[] type) {
 			if (data == null)
 				return;
 			List<DataElement> points = (List<DataElement>) data;
@@ -375,7 +375,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback, DataType type) {
+		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
@@ -391,7 +391,7 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
+		public void create(int viewportIndex, Object data, DataType[] type) {
 			if (data == null)
 				return;
 			List<Cluster> clusters = (List<Cluster>) data;
@@ -414,7 +414,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback, DataType type) {
+		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
@@ -444,7 +444,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
+		public void create(int viewportIndex, Object data, DataType[] type) {
 			int minX = 0;
 			int minY = 0;
 
@@ -489,7 +489,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback, DataType type) {
+		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			glLineWidth(1);
 			masterRenderMethod(viewportIndex, 3, 4, GL_LINES, callback);
 
@@ -551,11 +551,11 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
-			this.propertyOnYAxes = type;
+		public void create(int viewportIndex, Object data, DataType[] type) {
+			this.propertyOnYAxes = type[0];
 		}
 
-		protected void renderAxes(DataType type) {
+		protected void renderAxes(DataType[] type) {
 
 			glLineWidth(1f);
 
@@ -622,7 +622,7 @@ public class VBOHandler {
 			glDisable(GL_TEXTURE_2D);
 
 			NewFontManager.prepare();
-			NewFontManager.renderText(-460, -460, 16, 2, type.name);
+			NewFontManager.renderText(-460, -460, 16, 2, type[0].name);
 			NewFontManager.renderText(440, 450, 16, 2, "t");
 			NewFontManager.close();
 			RenderUtil.switch2D(-1, -1, 1, 1);
@@ -702,7 +702,7 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
+		public void create(int viewportIndex, Object data, DataType[] type) {
 
 			super.create(viewportIndex, data, type);
 
@@ -713,8 +713,8 @@ public class VBOHandler {
 			int verticesPerItem = 4;
 
 			List<DataElement> inputData = (List<DataElement>) data;
-			DataElement biggest = this.getBiggest(inputData, type);
-			this.setBiggestY(DataType.getValueByType(type, biggest));
+			DataElement biggest = this.getBiggest(inputData, type[0]);
+			this.setBiggestY(DataType.getValueByType(type[0], biggest));
 
 			this.numItems = inputData.size();
 
@@ -729,7 +729,7 @@ public class VBOHandler {
 				DataElement e = inputData.get(i);
 
 				float x = this.calcPosX(i);
-				float value = this.calcValue_yAxes(DataType.getValueByType(type, e));
+				float value = this.calcValue_yAxes(DataType.getValueByType(type[0], e));
 
 				buffers[0].put(new float[] { x, value, x + xStep, value, x + xStep, yMax, x, yMax });
 				for (int j = 0; j < verticesPerItem; j++)
@@ -757,7 +757,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback, DataType type) {
+		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			if (this.enabled) {
 				glDisable(GL_BLEND);
 				masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
@@ -780,7 +780,7 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
+		public void create(int viewportIndex, Object data, DataType[] type) {
 
 			super.create(viewportIndex, data, type);
 
@@ -789,8 +789,8 @@ public class VBOHandler {
 				return;
 
 			this.inputData = (List<DataElement>) data;
-			DataElement biggest = this.getBiggest(inputData, type);
-			this.setBiggestY(DataType.getValueByType(type, biggest));
+			DataElement biggest = this.getBiggest(inputData, type[0]);
+			this.setBiggestY(DataType.getValueByType(type[0], biggest));
 
 			this.numItems = inputData.size();
 			this.calcXStep();
@@ -807,7 +807,7 @@ public class VBOHandler {
 
 				float valueX = this.calcValue_xAxes(e.getX());
 				valueX = this.calcPosX(i);
-				float valueY = this.calcValue_yAxes(DataType.getValueByType(type, e));
+				float valueY = this.calcValue_yAxes(DataType.getValueByType(type[0], e));
 
 				buffers[0].put(new float[] { valueX, valueY });
 				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
@@ -829,7 +829,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback, DataType type) {
+		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			if (this.enabled) {
 				glLineWidth(1.5f);
 				glPointSize(8);
@@ -862,23 +862,25 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType type) {
-
-			super.create(viewportIndex, data, type);
+		public void create(int viewportIndex, Object data, DataType[] type) {
 
 			this.enabled = data != null;
 			if (!enabled)
 				return;
 
+			int numProperties = type.length - 1;
+			float xStep = (xMax - xMin) / (float) numProperties;
+			int numVertices = (numProperties + 1) * 2 - 1;
+
 			List<DataElement> inputData = (List<DataElement>) data;
-			DataElement biggestX = this.getBiggest(inputData, DataType.X);
-			DataElement biggestY = this.getBiggest(inputData, DataType.Y);
-			DataElement biggestZ = this.getBiggest(inputData, DataType.Z);
-			DataElement biggestDist = this.getBiggest(inputData, DataType.DIST);
+			DataElement[] biggest = new DataElement[numProperties + 1];
+			for (int i = 0; i <= numProperties; i++) {
+				biggest[i] = this.getBiggest(inputData, type[i]);
+			}
 
 			this.numItems = inputData.size();
 
-			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * 6, 2, 4);
+			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems * numVertices, 2, 4);
 
 			float maxTime = PointCloudRenderer.getMaxTimeFromData(inputData);
 
@@ -890,30 +892,14 @@ public class VBOHandler {
 				float[] color = PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), time, maxTime);
 				float y = 0;
 
-				// x coordinate
-				this.setBiggestY(biggestX.getX());
-				y = this.calcValue_yAxes(e.getX());
-				buffers[0].put(new float[] { xMin, y });
-
-				// y coordinate
-				this.setBiggestY(biggestY.getY());
-				y = this.calcValue_yAxes(e.getY());
-				buffers[0].put(new float[] { -0.3f, y, -0.3f, y });
-
-				// z coordinate
-				this.setBiggestY(biggestZ.getZ());
-				y = this.calcValue_yAxes(e.getZ());
-				buffers[0].put(new float[] { -0.3f, y, -0.3f, y });
-
-				// distance
-				this.setBiggestY(biggestDist.getDistance());
-				y = this.calcValue_yAxes(e.getDistance());
-				buffers[0].put(new float[] { xMax, y });
-
-				buffers[1].put(color);
-				buffers[1].put(color);
-				buffers[1].put(color);
-				buffers[1].put(color);
+				for (int j = 0; i <= numProperties; i++) {
+					this.setBiggestY(DataType.getValueByType(type[j], biggest[j]));
+					y = this.calcValue_yAxes(DataType.getValueByType(type[j], e));
+					buffers[0].put(new float[] { xMin + i * xStep, y });
+					if (j < numProperties)
+						buffers[0].put(new float[] { xMin + (i + 1) * xStep });
+					buffers[1].put(color);
+				}
 
 			}
 
@@ -921,24 +907,27 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void render(int viewportIndex, Callback callback, DataType type) {
+		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			if (this.enabled) {
+
+				float xStep = (xMax - xMin) / (float) (type.length - 1);
+				float xStep2 = (920f) / (float) (type.length - 1);
+
 				glLineWidth(1);
 				masterRenderMethod(viewportIndex, 2, 4, GL_LINES, callback);
 				this.setAxesStrength();
 				this.setAxesColor();
 				glBegin(GL_LINES);
-				for (int i = 0; i < 4; i++) {
-					glVertex2f(i * 0.6f - xMax, yMax);
-					glVertex2f(i * 0.6f - xMax, yMin);
+				for (int i = 0; i < type.length; i++) {
+					glVertex2f(xMin + i * xStep, yMax);
+					glVertex2f(xMin + i * xStep, yMin);
 				}
 				glEnd();
 
 				NewFontManager.prepare();
-				NewFontManager.renderText(-460, 460, 16, 2, "x");
-				NewFontManager.renderText(-154, 460, 16, 2, "y");
-				NewFontManager.renderText(154, 460, 16, 2, "z");
-				NewFontManager.renderText(445, 460, 16, 2, "dist");
+				for (int i = 0; i < type.length; i++) {
+					NewFontManager.renderText(-460 + i * xStep2, 460, 16, 2, type[i].name);
+				}
 				NewFontManager.close();
 				RenderUtil.switch2D(-1, -1, 1, 1);
 			}

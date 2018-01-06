@@ -178,9 +178,13 @@ public class VisApplication implements AppInterface {
 		this.engine.setView(viewportIndex, viewName);
 	}
 
-	public void setDataType(int viewportIndex, DataType type){
+	public void setDataType(int viewportIndex, DataType[] type){
 		this.engine.setDataType(viewportIndex, type);
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}
-	
+
+	public void toggleDataType(int viewportIndex, DataType type, boolean toggled, int position) {
+		this.engine.toggleDataType(viewportIndex, type, toggled, position);
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
 }

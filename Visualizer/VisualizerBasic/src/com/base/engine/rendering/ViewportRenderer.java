@@ -130,8 +130,10 @@ public class ViewportRenderer implements Renderable {
 
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicsHoverHandler.storeCurrentMatrices();
-							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j, engine.getViewportDataType(i));
+							GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j, 
+									engine.getViewportDataType(i));
 							
+							/*
 							if (!isNormalViewport && minimapEnabled) {
 								GL11.glPointSize(15);
 								glScalef(5, 5, 5);
@@ -144,6 +146,7 @@ public class ViewportRenderer implements Renderable {
 								}
 								glEnd();
 							}
+							*/
 
 							if (renderers.get(i)[j].isHoverActivated()) {
 								renderers.get(i)[j].getHoverDataRenderer().render();

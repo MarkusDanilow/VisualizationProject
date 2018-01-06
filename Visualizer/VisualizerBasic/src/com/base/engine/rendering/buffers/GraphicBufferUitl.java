@@ -25,7 +25,7 @@ public class GraphicBufferUitl {
 	}
 
 	public static void handleGraphicsData(Object data, IRenderer renderer, int viewportIndex, int rendererIndex,
-			DataType type) {
+			DataType[] type) {
 
 		if (renderer == null || viewportIndex < 0)
 			return;
