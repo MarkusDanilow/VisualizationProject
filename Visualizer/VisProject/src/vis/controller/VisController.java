@@ -91,12 +91,18 @@ public class VisController {
 
 		actData = DataHandler.getCurrentBuffer();
 		actMap = actData.getData();
-
-		Map<Float, DataElement> partMap;
-		partMap = DataHandler.getPartialData(actMap, new Range<Float>((float) f, (float) t));
-
-		int viewportIndex = convertIDToViewportIndex(ID);
-		application.setPointCloudData(viewportIndex, partMap);
+		
+		if(f < actMap.size() && t < actMap.size()) {
+			Map<Float, DataElement> partMap;
+			partMap = DataHandler.getPartialData(actMap, new Range<Float>((float) f, (float) t));
+	
+			int viewportIndex = convertIDToViewportIndex(ID);
+			application.setPointCloudData(viewportIndex, partMap);
+		}
+		else {
+			System.out.println("I bims!");
+			
+		}
 	}
 
 	public static void rotateRight() {
