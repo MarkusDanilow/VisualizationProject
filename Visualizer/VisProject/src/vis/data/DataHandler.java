@@ -170,6 +170,9 @@ public class DataHandler {
 
 					// parse each element in the JSON string
 					String[] parts = json.split("\\},\\{");
+					
+					int globalId = 0 ; 
+					
 					for (String partialJson : parts) {
 
 						float x = 0, y = 0, z = 0, lat = 0, lng = 0, distance = 0;
@@ -210,8 +213,11 @@ public class DataHandler {
 						}
 
 						// create new data element
-						DataElement e = new DataElement(x, y, z, id, lat, lng, distance);
-						elements.put(id, e);
+						DataElement e = new DataElement(x, y, z, globalId, lat, lng, distance);
+						elements.put((float) globalId, e);
+						
+						globalId++;
+						
 						if (useClustering)
 							kmeans.addPoint(e.getPoint());
 
@@ -231,6 +237,10 @@ public class DataHandler {
 			currentClusters = kmeans.getPointsClusters();
 		}
 
+		long end = System.currentTimeMillis();
+		System.out
+				.println("Time for loading and parsing " + elements.size() + " data elements: " + (end - start) + "ms");
+
 		if (append) {
 			Map<Float, DataElement> target = currentBuffer.getData();
 			target.forEach(elements::putIfAbsent);
@@ -238,11 +248,6 @@ public class DataHandler {
 
 		currentBuffer = new DataBuffer();
 		currentBuffer.setData(elements);
-
-		long end = System.currentTimeMillis();
-
-		System.out
-				.println("Time for loading and parsing " + elements.size() + " data elements: " + (end - start) + "ms");
 
 		return elements;
 	}

@@ -201,6 +201,8 @@ public class VisApplication implements AppInterface {
 	}
 
 	public void setPointCloudData(int viewportIndex, Map<Float, DataElement> partMap) {
+		//System.out.println("setting point cloud, size " + partMap.size());
+		//System.out.println(partMap);
 		this.engine.setPointCloudData(viewportIndex, DataHandler.convertToRenderableList(partMap));
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}

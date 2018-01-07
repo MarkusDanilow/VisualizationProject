@@ -89,8 +89,6 @@ public class VisController {
 		int f = Integer.parseInt(from);
 		int t = Integer.parseInt(to);
 
-		System.out.println("Von" + f + "bis" + t);
-
 		actData = DataHandler.getCurrentBuffer();
 		actMap = actData.getData();
 
