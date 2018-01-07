@@ -72,6 +72,8 @@ public class TitledPaneObjects {
 	private CheckBox showDistancePL;
 	private CheckBox minDistanceAT;
 	private TextField txtATDistance;
+	private Label positionPlot = new Label("Punkte");
+
 
 	public void setTitledPane(String paneType, String paneName, MainWindow wnd) {
 
@@ -119,11 +121,18 @@ public class TitledPaneObjects {
 			grid.add(rbPlotBetween, 0, 2, 3, 1);
 
 			rbPlotBetween.setOnAction((event) -> {
-				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {
-					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {					
+					if(Integer.parseInt(this.getTxtPlotFrom()) >  Integer.parseInt(this.getTxtPlotTo())) {
+						positionPlot.setTextFill(Color.RED);
+						positionPlot.setText("Punkte (Wert falsch!)");
+					} else {
+						positionPlot.setTextFill(Color.WHITE);
+						positionPlot.setText("Punkte");
+						VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+					}
 				}
 			});
-
+			
 			Label lblTo = new Label("bis");
 			lblTo.setMinWidth(23);
 			grid.add(lblTo, 1, 3, 3, 1);
@@ -143,7 +152,15 @@ public class TitledPaneObjects {
 				}
 
 				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty() && this.getRbPlotBetween().isSelected()) {
-					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				
+					if(Integer.parseInt(newValue) >  Integer.parseInt(this.getTxtPlotTo())) {
+						positionPlot.setTextFill(Color.RED);
+						positionPlot.setText("Punkte (Wert falsch!)");
+					} else {
+						positionPlot.setTextFill(Color.WHITE);
+						positionPlot.setText("Punkte");
+						VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+					}
 				}
 				
 				if(this.getTxtPlotFrom().isEmpty()) {
@@ -165,9 +182,6 @@ public class TitledPaneObjects {
 
 			grid.add(txtPlotTo, 0, 4);
 			
-			final Label positionPlot = new Label("Punkte");
-
-			
 			
 			// Handler
 			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -181,15 +195,17 @@ public class TitledPaneObjects {
 				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty() && this.getRbPlotBetween().isSelected()) {
 					
 					if(Integer.parseInt(newValue) <  Integer.parseInt(this.getTxtPlotFrom())) {
-						System.out.println("Falsch");
 						positionPlot.setTextFill(Color.RED);
+						positionPlot.setText("Punkte (Wert falsch!)");
 					} else {
+						positionPlot.setTextFill(Color.WHITE);
+						positionPlot.setText("Punkte");
 						VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
 					}	
 				}
 			});
 
-			grid.add(positionPlot, 1, 4, 2, 1);
+			grid.add(positionPlot, 1, 4, 3, 1);
 
 			final Label lblRotate = new Label("Kamera rotieren");
 
@@ -218,6 +234,9 @@ public class TitledPaneObjects {
 				VisController.rotateRight();
 			});
 
+			
+			
+			
 			// minDistanceAT = new CheckBox("Minimale Distanz");
 			//
 			// minDistanceAT.setTooltip(tooltip6);
