@@ -11,8 +11,8 @@ import com.base.engine.font.NEW.NewFontManager;
 
 public abstract class AHoverDataRenderer implements IRenderer {
 
-	public static DataElement activeElement = null ; 
-	
+	public static DataElement activeElement = null;
+
 	protected DataElement hoverData = null;
 	protected float x, y;
 
@@ -24,7 +24,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	public void setHoverData(DataElement hoverData) {
 		this.hoverData = hoverData;
-		activeElement = hoverData ;
+		activeElement = hoverData;
 		Engine.resetAllViewports();
 	}
 
@@ -45,7 +45,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 	}
 
 	protected void renderFrame() {
-		
+
 		RenderUtil.switch2D(-1, -1, 1, 1);
 
 		if ((x + width) < -1) {
@@ -103,6 +103,8 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		NewFontManager.renderText(px + sx, py + sy * 7f, 10, 3, "X: " + this.hoverData.getX());
 		NewFontManager.renderText(px + sx, py + sy * 9f, 10, 3, "Y: " + this.hoverData.getY());
 		NewFontManager.renderText(px + sx, py + sy * 11f, 10, 3, "Z: " + this.hoverData.getZ());
+		NewFontManager.renderText(px + sx, py + sy * 13f, 10, 3, "Lat: " + this.hoverData.getRealLat());
+		NewFontManager.renderText(px + sx, py + sy * 15f, 10, 3, "Lng: " + this.hoverData.getRealLng());
 
 		NewFontManager.close();
 

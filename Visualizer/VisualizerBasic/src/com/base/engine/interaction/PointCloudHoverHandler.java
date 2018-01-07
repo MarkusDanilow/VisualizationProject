@@ -11,6 +11,7 @@ import com.base.common.resources.DataElement;
 import com.base.common.resources.MathUtil;
 import com.base.engine.interaction.data.PointCloudHoverBufferData;
 import com.base.engine.interaction.data.Rectangle;
+import com.base.engine.rendering.ViewportRenderer;
 
 public class PointCloudHoverHandler extends AHoverHandler {
 
@@ -22,7 +23,8 @@ public class PointCloudHoverHandler extends AHoverHandler {
 		PointCloudHoverBufferData buffer = (PointCloudHoverBufferData) data;
 		if (buffer != null) {
 			for (DataElement point : buffer.getRawData()) {
-				int[] coords = getScreenCoords(point.getX(), point.getZ(), point.getY());
+				int[] coords = getScreenCoords(point.getLat() - ViewportRenderer.scale / 2f, point.getZ(),
+						point.getLng() - ViewportRenderer.scale / 2f);
 				int sx = coords[0];
 				int sy = coords[1];
 				sx -= (sx > hWidth ? hWidth : 0);

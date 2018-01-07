@@ -846,7 +846,7 @@ public class VBOHandler {
 		@Override
 		protected void renderStats() {
 			if (this.canRenderStats()) {
-				System.out.println(stats.getB() + ", " + stats.getB() * this.numItems);
+				// System.out.println(stats.getB() + ", " + stats.getB() * this.numItems);
 				float y1 = this.calcValue_yAxes(stats.getA());
 				float y2 = this.calcValue_yAxes(stats.getB() * this.numItems) + y1;
 				glColor4f(1, 1, 1, 1);
@@ -959,7 +959,7 @@ public class VBOHandler {
 		@Override
 		protected void renderStats() {
 			if (this.canRenderStats()) {
-				System.out.println(stats);
+				// System.out.println(stats);
 				float y1 = this.calcValue_yAxes(stats.getA());
 				float y2 = this.calcValue_yAxes(stats.getB() * this.numItems) + y1;
 				glColor4f(1, 1, 1, 1);
