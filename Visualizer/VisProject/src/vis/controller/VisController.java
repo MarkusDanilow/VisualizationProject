@@ -121,19 +121,19 @@ public class VisController {
 		application.rotateView(viewportIndex, 90);
 	}
 
-	public static void setMinimum(String s) {
-		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
-
-		int viewportIndex = convertIDToViewportIndex(ID);
-
-		// TODO: @Markus, wie bereinigen wir die Map um die zu kurzen Distanzen?
-
-		actData = DataHandler.getCurrentBuffer();
-		actMap = actData.getData();
-
-		// TODO: In Klärung
-
-	}
+//	public static void setMinimum(String s) {
+//		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+//
+//		int viewportIndex = convertIDToViewportIndex(ID);
+//
+//		// TODO: @Markus, wie bereinigen wir die Map um die zu kurzen Distanzen?
+//
+//		actData = DataHandler.getCurrentBuffer();
+//		actMap = actData.getData();
+//
+//		// TODO: In Klärung
+//
+//	}
 
 	public static void bdShowX() {
 		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
@@ -243,6 +243,13 @@ public class VisController {
 	private static int convertIDToViewportIndex(String id) {
 		int viewportIndex = (int) (ID.charAt(0)) - 65;
 		return (viewportIndex == 1 ? 2 : (viewportIndex == 2 ? 1 : viewportIndex));
+	}
+
+	public static void showFullParallel() {
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		int viewport = convertIDToViewportIndex(ID);
+		
+		application.toggleCompleteParallelCoordinates(viewport);
 	}
 
 }

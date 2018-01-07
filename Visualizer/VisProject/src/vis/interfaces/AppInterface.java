@@ -20,7 +20,7 @@ public interface AppInterface {
 
 	void displaySubData(Range<Float> range);
 
-	void toggleCompleteParallelCoordinates();
+	void toggleCompleteParallelCoordinates(int viewportIndex);
 	
 	void invertColors();
 	void setView(int viewportIndex, String viewName);

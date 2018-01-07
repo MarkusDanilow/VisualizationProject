@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -42,7 +41,6 @@ import vis.events.TimelineChangeEvent;
 import vis.events.TimelineNextEvent;
 import vis.events.TimelinePlayEvent;
 import vis.events.TimelinePreviousEvent;
-import vis.events.ToggleCompleteParallelCoordinatesEvent;
 import vis.interfaces.AppInterface;
 
 public class MainWindow extends JFrame {
@@ -243,12 +241,12 @@ public class MainWindow extends JFrame {
 		fileMenu.add(closeApp);
 		menuBar.add(fileMenu);
 
-		// settings menu
-		JMenu settingsMenu = new JMenu("Einstellungen");
-		JCheckBoxMenuItem completeParallelCoordinates = new JCheckBoxMenuItem("Vollst. Parall. Koord.");
-		completeParallelCoordinates.addActionListener(new ToggleCompleteParallelCoordinatesEvent(this));
-		settingsMenu.add(completeParallelCoordinates);
-		menuBar.add(settingsMenu);
+		// TODO: Cleanen sofern andere Funktion korrekt funktioniert, settings menu
+//		JMenu settingsMenu = new JMenu("Einstellungen");
+//		JCheckBoxMenuItem completeParallelCoordinates = new JCheckBoxMenuItem("Vollst. Parall. Koord.");
+//		completeParallelCoordinates.addActionListener(new ToggleCompleteParallelCoordinatesEvent(this));
+//		settingsMenu.add(completeParallelCoordinates);
+//		menuBar.add(settingsMenu);
 
 		// help menu
 		JMenu helpMenu = new JMenu("Hilfe");

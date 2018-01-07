@@ -12,7 +12,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import vis.controller.VisController;
 
 public class TitledPaneObjects {
@@ -27,28 +26,29 @@ public class TitledPaneObjects {
 	private final ToggleGroup groupT3 = new ToggleGroup();
 
 	// Tooltips
-	final Tooltip tooltip = new Tooltip("Alles ausgeben");
-	final Tooltip tooltip1 = new Tooltip("Bestimmten Einzelpunkt/-vektor ausgeben");
-	final Tooltip tooltip2 = new Tooltip("Ausgabe zwischen zwei bestimmten Punkten");
-	final Tooltip tooltip3 = new Tooltip("Wert zwischen 1 und 100000000 eingeben. Buchstaben sind nicht erlaubt");
-	final Tooltip tooltip4 = new Tooltip("Koordinatenkreutz nach rechts rotieren");
-	final Tooltip tooltip5 = new Tooltip("Koordinatenkreutz nach rechts rotieren");
-	final Tooltip tooltip6 = new Tooltip("Minimale Distanz setzen:");
-	final Tooltip tooltip7 = new Tooltip("x anzeigen");
-	final Tooltip tooltip8 = new Tooltip("y anzeigen");
-	final Tooltip tooltip9 = new Tooltip("z anzeigen");
-	final Tooltip tooltip10 = new Tooltip("Durchschnitt der letzten Punkte anzeigen");
-	final Tooltip tooltip11 = new Tooltip("Anzahl der letzten Punkte");
-	final Tooltip tooltip12 = new Tooltip("x anzeigen");
-	final Tooltip tooltip13 = new Tooltip("y anzeigen");
-	final Tooltip tooltip14 = new Tooltip("z anzeigen");
-	final Tooltip tooltip15 = new Tooltip("Trend der letzen Punkte anzeigen");
-	final Tooltip tooltip16 = new Tooltip("Anzahl der letzten Punkte");
-	final Tooltip tooltip17 = new Tooltip("x anzeigen");
-	final Tooltip tooltip18 = new Tooltip("y anzeigen");
-	final Tooltip tooltip19 = new Tooltip("z anzeigen");
-	final Tooltip tooltip20 = new Tooltip("Distanz anzeigen");
-
+	private final Tooltip tooltip = new Tooltip("Alles ausgeben");
+	private final Tooltip tooltip1 = new Tooltip("Bestimmten Einzelpunkt/-vektor ausgeben");
+	private final Tooltip tooltip2 = new Tooltip("Ausgabe zwischen zwei bestimmten Punkten");
+	private final Tooltip tooltip3 = new Tooltip("Wert zwischen 1 und 100000000 eingeben. Buchstaben sind nicht erlaubt");
+	private final Tooltip tooltip4 = new Tooltip("Koordinatenkreutz nach rechts rotieren");
+	private final Tooltip tooltip5 = new Tooltip("Koordinatenkreutz nach rechts rotieren");
+	//private final Tooltip tooltip6 = new Tooltip("Minimale Distanz setzen:");
+	private final Tooltip tooltip7 = new Tooltip("x anzeigen");
+	private final Tooltip tooltip8 = new Tooltip("y anzeigen");
+	private final Tooltip tooltip9 = new Tooltip("z anzeigen");
+	private final Tooltip tooltip10 = new Tooltip("Durchschnitt der letzten Punkte anzeigen");
+	private final Tooltip tooltip11 = new Tooltip("Anzahl der letzten Punkte");
+	private final Tooltip tooltip12 = new Tooltip("x anzeigen");
+	private final Tooltip tooltip13 = new Tooltip("y anzeigen");
+	private final Tooltip tooltip14 = new Tooltip("z anzeigen");
+	private final Tooltip tooltip15 = new Tooltip("Trend der letzen Punkte anzeigen");
+	private final Tooltip tooltip16 = new Tooltip("Anzahl der letzten Punkte");
+	private final Tooltip tooltip17 = new Tooltip("x anzeigen");
+	private final Tooltip tooltip18 = new Tooltip("y anzeigen");
+	private final Tooltip tooltip19 = new Tooltip("z anzeigen");
+	private final Tooltip tooltip20 = new Tooltip("Distanz anzeigen");
+	private final Tooltip tooltip21 = new Tooltip("Zeigt die vollständigen parallelen Koordinaten an");
+	
 	private RadioButton rbDotVector;
 	private RadioButton rbPlotAll;
 	private RadioButton rbPlotBetween;
@@ -73,6 +73,7 @@ public class TitledPaneObjects {
 	private CheckBox minDistanceAT;
 	private TextField txtATDistance;
 	private Label positionPlot = new Label("Punkte");
+	private CheckBox fullParallel;
 
 
 	public void setTitledPane(String paneType, String paneName, MainWindow wnd) {
@@ -508,6 +509,17 @@ public class TitledPaneObjects {
 
 			showDistancePL.setOnAction((event) -> {
 				VisController.pkShowDistance(showDistancePL.isSelected());
+			});
+			
+			fullParallel = new CheckBox("Vollst. Parall. Koord.");
+			fullParallel.setSelected(false);
+
+			fullParallel.setTooltip(tooltip21);
+
+			grid.add(fullParallel, 0, 4, 3, 1);
+		
+			fullParallel.setOnAction((event) -> {
+				VisController.showFullParallel();
 			});
 
 			t4.setText("Pane " + paneName + " : Parallele Koordinaten");

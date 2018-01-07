@@ -12,7 +12,7 @@ public class ToggleCompleteParallelCoordinatesEvent extends AbstractActionEvent 
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		this.window.app.toggleCompleteParallelCoordinates();
+		this.window.app.toggleCompleteParallelCoordinates(3);
 	}
 
 }

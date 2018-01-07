@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -157,9 +155,9 @@ public class VisApplication implements AppInterface {
 		return DataHandler.getCurrentBuffer().getStep();
 	}
 
-	public void toggleCompleteParallelCoordinates() {
+	public void toggleCompleteParallelCoordinates(int viewportIndex) {
 		this.engine.toggleCompleteParallelCoordinates();
-		this.engine.resetViewportDisplayList(3);
+		this.engine.resetViewportDisplayList(viewportIndex);
 	}
 
 	@Override
