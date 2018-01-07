@@ -59,6 +59,7 @@ import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
+import com.base.engine.interaction.data.AHoverBufferData;
 import com.base.engine.interaction.data.BarChartHoverBufferData;
 import com.base.engine.interaction.data.LineChartHoverBufferData;
 import com.base.engine.interaction.data.PointCloudHoverBufferData;
@@ -71,6 +72,7 @@ import com.base.engine.rendering.MiniMapRenderer;
 import com.base.engine.rendering.ParallelCoordinatesRenderer;
 import com.base.engine.rendering.PointCloudClusterRenderer;
 import com.base.engine.rendering.PointCloudRenderer;
+import com.base.engine.rendering.hover.AHoverDataRenderer;
 
 /**
  * 
@@ -387,6 +389,7 @@ public class VBOHandler {
 
 				float[] color = PointCloudRenderer.calcVertexColor(vertex.getLat(), vertex.getZ(), vertex.getLng(),
 						vertex.getTime(), maxTime);
+
 				buffers[1].put(new float[] { color[0], color[1], color[2], color[3] });
 			}
 
@@ -807,8 +810,15 @@ public class VBOHandler {
 
 				bars.add(new Rectangle(x, x + xStep, -yMax, -value));
 
-				for (int j = 0; j < verticesPerItem; j++)
-					buffers[1].put(new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
+				for (int j = 0; j < verticesPerItem; j++) {
+					if (AHoverDataRenderer.activeElement != null
+							&& AHoverDataRenderer.activeElement.getId() == e.getId()) {
+						buffers[1].put(new float[] { 1, 1, 1, 1 });
+					} else {
+						buffers[1].put(
+								new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
+					}
+				}
 
 			}
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
@@ -894,7 +904,11 @@ public class VBOHandler {
 				buffers[0].put(new float[] { valueX, valueY });
 				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
 
-				buffers[1].put(new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
+				if (AHoverDataRenderer.activeElement != null && AHoverDataRenderer.activeElement.getId() == e.getId()) {
+					buffers[1].put(new float[] { 1, 1, 1, 1 });
+				} else {
+					buffers[1].put(new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
+				}
 
 				dots.add(new Rectangle(valueX - delta, valueX + delta, -valueY - delta, -valueY + delta));
 
@@ -919,10 +933,16 @@ public class VBOHandler {
 				MadColor color = getColorByType(type[0]);
 
 				if (this.inputData != null) {
-					glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+
 					glBegin(GL_POINTS);
 					for (int i = 0; i < numItems; i++) {
 						DataElement e = inputData.get(i);
+						if (AHoverDataRenderer.activeElement != null
+								&& AHoverDataRenderer.activeElement.getId() == e.getId()) {
+							glColor4f(1, 1, 1, 1);
+						} else {
+							glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+						}
 						glVertex2f(this.calcPosX(i), this.calcValue_yAxes(DataType.getValueByType(propertyOnYAxes, e)));
 					}
 					glEnd();

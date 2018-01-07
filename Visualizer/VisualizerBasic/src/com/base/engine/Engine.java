@@ -59,6 +59,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	public static boolean FULLSCREEN_ENABLED, VSYNC_ENABLED;
 	public static int DISPLAY_WIDTH, DISPLAY_HEIGHT;
 
+	private static Engine engineInstance;
+
 	public static int NUM_VIEWS = 4;
 
 	public static int getDisplayWidth() {
@@ -246,6 +248,8 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				exit();
 			}
 		}.start();
+
+		engineInstance = this;
 	}
 
 	private static DisplayMode getDisplayMode(int targetWidth, int targetHeight) {
@@ -861,6 +865,10 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public float[] getPointCloudWorldRotations() {
 		return pointCloudWorldRotations;
+	}
+
+	public static void resetAllViewports() {
+		engineInstance.resetAllViewportDisplayLists();
 	}
 
 }

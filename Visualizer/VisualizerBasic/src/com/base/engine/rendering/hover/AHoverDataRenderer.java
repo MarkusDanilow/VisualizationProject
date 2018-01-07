@@ -11,6 +11,8 @@ import com.base.engine.font.NEW.NewFontManager;
 
 public abstract class AHoverDataRenderer implements IRenderer {
 
+	public static DataElement activeElement = null ; 
+	
 	protected DataElement hoverData = null;
 	protected float x, y;
 
@@ -22,6 +24,8 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 	public void setHoverData(DataElement hoverData) {
 		this.hoverData = hoverData;
+		activeElement = hoverData ;
+		Engine.resetAllViewports();
 	}
 
 	public float getX() {
