@@ -133,6 +133,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public DataType[][] selectedDataTypes = new DataType[NUM_VIEWS][DataType.values().length];
 	public StatisticObject[] statistics = new StatisticObject[NUM_VIEWS];
+	public boolean[] statsEnabled = new boolean[NUM_VIEWS];
 
 	public boolean isRunning() {
 		return running;
@@ -839,6 +840,18 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 	@Override
 	public void setStatisticObject(int viewportIndex, StatisticObject stats) {
 		this.statistics[viewportIndex] = stats;
+	}
+
+	public StatisticObject[] getStatistics() {
+		return statistics;
+	}
+
+	public void toggleStats(int viewportIndex, boolean toggled) {
+		this.statsEnabled[viewportIndex] = toggled;
+	}
+
+	public boolean areStatsEnabled(int viewportIndex) {
+		return this.statsEnabled[viewportIndex];
 	}
 
 	@Override

@@ -220,6 +220,12 @@ public class VisController {
 		application.toggleDataType(viewport, DataType.DIST, toggled, 3);
 	}
 
+	public static void toggleStats(boolean toggled) {
+		ID = window.get().getFxPanelObjectRight().getActiveAccordion().getId();
+		int viewport = convertIDToViewportIndex(ID);
+		application.toggleStats(viewport, toggled);
+	}
+
 	/**
 	 * Converts the ID (A,B,C,D) of the titled pane to the integer ID of the
 	 * corresponding viewport. Switch-case-statements are therefore no longer

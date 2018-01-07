@@ -65,6 +65,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	List<InteractableRectangle> getViewports();
 
 	void setStatisticObject(int viewportIndex, StatisticObject type);
+	void toggleStats(int viewportIndex, boolean toggled);
 
 	void rotateView(int viewportIndex, int angle);
 

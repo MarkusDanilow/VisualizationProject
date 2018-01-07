@@ -48,11 +48,13 @@ import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import com.base.common.ColorUtil;
+import com.base.common.MadColor;
 import com.base.common.resources.Callback;
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.DataElement.DataType;
 import com.base.common.resources.Point;
+import com.base.common.resources.StatisticObject;
 import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
@@ -255,12 +257,13 @@ public class VBOHandler {
 	 * @param data
 	 * @param viewportIndex
 	 */
-	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data, DataType[] type) {
+	public static void handleBufferCreation(String rendererClassName, int viewportIndex, Object data, DataType[] type,
+			StatisticObject stats) {
 		if (internalRenderers.containsKey(rendererClassName)) {
 			for (IVBORenderer renderer : internalRenderers.get(rendererClassName)) {
 				int bufferHashCode = viewportIndex + renderer.hashCode();
 				if (!VBOHandler.bufferExists(bufferHashCode)) {
-					renderer.create(bufferHashCode, data, type);
+					renderer.create(bufferHashCode, data, type, stats);
 				}
 			}
 		}
@@ -337,13 +340,35 @@ public class VBOHandler {
 	 * ------------------------------------------------------------------------
 	 */
 
-	private static class VBOPointCloudRenderer implements IVBORenderer {
+	private static abstract class AIVBORenderer implements IVBORenderer {
+
+		protected StatisticObject stats;
+		protected boolean statsEnabled = false;
+
+		@Override
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
+			this.stats = stats;
+			this.statsEnabled = this.stats != null;
+		}
+
+		protected boolean canRenderStats() {
+			return this.statsEnabled;
+		}
+
+		protected abstract void renderStats();
+
+	}
+
+	private static class VBOPointCloudRenderer extends AIVBORenderer {
 
 		private float scale = Settings.getAxisScale() / 2;
-		
+
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
+
+			super.create(viewportIndex, data, type, stats);
+
 			if (data == null)
 				return;
 			List<DataElement> points = (List<DataElement>) data;
@@ -366,7 +391,7 @@ public class VBOHandler {
 			}
 
 			DataElement lastVertex = points.get(points.size() > 1 ? points.size() - 1 : 0);
-			World.movePlayer(lastVertex.getLat()- scale, lastVertex.getZ(), lastVertex.getLng()- scale);
+			World.movePlayer(lastVertex.getLat() - scale, lastVertex.getZ(), lastVertex.getLng() - scale);
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 
@@ -381,6 +406,13 @@ public class VBOHandler {
 			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
 		}
 
+		@Override
+		protected void renderStats() {
+			if (this.canRenderStats()) {
+
+			}
+		}
+
 	}
 
 	/*
@@ -389,11 +421,14 @@ public class VBOHandler {
 	 * ------------------------------------------------------------------------
 	 */
 
-	private static class VBOPointCloudClusterRenderer implements IVBORenderer {
+	private static class VBOPointCloudClusterRenderer extends AIVBORenderer {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
+
+			super.create(viewportIndex, data, type, stats);
+
 			if (data == null)
 				return;
 			List<Cluster> clusters = (List<Cluster>) data;
@@ -418,6 +453,13 @@ public class VBOHandler {
 		@Override
 		public void render(int viewportIndex, Callback callback, DataType[] type) {
 			masterRenderMethod(viewportIndex, 3, 4, GL_POINTS, callback);
+		}
+
+		@Override
+		protected void renderStats() {
+			if (this.canRenderStats()) {
+
+			}
 		}
 
 	}
@@ -450,7 +492,7 @@ public class VBOHandler {
 		}
 
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
 
 			float alphaChannel = 0.1f;
 
@@ -473,14 +515,11 @@ public class VBOHandler {
 			}
 
 			// push axes to the buffers
-			// buffers[0].put(new float[] { 0, 0, 0, maxX, 0, 0, 0, 0, 0, 0, maxY, 0, 0, 0, 0, 0, 0, maxY });
-			
-			buffers[0].put(new float[] { minX, 0, minY, 
-										maxX, 0, minY, 
-										minX, 0, minY, 
-										minY, maxY * 2, minY, 
-										minX, 0, minY,
-										minX, 0, maxY });
+			// buffers[0].put(new float[] { 0, 0, 0, maxX, 0, 0, 0, 0, 0, 0,
+			// maxY, 0, 0, 0, 0, 0, 0, maxY });
+
+			buffers[0].put(new float[] { minX, 0, minY, maxX, 0, minY, minX, 0, minY, minY, maxY * 2, minY, minX, 0,
+					minY, minX, 0, maxY });
 
 			float[] red = new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
 					Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() };
@@ -491,10 +530,10 @@ public class VBOHandler {
 
 			buffers[1].put(red);
 			buffers[1].put(red);
-			buffers[1].put(green);
-			buffers[1].put(green);
 			buffers[1].put(blue);
 			buffers[1].put(blue);
+			buffers[1].put(green);
+			buffers[1].put(green);
 
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
 		}
@@ -537,7 +576,7 @@ public class VBOHandler {
 	 * ------------------------------------------------------------------------
 	 */
 
-	private static abstract class AVBOChartRenderer implements IVBORenderer {
+	private static abstract class AVBOChartRenderer extends AIVBORenderer {
 		protected final float yMin = -0.8f;
 		protected final float xMin = -0.9f;
 		protected final float yMax = Math.abs(yMin);
@@ -561,8 +600,22 @@ public class VBOHandler {
 			}
 		}
 
+		protected static MadColor getColorByType(DataType type) {
+			switch (type) {
+			case X:
+				return Settings.X_COLOR;
+			case Y:
+				return Settings.Y_COLOR;
+			case Z:
+				return Settings.Z_COLOR;
+			default:
+				return Settings.X_COLOR;
+			}
+		}
+
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
+			super.create(viewportIndex, data, type, stats);
 			this.propertyOnYAxes = type[0];
 		}
 
@@ -713,9 +766,9 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
 
-			super.create(viewportIndex, data, type);
+			super.create(viewportIndex, data, type, stats);
 
 			this.enabled = data != null;
 			if (!enabled)
@@ -735,6 +788,8 @@ public class VBOHandler {
 
 			List<Rectangle> bars = new ArrayList<>();
 
+			MadColor color = getColorByType(type[0]);
+
 			for (int i = 0; i < numItems; i++) {
 
 				DataElement e = inputData.get(i);
@@ -753,8 +808,7 @@ public class VBOHandler {
 				bars.add(new Rectangle(x, x + xStep, -yMax, -value));
 
 				for (int j = 0; j < verticesPerItem; j++)
-					buffers[1].put(new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
-							Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() });
+					buffers[1].put(new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
 
 			}
 			finalizeBuffers(viewportIndex, buffers[0], buffers[1]);
@@ -774,6 +828,21 @@ public class VBOHandler {
 				masterRenderMethod(viewportIndex, 2, 4, GL_QUADS, callback);
 				glEnable(GL_BLEND);
 				this.renderAxes(type);
+				this.renderStats();
+			}
+		}
+
+		@Override
+		protected void renderStats() {
+			if (this.canRenderStats()) {
+				System.out.println(stats.getB() + ", " + stats.getB() * this.numItems);
+				float y1 = this.calcValue_yAxes(stats.getA());
+				float y2 = this.calcValue_yAxes(stats.getB() * this.numItems) + y1;
+				glColor4f(1, 1, 1, 1);
+				glBegin(GL_POINTS);
+				glVertex2f(xMin, y1);
+				glVertex2f(xMax, y2);
+				glEnd();
 			}
 		}
 
@@ -791,9 +860,9 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
 
-			super.create(viewportIndex, data, type);
+			super.create(viewportIndex, data, type, stats);
 
 			this.enabled = data != null;
 			if (!enabled)
@@ -811,6 +880,8 @@ public class VBOHandler {
 			List<Rectangle> dots = new ArrayList<>();
 			float delta = 0.025f;
 
+			MadColor color = getColorByType(type[0]);
+
 			FloatBuffer[] buffers = initBuffers(viewportIndex, numItems, 2, 4);
 			for (int i = 0; i < numItems; i++) {
 
@@ -823,8 +894,7 @@ public class VBOHandler {
 				buffers[0].put(new float[] { valueX, valueY });
 				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
 
-				buffers[1].put(new float[] { Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(),
-						Settings.X_COLOR.getBlue(), Settings.X_COLOR.getAlpha() });
+				buffers[1].put(new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
 
 				dots.add(new Rectangle(valueX - delta, valueX + delta, -valueY - delta, -valueY + delta));
 
@@ -846,9 +916,10 @@ public class VBOHandler {
 				glPointSize(8);
 				masterRenderMethod(viewportIndex, 2, 4, GL_LINE_STRIP, callback);
 
+				MadColor color = getColorByType(type[0]);
+
 				if (this.inputData != null) {
-					glColor4f(Settings.X_COLOR.getRed(), Settings.X_COLOR.getGreen(), Settings.X_COLOR.getBlue(),
-							Settings.X_COLOR.getAlpha());
+					glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 					glBegin(GL_POINTS);
 					for (int i = 0; i < numItems; i++) {
 						DataElement e = inputData.get(i);
@@ -858,6 +929,21 @@ public class VBOHandler {
 				}
 
 				this.renderAxes(type);
+				this.renderStats();
+			}
+		}
+
+		@Override
+		protected void renderStats() {
+			if (this.canRenderStats()) {
+				System.out.println(stats);
+				float y1 = this.calcValue_yAxes(stats.getA());
+				float y2 = this.calcValue_yAxes(stats.getB() * this.numItems) + y1;
+				glColor4f(1, 1, 1, 1);
+				glBegin(GL_POINTS);
+				glVertex2f(xMin, y1);
+				glVertex2f(xMax, y2);
+				glEnd();
 			}
 		}
 
@@ -873,7 +959,9 @@ public class VBOHandler {
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public void create(int viewportIndex, Object data, DataType[] type) {
+		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
+
+			super.create(viewportIndex, data, type, stats);
 
 			this.enabled = data != null;
 			if (!enabled)
@@ -945,6 +1033,13 @@ public class VBOHandler {
 				}
 				NewFontManager.close();
 				RenderUtil.switch2D(-1, -1, 1, 1);
+			}
+		}
+
+		@Override
+		protected void renderStats() {
+			if (this.canRenderStats()) {
+
 			}
 		}
 

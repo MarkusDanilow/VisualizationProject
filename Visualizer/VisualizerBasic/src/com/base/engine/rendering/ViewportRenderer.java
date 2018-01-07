@@ -23,6 +23,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.base.common.IRenderer;
 import com.base.common.Renderable;
+import com.base.common.resources.StatisticObject;
 import com.base.engine.Camera;
 import com.base.engine.Engine;
 import com.base.engine.RenderUtil;
@@ -137,15 +138,17 @@ public class ViewportRenderer implements Renderable {
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
 							GraphicsHoverHandler.storeCurrentMatrices();
 
+							StatisticObject stats = engine.areStatsEnabled(i) ? engine.getStatistics()[i] : null;
+
 							if (renderers.get(i)[j].is3D()) {
 								glPushMatrix();
 								glRotatef(engine.getPointCloudWorldRotations()[i], 0, 1, 0);
 								GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j,
-										engine.getViewportDataType(i));
+										engine.getViewportDataType(i), stats);
 								glPopMatrix();
 							} else {
 								GraphicBufferUitl.handleGraphicsData(renderData, renderers.get(i)[j], i, j,
-										engine.getViewportDataType(i));
+										engine.getViewportDataType(i), stats);
 							}
 
 							/*

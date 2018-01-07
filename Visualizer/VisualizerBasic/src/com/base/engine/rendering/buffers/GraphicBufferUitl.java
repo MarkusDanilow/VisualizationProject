@@ -2,6 +2,7 @@ package com.base.engine.rendering.buffers;
 
 import com.base.common.ColorUtil;
 import com.base.common.IRenderer;
+import com.base.common.resources.StatisticObject;
 import com.base.common.resources.DataElement.DataType;
 import com.base.engine.Engine;
 
@@ -25,7 +26,7 @@ public class GraphicBufferUitl {
 	}
 
 	public static void handleGraphicsData(Object data, IRenderer renderer, int viewportIndex, int rendererIndex,
-			DataType[] type) {
+			DataType[] type, StatisticObject stats) {
 
 		if (renderer == null || viewportIndex < 0)
 			return;
@@ -51,7 +52,7 @@ public class GraphicBufferUitl {
 		else {
 			if (viewportIndex == 0)
 				start = System.currentTimeMillis();
-			VBOHandler.handleBufferCreation(renderer.getClass().getSimpleName(), rendererHash, data, type);
+			VBOHandler.handleBufferCreation(renderer.getClass().getSimpleName(), rendererHash, data, type, stats);
 			VBOHandler.renderBuffer(renderer.getClass().getSimpleName(), rendererHash, type);
 			if (viewportIndex == Engine.NUM_VIEWS - 1) {
 				end = System.currentTimeMillis();

@@ -200,9 +200,12 @@ public class VisApplication implements AppInterface {
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}
 
+	public void toggleStats(int viewportIndex, boolean toggled) {
+		this.engine.toggleStats(viewportIndex, toggled);
+		this.engine.resetViewportDisplayList(viewportIndex);
+	}
+
 	public void setPointCloudData(int viewportIndex, Map<Float, DataElement> partMap) {
-		//System.out.println("setting point cloud, size " + partMap.size());
-		//System.out.println(partMap);
 		this.engine.setPointCloudData(viewportIndex, DataHandler.convertToRenderableList(partMap));
 		this.engine.resetViewportDisplayList(viewportIndex);
 	}
