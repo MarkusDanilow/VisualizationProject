@@ -813,7 +813,8 @@ public class VBOHandler {
 				for (int j = 0; j < verticesPerItem; j++) {
 					if (AHoverDataRenderer.activeElement != null
 							&& AHoverDataRenderer.activeElement.getId() == e.getId()) {
-						buffers[1].put(new float[] { 1, 1, 1, 1 });
+						buffers[1].put(new float[] { Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getGreen(),
+								Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getAlpha() });
 					} else {
 						buffers[1].put(
 								new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
@@ -905,7 +906,8 @@ public class VBOHandler {
 				// buffers[1].put(PointCloudRenderer.calcVertexColor(e.getX(),
 
 				if (AHoverDataRenderer.activeElement != null && AHoverDataRenderer.activeElement.getId() == e.getId()) {
-					buffers[1].put(new float[] { 1, 1, 1, 1 });
+					buffers[1].put(new float[] { Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getGreen(),
+							Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getAlpha() });
 				} else {
 					buffers[1].put(new float[] { color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() });
 				}
@@ -939,7 +941,8 @@ public class VBOHandler {
 						DataElement e = inputData.get(i);
 						if (AHoverDataRenderer.activeElement != null
 								&& AHoverDataRenderer.activeElement.getId() == e.getId()) {
-							glColor4f(1, 1, 1, 1);
+							glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getGreen(),
+									Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getAlpha());
 						} else {
 							glColor4f(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 						}
@@ -1009,6 +1012,12 @@ public class VBOHandler {
 				// calc color
 				float time = e.isSampled() ? e.getTimeRange().getHiVal() : e.getTime();
 				float[] color = PointCloudRenderer.calcVertexColor(e.getX(), e.getY(), e.getZ(), time, maxTime);
+
+				if (AHoverDataRenderer.activeElement != null && AHoverDataRenderer.activeElement.getId() == e.getId()) {
+					color = new float[] { Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getGreen(),
+							Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getAlpha() };
+				}
+
 				float y = 0;
 
 				for (int j = 0; j <= numProperties; j++) {
