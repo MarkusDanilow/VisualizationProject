@@ -25,6 +25,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 	public void setHoverData(DataElement hoverData) {
 		this.hoverData = hoverData;
 		activeElement = hoverData;
+		System.out.println(hoverData);
 		Engine.resetAllViewports();
 	}
 

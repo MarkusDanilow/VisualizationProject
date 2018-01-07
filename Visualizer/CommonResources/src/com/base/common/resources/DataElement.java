@@ -186,7 +186,11 @@ public class DataElement {
 
 	@Override
 	public String toString() {
-		return getX() + ", " + getY() + ", " + getZ();
+		return "x: " + getX() + ", " + 
+				"y: " + getY() + ", " + 
+				"z: " + getZ() + ", "+
+				"lat: " + getRealLat() + ", " + 
+				"lng: " + getRealLng() +"; ";
 	}
 
 }

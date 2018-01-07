@@ -106,15 +106,14 @@ public class Statistic {
 		size = tempMap.size();
 		// System.out.println("Map Size before: " + tempMap.size());
 
-		if(lastCount <= MAX_VALUE_CONTENT) {
-			tempMap = DataHandler.getPartialData(tempMap,
-					new Range<Float>((float) size - lastCount, (float) size));
-			
+		if (lastCount <= MAX_VALUE_CONTENT) {
+			tempMap = DataHandler.getPartialData(tempMap, new Range<Float>((float) size - lastCount, (float) size));
+
 		} else {
 			System.out.println("Zu viele Elemente");
 			tempMap = DataHandler.getPartialData(tempMap,
 					new Range<Float>((float) size - MAX_VALUE_CONTENT, (float) size));
-			
+
 		}
 
 		// getSize of incoming values
@@ -141,7 +140,7 @@ public class Statistic {
 				break;
 			}
 		}
-		
+
 		meanResult.setA((float) calcMean.getMean());
 		meanResult.setB((float) calcMean.getStandardDeviation());
 		// ggf. über GUI änderbar
@@ -172,15 +171,14 @@ public class Statistic {
 		tempMap = elements;
 		size = tempMap.size();
 
-		if(lastCount <= MAX_VALUE_CONTENT) {
-			tempMap = DataHandler.getPartialData(tempMap,
-					new Range<Float>((float) size - lastCount, (float) size));
-			
+		if (lastCount <= MAX_VALUE_CONTENT) {
+			tempMap = DataHandler.getPartialData(tempMap, new Range<Float>((float) size - lastCount, (float) size));
+
 		} else {
 			System.out.println("Zu viele Elemente");
 			tempMap = DataHandler.getPartialData(tempMap,
 					new Range<Float>((float) size - MAX_VALUE_CONTENT, (float) size));
-			
+
 		}
 
 		// getSize of incoming values
@@ -251,11 +249,13 @@ public class Statistic {
 			outputData = inputData;
 		} else {
 			int bound = input.size() / maxItemsInChart;
-			float x = 0f, y = 0f, z = 0f, time0 = 0, time1 = 0;
+			float x = 0f, y = 0f, z = 0f, time0 = 0, time1 = 0, lat = 0f, lng = 0f;
 			for (int i = 0; i < inputData.size(); i++) {
 				x += inputData.get(i).getX();
 				y += inputData.get(i).getY();
 				z += inputData.get(i).getZ();
+				lat += inputData.get(i).getRealLat();
+				lng += inputData.get(i).getRealLng();
 				if (i % bound == 0) {
 					time0 = inputData.get(i).getTime();
 				}
@@ -263,12 +263,17 @@ public class Statistic {
 					x /= (float) bound;
 					y /= (float) bound;
 					z /= (float) bound;
+					lat /= (float) bound;
+					lng /= (float) bound;
 					time1 = inputData.get(i).getTime();
 					DataElement e = new DataElement(x, y, z, time0 + (time1 - time0) / 2f);
-					if(bound > 1){
+					e.setLat(lat);
+					e.setLng(lng);
+					if (bound > 1) {
 						e.setTimeRange(new Range<Float>(time0, time1));
 						e.setSampleRate(bound);
 					}
+					x = y = z = time0 = time1 = lat = lng = 0f;
 					outputData.add(e);
 					if (outputData.size() >= maxItemsInChart)
 						break;
