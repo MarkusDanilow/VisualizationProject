@@ -82,7 +82,7 @@ public class MainWindow extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// maximize window
-		this.setSize(getScreenSize());
+		this.setSize((int)getScreenSize().getWidth(), (int)getScreenSize().getHeight() - 50);
 
 		// disable resizing
 		this.setResizable(false);

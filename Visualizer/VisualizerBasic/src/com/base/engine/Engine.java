@@ -351,7 +351,7 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 				renderers[0] = this.gridRenderer;
 				renderers[1] = this.pointCloudRenderer;
 				// renderers[2] = .pointCloudClusterRenderer;
-				// renderers[3] = this.minimapRenderer;
+				renderers[3] = this.minimapRenderer;
 				this.renderers.add(renderers);
 				this.rendererMapping.put(Settings.get3DView(), renderers);
 				Callback event = new InteractionEventPointCloud();

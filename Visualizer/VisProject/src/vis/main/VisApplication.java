@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -21,6 +22,7 @@ import com.base.engine.Settings;
 import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 import vis.controller.VisController;
+import vis.data.DataBuffer;
 import vis.data.DataHandler;
 import vis.data.RealTimeThread;
 import vis.frame.LookAndFeel;
@@ -215,6 +217,8 @@ public class VisApplication implements AppInterface {
 	}
 
 	public void startLiveView() {
+		// handleLoadedData(new TreeMap<>());
+		DataHandler.setCurrentBuffer(new DataBuffer());
 		this.realtimeThread = new RealTimeThread(this);
 		realtimeThread.start();
 	}

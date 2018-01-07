@@ -33,7 +33,7 @@ import com.base.engine.rendering.buffers.GraphicBufferUitl;
 
 public class ViewportRenderer implements Renderable {
 
-	public static final boolean minimapEnabled = false;
+	public static final boolean minimapEnabled = true;
 
 	public static float scale = Settings.getAxisScale();
 
@@ -80,6 +80,7 @@ public class ViewportRenderer implements Renderable {
 									customViewport[3]);
 							glPushMatrix();
 							{
+								// GL11.glDisable(GL11.GL_BLEND);
 								RenderUtil.switch2D(-1, -1, 1, 1);
 								glBegin(GL11.GL_QUADS);
 								{
@@ -125,8 +126,8 @@ public class ViewportRenderer implements Renderable {
 								glRotatef(35, 1, 0, 0);
 								glRotatef(130, 0, 1, 0);
 								// glRotatef(camera[i].getYaw(), 0, 1, 0);
-								glTranslatef(3000, -6000, 3000);
-								glScalef(0.05f, 0.05f, 0.05f);
+								glTranslatef(5000, -5500, 5000);
+								glScalef(0.07f, 0.07f, 0.07f);
 							}
 
 							Object renderData = renderers.get(i)[j].selectRenderData(engine);
@@ -151,18 +152,18 @@ public class ViewportRenderer implements Renderable {
 										engine.getViewportDataType(i), stats);
 							}
 
-							/*
-							 * if (!isNormalViewport && minimapEnabled) {
-							 * GL11.glPointSize(15); glScalef(5, 5, 5);
-							 * glBegin(GL11.GL_POINTS); {
-							 * GL11.glColor4f(Settings.MINIMAP_POS.getRed(),
-							 * Settings.MINIMAP_POS.getGreen(),
-							 * Settings.MINIMAP_POS.getBlue(),
-							 * Settings.MINIMAP_POS.getAlpha());
-							 * GL11.glVertex3f(-camera[i].getPos().getX(),
-							 * -camera[i].getPos().getY(),
-							 * -camera[i].getPos().getZ()); } glEnd(); }
-							 */
+							if (!isNormalViewport && minimapEnabled) {
+								GL11.glPointSize(15);
+								glScalef(5, 5, 5);
+								glBegin(GL11.GL_POINTS);
+								{
+									GL11.glColor4f(Settings.MINIMAP_POS.getRed(), Settings.MINIMAP_POS.getGreen(),
+											Settings.MINIMAP_POS.getBlue(), Settings.MINIMAP_POS.getAlpha());
+									GL11.glVertex3f(-camera[i].getPos().getX(), -camera[i].getPos().getY(),
+											-camera[i].getPos().getZ());
+								}
+								glEnd();
+							}
 
 							if (renderers.get(i)[j].isHoverActivated()) {
 								renderers.get(i)[j].getHoverDataRenderer().render();

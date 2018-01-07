@@ -1023,7 +1023,8 @@ public class VBOHandler {
 
 				for (int j = 0; j <= numProperties; j++) {
 					this.setBiggestY(DataType.getValueByType(type[j], biggest[j]));
-					y = this.calcValue_yAxes(DataType.getValueByType(type[j], e));
+					float value = DataType.getValueByType(type[j], e);
+					y = this.calcValue_yAxes(value);
 					buffers[0].put(new float[] { xMin + j * xStep, y });
 					if (j < numProperties) {
 						this.setBiggestY(DataType.getValueByType(type[j + 1], biggest[j + 1]));

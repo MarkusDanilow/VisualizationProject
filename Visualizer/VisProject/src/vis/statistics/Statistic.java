@@ -250,13 +250,14 @@ public class Statistic {
 			outputData = inputData;
 		} else {
 			int bound = input.size() / maxItemsInChart;
-			float x = 0f, y = 0f, z = 0f, time0 = 0, time1 = 0, lat = 0f, lng = 0f;
+			float x = 0f, y = 0f, z = 0f, time0 = 0, time1 = 0, lat = 0f, lng = 0f, distance = 0f;
 			for (int i = 0; i < inputData.size(); i++) {
 				x += inputData.get(i).getX();
 				y += inputData.get(i).getY();
 				z += inputData.get(i).getZ();
 				lat += inputData.get(i).getRealLat();
 				lng += inputData.get(i).getRealLng();
+				distance += inputData.get(i).getDistance();
 				if (i % bound == 0) {
 					time0 = inputData.get(i).getTime();
 				}
@@ -266,15 +267,17 @@ public class Statistic {
 					z /= (float) bound;
 					lat /= (float) bound;
 					lng /= (float) bound;
+					distance /= (float) bound;
 					time1 = inputData.get(i).getTime();
 					DataElement e = new DataElement(x, y, z, time0 + (time1 - time0) / 2f);
 					e.setLat(lat);
 					e.setLng(lng);
+					e.setDistance(distance);
 					if (bound > 1) {
 						e.setTimeRange(new Range<Float>(time0, time1));
 						e.setSampleRate(bound);
 					}
-					x = y = z = time0 = time1 = lat = lng = 0f;
+					x = y = z = time0 = time1 = lat = lng = distance = 0f;
 					outputData.add(e);
 					if (outputData.size() >= maxItemsInChart)
 						break;

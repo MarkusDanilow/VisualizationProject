@@ -35,7 +35,7 @@ public class DataElement {
 			}
 			return -1f;
 		}
-		
+
 	}
 
 	private static Range<Float> latRange = new Range<Float>(48.47885489462709f, 48.48547494510185f);
@@ -186,11 +186,8 @@ public class DataElement {
 
 	@Override
 	public String toString() {
-		return "x: " + getX() + ", " + 
-				"y: " + getY() + ", " + 
-				"z: " + getZ() + ", "+
-				"lat: " + getRealLat() + ", " + 
-				"lng: " + getRealLng() +"; ";
+		return "x: " + getX() + ", " + "y: " + getY() + ", " + "z: " + getZ() + ", " + "lat: " + getRealLat() + ", "
+				+ "lng: " + getRealLng() + "; ";
 	}
 
 }

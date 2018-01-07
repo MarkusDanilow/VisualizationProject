@@ -15,11 +15,14 @@ import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
+import org.lwjgl.Sys;
+
 import com.base.common.resources.Cluster;
 import com.base.common.resources.DataElement;
 import com.base.common.resources.KMeans;
 import com.base.common.resources.Range;
 import com.base.engine.Settings;
+import com.sun.prism.impl.Disposer.Target;
 
 public class DataHandler {
 
@@ -171,7 +174,7 @@ public class DataHandler {
 					// parse each element in the JSON string
 					String[] parts = json.split("\\},\\{");
 
-					int globalId = 0;
+					int globalId = append ? currentBuffer.getData().size() : 0;
 
 					for (String partialJson : parts) {
 
@@ -199,15 +202,15 @@ public class DataHandler {
 							} else if (key.equals("xPos")) {
 								x = Float.parseFloat(value);
 							} else if (key.equals("yPos")) {
-								z = Float.parseFloat(value);
-							} else if (key.equals("zPos")) {
 								y = Float.parseFloat(value);
+							} else if (key.equals("zPos")) {
+								z = Float.parseFloat(value);
 							} else if (key.equals("gpsLatitude")) {
 								lat = Float.parseFloat(value);
 							} else if (key.equals("gpsLongitude")) {
 								lng = Float.parseFloat(value);
 							} else if (key.equals("distance")) {
-								distance = Float.parseFloat(value);
+								distance = (float) Integer.parseInt(value);
 							}
 
 						}
@@ -243,7 +246,7 @@ public class DataHandler {
 
 		if (append) {
 			Map<Float, DataElement> target = currentBuffer.getData();
-			target.forEach(elements::putIfAbsent);
+			elements.putAll(target);
 		}
 
 		currentBuffer = new DataBuffer();
