@@ -11,6 +11,8 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import vis.controller.VisController;
 
 public class TitledPaneObjects {
@@ -140,34 +142,56 @@ public class TitledPaneObjects {
 					txtPlotFrom.setText(newValue);
 				}
 
-				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {
+				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty() && this.getRbPlotBetween().isSelected()) {
 					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
 				}
+				
+				if(this.getTxtPlotFrom().isEmpty()) {
+					txtPlotTo.setDisable(true);
+					txtPlotTo.setText("");
+				}
+				else {
+					txtPlotTo.setDisable(false);
+				}
+				
 			});
 
 			txtPlotTo = new TextField();
 			txtPlotTo.setMaxWidth(80);
 			txtPlotTo.setPromptText("z. B. 100");
-
+			txtPlotTo.setDisable(true);
+			
 			txtPlotTo.setTooltip(tooltip3);
 
 			grid.add(txtPlotTo, 0, 4);
+			
+			final Label positionPlot = new Label("Punkte");
+
+			
+			
 			// Handler
 			txtPlotTo.textProperty().addListener((observable, oldValue, newValue) -> {
 				if (!newValue.matches("[0-9]+")) {
 					newValue = newValue.replaceAll("[^0-9]", "");
 					txtPlotTo.setText(newValue);
 				}
+				
 
-				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty()) {
-					VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+				
+				if (!this.getTxtPlotFrom().isEmpty() && !this.getTxtPlotTo().isEmpty() && this.getRbPlotBetween().isSelected()) {
+					
+					if(Integer.parseInt(newValue) <  Integer.parseInt(this.getTxtPlotFrom())) {
+						System.out.println("Falsch");
+						positionPlot.setTextFill(Color.RED);
+					} else {
+						VisController.plotFromTo(this.getTxtPlotFrom(), this.getTxtPlotTo());
+					}	
 				}
 			});
 
-			final Label positionPlot = new Label("Punkte");
 			grid.add(positionPlot, 1, 4, 2, 1);
 
-			final Label lblRotate = new Label("Rotate");
+			final Label lblRotate = new Label("Kamera rotieren");
 
 			GridPane.setHalignment(lblRotate, HPos.LEFT);
 			grid.add(lblRotate, 0, 7, 3, 1);
@@ -293,7 +317,7 @@ public class TitledPaneObjects {
 			grid.add(meanLast, 0, 5, 3, 1);
 			meanLast.setOnAction((event) -> {
 				VisController.toggleStats(meanLast.isSelected());
-				if (!this.getTxtMeanFor().isEmpty()) {
+				if (!this.getTxtMeanFor().isEmpty() && this.getMeanLast().isSelected()) {
 					VisController.calculateMean(this.getTxtMeanFor(),
 							this.getGroupT2().getSelectedToggle().getUserData().toString());
 				}
@@ -313,7 +337,7 @@ public class TitledPaneObjects {
 					this.setTxtMeanFor(newValue);
 				}
 
-				if (!this.getTxtMeanFor().isEmpty()) {
+				if (!this.getTxtMeanFor().isEmpty() && this.getMeanLast().isSelected()) {
 					VisController.calculateMean(this.getTxtMeanFor(),
 							this.getGroupT2().getSelectedToggle().getUserData().toString());
 				}
@@ -388,7 +412,7 @@ public class TitledPaneObjects {
 			grid.add(trendLast, 0, 5, 3, 1);
 			trendLast.setOnAction((event) -> {
 				VisController.toggleStats(trendLast.isSelected());
-				if (!this.getTxtTrendFor().isEmpty()) {
+				if (!this.getTxtTrendFor().isEmpty() && this.getTrendLast().isSelected()) {
 					VisController.trend(this.getTxtTrendFor(),
 							this.getGroupT3().getSelectedToggle().getUserData().toString());
 				}
@@ -407,7 +431,7 @@ public class TitledPaneObjects {
 					txtTrendFor.setText(newValue);
 				}
 
-				if (!this.getTxtTrendFor().isEmpty()) {
+				if (!this.getTxtTrendFor().isEmpty() && this.getTrendLast().isSelected()) {
 					VisController.trend(this.getTxtTrendFor(),
 							this.getGroupT3().getSelectedToggle().getUserData().toString());
 				}
