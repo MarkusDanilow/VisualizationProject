@@ -185,25 +185,26 @@ public class Statistic {
 		// System.out.println("Map Size: " + tempMap.size());
 		Set<Entry<Float, DataElement>> set = tempMap.entrySet();
 		Iterator<Entry<Float, DataElement>> it = set.iterator();
-
+		double count = 1;
 		while (it.hasNext()) {
 			Map.Entry<Float, DataElement> me = (Map.Entry<Float, DataElement>) it.next();
 			switch (dimension) {
 			case "x":
-				calcRegression.addData((double) me.getKey(), (double) me.getValue().getX());
+				calcRegression.addData(count, (double) me.getValue().getX());
 				tmpRegression = me.getValue().getX();
 				break;
 			case "y":
-				calcRegression.addData((double) me.getKey(), (double) me.getValue().getY());
+				calcRegression.addData(count, (double) me.getValue().getY());
 				tmpRegression = me.getValue().getY();
 				break;
 			case "z":
-				calcRegression.addData((double) me.getKey(), (double) me.getValue().getZ());
+				calcRegression.addData(count, (double) me.getValue().getZ());
 				tmpRegression = me.getValue().getZ();
 				break;
 			default:
 				break;
 			}
+			count++;
 		}
 
 		regResult.setA((float) calcRegression.getSlope());
