@@ -173,7 +173,7 @@ public class LeftFXPanel {
 		gridDate.setVgap(4);
 		gridDate.setPadding(new Insets(5, 5, 5, 5));
 
-		final Label lblDatePicker = new Label("Zeitraum auswählen");
+		final Label lblDatePicker = new Label("Zeitraum auswählen (geplante Funktion)");
 		lblDatePicker.setId("headline");
 		gridDate.add(lblDatePicker, 0, 0, 2, 1);
 
