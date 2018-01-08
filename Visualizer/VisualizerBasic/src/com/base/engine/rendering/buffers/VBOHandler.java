@@ -802,7 +802,7 @@ public class VBOHandler {
 
 				buffers[0].put(new float[] { x, value, x + xStep, value, x + xStep, yMax, x, yMax });
 				for (int j = 0; j < verticesPerItem; j++)
-					buffers[1].put(new float[] { 0.8f, 0.8f, 0.8f, 1f });
+					buffers[1].put(new float[] { 0.2f, 0.2f, 0.2f, 0.5f });
 
 				buffers[0].put(new float[] { x + this.borderWidth, value + this.borderWidth,
 						x + xStep - this.borderWidth, value + this.borderWidth, x + xStep - this.borderWidth,
@@ -846,15 +846,22 @@ public class VBOHandler {
 		@Override
 		protected void renderStats() {
 			if (this.canRenderStats()) {
-				// System.out.println(stats.getB() + ", " + stats.getB() *
-				// this.numItems);
 				float y1 = this.calcValue_yAxes(stats.getA());
-				float y2 = this.calcValue_yAxes(stats.getB() * this.numItems) + y1;
 				glColor4f(1, 1, 1, 1);
 				glBegin(GL_POINTS);
 				glVertex2f(xMin, y1);
-				glVertex2f(xMax, y2);
+				glVertex2f(xMax, y1);
 				glEnd();
+				glBegin(GL_LINES);
+				glVertex2f(xMin, y1);
+				glVertex2f(xMax, y1);
+				glEnd();
+
+				NewFontManager.prepare();
+				NewFontManager.renderText(-100, y1 * 460 - 30, 16, 3, "d=" + stats.getA());
+				NewFontManager.close();
+				RenderUtil.switch2D(-1, -1, 1, 1);
+
 			}
 		}
 
@@ -960,14 +967,22 @@ public class VBOHandler {
 		@Override
 		protected void renderStats() {
 			if (this.canRenderStats()) {
-				// System.out.println(stats);
-				float y1 = this.calcValue_yAxes(stats.getA());
-				float y2 = this.calcValue_yAxes(stats.getB() * this.numItems) + y1;
+				float y1 = this.calcValue_yAxes(stats.getB());
+				float y2 = this.calcValue_yAxes(stats.getA() * numItems);
 				glColor4f(1, 1, 1, 1);
 				glBegin(GL_POINTS);
 				glVertex2f(xMin, y1);
 				glVertex2f(xMax, y2);
 				glEnd();
+				glBegin(GL_LINES);
+				glVertex2f(xMin, y1);
+				glVertex2f(xMax, y2);
+				glEnd();
+
+				NewFontManager.prepare();
+				NewFontManager.renderText(-100, ((y1 + y2) / 2f) * 460 - 30, 16, 3, "f(x)=" + stats.getA() + "x+" + stats.getB());
+				NewFontManager.close();
+				RenderUtil.switch2D(-1, -1, 1, 1);
 			}
 		}
 

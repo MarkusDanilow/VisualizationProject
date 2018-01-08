@@ -204,7 +204,7 @@ public class DataHandler {
 							} else if (key.equals("yPos")) {
 								y = Float.parseFloat(value);
 							} else if (key.equals("zPos")) {
-								z = Float.parseFloat(value);
+								z = 100f;
 							} else if (key.equals("gpsLatitude")) {
 								lat = Float.parseFloat(value);
 							} else if (key.equals("gpsLongitude")) {

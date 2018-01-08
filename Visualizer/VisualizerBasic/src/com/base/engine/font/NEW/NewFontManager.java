@@ -14,12 +14,15 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import com.base.common.resources.Range;
 import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 
@@ -40,64 +43,50 @@ public class NewFontManager {
 		}
 	}
 
+	private static class CharDefinitions {
+		Range<Integer> ascii;
+		int indexOffset;
+		int rowOffset;
+
+		public CharDefinitions(Range<Integer> ascii, int indexOffset, int rowOffset) {
+			super();
+			this.ascii = ascii;
+			this.indexOffset = indexOffset;
+			this.rowOffset = rowOffset;
+		}
+	}
+
 	public static final int SCALE = 500;
 
 	private static int fontTexture = 0;
 	private static Map<Character, FontTexturePoint> fontMapping = new HashMap<>();
 
-	private static final int perLine = 8;
+	private static final int perLine = 16;
 	private static final float resolution = 1f / (float) perLine;
+
+	private static List<CharDefinitions> charDefinitions;
 
 	public static void init() {
 		try {
-			fontTexture = TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/font.png")))
+			fontTexture = TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/font2.png")))
 					.getTextureID();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// large letters
-		for (int i = 65; i <= 90; i++) {
-			int index = (i - 65);
-			int x = 1 - index / perLine;
-			int y = (index % perLine);
-			fontMapping.put((char) i, new FontTexturePoint(x * resolution - resolution, y * resolution + resolution));
-		}
+		charDefinitions = new ArrayList<>();
+		charDefinitions.add(new CharDefinitions(new Range<Integer>(33, 64), 4, 4));
+		charDefinitions.add(new CharDefinitions(new Range<Integer>(65, 90), 0, 1));
+		charDefinitions.add(new CharDefinitions(new Range<Integer>(97, 122), 10, 2));
 
-		// small letters
-		for (int i = 97; i <= 122; i++) {
-			int index = (i - 95);
-			int x = 1 - index / perLine;
-			int y = (index % perLine);
-			fontMapping.put((char) i,
-					new FontTexturePoint(x * resolution - 4 * resolution, y * resolution + resolution));
-		}
-
-		// numbers
-		for (int i = 48; i <= 57; i++) {
-			int index = (i - 44);
-			int x = 1 - index / perLine;
-			int y = (index % perLine);
-			fontMapping.put((char) i,
-					new FontTexturePoint(x * resolution - 7 * resolution, y * resolution + resolution));
-		}
-
-		// :
-		for (int i = 58; i <= 58; i++) {
-			int index = (i - 52);
-			int x = 1 - index / perLine;
-			int y = (index % perLine);
-			fontMapping.put((char) i,
-					new FontTexturePoint(x * resolution - 8 * resolution, y * resolution + resolution));
-		}
-
-		// .
-		for (int i = 46; i <= 46; i++) {
-			int index = (i - 39);
-			int x = 1 - index / perLine;
-			int y = (index % perLine);
-			fontMapping.put((char) i,
-					new FontTexturePoint(x * resolution - 8 * resolution, y * resolution + resolution));
+		for (CharDefinitions c : charDefinitions) {
+			for (int i = c.ascii.getLoVal(); i <= c.ascii.getHiVal(); i++) {
+				int index = i - (c.ascii.getLoVal() - c.indexOffset);
+				int x = 1 - index / perLine;
+				int y = (index % perLine);
+				fontMapping.put((char) i,
+						new FontTexturePoint(x * resolution - c.rowOffset * resolution, y * resolution + resolution));
+			}
 		}
 
 	}
@@ -128,7 +117,8 @@ public class NewFontManager {
 
 		GL11.glRotatef(90, 0, 0, 1);
 
-		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(), Settings.FONT_COLOR.getAlpha());
+		glColor4f(Settings.FONT_COLOR.getRed(), Settings.FONT_COLOR.getBlue(), Settings.FONT_COLOR.getGreen(),
+				Settings.FONT_COLOR.getAlpha());
 
 		for (int i = 0; i < text.length(); i++) {
 			char index = text.charAt(i);

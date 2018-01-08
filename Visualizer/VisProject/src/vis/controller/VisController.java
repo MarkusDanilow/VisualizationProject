@@ -40,7 +40,6 @@ public class VisController {
 		} else {
 			application.stopLiveView();
 		}
-		System.out.println("live view enabled " + live);
 	}
 
 	public static void changeAccordion(String paneType, String paneName, MainWindow wnd) {
@@ -98,10 +97,6 @@ public class VisController {
 	
 			int viewportIndex = convertIDToViewportIndex(ID);
 			application.setPointCloudData(viewportIndex, partMap);
-		}
-		else {
-			System.out.println("I bims!");
-			
 		}
 	}
 
@@ -162,7 +157,6 @@ public class VisController {
 		Statistic.setMean(actMap, dimension, Integer.parseInt(s));
 
 		StatisticObject result = Statistic.getMean();
-		System.out.println(result);
 
 		int viewportIndex = convertIDToViewportIndex(ID);
 		application.setStatisticObject(viewportIndex, result);
@@ -195,8 +189,6 @@ public class VisController {
 		Statistic.setRegAnalysis(actMap, dimension, Integer.parseInt(s));
 
 		StatisticObject result = Statistic.getRegAnalysis();
-
-		System.out.println(result);
 
 		int viewportIndex = convertIDToViewportIndex(ID);
 		application.setStatisticObject(viewportIndex, result);

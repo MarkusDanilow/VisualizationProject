@@ -23,7 +23,7 @@ import vis.data.DataHandler;
 
 public class Statistic {
 
-	private final static int MAX_VALUE_CONTENT = 100;
+	private final static int MAX_VALUE_CONTENT = Integer.MAX_VALUE;
 	private final static int AMOUNT_PREDICTION_VALUE = 10;
 
 	private static StatisticObject regResult;
@@ -279,8 +279,9 @@ public class Statistic {
 					}
 					x = y = z = time0 = time1 = lat = lng = distance = 0f;
 					outputData.add(e);
-					if (outputData.size() >= maxItemsInChart)
-						break;
+					
+					//if (outputData.size() >= maxItemsInChart)
+					//	break;
 				}
 			}
 		}
