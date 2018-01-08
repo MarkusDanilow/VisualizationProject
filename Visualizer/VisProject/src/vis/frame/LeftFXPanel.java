@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import vis.controller.VisController;
@@ -190,6 +192,49 @@ public class LeftFXPanel {
 		gridDate.add(dateTo, 1, 2);
 
 		gridMain.add(gridDate, 0, 2);
+		
+		gridMain.add(new Separator(Orientation.HORIZONTAL), 0, 5);
+		
+		// Legende => Farben etc.
+		GridPane gridLegend = new GridPane();
+		gridLegend.setVgap(4);
+		gridLegend.setPadding(new Insets(5,5,5,5));
+		
+		Label lblLegend = new Label("Legende");
+		lblLegend.setId("headline");
+		gridLegend.add(lblLegend, 0, 0);
+		
+		gridLegend.add(new Label("x:"), 0, 1);
+		Label xColor = new Label();
+		xColor.setStyle("-fx-background-color: #ff0000;");
+		xColor.setMinWidth(120);
+		gridLegend.add(xColor, 1, 1);
+		
+		gridLegend.add(new Label("y:"), 0, 2);
+		Label yColor = new Label();
+		yColor.setStyle("-fx-background-color: #0000ff;");
+		yColor.setMinWidth(120);
+		gridLegend.add(yColor, 1, 2);
+
+		gridLegend.add(new Label("z:"), 0, 3);
+		Label zColor = new Label();
+		zColor.setStyle("-fx-background-color: #00ff00;");
+		zColor.setMinWidth(120);
+		gridLegend.add(zColor, 1, 3);
+
+		gridLegend.add(new Label("älteste Daten:"), 0, 4);
+		Label oldColor = new Label();
+		oldColor.setStyle("-fx-background-color: #ffff00;");
+		oldColor.setMinWidth(120);
+		gridLegend.add(oldColor, 1, 4);
+
+		gridLegend.add(new Label("neuste Daten:"), 0, 5);
+		Label newColor = new Label();
+		newColor.setStyle("-fx-background-color: #ff5500;");
+		newColor.setMinWidth(120);
+		gridLegend.add(newColor, 1, 5);
+		
+		gridMain.add(gridLegend, 0, 8);		
 
 		Scene scene = new Scene(gridMain, leftSidebarWidth, height);
 		scene.getStylesheets().add(RightFXPanel.class.getResource("style.css").toExternalForm());
