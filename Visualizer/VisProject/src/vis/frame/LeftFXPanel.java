@@ -72,11 +72,17 @@ public class LeftFXPanel {
 		ObservableList<String> optionsPane = FXCollections.observableArrayList(Settings.get3DView(),
 				Settings.getBarChartView(), Settings.getLineChartView(), Settings.getParallelCoordinatesView());
 
+		ObservableList<String> option3D = 
+			    FXCollections.observableArrayList(
+			        "3D"
+			    );
+		
 		final Label paneA = new Label("Pane A:");
 		gridVis.add(paneA, 0, 1);
-
-		cbPaneA = new ComboBox<String>(optionsPane);
+		
+		cbPaneA = new ComboBox<String>(option3D);		
 		cbPaneA.setValue(optionsPane.get(0));
+		
 		cbPaneA.valueProperty().addListener(new FXChangeView0(wnd));
 		gridVis.add(cbPaneA, 1, 1);
 
