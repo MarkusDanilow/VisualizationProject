@@ -970,7 +970,7 @@ public class VBOHandler {
 		protected void renderStats() {
 			if (this.canRenderStats()) {
 				float y1 = this.calcValue_yAxes(stats.getB());
-				float y2 = this.calcValue_yAxes(stats.getA() * numItems);
+				float y2 = this.calcValue_yAxes(stats.getA() * numItems) - y1;
 				glColor4f(1, 1, 1, 1);
 				glBegin(GL_POINTS);
 				glVertex2f(xMin, y1);
@@ -982,7 +982,7 @@ public class VBOHandler {
 				glEnd();
 
 				NewFontManager.prepare();
-				NewFontManager.renderText(-100, ((y1 + y2) / 2f) * 460 - 30, 16, 3, "f(x)=" + stats.getA() + "x+" + stats.getB());
+				NewFontManager.renderText(-100, 0 - 30, 16, 3, "f(x)=" + stats.getA() + "x+" + stats.getB());
 				NewFontManager.close();
 				RenderUtil.switch2D(-1, -1, 1, 1);
 			}
