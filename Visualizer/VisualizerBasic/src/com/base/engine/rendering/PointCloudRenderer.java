@@ -52,7 +52,11 @@ public class PointCloudRenderer extends ARenderer {
 	public static float[] calcVertexColor(float x, float y, float z, float time, float maxTime) {
 		// color goes from yellow (oldest values) to dark orange (newest values)
 		float value = (0.99f / maxTime) * time;
-		return new float[] { 1, 1 - ((value / 3f) * 2), 0, value };
+		if (Engine.INVERT_TIME_COLOR) {
+			return new float[] { 1, ((1f / 3f) + ((value / 3f) * 2)), 0, 1 - value / 2f };
+		} else {
+			return new float[] { 1, 1 - ((value / 3f) * 2), 0, 0.5f + value / 2f };
+		}
 	}
 
 	@Override

@@ -53,6 +53,8 @@ public class DataElement {
 	private int sampleRate = 0;
 	private Range<Float> timeRange = null;
 
+	private boolean validLocation = false;
+
 	public DataElement(float x, float y, float z, float id) {
 		super();
 		this.point = new Point(x, y, z);
@@ -141,8 +143,10 @@ public class DataElement {
 	public void setLat(float lat) {
 		if (lat < latRange.getLoVal())
 			lat = latRange.getLoVal();
-		if (lat > latRange.getHiVal())
+		else if (lat > latRange.getHiVal())
 			lat = latRange.getHiVal();
+		else
+			validLocation = true;
 		this.realLat = lat;
 		this.lat = MathUtil.mapWithoutPrecision(lat, latRange.getLoVal(), latRange.getHiVal(), 0, scale);
 	}
@@ -154,8 +158,10 @@ public class DataElement {
 	public void setLng(float lng) {
 		if (lng < lngRange.getLoVal())
 			lng = lngRange.getLoVal();
-		if (lng > lngRange.getHiVal())
+		else if (lng > lngRange.getHiVal())
 			lng = lngRange.getHiVal();
+		else
+			validLocation = true;
 		this.realLng = lng;
 		this.lng = MathUtil.mapWithoutPrecision(lng, lngRange.getLoVal(), lngRange.getHiVal(), 0, scale);
 	}
@@ -182,6 +188,10 @@ public class DataElement {
 
 	public void setRealLng(float realLng) {
 		this.realLng = realLng;
+	}
+
+	public boolean isValidLocation() {
+		return validLocation;
 	}
 
 	@Override

@@ -68,5 +68,7 @@ public interface EngineInterfaces extends GenerateInterfaces {
 	void toggleStats(int viewportIndex, boolean toggled);
 
 	void rotateView(int viewportIndex, int angle);
+	
+	void toggleTimeColorInvert(boolean toggle);
 
 }

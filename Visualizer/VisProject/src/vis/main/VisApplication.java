@@ -104,9 +104,10 @@ public class VisApplication implements AppInterface {
 		this.engine = new Engine(VisController.getCanvas(), LOAD_MODELS);
 
 		/*
-		int numItems = 100;
-		this.handleLoadedData(DataHandler.generateDataSet(numItems, new Range<Float>(0f, 65000f)));
-		*/
+		 * int numItems = 100;
+		 * this.handleLoadedData(DataHandler.generateDataSet(numItems, new
+		 * Range<Float>(0f, 65000f)));
+		 */
 
 	}
 
@@ -218,12 +219,14 @@ public class VisApplication implements AppInterface {
 
 	public void startLiveView() {
 		// handleLoadedData(new TreeMap<>());
+		// this.engine.toggleTimeColorInvert(false);
 		DataHandler.setCurrentBuffer(new DataBuffer());
 		this.realtimeThread = new RealTimeThread(this);
 		realtimeThread.start();
 	}
 
 	public void stopLiveView() {
+		// this.engine.toggleTimeColorInvert(true);
 		realtimeThread.stopThread();
 	}
 

@@ -154,10 +154,12 @@ public class DataHandler {
 
 			con.getInputStream();
 
+			String apiMethod = append ? "live" : "topK";
+
 			// close the print stream
 			ps.close();
 			ps.flush();
-			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=topK&k=" + dataSetSize);
+			URL url2 = new URL("http://www.liquidsolution.de/api.php?get=" + apiMethod + "&k=" + dataSetSize);
 			BufferedReader in = new BufferedReader(new InputStreamReader(url2.openStream()));
 
 			String inputLine;
@@ -167,64 +169,74 @@ public class DataHandler {
 				// only parse if it's a valid string
 				if (json.length() > 0) {
 
-					// remove export date and enclosing brackets
-					int length = json.length() - 33;
-					json = json.substring(1, length);
+					try {
 
-					// parse each element in the JSON string
-					String[] parts = json.split("\\},\\{");
+						// remove export date and enclosing brackets
+						int length = json.length() - 33;
+						json = json.substring(1, length);
 
-					int globalId = append ? currentBuffer.getData().size() : 0;
+						// parse each element in the JSON string
+						String[] parts = json.split("\\},\\{");
 
-					for (String partialJson : parts) {
+						int globalId = append ? currentBuffer.getData().size() : 0;
 
-						float x = 0, y = 0, z = 0, lat = 0, lng = 0, distance = 0;
-						float id = 0;
-						String time;
+						for (String partialJson : parts) {
 
-						// parse attributes
-						String[] keyValuePairs = partialJson.split(",");
-						for (String keyValue : keyValuePairs) {
-							String[] parsedKeyValues = keyValue.split(":");
-							String key = parsedKeyValues[0];
-							String value = "";
-							for (int i = 1; i < parsedKeyValues.length; i++) {
-								value += parsedKeyValues[i];
+							float x = 0, y = 0, z = 0, lat = 0, lng = 0, distance = 0;
+							float id = 0;
+							String time;
+
+							// parse attributes
+							String[] keyValuePairs = partialJson.split(",");
+							for (String keyValue : keyValuePairs) {
+								String[] parsedKeyValues = keyValue.split(":");
+								String key = parsedKeyValues[0];
+								String value = "";
+								for (int i = 1; i < parsedKeyValues.length; i++) {
+									value += parsedKeyValues[i];
+								}
+
+								if (value == null || value.length() <= 0)
+									continue;
+
+								if (key.equals("id")) {
+									id = Integer.parseInt(value);
+								} else if (key.equals("t")) {
+									time = value;
+								} else if (key.equals("xPos")) {
+									x = Float.parseFloat(value);
+								} else if (key.equals("yPos")) {
+									y = Float.parseFloat(value);
+								} else if (key.equals("zPos")) {
+									z = 100f;
+								} else if (key.equals("gpsLatitude")) {
+									lat = Float.parseFloat(value);
+									System.out.println("lat: " + lat);
+								} else if (key.equals("gpsLongitude")) {
+									lng = Float.parseFloat(value);
+									System.out.println("lng: " + lng);
+								} else if (key.equals("distance")) {
+									distance = (float) Integer.parseInt(value);
+								}
+
 							}
 
-							if (value == null || value.length() <= 0)
-								continue;
+							// create new data element
+							DataElement e = new DataElement(x, y, z, globalId, lat, lng, distance);
 
-							if (key.equals("id")) {
-								id = Integer.parseInt(value);
-							} else if (key.equals("t")) {
-								time = value;
-							} else if (key.equals("xPos")) {
-								x = Float.parseFloat(value);
-							} else if (key.equals("yPos")) {
-								y = Float.parseFloat(value);
-							} else if (key.equals("zPos")) {
-								z = 100f;
-							} else if (key.equals("gpsLatitude")) {
-								lat = Float.parseFloat(value);
-							} else if (key.equals("gpsLongitude")) {
-								lng = Float.parseFloat(value);
-							} else if (key.equals("distance")) {
-								distance = (float) Integer.parseInt(value);
+							if (e.isValidLocation()) {
+								elements.put((float) globalId, e);
+								globalId++;
 							}
+
+							if (useClustering)
+								kmeans.addPoint(e.getPoint());
 
 						}
 
-						// create new data element
-						DataElement e = new DataElement(x, y, z, globalId, lat, lng, distance);
-						elements.put((float) globalId, e);
-
-						globalId++;
-
-						if (useClustering)
-							kmeans.addPoint(e.getPoint());
-
+					} catch (Exception e) {
 					}
+
 				}
 			}
 

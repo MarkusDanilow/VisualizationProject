@@ -52,6 +52,7 @@ public class World {
 	}
 
 	public static void movePlayer(float x, float y, float z) {
+		// System.out.println("moving player to " + x + ", " + y + ", " + z);
 		getModelByName("player").setPosition(new Vector3f(x, y, z));
 	}
 

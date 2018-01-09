@@ -56,6 +56,8 @@ import gen.algo.common.TerrainUtil;
 
 public class Engine implements EngineEventListener, EngineInterfaces {
 
+	public static boolean INVERT_TIME_COLOR = false;
+	
 	public static boolean FULLSCREEN_ENABLED, VSYNC_ENABLED;
 	public static int DISPLAY_WIDTH, DISPLAY_HEIGHT;
 
@@ -869,6 +871,11 @@ public class Engine implements EngineEventListener, EngineInterfaces {
 
 	public static void resetAllViewports() {
 		engineInstance.resetAllViewportDisplayLists();
+	}
+
+	@Override
+	public void toggleTimeColorInvert(boolean toggle) {
+		INVERT_TIME_COLOR = toggle ;
 	}
 
 }
