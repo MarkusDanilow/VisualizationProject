@@ -211,10 +211,8 @@ public class DataHandler {
 									z = 100f;
 								} else if (key.equals("gpsLatitude")) {
 									lat = Float.parseFloat(value);
-									System.out.println("lat: " + lat);
 								} else if (key.equals("gpsLongitude")) {
 									lng = Float.parseFloat(value);
-									System.out.println("lng: " + lng);
 								} else if (key.equals("distance")) {
 									distance = (float) Integer.parseInt(value);
 								}
