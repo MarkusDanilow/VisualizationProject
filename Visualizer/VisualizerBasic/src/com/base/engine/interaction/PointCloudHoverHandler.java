@@ -31,6 +31,7 @@ public class PointCloudHoverHandler extends AHoverHandler {
 				sy -= (sy > hHeight ? hHeight : 0);
 				if (sx < 0 || sx > hWidth || sy < 0 || sy > hHeight)
 					continue;
+				System.out.println(sx + " ; " + sy);
 				float xx = MathUtil.map(sx, 0, hWidth, -1, 1, -1);
 				float yy = MathUtil.map(sy, 0, hHeight, -1, 1, -1);
 				Rectangle r = new Rectangle(xx - delta, xx + delta, yy - delta, yy + delta);

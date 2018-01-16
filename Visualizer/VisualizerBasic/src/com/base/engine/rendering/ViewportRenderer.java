@@ -137,7 +137,8 @@ public class ViewportRenderer implements Renderable {
 							}
 
 							GraphicsHoverHandler.setCurrentBufferIndex(i);
-							GraphicsHoverHandler.storeCurrentMatrices();
+							if(isNormalViewport)
+								GraphicsHoverHandler.storeCurrentMatrices();
 
 							StatisticObject stats = engine.areStatsEnabled(i) ? engine.getStatistics()[i] : null;
 
