@@ -583,12 +583,14 @@ public class VBOHandler {
 
 	private static abstract class AVBOChartRenderer extends AIVBORenderer {
 		protected final float yMin = -0.8f;
-		protected final float xMin = -0.9f;
+		protected final float xMin = -0.7f;
 		protected final float yMax = Math.abs(yMin);
-		protected final float xMax = Math.abs(xMin);
+		protected final float xMax = 0.9f;
 		protected int numItems = 50;
 		protected float xStep = 0.1f;
 		protected float biggestX, biggestY;
+
+		protected float maxTime = 0f;
 
 		private int arrowTexture = 0;
 
@@ -622,6 +624,12 @@ public class VBOHandler {
 		public void create(int viewportIndex, Object data, DataType[] type, StatisticObject stats) {
 			super.create(viewportIndex, data, type, stats);
 			this.propertyOnYAxes = type[0];
+			if (data != null) {
+				List<DataElement> list = (List<DataElement>) data;
+				int index = list.size() > 1 ? list.size() - 1 : 0;
+				if (list.size() > 0)
+					this.maxTime = list.get(index).getTime();
+			}
 		}
 
 		protected void renderAxes(DataType[] type) {
@@ -647,10 +655,12 @@ public class VBOHandler {
 			}
 
 			for (int i = 0; i < steps; i++) {
-				float y = this.calcValue_yAxes((i + 1) * stepY);
+				float currentValue = (i + 1) * stepY;
+				float y = this.calcValue_yAxes(currentValue);
 				glVertex2f(xMin - 0.0375f, y);
 				glVertex2f(xMin - 0.025f, y);
 			}
+
 			glEnd();
 
 			glEnable(GL_TEXTURE_2D);
@@ -691,8 +701,20 @@ public class VBOHandler {
 			glDisable(GL_TEXTURE_2D);
 
 			NewFontManager.prepare();
-			NewFontManager.renderText(-460, -460, 16, 2, type[0].name);
-			NewFontManager.renderText(440, 450, 16, 2, "t");
+
+			for (int i = 0; i <= numItems; i += 5) {
+				float x = this.calcPosX(i) + this.xStep / 2f;
+				int time = Math.round((this.maxTime / numItems) * i);
+				NewFontManager.renderText(x * 460, yMax * 460 + 65, 16, 2, String.valueOf(time));
+			}
+			for (int i = 0; i < steps; i += 3) {
+				float currentValue = (i + 1) * stepY;
+				float y = this.calcValue_yAxes(currentValue);
+				NewFontManager.renderText(xMin * 460 - 150, y * 460, 16, 2, String.valueOf(currentValue));
+			}
+
+			NewFontManager.renderText(-400, -460, 16, 2, type[0].name);
+			NewFontManager.renderText(455, 450, 16, 2, "t");
 			NewFontManager.close();
 			RenderUtil.switch2D(-1, -1, 1, 1);
 

@@ -14,7 +14,7 @@ public abstract class AHoverDataRenderer implements IRenderer {
 	public static DataElement activeElement = null;
 
 	protected DataElement hoverData = null;
-	protected float x, y;
+	protected float x, y, tx, ty;
 
 	protected float width = 0.7f, height = -0.7f;
 
@@ -48,16 +48,27 @@ public abstract class AHoverDataRenderer implements IRenderer {
 
 		RenderUtil.switch2D(-1, -1, 1, 1);
 
-		if ((x + width) < -1) {
-			x += Math.abs(x + width) - 1;
-		} else if ((x + width) > 1) {
-			x -= Math.abs(x + width) - 1;
+		GL11.glColor4f(0.8f, 0.8f, 0.8f, 1f);
+		GL11.glBegin(GL11.GL_LINES);
+		GL11.glVertex2f(-1, y);
+		GL11.glVertex2f(x, y);
+		GL11.glVertex2f(x, y);
+		GL11.glVertex2f(x, 1);
+		GL11.glEnd();
+
+		tx = x ; 
+		ty = y ; 
+		
+		if ((tx + width) < -1) {
+			tx += Math.abs(tx + width) - 1;
+		} else if ((tx + width) > 1) {
+			tx -= Math.abs(tx + width) - 1;
 		}
 
-		if ((y + height) < -1) {
-			y += Math.abs(y + height) - 1;
-		} else if ((y + height) > 1) {
-			y -= Math.abs(y + height) - 1;
+		if ((ty + height) < -1) {
+			ty += Math.abs(ty + height) - 1;
+		} else if ((ty + height) > 1) {
+			ty -= Math.abs(ty + height) - 1;
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
@@ -65,10 +76,10 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		GL11.glColor4f(Settings.HOVER_BG_COLOR.getRed(), Settings.HOVER_BG_COLOR.getGreen(),
 				Settings.HOVER_BG_COLOR.getBlue(), Settings.HOVER_BG_COLOR.getAlpha());
 		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(x, y);
-		GL11.glVertex2f(x + width, y);
-		GL11.glVertex2f(x + width, y + height);
-		GL11.glVertex2f(x, y + height);
+		GL11.glVertex2f(tx, ty);
+		GL11.glVertex2f(tx + width, ty);
+		GL11.glVertex2f(tx + width, ty + height);
+		GL11.glVertex2f(tx, ty + height);
 		GL11.glEnd();
 
 		GL11.glEnable(GL11.GL_BLEND);
@@ -77,15 +88,15 @@ public abstract class AHoverDataRenderer implements IRenderer {
 		GL11.glColor4f(Settings.HOVER_BORDER_COLOR.getRed(), Settings.HOVER_BORDER_COLOR.getGreen(),
 				Settings.HOVER_BORDER_COLOR.getBlue(), Settings.HOVER_BORDER_COLOR.getAlpha());
 		GL11.glBegin(GL11.GL_LINE_STRIP);
-		GL11.glVertex2f(x, y);
-		GL11.glVertex2f(x + width, y);
-		GL11.glVertex2f(x + width, y + height);
-		GL11.glVertex2f(x, y + height);
-		GL11.glVertex2f(x, y);
+		GL11.glVertex2f(tx, ty);
+		GL11.glVertex2f(tx + width,ty);
+		GL11.glVertex2f(tx + width, ty + height);
+		GL11.glVertex2f(tx, ty + height);
+		GL11.glVertex2f(tx,ty);
 		GL11.glEnd();
 
-		float px = x * NewFontManager.SCALE;
-		float py = (y + height) * 500;
+		float px = tx * NewFontManager.SCALE;
+		float py = (ty + height) * 500;
 		float sx = 15, sy = 20;
 
 		NewFontManager.prepare();
