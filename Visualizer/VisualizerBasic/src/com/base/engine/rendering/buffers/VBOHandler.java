@@ -60,7 +60,6 @@ import com.base.engine.RenderUtil;
 import com.base.engine.Settings;
 import com.base.engine.font.NEW.NewFontManager;
 import com.base.engine.interaction.GraphicsHoverHandler;
-import com.base.engine.interaction.data.AHoverBufferData;
 import com.base.engine.interaction.data.BarChartHoverBufferData;
 import com.base.engine.interaction.data.LineChartHoverBufferData;
 import com.base.engine.interaction.data.PointCloudHoverBufferData;
