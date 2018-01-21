@@ -21,11 +21,11 @@ public class RealTimeThread extends Thread {
 	@Override
 	public void run() {
 		while (this.running.get()) {
-			Map<Float, DataElement> mergedData = DataHandler.loadDataFromRemoteAPI(1, true);
-			application.handleLoadedData(mergedData);
 			try {
+				Map<Float, DataElement> mergedData = DataHandler.loadDataFromRemoteAPI(1, true);
+				application.handleLoadedData(mergedData);
 				Thread.sleep(delay);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
