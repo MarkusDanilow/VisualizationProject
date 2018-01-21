@@ -708,9 +708,9 @@ public class VBOHandler {
 				NewFontManager.renderText(x * 460, yMax * 460 + 65, 16, 2, String.valueOf(time));
 			}
 			for (int i = 0; i < steps; i += 3) {
-				float currentValue = (i + 1) * stepY;
+				int currentValue = Math.round((i + 1) * stepY);
 				float y = this.calcValue_yAxes(currentValue);
-				NewFontManager.renderText(xMin * 460 - 150, y * 460, 16, 2, String.valueOf(currentValue));
+				NewFontManager.renderText(xMin * 460 - 100, y * 460 + 20, 16, 2, String.valueOf(currentValue));
 			}
 
 			NewFontManager.renderText(-400, -460, 16, 2, type[0].name);
