@@ -208,23 +208,44 @@ public class ADXL345 implements MultiAxisGyro {
 		long now = System.currentTimeMillis();
 
 		int measurement = 0;
-
+		String sx = toString(adxl345.X.getRawValue(), 7);
+		String sy = toString(adxl345.Y.getRawValue(), 7);
+		String sz = toString(adxl345.Z.getRawValue(), 7);
+		int xStart=Integer.parseInt(sx.trim());
+		int yStart=Integer.parseInt(sy.trim());
+		int zStart=Integer.parseInt(sz.trim());
+		
+		int xCurrent;
+		int yCurrent;
+		int zCurrent;
+		
+		
+		
 		// while (System.currentTimeMillis() - now < 10000) {
 		while (true) {
 			adxl345.readGyro();
 
-			String sm = toString(measurement, 3);
+			//String sm = toString(measurement,999);
 
-			String sx = toString(adxl345.X.getRawValue(), 7);
-			String sy = toString(adxl345.Y.getRawValue(), 7);
-			String sz = toString(adxl345.Z.getRawValue(), 7);
-
+			 sx = toString(adxl345.X.getRawValue(), 7);
+			 sy = toString(adxl345.Y.getRawValue(), 7);
+			 sz = toString(adxl345.Z.getRawValue(), 7);
+			 
+				xCurrent=Integer.parseInt(sx.trim());
+				yCurrent=Integer.parseInt(sy.trim());
+				zCurrent=Integer.parseInt(sz.trim());
+				//System.out.println(sm);
+			System.out.println(Math.abs((xCurrent-xStart)<1024?0:Math.abs(xCurrent-xStart))+" "+(Math.abs(yCurrent-yStart)<1024?0:Math.abs(yCurrent-yStart))+" "+(Math.abs(zCurrent-zStart)<1024?0:Math.abs(zCurrent-zStart)));
+			
+			System.out.println("------------------------");
+			 
+			
 			adxl345.setVector(adxl345.X.getRawValue(), adxl345.Y.getRawValue(), adxl345.Z.getRawValue());
-
-			// System.out.println(sm + sx + sy + sz);
+			//System.out.println(sx);
+			//System.out.println(sm + sx + sy + sz);
 			// for (int i = 0; i < 24; i++) { System.out.print((char)8); }
 
-			Thread.sleep(100);
+			Thread.sleep(1000);
 
 			measurement++;
 		}
@@ -260,7 +281,8 @@ public class ADXL345 implements MultiAxisGyro {
 	}
 
 	public void setVector(int x, int y, int z) {
-		this.vector[0] = x;
+		
+		this.vector[0] = (x-65500)*(-1); //Gyro is physically flipped!
 		this.vector[1] = y;
 		this.vector[2] = z;
 	}
