@@ -18,6 +18,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -64,7 +65,7 @@ public class MainWindow extends JFrame {
 
 	private RightFXPanel fxPanelObjectRight;
 	private JPanel fxPanelRight;
-	
+
 	private LeftFXPanel fxPanelObjectLeft;
 
 	public static Dimension getScreenSize() {
@@ -80,7 +81,7 @@ public class MainWindow extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// maximize window
-		this.setSize((int)getScreenSize().getWidth(), (int)getScreenSize().getHeight() - 50);
+		this.setSize((int) getScreenSize().getWidth(), (int) getScreenSize().getHeight() - 50);
 
 		// disable resizing
 		this.setResizable(false);
@@ -103,12 +104,9 @@ public class MainWindow extends JFrame {
 
 		getContentPane().setLayout(new BorderLayout());
 
-		/*
-		 * ------------ create the main panel in the center and all of the
-		 * canvases that will be placed inside of it ------------
-		 */
-		// JPanel canvasPanel = new JPanel(new GridLayout((int)
-		// Math.sqrt(CANVAS_COUNT), (int) Math.sqrt(CANVAS_COUNT)));
+		ImageIcon icon = new ImageIcon("res/icon.png");
+		this.setIconImage(icon.getImage());
+
 		JPanel canvasPanel = new JPanel(new GridLayout((int) Math.sqrt(CANVAS_COUNT), (int) Math.sqrt(CANVAS_COUNT)));
 
 		for (byte i = 0; i < CANVAS_COUNT; i++) {
@@ -140,7 +138,6 @@ public class MainWindow extends JFrame {
 		fxPanelObjectLeft = new LeftFXPanel();
 		JPanel fxPanelLeft = fxPanelObjectLeft.getPanel(leftSidebarWidth, this.getHeight(), this);
 
-		
 		leftSidebarPanel.add(fxPanelLeft);
 
 		getContentPane().add(leftSidebarPanel, BorderLayout.WEST);
@@ -156,7 +153,6 @@ public class MainWindow extends JFrame {
 		rightSidebarPanel.add(fxPanelRight);
 
 		getContentPane().add(rightSidebarPanel, BorderLayout.EAST);
-		
 
 		/* ------------ create the footer ------------ */
 		JPanel footerPanel = new JPanel(new GridLayout(2, 1));
@@ -241,12 +237,15 @@ public class MainWindow extends JFrame {
 		fileMenu.add(closeApp);
 		menuBar.add(fileMenu);
 
-		// TODO: Cleanen sofern andere Funktion korrekt funktioniert, settings menu
-//		JMenu settingsMenu = new JMenu("Einstellungen");
-//		JCheckBoxMenuItem completeParallelCoordinates = new JCheckBoxMenuItem("Vollst. Parall. Koord.");
-//		completeParallelCoordinates.addActionListener(new ToggleCompleteParallelCoordinatesEvent(this));
-//		settingsMenu.add(completeParallelCoordinates);
-//		menuBar.add(settingsMenu);
+		// TODO: Cleanen sofern andere Funktion korrekt funktioniert, settings
+		// menu
+		// JMenu settingsMenu = new JMenu("Einstellungen");
+		// JCheckBoxMenuItem completeParallelCoordinates = new
+		// JCheckBoxMenuItem("Vollst. Parall. Koord.");
+		// completeParallelCoordinates.addActionListener(new
+		// ToggleCompleteParallelCoordinatesEvent(this));
+		// settingsMenu.add(completeParallelCoordinates);
+		// menuBar.add(settingsMenu);
 
 		// help menu
 		JMenu helpMenu = new JMenu("Hilfe");
@@ -353,7 +352,5 @@ public class MainWindow extends JFrame {
 	public LeftFXPanel getFxPanelObjectLeft() {
 		return fxPanelObjectLeft;
 	}
-	
-	
 
 }

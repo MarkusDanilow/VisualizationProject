@@ -3,6 +3,7 @@ package vis.frame;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
@@ -22,6 +23,9 @@ public class HelpWindow extends JFrame {
 
 	private void init() {
 		this.setLayout(new BorderLayout());
+
+		ImageIcon icon = new ImageIcon("res/icon.png");
+		this.setIconImage(icon.getImage());
 
 		JTextArea text = new JTextArea();
 		text.setEditable(false);

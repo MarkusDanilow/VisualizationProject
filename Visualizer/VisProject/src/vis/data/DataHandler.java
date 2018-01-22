@@ -182,8 +182,6 @@ public class DataHandler {
 
 						for (String partialJson : parts) {
 
-							System.out.println(partialJson);
-
 							float x = 0, y = 0, z = 0, lat = 0, lng = 0, distance = 0;
 							float id = 0;
 							String time;
@@ -224,10 +222,10 @@ public class DataHandler {
 							// create new data element
 							DataElement e = new DataElement(x, y, z, globalId, lat, lng, distance);
 
-							//if (e.isValidLocation()) {
-								elements.put((float) globalId, e);
-								globalId++;
-							//}
+							// if (e.isValidLocation()) {
+							elements.put((float) globalId, e);
+							globalId++;
+							// }
 
 							if (useClustering)
 								kmeans.addPoint(e.getPoint());
